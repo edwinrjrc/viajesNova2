@@ -16,6 +16,7 @@ import javax.servlet.ServletContext;
 import pe.com.logistica.bean.base.BaseVO;
 import pe.com.logistica.bean.cargaexcel.ColumnasExcel;
 import pe.com.logistica.bean.cargaexcel.ReporteArchivo;
+import pe.com.logistica.bean.cargaexcel.ReporteArchivoBusqueda;
 import pe.com.logistica.bean.negocio.Cliente;
 import pe.com.logistica.bean.negocio.Comprobante;
 import pe.com.logistica.bean.negocio.ComprobanteBusqueda;
@@ -456,6 +457,13 @@ public class NegocioServicioImpl implements NegocioServicio {
 			ColumnasExcel columnasExcel, List<ColumnasExcel> dataExcel)
 			throws ErrorRegistroDataException, SQLException {
 		return ejbSession.grabarComprobantesReporte(reporteArchivo, columnasExcel, dataExcel);
+	}
+
+	@Override
+	public List<ReporteArchivoBusqueda> consultarArchivosCargados(
+			ReporteArchivoBusqueda reporteArchivoBusqueda)
+			throws ErrorConsultaDataException {
+		return ejbSession.consultarArchivosCargados(reporteArchivoBusqueda);
 	}
 }
 	

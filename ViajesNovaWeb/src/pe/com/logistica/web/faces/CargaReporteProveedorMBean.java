@@ -30,7 +30,9 @@ import org.richfaces.model.UploadedFile;
 import pe.com.logistica.bean.cargaexcel.CeldaExcel;
 import pe.com.logistica.bean.cargaexcel.ColumnasExcel;
 import pe.com.logistica.bean.cargaexcel.ReporteArchivo;
+import pe.com.logistica.bean.cargaexcel.ReporteArchivoBusqueda;
 import pe.com.logistica.bean.negocio.Usuario;
+import pe.com.logistica.negocio.exception.ErrorConsultaDataException;
 import pe.com.logistica.negocio.exception.ErrorRegistroDataException;
 import pe.com.logistica.web.servicio.NegocioServicio;
 import pe.com.logistica.web.servicio.impl.NegocioServicioImpl;
@@ -54,12 +56,14 @@ public class CargaReporteProveedorMBean extends BaseMBean {
 	private Integer columnaInicial;
 	private Integer nroColumnas;
 	private ReporteArchivo reporteArchivo;
+	private ReporteArchivoBusqueda reporteArchivoBusqueda;
 
 	private List<CeldaExcel> tablaExcelCargada;
 	private ColumnasExcel columnasExcel;
 	private InputStream streamArchivo;
 
 	private List<ColumnasExcel> dataExcel = null;
+	private List<ReporteArchivoBusqueda> listaReporteBusqueda;
 	
 	private boolean tablaLlena;
 	
@@ -73,7 +77,16 @@ public class CargaReporteProveedorMBean extends BaseMBean {
 		} catch (NamingException e) {
 			logger.error(e.getMessage(), e);
 		}
-	}	
+	}
+	
+	public void buscarArchivoCargado(){
+		try {
+			this.setListaReporteBusqueda(this.negocioServicio.consultarArchivosCargados(getReporteArchivoBusqueda()));
+		} catch (ErrorConsultaDataException e) {
+			this.mostrarMensajeError(e.getMessage());
+			logger.error(e.getMessage(), e);
+		}
+	}
 
 	public void listenerExcel(FileUploadEvent event) {
 		UploadedFile archivo = event.getUploadedFile();
@@ -102,17 +115,6 @@ public class CargaReporteProveedorMBean extends BaseMBean {
 				HSSFCell celda = null;
 				int iCelda = 0;
 				List<String> cabecera = new ArrayList<String>();
-				/*while (filas.hasNext()){
-					fila = (HSSFRow) filas.next();
-					iCelda = 0;
-					celda = null;
-					while (iCelda < this.getNroColumnas()){
-						celda = fila.getCell(iCelda);
-						cabecera.add(UtilWeb.obtenerDato(celda));
-						iCelda++;
-					}
-					break;
-				}*/
 				
 				boolean registroCabecera = false;
 				CeldaExcel celdaExcel = null;
@@ -377,5 +379,33 @@ public class CargaReporteProveedorMBean extends BaseMBean {
 	 */
 	public void setReporteArchivo(ReporteArchivo reporteArchivo) {
 		this.reporteArchivo = reporteArchivo;
+	}
+
+	/**
+	 * @return the listaReporteBusqueda
+	 */
+	public List<ReporteArchivoBusqueda> getListaReporteBusqueda() {
+		return listaReporteBusqueda;
+	}
+
+	/**
+	 * @param listaReporteBusqueda the listaReporteBusqueda to set
+	 */
+	public void setListaReporteBusqueda(List<ReporteArchivoBusqueda> listaReporteBusqueda) {
+		this.listaReporteBusqueda = listaReporteBusqueda;
+	}
+
+	/**
+	 * @return the reporteArchivoBusqueda
+	 */
+	public ReporteArchivoBusqueda getReporteArchivoBusqueda() {
+		return reporteArchivoBusqueda;
+	}
+
+	/**
+	 * @param reporteArchivoBusqueda the reporteArchivoBusqueda to set
+	 */
+	public void setReporteArchivoBusqueda(ReporteArchivoBusqueda reporteArchivoBusqueda) {
+		this.reporteArchivoBusqueda = reporteArchivoBusqueda;
 	}
 }

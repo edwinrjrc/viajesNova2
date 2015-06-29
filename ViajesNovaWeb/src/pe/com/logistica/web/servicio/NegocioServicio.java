@@ -10,6 +10,7 @@ import java.util.List;
 import pe.com.logistica.bean.base.BaseVO;
 import pe.com.logistica.bean.cargaexcel.ColumnasExcel;
 import pe.com.logistica.bean.cargaexcel.ReporteArchivo;
+import pe.com.logistica.bean.cargaexcel.ReporteArchivoBusqueda;
 import pe.com.logistica.bean.negocio.Cliente;
 import pe.com.logistica.bean.negocio.Comprobante;
 import pe.com.logistica.bean.negocio.ComprobanteBusqueda;
@@ -87,7 +88,8 @@ public interface NegocioServicio {
 	ServicioNovios agregarServicioNovios(ServicioNovios servicioNovios)
 			throws SQLException, Exception;
 
-	List<DetalleServicioAgencia> agregarServicioVenta(List<DetalleServicioAgencia> listaServiciosVenta,
+	List<DetalleServicioAgencia> agregarServicioVenta(
+			List<DetalleServicioAgencia> listaServiciosVenta,
 			DetalleServicioAgencia detalleServicio)
 			throws ErrorRegistroDataException, SQLException, Exception;
 
@@ -229,10 +231,18 @@ public interface NegocioServicio {
 	void registrarComprobantesAdicionales(List<Comprobante> lista)
 			throws ErrorRegistroDataException, SQLException, Exception;
 
-	public List<Comprobante> consultarComprobantesGenerados(ComprobanteBusqueda comprobanteBusqueda) throws ErrorConsultaDataException;
+	public List<Comprobante> consultarComprobantesGenerados(
+			ComprobanteBusqueda comprobanteBusqueda)
+			throws ErrorConsultaDataException;
 
 	Comprobante consultarComprobanteGenerado(Integer idComprobante)
 			throws ErrorConsultaDataException;
-	
-	public boolean grabarComprobantesReporte(ReporteArchivo reporteArchivo, ColumnasExcel columnasExcel, List<ColumnasExcel> dataExcel) throws ErrorRegistroDataException, SQLException;
+
+	public boolean grabarComprobantesReporte(ReporteArchivo reporteArchivo,
+			ColumnasExcel columnasExcel, List<ColumnasExcel> dataExcel)
+			throws ErrorRegistroDataException, SQLException;
+
+	public List<ReporteArchivoBusqueda> consultarArchivosCargados(
+			ReporteArchivoBusqueda reporteArchivoBusqueda)
+			throws ErrorConsultaDataException;
 }

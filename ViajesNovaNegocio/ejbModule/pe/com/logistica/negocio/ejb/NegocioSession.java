@@ -22,6 +22,7 @@ import pe.com.logistica.bean.Util.UtilParse;
 import pe.com.logistica.bean.base.BaseVO;
 import pe.com.logistica.bean.cargaexcel.ColumnasExcel;
 import pe.com.logistica.bean.cargaexcel.ReporteArchivo;
+import pe.com.logistica.bean.cargaexcel.ReporteArchivoBusqueda;
 import pe.com.logistica.bean.negocio.Cliente;
 import pe.com.logistica.bean.negocio.Comprobante;
 import pe.com.logistica.bean.negocio.ComprobanteBusqueda;
@@ -2491,6 +2492,18 @@ public class NegocioSession implements NegocioSessionRemote,
 			if (conn != null){
 				conn.close();
 			}
+		}
+	}
+	
+	@Override
+	public List<ReporteArchivoBusqueda> consultarArchivosCargados(ReporteArchivoBusqueda reporteArchivoBusqueda) throws ErrorConsultaDataException{
+		try {
+			ArchivoReporteDao archivoReporteDao = new ArchivoReporteDaoImpl();
+			return archivoReporteDao.consultarArchivosCargados(reporteArchivoBusqueda);
+		} catch (SQLException e) {
+			throw new ErrorConsultaDataException(e);
+		} catch (Exception e) {
+			throw new ErrorConsultaDataException(e);
 		}
 	}
 }

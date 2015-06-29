@@ -5,14 +5,20 @@ package pe.com.logistica.negocio.dao.impl;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
 import pe.com.logistica.bean.cargaexcel.ColumnasExcel;
 import pe.com.logistica.bean.cargaexcel.ReporteArchivo;
+import pe.com.logistica.bean.cargaexcel.ReporteArchivoBusqueda;
 import pe.com.logistica.negocio.dao.ArchivoReporteDao;
+import pe.com.logistica.negocio.util.UtilConexion;
+import pe.com.logistica.negocio.util.UtilJdbc;
 
 /**
  * @author Edwin
@@ -212,6 +218,85 @@ public class ArchivoReporteDaoImpl implements ArchivoReporteDao {
 			throw new SQLException(e);
 		} catch (Exception e){
 			throw new Exception(e);
+		} finally{
+			if (cs != null){
+				cs.close();
+			}
+		}
+		
+		return resultado;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see pe.com.logistica.negocio.dao.ArchivoReporteDao#consultarArchivosCargados(pe.com.logistica.bean.cargaexcel.ReporteArchivoBusqueda)
+	 */
+	@Override
+	public List<ReporteArchivoBusqueda> consultarArchivosCargados(
+			ReporteArchivoBusqueda reporteBusqueda) throws SQLException,
+			Exception {
+		List<ReporteArchivoBusqueda> resultado = null;
+		Connection conn = null;
+		CallableStatement cs = null;
+		ResultSet rs = null;
+		String sql = "{ ? = call negocio.fn_consultararchivoscargados(?,?,?,?,?) }";
+		
+		try {
+			conn = UtilConexion.obtenerConexion();
+			cs = conn.prepareCall(sql);
+			int i=1;
+			cs.registerOutParameter(i++, Types.OTHER);
+			if (reporteBusqueda.getCodigoEntero() != null && reporteBusqueda.getCodigoEntero().intValue() != 0){
+				cs.setInt(i++, reporteBusqueda.getCodigoEntero().intValue());
+			}
+			else{
+				cs.setNull(i++, Types.INTEGER);
+			}
+			if (reporteBusqueda.getFechaDesde() != null){
+				cs.setDate(i++, UtilJdbc.convertirUtilDateSQLDate(reporteBusqueda.getFechaDesde()));
+			}
+			else{
+				cs.setNull(i++, Types.DATE);
+			}
+			if (reporteBusqueda.getFechaHasta() != null){
+				cs.setDate(i++, UtilJdbc.convertirUtilDateSQLDate(reporteBusqueda.getFechaHasta()));
+			}
+			else{
+				cs.setNull(i++, Types.DATE);
+			}
+			if (reporteBusqueda.getProveedor().getCodigoEntero() != null && reporteBusqueda.getProveedor().getCodigoEntero().intValue() != 0){
+				cs.setInt(i++, reporteBusqueda.getProveedor().getCodigoEntero().intValue());
+			}
+			else{
+				cs.setNull(i++, Types.INTEGER);
+			}
+			if (StringUtils.isNotBlank(reporteBusqueda.getNombreReporte())){
+				cs.setString(i++, StringUtils.upperCase(StringUtils.replace(reporteBusqueda.getNombreReporte()," ","")));
+			}
+			else{
+				cs.setNull(i++, Types.VARCHAR);
+			}
+			cs.execute();
+			
+			rs = (ResultSet)cs.getObject(1);
+			ReporteArchivoBusqueda reporteArchivoBusqueda = null;
+			resultado = new ArrayList<ReporteArchivoBusqueda>();
+			while (rs.next()){
+				reporteArchivoBusqueda = new ReporteArchivoBusqueda();
+				reporteArchivoBusqueda.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
+				reporteArchivoBusqueda.setNombreArchivo(UtilJdbc.obtenerCadena(rs, "nombrearchivo"));
+				reporteArchivoBusqueda.setNombreReporte(UtilJdbc.obtenerCadena(rs, "nombrereporte"));
+				reporteArchivoBusqueda.getProveedor().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idproveedor"));
+				String nombre = UtilJdbc.obtenerCadena(rs, "nombres")+" "+UtilJdbc.obtenerCadena(rs, "apellidopaterno")+" "+UtilJdbc.obtenerCadena(rs, "apellidomaterno");
+				nombre = StringUtils.normalizeSpace(nombre);
+				reporteArchivoBusqueda.getProveedor().setNombre(nombre);
+				reporteArchivoBusqueda.setNumeroFilas(UtilJdbc.obtenerNumero(rs, "numerofilas"));
+				reporteArchivoBusqueda.setNumeroColumnas(UtilJdbc.obtenerNumero(rs, "numerocolumnas"));
+				reporteArchivoBusqueda.setNumeroSeleccionados(UtilJdbc.obtenerNumero(rs, "seleccionados"));
+				resultado.add(reporteArchivoBusqueda);
+			}
+		} catch (SQLException e) {
+			throw new SQLException(e);
 		} finally{
 			if (cs != null){
 				cs.close();
