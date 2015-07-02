@@ -1,19 +1,8 @@
 package pe.com.logistica.negocio.ejb;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import javax.ejb.Stateless;
-
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-
-import pe.com.logistica.bean.negocio.ClienteCorreo;
 
 /**
  * Session Bean implementation class AgenteExcel
@@ -30,7 +19,7 @@ public class AgenteExcel implements AgenteExcelRemote, AgenteExcelLocal {
     
     
     public void enviarCorreoMasivo(InputStream is){
-    	try {
+    	/*try {
 			HSSFWorkbook libro = new HSSFWorkbook(is);
 			HSSFSheet hoja = libro.getSheetAt(0);
 			Iterator rowIterator = hoja.rowIterator();
@@ -56,7 +45,7 @@ public class AgenteExcel implements AgenteExcelRemote, AgenteExcelLocal {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-    	
+    	*/
     	
     }
 

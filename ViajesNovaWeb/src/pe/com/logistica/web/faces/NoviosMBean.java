@@ -103,7 +103,6 @@ public class NoviosMBean extends BaseMBean {
 
 	// private SoporteServicio soporteServicio;
 	private NegocioServicio negocioServicio;
-	private ParametroServicio parametroServicio;
 	private SoporteServicio soporteServicio;
 
 	/**
@@ -115,7 +114,6 @@ public class NoviosMBean extends BaseMBean {
 					.getCurrentInstance().getExternalContext().getContext();
 			soporteServicio = new SoporteServicioImpl(servletContext);
 			negocioServicio = new NegocioServicioImpl(servletContext);
-			parametroServicio = new ParametroServicioImpl(servletContext);
 		} catch (NamingException e) {
 			logger.error(e.getMessage(), e);
 		}

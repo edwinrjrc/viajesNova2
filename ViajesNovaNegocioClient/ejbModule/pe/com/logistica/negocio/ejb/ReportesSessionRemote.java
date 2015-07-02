@@ -5,10 +5,8 @@ import java.util.List;
 
 import javax.ejb.Remote;
 
-import pe.com.logistica.bean.cargaexcel.ReporteArchivo;
 import pe.com.logistica.bean.negocio.DetalleServicioAgencia;
 import pe.com.logistica.bean.reportes.ReporteVentas;
-import pe.com.logistica.negocio.exception.ConnectionException;
 
 @Remote
 public interface ReportesSessionRemote {

@@ -12,12 +12,9 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 
-import pe.com.logistica.bean.cargaexcel.ReporteArchivo;
 import pe.com.logistica.bean.negocio.DetalleServicioAgencia;
 import pe.com.logistica.bean.reportes.ReporteVentas;
-import pe.com.logistica.negocio.ejb.NegocioSessionRemote;
 import pe.com.logistica.negocio.ejb.ReportesSessionRemote;
-import pe.com.logistica.negocio.exception.ConnectionException;
 import pe.com.logistica.web.servicio.ReportesServicio;
 
 /**

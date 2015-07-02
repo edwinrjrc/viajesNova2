@@ -118,7 +118,6 @@ public class CargaReporteProveedorMBean extends BaseMBean {
 				List<String> cabecera = new ArrayList<String>();
 				
 				boolean registroCabecera = false;
-				CeldaExcel celdaExcel = null;
 				ColumnasExcel columna = null;
 				Method method = null;
 				Method method2 = null;
@@ -150,7 +149,7 @@ public class CargaReporteProveedorMBean extends BaseMBean {
 							method = columna.getClass().getMethod(metodo+(j), null);
 							ob1 = method.invoke(columna, null);
 							method2 = ob1.getClass().getMethod(metodo2, String.class);
-							Object ob2 = method2.invoke(ob1, dato);
+							method2.invoke(ob1, dato);
 							method3 = ob1.getClass().getMethod(metodo3, boolean.class);
 							method3.invoke(ob1, true);
 							iCelda++;
@@ -396,7 +395,8 @@ public class CargaReporteProveedorMBean extends BaseMBean {
 	 */
 	public List<ReporteArchivoBusqueda> getListaReporteBusqueda() {
 		if (listaReporteBusqueda == null){
-			listaReporteBusqueda = new ArrayList<ReporteArchivoBusqueda>();
+			//listaReporteBusqueda = new ArrayList<ReporteArchivoBusqueda>();
+			this.buscarArchivoCargado();
 		}
 		return listaReporteBusqueda;
 	}

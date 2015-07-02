@@ -6,8 +6,6 @@ package pe.com.logistica.bean.cargaexcel;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import org.apache.commons.lang3.StringUtils;
-
 import pe.com.logistica.bean.base.Base;
 
 /**
