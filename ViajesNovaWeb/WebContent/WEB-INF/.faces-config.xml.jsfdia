@@ -119,6 +119,12 @@
     PATH="/paginas/negocio/comprobante/administrar.xhtml"
     TARGET="rules:#paginas#negocio#comprobante#administrar.xhtml"
     TITLE="irConsultaComprobantesGenerados" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="irAdministrarCargaArchivo::#paginas#negocio#cargareporteproveedor#administrar.xhtml"
+    NAME="output21"
+    PATH="/paginas/negocio/cargareporteproveedor/administrar.xhtml"
+    TARGET="rules:#paginas#negocio#cargareporteproveedor#administrar.xhtml"
+    TITLE="irAdministrarCargaArchivo" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#paginas#seguridad#usuario#administrar.xhtml"
@@ -241,4 +247,8 @@
   NAME="rules:#paginas#negocio#comprobante#administrar.xhtml"
   PATH="/paginas/negocio/comprobante/administrar.xhtml"
   SHAPE="304,785,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#paginas#negocio#cargareporteproveedor#administrar.xhtml"
+  PATH="/paginas/negocio/cargareporteproveedor/administrar.xhtml"
+  SHAPE="304,817,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

@@ -9,6 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -205,7 +206,7 @@ public class CargaReporteProveedorMBean extends BaseMBean {
 		}
 	}
 	
-	public void grabarReporteProveedor(){
+	public void grabarReporteProveedor(){		
 		try {
 			HttpSession session = obtenerSession(false);
 			Usuario usuario = (Usuario) session
@@ -225,6 +226,15 @@ public class CargaReporteProveedorMBean extends BaseMBean {
 			this.mostrarMensajeError(e.getMessage());
 			logger.error(e.getMessage(), e);
 		}
+	}
+	
+	public void iniciarCargaArchivo(){
+		this.setReporteArchivo(null);
+		this.setColumnasExcel(null);
+		this.setDataExcel(null);
+		this.setColumnaInicial(null);
+		this.setFilaInicial(null);
+		this.setNroColumnas(null);
 	}
 
 	/**
@@ -385,6 +395,9 @@ public class CargaReporteProveedorMBean extends BaseMBean {
 	 * @return the listaReporteBusqueda
 	 */
 	public List<ReporteArchivoBusqueda> getListaReporteBusqueda() {
+		if (listaReporteBusqueda == null){
+			listaReporteBusqueda = new ArrayList<ReporteArchivoBusqueda>();
+		}
 		return listaReporteBusqueda;
 	}
 
@@ -399,6 +412,14 @@ public class CargaReporteProveedorMBean extends BaseMBean {
 	 * @return the reporteArchivoBusqueda
 	 */
 	public ReporteArchivoBusqueda getReporteArchivoBusqueda() {
+		if (reporteArchivoBusqueda == null){
+			reporteArchivoBusqueda = new ReporteArchivoBusqueda();
+			
+			Calendar cal = Calendar.getInstance();
+			reporteArchivoBusqueda.setFechaHasta(cal.getTime());
+			cal.add(Calendar.MONTH, -1);
+			reporteArchivoBusqueda.setFechaDesde(cal.getTime());
+		}
 		return reporteArchivoBusqueda;
 	}
 

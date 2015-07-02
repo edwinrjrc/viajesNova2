@@ -298,8 +298,14 @@ public class ArchivoReporteDaoImpl implements ArchivoReporteDao {
 		} catch (SQLException e) {
 			throw new SQLException(e);
 		} finally{
+			if (rs != null){
+				rs.close();
+			}
 			if (cs != null){
 				cs.close();
+			}
+			if (conn != null){
+				conn.close();
 			}
 		}
 		
