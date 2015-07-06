@@ -274,33 +274,35 @@ public class ServicioAgenteMBean extends BaseMBean {
 			this.setEditarVenta(true);
 			this.setListadoDetalleServicio(this.getServicioAgencia()
 					.getListaDetalleServicio());
-			
+
 			HttpSession session = obtenerSession(false);
-			Usuario usuario = (Usuario) session
-					.getAttribute("usuarioSession");
-			
+			Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
+
 			this.setColumnasComprobantes(9);
 
-			if (usuario.getRol().getCodigoEntero().intValue() == 3){
+			if (usuario.getRol().getCodigoEntero().intValue() == 3) {
 				if (this.getServicioAgencia().isGuardoRelacionComprobantes()) {
 					this.setGuardoComprobantes(true);
 					this.setGuardoRelacionComprobantes(true);
-					this.getServicioAgencia()
-							.setListaDetalleServicio(
-									this.negocioServicio
-											.consultarDetServComprobanteObligacion(this
-													.getServicioAgencia()
-													.getCodigoEntero()));
+					this.getServicioAgencia().setListaDetalleServicio(
+							this.negocioServicio
+									.consultarDetServComprobanteObligacion(this
+											.getServicioAgencia()
+											.getCodigoEntero()));
 					this.setColumnasComprobantes(10);
 				} else if (this.getServicioAgencia().isGuardoComprobante()) {
 					this.setGuardoComprobantes(true);
 					this.getServicioAgencia().setListaDetalleServicio(
-							this.negocioServicio.consultarDetalleComprobantes(this
-									.getServicioAgencia().getCodigoEntero()));
+							this.negocioServicio
+									.consultarDetalleComprobantes(this
+											.getServicioAgencia()
+											.getCodigoEntero()));
 					this.setColumnasComprobantes(10);
 				}
-				
-				this.setListadoDetalleServicioAgrupado(this.utilNegocioServicio.agruparServicios(this.getServicioAgencia().getListaDetalleServicio()));
+
+				this.setListadoDetalleServicioAgrupado(this.utilNegocioServicio
+						.agruparServicios(this.getServicioAgencia()
+								.getListaDetalleServicio()));
 			}
 
 			this.setListaDocumentosAdicionales(this.negocioServicio
@@ -360,7 +362,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 						this.isEditarComision());
 
 				this.setListadoDetalleServicio(negocioServicio
-						.agregarServicioVenta(this.getListadoDetalleServicio(), getDetalleServicio()));
+						.agregarServicioVenta(this.getListadoDetalleServicio(),
+								getDetalleServicio()));
 
 				this.setDetalleServicio(null);
 
@@ -382,25 +385,31 @@ public class ServicioAgenteMBean extends BaseMBean {
 		}
 
 	}
-	
-	private void agregarServiciosPadre(){
+
+	private void agregarServiciosPadre() {
 		SelectItem si = null;
 		this.setListadoServiciosPadre(null);
-		for (DetalleServicioAgencia detalle : this.getListadoDetalleServicio()){
-			if (detalle.getTipoServicio().isServicioPadre()){
+		for (DetalleServicioAgencia detalle : this.getListadoDetalleServicio()) {
+			if (detalle.getTipoServicio().isServicioPadre()) {
 				si = new SelectItem();
 				si.setValue(detalle.getCodigoEntero());
-				String etiqueta = ""
-						+ detalle.getTipoServicio()
-								.getNombre()
-						+ " "
-						+ detalle.getOrigen()
-								.getCodigoIATA()
-						+ " --> "
-						+ detalle.getDestino()
-								.getCodigoIATA();
+
+				String etiqueta = "" + detalle.getTipoServicio().getNombre();
+
+				if (StringUtils.isNotBlank(detalle.getOrigen().getCodigoIATA())
+						&& StringUtils.isNotBlank(detalle.getDestino()
+								.getCodigoIATA())) {
+					etiqueta = etiqueta + " "
+							+ detalle.getOrigen().getCodigoIATA() + " --> "
+							+ detalle.getDestino().getCodigoIATA();
+				}
+				else {
+					etiqueta = etiqueta + detalle.getDescripcionServicio().substring(0, 15);
+				}
+
 				si.setLabel(etiqueta);
 				this.getListadoServiciosPadre().add(si);
+				this.setAgregoServicioPadre(true);
 			}
 		}
 	}
@@ -561,8 +570,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 				resultado = false;
 			}
 			if (configuracionTipoServicio.isMuestraPrecioBase()
-					&& (this.getDetalleServicio().getPrecioUnitario() == null
-					|| this.getDetalleServicio().getPrecioUnitario()
+					&& (this.getDetalleServicio().getPrecioUnitario() == null || this
+							.getDetalleServicio().getPrecioUnitario()
 							.doubleValue() == 0.0)) {
 				this.agregarMensaje(idFormulario + ":idPrecUnitario",
 						"Ingrese el precio base del servicio", "",
@@ -577,17 +586,17 @@ public class ServicioAgenteMBean extends BaseMBean {
 				resultado = false;
 			}
 			if (configuracionTipoServicio.isMuestraFechaServicio()
-					&& (this.getDetalleServicio().getFechaIda() != null
-					&& UtilWeb.fecha1EsMayorIgualFecha2(this
-							.getDetalleServicio().getFechaIda(), new Date()))) {
+					&& (this.getDetalleServicio().getFechaIda() != null && UtilWeb
+							.fecha1EsMayorIgualFecha2(this.getDetalleServicio()
+									.getFechaIda(), new Date()))) {
 				this.agregarMensaje(
 						idFormulario + ":idFecServicio",
 						"La fecha del servicio no puede ser menor que la fecha de actual",
 						"", FacesMessage.SEVERITY_ERROR);
 				resultado = false;
 			} else if (configuracionTipoServicio.isMuestraFechaServicio()
-					&& (this.getDetalleServicio().getFechaRegreso() != null
-					&& this.getDetalleServicio().getFechaIda()
+					&& (this.getDetalleServicio().getFechaRegreso() != null && this
+							.getDetalleServicio().getFechaIda()
 							.after(this.getDetalleServicio().getFechaRegreso()))) {
 				this.agregarMensaje(
 						idFormulario + ":idFecServicio",
@@ -597,15 +606,15 @@ public class ServicioAgenteMBean extends BaseMBean {
 			}
 			if (configuracionTipoServicio.isMuestraProveedor()
 					&& (this.getDetalleServicio().getServicioProveedor()
-							.getProveedor().getCodigoEntero() == null
-					|| this.getDetalleServicio().getServicioProveedor()
+							.getProveedor().getCodigoEntero() == null || this
+							.getDetalleServicio().getServicioProveedor()
 							.getProveedor().getCodigoEntero().intValue() == 0)) {
 				this.agregarMensaje(idFormulario + ":idSelEmpServicio",
 						"Seleccione el proveedor del servicio", "",
 						FacesMessage.SEVERITY_ERROR);
 				resultado = false;
 			}
-			if (!resultado
+			if (resultado
 					&& !this.getDetalleServicio().getTipoServicio()
 							.isServicioPadre() && !this.isAgregoServicioPadre()) {
 				this.setDetalleServicio(null);
@@ -627,15 +636,12 @@ public class ServicioAgenteMBean extends BaseMBean {
 					.obtenerEnteroPropertieMaestro("codigoParametroIGV",
 							"aplicacionDatos"));
 
-			for (DetalleServicioAgencia ds : this
-					.getListadoDetalleServicio()) {
+			for (DetalleServicioAgencia ds : this.getListadoDetalleServicio()) {
 				montoTotal = montoTotal.add(ds.getTotalServicio());
-				montoComision = montoComision.add(ds
-						.getMontoComision());
-				if (ds.getTipoServicio().getCodigoEntero()
-						.toString().equals(param.getValor())) {
-					montoIgv = montoIgv.add(ds
-							.getPrecioUnitario());
+				montoComision = montoComision.add(ds.getMontoComision());
+				if (ds.getTipoServicio().getCodigoEntero().toString()
+						.equals(param.getValor())) {
+					montoIgv = montoIgv.add(ds.getPrecioUnitario());
 				}
 
 				if (ds.getTipoServicio().getCodigoEntero() != null
@@ -669,12 +675,16 @@ public class ServicioAgenteMBean extends BaseMBean {
 							usuario.getUsuario());
 					getServicioAgencia().setIpCreacion(
 							obtenerRequest().getRemoteAddr());
-					
+
 					for (DetalleServicioAgencia detalleServicio : getListadoDetalleServicio()) {
-						detalleServicio.setUsuarioCreacion(usuario.getUsuario());
-						detalleServicio.setUsuarioModificacion(usuario.getUsuario());
-						detalleServicio.setIpCreacion(obtenerRequest().getRemoteAddr());
-						detalleServicio.setIpModificacion(obtenerRequest().getRemoteAddr());
+						detalleServicio
+								.setUsuarioCreacion(usuario.getUsuario());
+						detalleServicio.setUsuarioModificacion(usuario
+								.getUsuario());
+						detalleServicio.setIpCreacion(obtenerRequest()
+								.getRemoteAddr());
+						detalleServicio.setIpModificacion(obtenerRequest()
+								.getRemoteAddr());
 					}
 					this.getServicioAgencia().setListaDetalleServicio(
 							getListadoDetalleServicio());
@@ -1319,28 +1329,31 @@ public class ServicioAgenteMBean extends BaseMBean {
 			getServicioAgencia().setIpModificacion(
 					obtenerRequest().getRemoteAddr());
 
-			this.getServicioAgencia().setListaDetalleServicioAgrupado(getListadoDetalleServicioAgrupado());
+			this.getServicioAgencia().setListaDetalleServicioAgrupado(
+					getListadoDetalleServicioAgrupado());
 
 			if (this.negocioServicio.registrarComprobantes(this
 					.getServicioAgencia())) {
 				this.getServicioAgencia().setListaDetalleServicio(
 						this.negocioServicio.consultarDetalleComprobantes(this
 								.getServicioAgencia().getCodigoEntero()));
-				this.setListadoDetalleServicioAgrupado(this.utilNegocioServicio.agruparServicios(this.getServicioAgencia().getListaDetalleServicio()));
+				this.setListadoDetalleServicioAgrupado(this.utilNegocioServicio
+						.agruparServicios(this.getServicioAgencia()
+								.getListaDetalleServicio()));
 				this.setGuardoComprobantes(true);
 				this.getServicioAgencia().setGuardoComprobante(true);
 				this.setColumnasComprobantes(10);
-			}	
+			}
 			this.mostrarMensajeExito("Comprobante Registrado Satisfactoriamente");
 		} catch (ValidacionException e) {
 			this.mostrarMensajeError(e.getMessage());
-			logger.error(e.getMessage(),e);
+			logger.error(e.getMessage(), e);
 		} catch (SQLException e) {
 			this.mostrarMensajeError(e.getMessage());
-			logger.error(e.getMessage(),e);
+			logger.error(e.getMessage(), e);
 		} catch (Exception e) {
 			this.mostrarMensajeError(e.getMessage());
-			logger.error(e.getMessage(),e);
+			logger.error(e.getMessage(), e);
 		}
 	}
 
@@ -1404,8 +1417,9 @@ public class ServicioAgenteMBean extends BaseMBean {
 			}
 		}
 
-		for (DetalleServicioAgencia deta : this.getListadoDetalleServicioAgrupado()) {
-			for (DetalleServicioAgencia detaHijo : deta.getServiciosHijos()){
+		for (DetalleServicioAgencia deta : this
+				.getListadoDetalleServicioAgrupado()) {
+			for (DetalleServicioAgencia detaHijo : deta.getServiciosHijos()) {
 				if (detaHijo.equals(this.getDetalleServicio2())) {
 					detaHijo.setComprobanteAsociado(comprobante1);
 					break;
@@ -1428,20 +1442,23 @@ public class ServicioAgenteMBean extends BaseMBean {
 					usuario.getUsuario());
 			this.getServicioAgencia().setIpModificacion(
 					obtenerRequest().getRemoteAddr());
-			
-			this.getServicioAgencia().setListaDetalleServicioAgrupado(getListadoDetalleServicioAgrupado());
-			
+
+			this.getServicioAgencia().setListaDetalleServicioAgrupado(
+					getListadoDetalleServicioAgrupado());
+
 			for (DetalleServicioAgencia detalle : this.getServicioAgencia()
 					.getListaDetalleServicioAgrupado()) {
 				detalle.setUsuarioCreacion(usuario.getUsuario());
 				detalle.setIpCreacion(obtenerRequest().getRemoteAddr());
 				detalle.setUsuarioModificacion(usuario.getUsuario());
 				detalle.setIpModificacion(obtenerRequest().getRemoteAddr());
-				for (DetalleServicioAgencia detalleHijo : detalle.getServiciosHijos()) {
+				for (DetalleServicioAgencia detalleHijo : detalle
+						.getServiciosHijos()) {
 					detalleHijo.setUsuarioCreacion(usuario.getUsuario());
 					detalleHijo.setIpCreacion(obtenerRequest().getRemoteAddr());
 					detalleHijo.setUsuarioModificacion(usuario.getUsuario());
-					detalleHijo.setIpModificacion(obtenerRequest().getRemoteAddr());
+					detalleHijo.setIpModificacion(obtenerRequest()
+							.getRemoteAddr());
 				}
 			}
 			this.negocioServicio.registrarComprobanteObligacion(this
@@ -1452,7 +1469,9 @@ public class ServicioAgenteMBean extends BaseMBean {
 					this.negocioServicio
 							.consultarDetServComprobanteObligacion(this
 									.getServicioAgencia().getCodigoEntero()));
-			this.setListadoDetalleServicioAgrupado(this.utilNegocioServicio.agruparServicios(this.getServicioAgencia().getListaDetalleServicio()));
+			this.setListadoDetalleServicioAgrupado(this.utilNegocioServicio
+					.agruparServicios(this.getServicioAgencia()
+							.getListaDetalleServicio()));
 			this.mostrarMensajeExito("Se guardo la relacion entre comprobantes satisfactoriamente");
 		} catch (SQLException e) {
 			this.mostrarMensajeError(e.getMessage());
@@ -2402,7 +2421,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param columnasComprobantes the columnasComprobantes to set
+	 * @param columnasComprobantes
+	 *            the columnasComprobantes to set
 	 */
 	public void setColumnasComprobantes(Integer columnasComprobantes) {
 		this.columnasComprobantes = columnasComprobantes;
@@ -2416,7 +2436,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param listadoDetalleServicioAgrupado the listadoDetalleServicioAgrupado to set
+	 * @param listadoDetalleServicioAgrupado
+	 *            the listadoDetalleServicioAgrupado to set
 	 */
 	public void setListadoDetalleServicioAgrupado(
 			List<DetalleServicioAgencia> listadoDetalleServicioAgrupado) {
