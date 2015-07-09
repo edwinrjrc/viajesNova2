@@ -119,6 +119,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 	private boolean guardoComprobantes;
 	private boolean guardoRelacionComprobantes;
 	private boolean consultoProveedor;
+	private boolean editaServicioAgregado;
 
 	private ParametroServicio parametroServicio;
 	private NegocioServicio negocioServicio;
@@ -335,6 +336,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 		this.setServicioAgencia(null);
 		this.setDetalleServicio(null);
 		this.setTransaccionExito(false);
+		this.setEditaServicioAgregado(false);
 
 		consultarTasaPredeterminada();
 		this.setListadoEmpresas(null);
@@ -353,6 +355,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 		}
 
 		this.getServicioAgencia().setFechaServicio(new Date());
+		this.setListaDocumentosAdicionales(null);
 	}
 
 	public void agregarServicio() {
@@ -385,6 +388,18 @@ public class ServicioAgenteMBean extends BaseMBean {
 		}
 
 	}
+	
+	public void actualizarServicio(){
+		try {
+			if (validarServicioVenta()) {
+				
+			}
+
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			this.mostrarMensajeError(e.getMessage());
+		}
+	}
 
 	private void agregarServiciosPadre() {
 		SelectItem si = null;
@@ -404,7 +419,10 @@ public class ServicioAgenteMBean extends BaseMBean {
 							+ detalle.getDestino().getCodigoIATA();
 				}
 				else {
-					etiqueta = etiqueta + detalle.getDescripcionServicio().substring(0, 15);
+					if (StringUtils.length(detalle.getDescripcionServicio()) >= 15){
+						etiqueta = etiqueta + detalle.getDescripcionServicio().substring(0, 15);
+					}
+					
 				}
 
 				si.setLabel(etiqueta);
@@ -498,7 +516,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 							.getCodigoEntero());
 
 			for (BaseVO baseVO : listaDependientes) {
-				if (!estaEnListaServicios(baseVO)) {
+				if (!estaEnListaServicios(baseVO) && 13 != baseVO.getCodigoEntero().intValue()) {
 					throw new ErrorRegistroDataException("No se agrego "
 							+ baseVO.getNombre());
 				}
@@ -947,9 +965,12 @@ public class ServicioAgenteMBean extends BaseMBean {
 	public void cargarDatosValores(ValueChangeEvent e) {
 		Object oe = e.getNewValue();
 		this.setCalculadorIGV(false);
+		this.setEditaServicioAgregado(false);
 		try {
 			setListadoEmpresas(null);
 			this.getDetalleServicio().getServicioProveedor().setProveedor(null);
+			
+			this.getDetalleServicio().setConfiguracionTipoServicio(null);
 
 			if (oe != null) {
 				String valor = oe.toString();
@@ -1001,10 +1022,33 @@ public class ServicioAgenteMBean extends BaseMBean {
 					}
 				}
 			}
+			
 		} catch (SQLException ex) {
 			logger.error(ex.getMessage(), ex);
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
+		}
+	}
+	
+	public void editarServicioAgregado(DetalleServicioAgencia detalleServicio){
+		try {
+			this.setDetalleServicio(detalleServicio);
+			
+			MaestroServicio maestroServicio = this.negocioServicio
+					.consultarMaestroServicio(detalleServicio.getTipoServicio().getCodigoEntero());
+
+			this.getDetalleServicio().setTipoServicio(maestroServicio);
+			this.getDetalleServicio().setConfiguracionTipoServicio(
+					this.soporteServicio
+							.consultarConfiguracionServicio(detalleServicio.getTipoServicio().getCodigoEntero()));
+			
+			this.setEditaServicioAgregado(true);
+		} catch (SQLException e) {
+			this.setEditaServicioAgregado(true);
+			logger.error(e.getMessage(), e);
+		} catch (Exception e) {
+			this.setEditaServicioAgregado(true);
+			logger.error(e.getMessage(), e);
 		}
 	}
 
@@ -2442,5 +2486,19 @@ public class ServicioAgenteMBean extends BaseMBean {
 	public void setListadoDetalleServicioAgrupado(
 			List<DetalleServicioAgencia> listadoDetalleServicioAgrupado) {
 		this.listadoDetalleServicioAgrupado = listadoDetalleServicioAgrupado;
+	}
+
+	/**
+	 * @return the editaServicioAgregado
+	 */
+	public boolean isEditaServicioAgregado() {
+		return editaServicioAgregado;
+	}
+
+	/**
+	 * @param editaServicioAgregado the editaServicioAgregado to set
+	 */
+	public void setEditaServicioAgregado(boolean editaServicioAgregado) {
+		this.editaServicioAgregado = editaServicioAgregado;
 	}
 }

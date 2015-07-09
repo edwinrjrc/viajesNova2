@@ -395,7 +395,8 @@
 									<h:outputText value="Fecha Servicio" />
 									<h:panelGrid columns="1" cellpadding="0" cellspacing="0"
 										border="0">
-										<rich:calendar datePattern="dd/MM/yyyy HH:mm" id="idFecServicio" showApplyButton="true"
+										<rich:calendar datePattern="dd/MM/yyyy HH:mm"
+											id="idFecServicio" showApplyButton="true"
 											value="#{servicioAgenteMBean.detalleServicio.fechaIda}"></rich:calendar>
 										<rich:message for="idFecServicio" showDetail="false"
 											showSummary="true" ajaxRendered="true"></rich:message>
@@ -412,7 +413,8 @@
 
 									<h:outputText value="Fecha Regreso"
 										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraFechaRegreso}" />
-									<rich:calendar datePattern="dd/MM/yyyy HH:mm" showApplyButton="true"
+									<rich:calendar datePattern="dd/MM/yyyy HH:mm"
+										showApplyButton="true"
 										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraFechaRegreso}"
 										value="#{servicioAgenteMBean.detalleServicio.fechaRegreso}"></rich:calendar>
 
@@ -459,12 +461,28 @@
 
 								<f:facet name="footer">
 									<h:panelGrid cellpadding="0" cellspacing="0" border="0"
-										style="width:100%;text-align:center;" columns="1">
-										<a4j:commandButton value="Agregar" type="button"
-											render="idGrdTabla, idServVenta, idDetalleTabla, idGrdPanel, idFrNuevServicio, idTotalesServicios, idfrcred, idPanelHidden, idPanelBotones, idModalcorrecto, idModalError"
-											action="#{servicioAgenteMBean.agregarServicio()}"
-											oncomplete="mostrarModal('idformadmservicios')">
-										</a4j:commandButton>
+										 columns="1" style="width:100%;">
+										<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+											columns="1" style="width:100%;text-align:center;"
+											rendered="#{!servicioAgenteMBean.editaServicioAgregado}">
+											<a4j:commandButton value="Agregar" type="button"
+												render="idGrdTabla, idServVenta, idDetalleTabla, idGrdPanel, idFrNuevServicio, idTotalesServicios, idfrcred, idPanelHidden, idPanelBotones, idModalcorrecto, idModalError"
+												action="#{servicioAgenteMBean.agregarServicio()}"
+												oncomplete="mostrarModal('idformadmservicios')">
+											</a4j:commandButton>
+										</h:panelGrid>
+										<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+											columns="2" style="text-align:center;"
+											rendered="#{servicioAgenteMBean.editaServicioAgregado}">
+											<a4j:commandButton value="Actualizar" type="button"
+												render="idGrdTabla, idServVenta, idDetalleTabla, idGrdPanel, idFrNuevServicio, idTotalesServicios, idfrcred, idPanelHidden, idPanelBotones, idModalcorrecto, idModalError"
+												action="#{servicioAgenteMBean.actualizarServicio()}"
+												oncomplete="mostrarModal('idformadmservicios')">
+											</a4j:commandButton>
+											<a4j:commandButton value="Cancelar" type="button"
+												render="idGrdTabla, idServVenta, idDetalleTabla, idGrdPanel, idFrNuevServicio, idTotalesServicios, idfrcred, idPanelHidden, idPanelBotones, idModalcorrecto, idModalError">
+											</a4j:commandButton>
+										</h:panelGrid>
 									</h:panelGrid>
 								</f:facet>
 							</h:panelGrid>
@@ -537,12 +555,21 @@
 										</h:outputText>
 									</rich:column>
 									<rich:column style="text-align:center;width: 1%;">
-										<a4j:commandLink
-											action="#{servicioAgenteMBean.eliminarServicio(row)}"
-											render="idServVenta,idFrNuevServicio,idTotalesServicios,idfrcred">
-											<h:graphicImage style="border:0px;"
-												value="#{facesContext.externalContext.requestContextPath}/../resources/img/tacho.gif" />
-										</a4j:commandLink>
+										<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+											columns="2">
+											<a4j:commandLink
+												action="#{servicioAgenteMBean.eliminarServicio(row)}"
+												render="idServVenta,idFrNuevServicio,idTotalesServicios,idfrcred">
+												<h:graphicImage style="border:0px;"
+													value="#{facesContext.externalContext.requestContextPath}/../resources/img/tacho.gif" />
+											</a4j:commandLink>
+											<a4j:commandLink
+												action="#{servicioAgenteMBean.editarServicioAgregado(row)}"
+												render="idServVenta,idFrNuevServicio,idTotalesServicios,idfrcred">
+												<h:graphicImage style="border:0px;height:18px;width:19px;"
+													value="#{facesContext.externalContext.requestContextPath}/../resources/img/editar2.png" />
+											</a4j:commandLink>
+										</h:panelGrid>
 									</rich:column>
 									<f:facet name="footer">
 										<rich:dataScroller for="idServVenta" />
