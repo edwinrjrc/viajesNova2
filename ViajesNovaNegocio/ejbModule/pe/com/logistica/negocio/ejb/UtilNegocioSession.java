@@ -326,14 +326,6 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote, UtilNegocio
 				comision = comision.multiply(valorParametroIGV);
 			}
 
-			if (detalleServicio.getServicioProveedor().getProveedor()
-					.getCodigoEntero() != null) {
-				Proveedor proveedor = negocioSessionLocal.consultarProveedor(detalleServicio
-						.getServicioProveedor().getProveedor()
-						.getCodigoEntero().intValue());
-				detalleServicio.getServicioProveedor().setProveedor(proveedor);
-			}
-
 			detalleServicio.setMontoComision(comision);
 
 			int idDetServicio = comunDao.obtenerSiguienteSecuencia(conn);

@@ -3,6 +3,7 @@
  */
 package pe.com.logistica.web.servicio.impl;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
 
@@ -14,6 +15,7 @@ import javax.servlet.ServletContext;
 import pe.com.logistica.bean.negocio.DetalleServicioAgencia;
 import pe.com.logistica.bean.negocio.ServicioAgencia;
 import pe.com.logistica.negocio.ejb.UtilNegocioSessionRemote;
+import pe.com.logistica.negocio.exception.ErrorRegistroDataException;
 import pe.com.logistica.web.servicio.UtilNegocioServicio;
 
 /**
@@ -57,6 +59,22 @@ public class UtilNegocioServicioImpl implements UtilNegocioServicio {
 	@Override
 	public ServicioAgencia colocarTipoNumeroComprobante(ServicioAgencia servicioAgencia){
 		return ejbSession.colocarTipoNumeroComprobante(servicioAgencia);
+	}
+	
+	@Override
+	public List<DetalleServicioAgencia> agregarServicioVenta(
+			List<DetalleServicioAgencia> listaServiciosVenta,
+			DetalleServicioAgencia detalleServicio)
+			throws ErrorRegistroDataException, SQLException, Exception{
+		return ejbSession.agregarServicioVenta(listaServiciosVenta, detalleServicio);
+	}
+	
+	@Override
+	public List<DetalleServicioAgencia> actualizarServicioVenta(
+			List<DetalleServicioAgencia> listaServiciosVenta,
+			DetalleServicioAgencia detalleServicio)
+			throws ErrorRegistroDataException, SQLException, Exception{
+		return ejbSession.actualizarServicioVenta(listaServiciosVenta, detalleServicio);
 	}
 
 }

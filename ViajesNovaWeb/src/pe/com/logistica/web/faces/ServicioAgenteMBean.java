@@ -364,7 +364,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 				getDetalleServicio().getServicioProveedor().setEditoComision(
 						this.isEditarComision());
 
-				this.setListadoDetalleServicio(negocioServicio
+				this.setListadoDetalleServicio(this.utilNegocioServicio
 						.agregarServicioVenta(this.getListadoDetalleServicio(),
 								getDetalleServicio()));
 
@@ -392,7 +392,20 @@ public class ServicioAgenteMBean extends BaseMBean {
 	public void actualizarServicio(){
 		try {
 			if (validarServicioVenta()) {
-				
+				getDetalleServicio().getServicioProveedor().setEditoComision(
+						this.isEditarComision());
+
+				this.setListadoDetalleServicio(this.utilNegocioServicio
+						.actualizarServicioVenta(this.getListadoDetalleServicio(),
+								getDetalleServicio()));
+
+				this.setDetalleServicio(null);
+
+				calcularTotales();
+				agregarServiciosPadre();
+
+				this.setServicioFee(false);
+				this.setListadoEmpresas(null);
 			}
 
 		} catch (Exception e) {
@@ -1008,18 +1021,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 						|| maestroServicio.isEsImpuesto());
 
 				if (!this.isServicioFee()) {
-					listaProveedores = this.negocioServicio
-							.proveedoresXServicio(UtilWeb
-									.convertirCadenaEntero(valor));
-					setListadoEmpresas(null);
-
-					SelectItem si = null;
-					for (ServicioProveedor servicioProveedor : listaProveedores) {
-						si = new SelectItem();
-						si.setValue(servicioProveedor.getCodigoEntero());
-						si.setLabel(servicioProveedor.getNombreProveedor());
-						getListadoEmpresas().add(si);
-					}
+					cargarEmpresas(UtilWeb
+							.convertirCadenaEntero(valor));
 				}
 			}
 			
@@ -1030,9 +1033,25 @@ public class ServicioAgenteMBean extends BaseMBean {
 		}
 	}
 	
+	private void cargarEmpresas(Integer valor) throws SQLException, Exception{
+		listaProveedores = this.negocioServicio
+				.proveedoresXServicio(valor);
+		setListadoEmpresas(null);
+
+		SelectItem si = null;
+		for (ServicioProveedor servicioProveedor : listaProveedores) {
+			si = new SelectItem();
+			si.setValue(servicioProveedor.getCodigoEntero());
+			si.setLabel(servicioProveedor.getNombreProveedor());
+			getListadoEmpresas().add(si);
+		}
+	}
+	
 	public void editarServicioAgregado(DetalleServicioAgencia detalleServicio){
 		try {
 			this.setDetalleServicio(detalleServicio);
+			
+			this.cargarEmpresas(detalleServicio.getTipoServicio().getCodigoEntero());
 			
 			MaestroServicio maestroServicio = this.negocioServicio
 					.consultarMaestroServicio(detalleServicio.getTipoServicio().getCodigoEntero());
@@ -1044,10 +1063,10 @@ public class ServicioAgenteMBean extends BaseMBean {
 			
 			this.setEditaServicioAgregado(true);
 		} catch (SQLException e) {
-			this.setEditaServicioAgregado(true);
+			this.setEditaServicioAgregado(false);
 			logger.error(e.getMessage(), e);
 		} catch (Exception e) {
-			this.setEditaServicioAgregado(true);
+			this.setEditaServicioAgregado(false);
 			logger.error(e.getMessage(), e);
 		}
 	}
