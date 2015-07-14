@@ -370,11 +370,11 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote, UtilNegocio
 
 		try {
 			DetalleServicioAgencia detalleServicioAgencia = null;
-			int indice = 0;
+			int codigo = 0;
 			for (int i=0; i<listaServiciosVenta.size(); i++){
 				detalleServicioAgencia = listaServiciosVenta.get(i);
 				if (detalleServicioAgencia.getCodigoEntero().intValue() == detalleServicio.getCodigoEntero().intValue()){
-					indice = i;
+					codigo = detalleServicioAgencia.getCodigoEntero().intValue();
 					break;
 				}
 			}
@@ -543,12 +543,18 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote, UtilNegocio
 			}
 			
 			for (DetalleServicioAgencia detalleServicioAgencia2 : listaServiciosVenta) {
-				if (detalleServicioAgencia2.getServicioPadre().getCodigoEntero().intValue() == detalleServicioAgencia.getCodigoEntero().intValue()){
+				if (detalleServicioAgencia2.getServicioPadre().getCodigoEntero()!= null && detalleServicioAgencia2.getServicioPadre().getCodigoEntero().intValue() == detalleServicio.getCodigoEntero().intValue()){
 					listaServiciosVenta.remove(detalleServicioAgencia2);
 				}
 			}
 			
-			listaServiciosVenta.remove(indice);
+			for (int i = 0; i < listaServiciosVenta.size(); i++) {
+				DetalleServicioAgencia detalleServicioAgencia2 = listaServiciosVenta.get(i);
+				if (detalleServicioAgencia2.getCodigoEntero().intValue() == codigo){
+					listaServiciosVenta.remove(detalleServicioAgencia2);
+				}
+			}
+			
 			listaServiciosVenta.add(detalleServicioAgencia);
 			if (listaInvisibles != null) {
 				listaServiciosVenta.addAll(listaInvisibles);

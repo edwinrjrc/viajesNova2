@@ -363,6 +363,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 			if (validarServicioVenta()) {
 				getDetalleServicio().getServicioProveedor().setEditoComision(
 						this.isEditarComision());
+				
+				seleccionarOrigenDestino();
 
 				this.setListadoDetalleServicio(this.utilNegocioServicio
 						.agregarServicioVenta(this.getListadoDetalleServicio(),
@@ -389,6 +391,31 @@ public class ServicioAgenteMBean extends BaseMBean {
 
 	}
 	
+	private void seleccionarOrigenDestino() {
+		String origen = "";
+		String destino = "";
+		
+		origen = StringUtils.trim(this.getDetalleServicio().getOrigen().getCodigoCadena());
+		origen = StringUtils.substring(origen, StringUtils.indexOf(origen,"(")+1, StringUtils.indexOf(origen,")"));
+		
+		for(Destino destinoBean : this.getListaOrigenesBusqueda()){
+			if (StringUtils.equals(destinoBean.getCodigoIATA(), origen)){
+				this.getDetalleServicio().setOrigen(destinoBean);
+				break;
+			}
+		}
+		
+		destino = StringUtils.trim(this.getDetalleServicio().getDestino().getCodigoCadena());
+		destino = StringUtils.substring(destino, StringUtils.indexOf(destino,"(")+1, StringUtils.indexOf(destino,")"));
+		
+		for(Destino destinoBean : this.getListaOrigenesBusqueda()){
+			if (StringUtils.equals(destinoBean.getCodigoIATA(), destino)){
+				this.getDetalleServicio().setDestino(destinoBean);
+				break;
+			}
+		}
+	}
+
 	public void actualizarServicio(){
 		try {
 			if (validarServicioVenta()) {
@@ -406,6 +433,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 
 				this.setServicioFee(false);
 				this.setListadoEmpresas(null);
+				this.setEditaServicioAgregado(false);
 			}
 
 		} catch (Exception e) {
@@ -586,6 +614,18 @@ public class ServicioAgenteMBean extends BaseMBean {
 			ConfiguracionTipoServicio configuracionTipoServicio = this
 					.getDetalleServicio().getConfiguracionTipoServicio();
 
+			if (StringUtils.isBlank(this.getDetalleServicio().getOrigen().getCodigoCadena())){
+				this.agregarMensaje(idFormulario + ":idTxtOrigen",
+						"Seleccione el origen", "",
+						FacesMessage.SEVERITY_ERROR);
+				resultado = false;
+			}
+			if (StringUtils.isBlank(this.getDetalleServicio().getOrigen().getCodigoCadena())){
+				this.agregarMensaje(idFormulario + ":idTxtDestino",
+						"Seleccione el destino", "",
+						FacesMessage.SEVERITY_ERROR);
+				resultado = false;
+			}
 			if (configuracionTipoServicio.isMuestraDescServicio()
 					&& StringUtils.isBlank(this.getDetalleServicio()
 							.getDescripcionServicio())) {
@@ -1024,6 +1064,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 					cargarEmpresas(UtilWeb
 							.convertirCadenaEntero(valor));
 				}
+				
+				this.consultarDestinos();
 			}
 			
 		} catch (SQLException ex) {

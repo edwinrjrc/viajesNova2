@@ -361,7 +361,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 		Integer resultado = 0;
 		CallableStatement cs = null;
 
-		String sql = "{ ? = call negocio.fn_ingresarserviciodetalle(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+		String sql = "{ ? = call negocio.fn_ingresarserviciodetalle(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 		
 		try {
 			cs = conn.prepareCall(sql);
@@ -467,6 +467,12 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 				cs.setNull(i++, Types.DECIMAL);
 			}
 			cs.setBigDecimal(i++, detalleServicio.getMontoComision());
+			if (StringUtils.isNotBlank(detalleServicio.getCodigoReserva())){
+				cs.setString(i++, detalleServicio.getCodigoReserva());
+			}
+			else{
+				cs.setNull(i++, Types.VARCHAR);
+			}
 			cs.setBigDecimal(i++, detalleServicio.getTotalServicio());
 			if (detalleServicio.getServicioPadre().getCodigoEntero()!=null && detalleServicio.getServicioPadre().getCodigoEntero().intValue()!=0){
 				cs.setInt(i++, detalleServicio.getServicioPadre().getCodigoEntero().intValue());

@@ -64,6 +64,8 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	private int cantidadAgrupados;
 	private BigDecimal totalAgrupados;
 	private List<Integer> codigoEnteroAgrupados;
+	
+	private String codigoReserva;
 
 	/**
 	 * @return the tipoServicio
@@ -607,6 +609,20 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	 */
 	public void setCodigoEnteroAgrupados(List<Integer> codigoEnteroAgrupados) {
 		this.codigoEnteroAgrupados = codigoEnteroAgrupados;
+	}
+
+	/**
+	 * @return the codigoReserva
+	 */
+	public String getCodigoReserva() {
+		return codigoReserva;
+	}
+
+	/**
+	 * @param codigoReserva the codigoReserva to set
+	 */
+	public void setCodigoReserva(String codigoReserva) {
+		this.codigoReserva = codigoReserva;
 	}
 
 }

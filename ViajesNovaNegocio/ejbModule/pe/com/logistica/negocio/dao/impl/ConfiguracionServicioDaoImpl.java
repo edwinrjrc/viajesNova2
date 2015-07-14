@@ -67,6 +67,7 @@ public class ConfiguracionServicioDaoImpl implements ConfiguracionServicioDao {
 				resultado.setMuestraComision(UtilJdbc.obtenerBoolean(rs, "muestracomision"));
 				resultado.setMuestraOperadora(UtilJdbc.obtenerBoolean(rs, "muestraoperador"));
 				resultado.setMuestraTarifaNegociada(UtilJdbc.obtenerBoolean(rs, "muestratarifanegociada"));
+				resultado.setMuestraCodigoReserva(UtilJdbc.obtenerBoolean(rs, "muestratcodigoreserva"));
 			}
 		} catch (SQLException e) {
 			throw new SQLException(e);

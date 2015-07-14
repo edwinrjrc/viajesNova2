@@ -236,16 +236,14 @@
 										cellspacing="0" id="idSelOrigen"
 										columnClasses="col1iconoformulario,col1iconoformulario"
 										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraDestino}">
-										<h:inputText readonly="true"
-											value="#{servicioAgenteMBean.detalleServicio.origen.descripcion}"
-											id="idTxtOrigen" />
-										<a4j:commandLink
-											action="#{servicioAgenteMBean.consultarDestinos()}"
-											oncomplete="#{rich:component('idModalbusqorigen')}.show();"
-											render="idGrFrBusqOrigen">
-											<h:graphicImage style="border:0px;"
-												value="#{facesContext.externalContext.requestContextPath}/../resources/img/iconoLupa.gif" />
-										</a4j:commandLink>
+										<rich:autocomplete id="idTxtOrigen" mode="client"
+											value="#{servicioAgenteMBean.detalleServicio.origen.codigoCadena}"
+											autocompleteList="#{servicioAgenteMBean.listaOrigenesBusqueda}"
+											var="origen" layout="div"
+											fetchValue="#{origen.descripcion}(#{origen.codigoIATA})">
+											<b>#{origen.descripcion}</b> - <i>(#{origen.codigoIATA})
+											</i>
+										</rich:autocomplete>
 										<rich:message for="idTxtOrigen" showSummary="true"
 											showDetail="false" ajaxRendered="true" />
 									</h:panelGrid>
@@ -256,19 +254,25 @@
 										cellspacing="0" id="idSelDestino"
 										columnClasses="col1iconoformulario,col1iconoformulario"
 										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraDestino}">
-										<h:inputText readonly="true"
-											value="#{servicioAgenteMBean.detalleServicio.destino.descripcion}"
-											id="idTxtDestino" />
-										<a4j:commandLink
-											action="#{servicioAgenteMBean.consultarDestinos()}"
-											oncomplete="#{rich:component('idModalbusqdestino')}.show();"
-											render="idGrFrBusqDestinos">
-											<h:graphicImage style="border:0px;"
-												value="#{facesContext.externalContext.requestContextPath}/../resources/img/iconoLupa.gif" />
-										</a4j:commandLink>
+										<rich:autocomplete id="idTxtDestino" mode="client"
+											value="#{servicioAgenteMBean.detalleServicio.destino.codigoCadena}"
+											autocompleteList="#{servicioAgenteMBean.listaDestinosBusqueda}"
+											var="destino" layout="div"
+											fetchValue="#{destino.descripcion}(#{destino.codigoIATA})">
+											<b>#{destino.descripcion}</b> - <i>(#{destino.codigoIATA})
+											</i>
+										</rich:autocomplete>
 										<rich:message for="idTxtDestino" showSummary="true"
 											showDetail="false" ajaxRendered="true" />
 									</h:panelGrid>
+									
+									<h:outputText value="Codigo Reserva"
+										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraCodigoReserva}" />
+									<h:inputText value="#{servicioAgenteMBean.detalleServicio.codigoReserva}" maxlength="10" size="15" rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraCodigoReserva}" />
+									<h:outputText value=""
+										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraCodigoReserva}" />
+									<h:outputText value=""
+										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraCodigoReserva}" />
 
 								</h:panelGrid>
 
@@ -461,12 +465,12 @@
 
 								<f:facet name="footer">
 									<h:panelGrid cellpadding="0" cellspacing="0" border="0"
-										 columns="1" style="width:100%;">
+										columns="1" style="width:100%;" id="idBtnsServicio">
 										<h:panelGrid cellpadding="0" cellspacing="0" border="0"
 											columns="1" style="width:100%;text-align:center;"
 											rendered="#{!servicioAgenteMBean.editaServicioAgregado}">
 											<a4j:commandButton value="Agregar" type="button"
-												render="idGrdTabla, idServVenta, idDetalleTabla, idGrdPanel, idFrNuevServicio, idTotalesServicios, idfrcred, idPanelHidden, idPanelBotones, idModalcorrecto, idModalError"
+												render="idBtnsServicio, idGrdTabla, idServVenta, idDetalleTabla, idGrdPanel, idFrNuevServicio, idTotalesServicios, idfrcred, idPanelHidden, idPanelBotones, idModalcorrecto, idModalError"
 												action="#{servicioAgenteMBean.agregarServicio()}"
 												oncomplete="mostrarModal('idformadmservicios')">
 											</a4j:commandButton>
@@ -475,12 +479,12 @@
 											columns="2" style="text-align:center;"
 											rendered="#{servicioAgenteMBean.editaServicioAgregado}">
 											<a4j:commandButton value="Actualizar" type="button"
-												render="idGrdTabla, idServVenta, idDetalleTabla, idGrdPanel, idFrNuevServicio, idTotalesServicios, idfrcred, idPanelHidden, idPanelBotones, idModalcorrecto, idModalError"
+												render="idBtnsServicio, idGrdTabla, idServVenta, idDetalleTabla, idGrdPanel, idFrNuevServicio, idTotalesServicios, idfrcred, idPanelHidden, idPanelBotones, idModalcorrecto, idModalError"
 												action="#{servicioAgenteMBean.actualizarServicio()}"
 												oncomplete="mostrarModal('idformadmservicios')">
 											</a4j:commandButton>
 											<a4j:commandButton value="Cancelar" type="button"
-												render="idGrdTabla, idServVenta, idDetalleTabla, idGrdPanel, idFrNuevServicio, idTotalesServicios, idfrcred, idPanelHidden, idPanelBotones, idModalcorrecto, idModalError">
+												render="idBtnsServicio, idGrdTabla, idServVenta, idDetalleTabla, idGrdPanel, idFrNuevServicio, idTotalesServicios, idfrcred, idPanelHidden, idPanelBotones, idModalcorrecto, idModalError">
 											</a4j:commandButton>
 										</h:panelGrid>
 									</h:panelGrid>
