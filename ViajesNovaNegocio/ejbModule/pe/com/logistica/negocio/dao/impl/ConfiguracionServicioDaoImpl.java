@@ -260,7 +260,7 @@ public class ConfiguracionServicioDaoImpl implements ConfiguracionServicioDao {
 			ConfiguracionTipoServicio configuracion, Connection conn)
 			throws SQLException {
 		CallableStatement cs = null;
-		String sql = "{? = call soporte.fn_registrarconfiguracionservicio(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+		String sql = "{? = call soporte.fn_registrarconfiguracionservicio(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 		boolean resultado = false;
 		
 		try {
@@ -281,6 +281,7 @@ public class ConfiguracionServicioDaoImpl implements ConfiguracionServicioDao {
 			cs.setBoolean(i++, configuracion.isMuestraComision());
 			cs.setBoolean(i++, configuracion.isMuestraOperadora());
 			cs.setBoolean(i++, configuracion.isMuestraTarifaNegociada());
+			cs.setBoolean(i++, configuracion.isMuestraCodigoReserva());
 			cs.setString(i++, configuracion.getUsuarioCreacion());
 			cs.setString(i++, configuracion.getIpCreacion());
 			

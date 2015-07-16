@@ -265,10 +265,13 @@
 										<rich:message for="idTxtDestino" showSummary="true"
 											showDetail="false" ajaxRendered="true" />
 									</h:panelGrid>
-									
+
 									<h:outputText value="Codigo Reserva"
 										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraCodigoReserva}" />
-									<h:inputText value="#{servicioAgenteMBean.detalleServicio.codigoReserva}" maxlength="10" size="15" rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraCodigoReserva}" />
+									<h:inputText
+										value="#{servicioAgenteMBean.detalleServicio.codigoReserva}"
+										maxlength="10" size="15"
+										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraCodigoReserva}" />
 									<h:outputText value=""
 										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraCodigoReserva}" />
 									<h:outputText value=""
