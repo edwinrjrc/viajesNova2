@@ -342,6 +342,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 		this.setListadoEmpresas(null);
 		this.setListadoDetalleServicio(null);
 		this.setListaDocumentosAdicionales(null);
+		this.setListadoServiciosPadre(null);
 
 		this.setVendedor(false);
 		HttpSession session = obtenerSession(false);
@@ -614,7 +615,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 			ConfiguracionTipoServicio configuracionTipoServicio = this
 					.getDetalleServicio().getConfiguracionTipoServicio();
 
-			if (StringUtils.isBlank(this.getDetalleServicio().getOrigen().getCodigoCadena())){
+			/*if (StringUtils.isBlank(this.getDetalleServicio().getOrigen().getCodigoCadena())){
 				this.agregarMensaje(idFormulario + ":idTxtOrigen",
 						"Seleccione el origen", "",
 						FacesMessage.SEVERITY_ERROR);
@@ -625,7 +626,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 						"Seleccione el destino", "",
 						FacesMessage.SEVERITY_ERROR);
 				resultado = false;
-			}
+			}*/
 			if (configuracionTipoServicio.isMuestraDescServicio()
 					&& StringUtils.isBlank(this.getDetalleServicio()
 							.getDescripcionServicio())) {

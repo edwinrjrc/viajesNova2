@@ -228,7 +228,7 @@ public class SoporteSession implements SoporteRemote, SoporteLocal {
 			throw new ErrorConsultaDataException("Error al grabar configuracion");
 		} catch (Exception e) {
 			throw new ErrorConsultaDataException("Error al grabar configuracion");
-		} finally{
+		} finally {
 			if (conn != null){
 				conn.close();
 			}
