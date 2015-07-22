@@ -379,6 +379,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 
 				this.setServicioFee(false);
 				this.setListadoEmpresas(null);
+				this.setCargoConfiguracionTipoServicio(false);
 			}
 		} catch (ErrorRegistroDataException e) {
 			logger.error(e.getMessage(), e);
@@ -436,12 +437,21 @@ public class ServicioAgenteMBean extends BaseMBean {
 				this.setServicioFee(false);
 				this.setListadoEmpresas(null);
 				this.setEditaServicioAgregado(false);
+				this.setCargoConfiguracionTipoServicio(false);
 			}
 
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			this.mostrarMensajeError(e.getMessage());
 		}
+	}
+	
+	public void cancelarEdicionServicio(){
+		this.setServicioFee(false);
+		this.setListadoEmpresas(null);
+		this.setEditaServicioAgregado(false);
+		this.setCargoConfiguracionTipoServicio(false);
+		this.setDetalleServicio(null);
 	}
 
 	private void agregarServiciosPadre() {
@@ -1046,7 +1056,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 								.consultarConfiguracionServicio(UtilWeb
 										.convertirCadenaEntero(valor)));
 				
-				this.setCargoConfiguracionTipoServicio(this.getDetalleServicio().getConfiguracionTipoServicio() != null);
+				this.setCargoConfiguracionTipoServicio(StringUtils.equals(this.getDetalleServicio().getConfiguracionTipoServicio().getCodigoCadena(),"A"));
 
 				List<BaseVO> listaServicios = this.negocioServicio
 						.consultaServiciosDependientes(UtilWeb
@@ -1095,6 +1105,14 @@ public class ServicioAgenteMBean extends BaseMBean {
 	
 	public void editarServicioAgregado(DetalleServicioAgencia detalleServicio){
 		try {
+			
+			Destino destino = detalleServicio.getDestino();
+			destino.setCodigoCadena(destino.getDescripcion()+"("+destino.getCodigoIATA()+")");
+			Destino origen = detalleServicio.getOrigen();
+			origen.setCodigoCadena(origen.getDescripcion()+"("+origen.getCodigoIATA()+")");
+			
+			detalleServicio.setOrigen(origen);
+			detalleServicio.setDestino(destino);
 			this.setDetalleServicio(detalleServicio);
 			
 			this.cargarEmpresas(detalleServicio.getTipoServicio().getCodigoEntero());
@@ -1108,6 +1126,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 							.consultarConfiguracionServicio(detalleServicio.getTipoServicio().getCodigoEntero()));
 			
 			this.setEditaServicioAgregado(true);
+			this.setCargoConfiguracionTipoServicio(this.getDetalleServicio().getConfiguracionTipoServicio() != null);
 		} catch (SQLException e) {
 			this.setEditaServicioAgregado(false);
 			logger.error(e.getMessage(), e);

@@ -54,6 +54,7 @@ public class ConfiguracionServicioDaoImpl implements ConfiguracionServicioDao {
 			
 			if (rs.next()) {
 				resultado = new ConfiguracionTipoServicio();
+				resultado.setCodigoCadena("A");
 				resultado.setMuestraAerolinea(UtilJdbc.obtenerBoolean(rs, "muestraaerolinea"));
 				resultado.setMuestraEmpresaTransporte(UtilJdbc.obtenerBoolean(rs, "muestraempresatransporte"));
 				resultado.setMuestraHotel(UtilJdbc.obtenerBoolean(rs, "muestrahotel"));
