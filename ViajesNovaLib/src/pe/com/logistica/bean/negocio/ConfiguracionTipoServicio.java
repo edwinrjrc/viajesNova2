@@ -24,6 +24,7 @@ public class ConfiguracionTipoServicio extends BaseNegocio{
 	private boolean muestraComision;
 	private boolean muestraTarifaNegociada;
 	private boolean muestraCodigoReserva;
+	private boolean muestraNumeroBoleto;
 
 	public ConfiguracionTipoServicio() {
 		// TODO Auto-generated constructor stub
@@ -223,6 +224,20 @@ public class ConfiguracionTipoServicio extends BaseNegocio{
 	 */
 	public void setMuestraCodigoReserva(boolean muestraCodigoReserva) {
 		this.muestraCodigoReserva = muestraCodigoReserva;
+	}
+
+	/**
+	 * @return the muestraNumeroBoleto
+	 */
+	public boolean isMuestraNumeroBoleto() {
+		return muestraNumeroBoleto;
+	}
+
+	/**
+	 * @param muestraNumeroBoleto the muestraNumeroBoleto to set
+	 */
+	public void setMuestraNumeroBoleto(boolean muestraNumeroBoleto) {
+		this.muestraNumeroBoleto = muestraNumeroBoleto;
 	}
 
 }

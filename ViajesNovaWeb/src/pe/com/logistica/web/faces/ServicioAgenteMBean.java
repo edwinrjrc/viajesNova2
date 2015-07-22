@@ -615,19 +615,19 @@ public class ServicioAgenteMBean extends BaseMBean {
 			ConfiguracionTipoServicio configuracionTipoServicio = this
 					.getDetalleServicio().getConfiguracionTipoServicio();
 
-			/*if (StringUtils.isBlank(this.getDetalleServicio().getOrigen().getCodigoCadena())){
+			if (configuracionTipoServicio.isMuestraDestino() && StringUtils.isBlank(this.getDetalleServicio().getOrigen().getCodigoCadena())){
 				this.agregarMensaje(idFormulario + ":idTxtOrigen",
 						"Seleccione el origen", "",
 						FacesMessage.SEVERITY_ERROR);
 				resultado = false;
 			}
-			if (StringUtils.isBlank(this.getDetalleServicio().getOrigen().getCodigoCadena())){
+			if (configuracionTipoServicio.isMuestraDestino() && StringUtils.isBlank(this.getDetalleServicio().getOrigen().getCodigoCadena())){
 				this.agregarMensaje(idFormulario + ":idTxtDestino",
 						"Seleccione el destino", "",
 						FacesMessage.SEVERITY_ERROR);
 				resultado = false;
-			}*/
-			if (configuracionTipoServicio.isMuestraDescServicio()
+			}
+			if (false && configuracionTipoServicio.isMuestraDescServicio()
 					&& StringUtils.isBlank(this.getDetalleServicio()
 							.getDescripcionServicio())) {
 				this.agregarMensaje(idFormulario + ":idDescServicio",

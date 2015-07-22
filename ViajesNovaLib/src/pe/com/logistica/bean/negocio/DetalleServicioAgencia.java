@@ -66,6 +66,7 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	private List<Integer> codigoEnteroAgrupados;
 	
 	private String codigoReserva;
+	private String numeroBoleto;
 
 	/**
 	 * @return the tipoServicio
@@ -623,6 +624,20 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	 */
 	public void setCodigoReserva(String codigoReserva) {
 		this.codigoReserva = codigoReserva;
+	}
+
+	/**
+	 * @return the numeroBoleto
+	 */
+	public String getNumeroBoleto() {
+		return numeroBoleto;
+	}
+
+	/**
+	 * @param numeroBoleto the numeroBoleto to set
+	 */
+	public void setNumeroBoleto(String numeroBoleto) {
+		this.numeroBoleto = numeroBoleto;
 	}
 
 }

@@ -67,7 +67,8 @@ public class ConfiguracionServicioDaoImpl implements ConfiguracionServicioDao {
 				resultado.setMuestraComision(UtilJdbc.obtenerBoolean(rs, "muestracomision"));
 				resultado.setMuestraOperadora(UtilJdbc.obtenerBoolean(rs, "muestraoperador"));
 				resultado.setMuestraTarifaNegociada(UtilJdbc.obtenerBoolean(rs, "muestratarifanegociada"));
-				resultado.setMuestraCodigoReserva(UtilJdbc.obtenerBoolean(rs, "muestratcodigoreserva"));
+				resultado.setMuestraCodigoReserva(UtilJdbc.obtenerBoolean(rs, "muestracodigoreserva"));
+				resultado.setMuestraNumeroBoleto(UtilJdbc.obtenerBoolean(rs, "muestranumeroboleto"));
 			}
 		} catch (SQLException e) {
 			throw new SQLException(e);
@@ -260,7 +261,7 @@ public class ConfiguracionServicioDaoImpl implements ConfiguracionServicioDao {
 			ConfiguracionTipoServicio configuracion, Connection conn)
 			throws SQLException {
 		CallableStatement cs = null;
-		String sql = "{? = call soporte.fn_registrarconfiguracionservicio(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+		String sql = "{? = call soporte.fn_registrarconfiguracionservicio(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 		boolean resultado = false;
 		
 		try {
@@ -282,6 +283,7 @@ public class ConfiguracionServicioDaoImpl implements ConfiguracionServicioDao {
 			cs.setBoolean(i++, configuracion.isMuestraOperadora());
 			cs.setBoolean(i++, configuracion.isMuestraTarifaNegociada());
 			cs.setBoolean(i++, configuracion.isMuestraCodigoReserva());
+			cs.setBoolean(i++, configuracion.isMuestraNumeroBoleto());
 			cs.setString(i++, configuracion.getUsuarioCreacion());
 			cs.setString(i++, configuracion.getIpCreacion());
 			

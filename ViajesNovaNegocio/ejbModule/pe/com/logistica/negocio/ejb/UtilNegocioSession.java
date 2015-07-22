@@ -184,7 +184,20 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote, UtilNegocio
 			detalleServicio.setTipoServicio(maestroServicioDao
 					.consultarMaestroServicio(detalleServicio.getTipoServicio()
 							.getCodigoEntero(), conn));
-
+			DetalleServicioAgencia detalle = null;
+			if (!detalleServicio.getTipoServicio().isServicioPadre()){
+				for (int i=0; i<listaServiciosVenta.size(); i++){
+					detalle = listaServiciosVenta.get(i);
+					if (detalle.getCodigoEntero().intValue() == detalleServicio.getServicioPadre().getCodigoEntero().intValue()){
+						break;
+					}
+				}
+				
+				if (detalleServicio.getFechaServicio() == null){
+					detalleServicio.setFechaServicio(detalle.getFechaServicio());
+				}
+			}
+			
 			// obtener nombre empresa proveedor
 			if (detalleServicio.getServicioProveedor().getProveedor()
 					.getCodigoEntero() != null
@@ -252,6 +265,10 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote, UtilNegocio
 
 			if (detalleServicio.getCantidad() == 0) {
 				detalleServicio.setCantidad(1);
+				
+				if (!detalleServicio.getTipoServicio().isServicioPadre()){
+					detalleServicio.setCantidad(detalle.getCantidad());
+				}
 			}
 
 			if (detalleServicio.getOrigen().getCodigoEntero() != null) {

@@ -168,6 +168,7 @@ public class ConfiguracionServiciosMBean extends BaseMBean {
 				listaConfigServicios = this.soporteServicio.listarConfiguracionServicios();
 			}
 			
+			this.setShowModal(false);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
