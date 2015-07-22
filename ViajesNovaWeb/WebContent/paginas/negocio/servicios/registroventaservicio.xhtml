@@ -274,7 +274,8 @@
 										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraCodigoReserva}" />
 									<h:outputText value="Numero Boleto"
 										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraNumeroBoleto}" />
-									<h:inputText maxlength="10" size="15" value="#{servicioAgenteMBean.detalleServicio.numeroBoleto}"
+									<h:inputText maxlength="10" size="15"
+										value="#{servicioAgenteMBean.detalleServicio.numeroBoleto}"
 										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraNumeroBoleto}" />
 
 								</h:panelGrid>
@@ -396,12 +397,13 @@
 
 								<h:panelGrid columns="4" cellpadding="0" cellspacing="0"
 									border="0" style="width:100%;"
-									columnClasses="col1fil1formulario,col2fil1formulario,col3fil1formulario,col4fil1formulario"
-									rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraFechaServicio}">
+									columnClasses="col1fil1formulario,col2fil1formulario,col3fil1formulario,col4fil1formulario">
 
-									<h:outputText value="Fecha Servicio" />
+									<h:outputText value="Fecha Servicio"
+										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraFechaServicio}" />
 									<h:panelGrid columns="1" cellpadding="0" cellspacing="0"
-										border="0">
+										border="0"
+										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraFechaServicio}">
 										<rich:calendar datePattern="dd/MM/yyyy HH:mm"
 											id="idFecServicio" showApplyButton="true"
 											value="#{servicioAgenteMBean.detalleServicio.fechaIda}"></rich:calendar>
@@ -410,9 +412,9 @@
 									</h:panelGrid>
 
 									<h:outputText value="Servicio Padre"
-										rendered="#{!servicioAgenteMBean.detalleServicio.tipoServicio.servicioPadre}" />
+										rendered="#{!servicioAgenteMBean.detalleServicio.tipoServicio.servicioPadre and servicioAgenteMBean.cargoConfiguracionTipoServicio}" />
 									<h:selectOneMenu
-										rendered="#{!servicioAgenteMBean.detalleServicio.tipoServicio.servicioPadre}"
+										rendered="#{!servicioAgenteMBean.detalleServicio.tipoServicio.servicioPadre and servicioAgenteMBean.cargoConfiguracionTipoServicio}"
 										value="#{servicioAgenteMBean.detalleServicio.servicioPadre.codigoEntero}">
 										<f:selectItems
 											value="#{servicioAgenteMBean.listadoServiciosPadre}"></f:selectItems>
@@ -468,7 +470,8 @@
 
 								<f:facet name="footer">
 									<h:panelGrid cellpadding="0" cellspacing="0" border="0"
-										columns="1" style="width:100%;" id="idBtnsServicio">
+										columns="1" style="width:100%;" id="idBtnsServicio"
+										rendered="#{servicioAgenteMBean.cargoConfiguracionTipoServicio}">
 										<h:panelGrid cellpadding="0" cellspacing="0" border="0"
 											columns="1" style="width:100%;text-align:center;"
 											rendered="#{!servicioAgenteMBean.editaServicioAgregado}">

@@ -193,8 +193,8 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote, UtilNegocio
 					}
 				}
 				
-				if (detalleServicio.getFechaServicio() == null){
-					detalleServicio.setFechaServicio(detalle.getFechaServicio());
+				if (detalleServicio.getFechaIda() == null){
+					detalleServicio.setFechaIda(detalle.getFechaIda());
 				}
 			}
 			

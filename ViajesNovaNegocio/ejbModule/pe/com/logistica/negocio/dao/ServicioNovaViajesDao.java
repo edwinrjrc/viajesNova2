@@ -30,9 +30,6 @@ public interface ServicioNovaViajesDao {
 	Integer ingresarCabeceraServicio(ServicioAgencia servicioAgencia,
 			Connection conn) throws SQLException;
 
-	boolean ingresarDetalleServicio(DetalleServicioAgencia detalleServicio,
-			int idServicio) throws SQLException;
-
 	Integer ingresarDetalleServicio(DetalleServicioAgencia detalleServicio,
 			int idServicio, Connection conn) throws SQLException;
 

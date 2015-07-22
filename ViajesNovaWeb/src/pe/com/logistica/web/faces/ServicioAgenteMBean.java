@@ -120,6 +120,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 	private boolean guardoRelacionComprobantes;
 	private boolean consultoProveedor;
 	private boolean editaServicioAgregado;
+	private boolean cargoConfiguracionTipoServicio;
 
 	private ParametroServicio parametroServicio;
 	private NegocioServicio negocioServicio;
@@ -1025,7 +1026,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 			this.getDetalleServicio().getServicioProveedor().setProveedor(null);
 			
 			this.getDetalleServicio().setConfiguracionTipoServicio(null);
-
+			this.setCargoConfiguracionTipoServicio(false);
 			if (oe != null) {
 				String valor = oe.toString();
 
@@ -1038,12 +1039,14 @@ public class ServicioAgenteMBean extends BaseMBean {
 				MaestroServicio maestroServicio = this.negocioServicio
 						.consultarMaestroServicio(UtilWeb
 								.convertirCadenaEntero(valor));
-
+				
 				this.getDetalleServicio().setTipoServicio(maestroServicio);
 				this.getDetalleServicio().setConfiguracionTipoServicio(
 						this.soporteServicio
 								.consultarConfiguracionServicio(UtilWeb
 										.convertirCadenaEntero(valor)));
+				
+				this.setCargoConfiguracionTipoServicio(this.getDetalleServicio().getConfiguracionTipoServicio() != null);
 
 				List<BaseVO> listaServicios = this.negocioServicio
 						.consultaServiciosDependientes(UtilWeb
@@ -2562,5 +2565,20 @@ public class ServicioAgenteMBean extends BaseMBean {
 	 */
 	public void setEditaServicioAgregado(boolean editaServicioAgregado) {
 		this.editaServicioAgregado = editaServicioAgregado;
+	}
+
+	/**
+	 * @return the cargoConfiguracionTipoServicio
+	 */
+	public boolean isCargoConfiguracionTipoServicio() {
+		return cargoConfiguracionTipoServicio;
+	}
+
+	/**
+	 * @param cargoConfiguracionTipoServicio the cargoConfiguracionTipoServicio to set
+	 */
+	public void setCargoConfiguracionTipoServicio(
+			boolean cargoConfiguracionTipoServicio) {
+		this.cargoConfiguracionTipoServicio = cargoConfiguracionTipoServicio;
 	}
 }

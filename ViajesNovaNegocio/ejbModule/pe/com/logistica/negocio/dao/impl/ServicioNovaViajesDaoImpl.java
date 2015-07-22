@@ -260,108 +260,12 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 	}
 	
 	@Override
-	public boolean ingresarDetalleServicio(DetalleServicioAgencia detalleServicio, int idServicio)
-			throws SQLException {
-		boolean resultado=false; 
-		Connection conn = null;
-		CallableStatement cs = null;
-
-		String sql = "{ ? = call negocio.fn_ingresarserviciodetalle(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
-		
-		try {
-			conn = UtilConexion.obtenerConexion();
-			cs = conn.prepareCall(sql);
-			int i=1;
-			cs.registerOutParameter(i++, Types.BOOLEAN);
-			cs.setInt(i++, detalleServicio.getTipoServicio().getCodigoEntero().intValue());
-			cs.setInt(i++, idServicio);
-			cs.setString(i++, detalleServicio.getDescripcionServicio());
-			if (detalleServicio.getDestino().getCodigoEntero() != null && detalleServicio.getDestino().getCodigoEntero().intValue()!=0){
-				cs.setInt(i++, detalleServicio.getDestino().getCodigoEntero().intValue());
-			}
-			else{
-				cs.setNull(i++, Types.INTEGER);
-			}
-			if (StringUtils.isNotBlank(detalleServicio.getDestino().getDescripcion())){
-				cs.setString(i++, detalleServicio.getDestino().getDescripcion());
-			}
-			else{
-				cs.setNull(i++, Types.VARCHAR);
-			}
-			if (detalleServicio.getDias() != 0){
-				cs.setInt(i++, detalleServicio.getDias());
-			}
-			else{
-				cs.setNull(i++, Types.INTEGER);
-			}
-			if (detalleServicio.getNoches() != 0){
-				cs.setInt(i++, detalleServicio.getNoches());
-			}
-			else{
-				cs.setNull(i++, Types.INTEGER);
-			}
-			cs.setDate(i++, UtilJdbc.convertirUtilDateSQLDate(detalleServicio.getFechaIda()));
-			if (detalleServicio.getFechaRegreso() != null){
-				cs.setDate(i++, UtilJdbc.convertirUtilDateSQLDate(detalleServicio.getFechaRegreso()));
-			}
-			else{
-				cs.setNull(i++, Types.DATE);
-			}
-			cs.setInt(i++, detalleServicio.getCantidad());
-			if (detalleServicio.getServicioProveedor().getProveedor().getCodigoEntero()!=null && detalleServicio.getServicioProveedor().getProveedor().getCodigoEntero().intValue()!=0){
-				cs.setInt(i++, detalleServicio.getServicioProveedor().getProveedor().getCodigoEntero().intValue());
-			}
-			else{
-				cs.setNull(i++, Types.INTEGER);
-			}
-			cs.setBigDecimal(i++, detalleServicio.getPrecioUnitario());
-			cs.setBigDecimal(i++, detalleServicio.getServicioProveedor().getPorcentajeComision());
-			cs.setBigDecimal(i++, detalleServicio.getMontoComision());
-			cs.setBigDecimal(i++, detalleServicio.getTotalServicio());
-			if (detalleServicio.getServicioPadre().getCodigoEntero()!=null){
-				cs.setInt(i++, detalleServicio.getServicioPadre().getCodigoEntero().intValue());
-			}
-			else{
-				cs.setNull(i++, Types.INTEGER);
-			}
-			cs.setString(i++, detalleServicio.getUsuarioCreacion());
-			cs.setString(i++, detalleServicio.getIpCreacion());
-			cs.execute();
-			
-			resultado = cs.getBoolean(1);
-		} catch (SQLException e) {
-			resultado=false;
-			throw new SQLException(e);
-		} finally {
-			try {
-				if (cs != null) {
-					cs.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				try {
-					if (conn != null) {
-						conn.close();
-					}
-					throw new SQLException(e);
-				} catch (SQLException e1) {
-					throw new SQLException(e);
-				}
-			}
-		}
-
-		return resultado;
-	}
-	
-	@Override
 	public Integer ingresarDetalleServicio(DetalleServicioAgencia detalleServicio, int idServicio, Connection conn)
 			throws SQLException {
 		Integer resultado = 0;
 		CallableStatement cs = null;
 
-		String sql = "{ ? = call negocio.fn_ingresarserviciodetalle(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+		String sql = "{ ? = call negocio.fn_ingresarserviciodetalle(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 		
 		try {
 			cs = conn.prepareCall(sql);
@@ -474,6 +378,12 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			cs.setBigDecimal(i++, detalleServicio.getMontoComision());
 			if (StringUtils.isNotBlank(detalleServicio.getCodigoReserva())){
 				cs.setString(i++, detalleServicio.getCodigoReserva());
+			}
+			else{
+				cs.setNull(i++, Types.VARCHAR);
+			}
+			if (StringUtils.isNotBlank(detalleServicio.getNumeroBoleto())){
+				cs.setString(i++, detalleServicio.getNumeroBoleto());
 			}
 			else{
 				cs.setNull(i++, Types.VARCHAR);
@@ -790,6 +700,8 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 				detalleServicio.getServicioProveedor().getProveedor().setNombres(UtilJdbc.obtenerCadena(rs, "nombres"));
 				detalleServicio.getServicioProveedor().getProveedor().setApellidoPaterno(UtilJdbc.obtenerCadena(rs, "apellidopaterno"));
 				detalleServicio.getServicioProveedor().getProveedor().setApellidoMaterno(UtilJdbc.obtenerCadena(rs, "apellidomaterno"));
+				detalleServicio.setCodigoReserva(UtilJdbc.obtenerCadena(rs, "codigoreserva"));
+				detalleServicio.setNumeroBoleto(UtilJdbc.obtenerCadena(rs, "numeroboleto"));
 				
 				resultado.add(detalleServicio);
 			}
@@ -864,6 +776,8 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 				detalleServicio.getServicioProveedor().getProveedor().setApellidoMaterno(UtilJdbc.obtenerCadena(rs, "apellidomaterno"));
 				detalleServicio.getTipoServicio().setVisible(UtilJdbc.obtenerBoolean(rs, "visible"));
 				detalleServicio.getServicioPadre().setCodigoEntero(idServicio);
+				detalleServicio.setCodigoReserva(UtilJdbc.obtenerCadena(rs, "codigoreserva"));
+				detalleServicio.setNumeroBoleto(UtilJdbc.obtenerCadena(rs, "numeroboleto"));
 				
 				resultado.add(detalleServicio);
 			}
@@ -930,6 +844,8 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 				detalleServicio.getServicioProveedor().getProveedor().setApellidoMaterno(UtilJdbc.obtenerCadena(rs, "apellidomaterno"));
 				detalleServicio.getTipoServicio().setVisible(UtilJdbc.obtenerBoolean(rs, "visible"));
 				detalleServicio.getServicioPadre().setCodigoEntero(idServicio);
+				detalleServicio.setCodigoReserva(UtilJdbc.obtenerCadena(rs, "codigoreserva"));
+				detalleServicio.setNumeroBoleto(UtilJdbc.obtenerCadena(rs, "numeroboleto"));
 				
 				resultado.add(detalleServicio);
 			}
@@ -997,6 +913,8 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 				detalleServicio.getServicioProveedor().getProveedor().setApellidoMaterno(UtilJdbc.obtenerCadena(rs, "apellidomaterno"));
 				detalleServicio.getTipoServicio().setVisible(UtilJdbc.obtenerBoolean(rs, "visible"));
 				detalleServicio.getServicioPadre().setCodigoEntero(idServicio);
+				detalleServicio.setCodigoReserva(UtilJdbc.obtenerCadena(rs, "codigoreserva"));
+				detalleServicio.setNumeroBoleto(UtilJdbc.obtenerCadena(rs, "numeroboleto"));
 				
 				resultado.add(detalleServicio);
 			}
@@ -1062,6 +980,8 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 				detalleServicio.getServicioProveedor().getProveedor().setNombres(UtilJdbc.obtenerCadena(rs, "nombres"));
 				detalleServicio.getServicioProveedor().getProveedor().setApellidoPaterno(UtilJdbc.obtenerCadena(rs, "apellidopaterno"));
 				detalleServicio.getServicioProveedor().getProveedor().setApellidoMaterno(UtilJdbc.obtenerCadena(rs, "apellidomaterno"));
+				detalleServicio.setCodigoReserva(UtilJdbc.obtenerCadena(rs, "codigoreserva"));
+				detalleServicio.setNumeroBoleto(UtilJdbc.obtenerCadena(rs, "numeroboleto"));
 				
 				resultado.add(detalleServicio);
 			}
