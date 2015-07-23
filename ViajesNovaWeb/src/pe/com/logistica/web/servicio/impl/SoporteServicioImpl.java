@@ -207,4 +207,9 @@ public class SoporteServicioImpl implements SoporteServicio {
 			throws SQLException, Exception {
 		return ejbSession.buscarDestinos(descripcion);
 	}
+	
+	@Override
+	public Destino consultaDestinoIATA(String codigoIATA) throws SQLException{
+		return ejbSession.consultaDestinoIATA(codigoIATA);
+	}
 }

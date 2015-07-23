@@ -73,4 +73,6 @@ public interface SoporteServicio {
 
 	List<Destino> consultarDestino(String descripcion) throws SQLException,
 			Exception;
+
+	Destino consultaDestinoIATA(String codigoIATA) throws SQLException;
 }

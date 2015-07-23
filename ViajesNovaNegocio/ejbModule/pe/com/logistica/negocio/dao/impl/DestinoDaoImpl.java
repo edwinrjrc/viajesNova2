@@ -349,4 +349,59 @@ public class DestinoDaoImpl implements DestinoDao {
 
 		return listaDestinos;
 	}
+	
+	@Override
+	public Destino consultarDestinoIATA(String codigoIATA) throws SQLException {
+		Connection conn = null;
+		CallableStatement cs = null;
+		ResultSet rs = null;
+		String sql = "{ ? = call soporte.fn_consultardestinoiata(?) }";
+		Destino destino = null;
+		try {
+			conn = UtilConexion.obtenerConexion();
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(1, Types.OTHER);
+			cs.setString(2, codigoIATA);
+			cs.execute();
+			
+			rs = (ResultSet)cs.getObject(1);
+
+			if (rs.next()) {
+				destino = new Destino();
+				destino.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
+				destino.setCodigoIATA(UtilJdbc.obtenerCadena(rs, "codigoiata"));
+				destino.getTipoDestino().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idtipodestino"));
+				destino.setDescripcion(UtilJdbc.obtenerCadena(rs, "descdestino"));
+				destino.getPais().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idpais"));
+				destino.getPais().setDescripcion(UtilJdbc.obtenerCadena(rs, "descpais"));
+				destino.getPais().setAbreviado(UtilJdbc.obtenerCadena(rs, "abreviado"));
+			}
+			
+		} catch (SQLException e) {
+			throw new SQLException(e);
+		} finally {
+			try {
+				if (rs != null){
+					rs.close();
+				}
+				if (cs != null) {
+					cs.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				try {
+					if (conn != null) {
+						conn.close();
+					}
+					throw new SQLException(e);
+				} catch (SQLException e1) {
+					throw new SQLException(e);
+				}
+			}
+		}
+
+		return destino;
+	}
 }

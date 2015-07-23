@@ -27,4 +27,6 @@ public interface DestinoDao {
 			throws SQLException;
 
 	List<Destino> buscarDestinos(String nombreDestino) throws SQLException;
+
+	Destino consultarDestinoIATA(String codigoIATA) throws SQLException;
 }

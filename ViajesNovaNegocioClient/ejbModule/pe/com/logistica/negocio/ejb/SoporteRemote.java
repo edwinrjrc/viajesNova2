@@ -69,4 +69,6 @@ public interface SoporteRemote {
 			List<ConfiguracionTipoServicio> listaConfigServicios) throws SQLException, Exception;
 
 	public List<Destino> buscarDestinos(String descripcion) throws SQLException, Exception;
+	
+	public Destino consultaDestinoIATA(String codigoIATA) throws SQLException;
 }

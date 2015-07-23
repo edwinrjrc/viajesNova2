@@ -244,4 +244,11 @@ public class SoporteSession implements SoporteRemote, SoporteLocal {
 		
 		return destinoDao.buscarDestinos(descripcion);
 	}
+	
+	@Override
+	public Destino consultaDestinoIATA(String codigoIATA) throws SQLException{
+		destinoDao = new DestinoDaoImpl();
+		
+		return destinoDao.consultarDestinoIATA(codigoIATA);
+	}
 }

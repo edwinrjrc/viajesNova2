@@ -398,24 +398,32 @@ public class ServicioAgenteMBean extends BaseMBean {
 		String origen = "";
 		String destino = "";
 		
-		origen = StringUtils.trim(this.getDetalleServicio().getOrigen().getCodigoCadena());
-		origen = StringUtils.substring(origen, StringUtils.indexOf(origen,"(")+1, StringUtils.indexOf(origen,")"));
-		
-		for(Destino destinoBean : this.getListaOrigenesBusqueda()){
-			if (StringUtils.equals(destinoBean.getCodigoIATA(), origen)){
-				this.getDetalleServicio().setOrigen(destinoBean);
-				break;
-			}
-		}
-		
-		destino = StringUtils.trim(this.getDetalleServicio().getDestino().getCodigoCadena());
-		destino = StringUtils.substring(destino, StringUtils.indexOf(destino,"(")+1, StringUtils.indexOf(destino,")"));
-		
-		for(Destino destinoBean : this.getListaOrigenesBusqueda()){
-			if (StringUtils.equals(destinoBean.getCodigoIATA(), destino)){
-				this.getDetalleServicio().setDestino(destinoBean);
-				break;
-			}
+		try {
+			origen = StringUtils.trim(this.getDetalleServicio().getOrigen().getCodigoCadena());
+			origen = StringUtils.substring(origen, StringUtils.indexOf(origen,"(")+1, StringUtils.indexOf(origen,")"));
+			
+			this.getDetalleServicio().setOrigen(this.soporteServicio.consultaDestinoIATA(origen));
+			/*this.soporteServicio.consultarDestino(descripcion)
+			
+			for(Destino destinoBean : this.getListaOrigenesBusqueda()){
+				if (StringUtils.equals(destinoBean.getCodigoIATA(), origen)){
+					this.getDetalleServicio().setOrigen(destinoBean);
+					break;
+				}
+			}*/
+			
+			destino = StringUtils.trim(this.getDetalleServicio().getDestino().getCodigoCadena());
+			destino = StringUtils.substring(destino, StringUtils.indexOf(destino,"(")+1, StringUtils.indexOf(destino,")"));
+			
+			/*for(Destino destinoBean : this.getListaOrigenesBusqueda()){
+				if (StringUtils.equals(destinoBean.getCodigoIATA(), destino)){
+					this.getDetalleServicio().setDestino(destinoBean);
+					break;
+				}
+			}*/
+			this.getDetalleServicio().setDestino(this.soporteServicio.consultaDestinoIATA(destino));
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -1168,6 +1176,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 
 				this.getDetalleServicio().getAerolinea()
 						.setCodigoEntero(UtilWeb.convertirCadenaEntero(valor));
+				
+				seleccionarOrigenDestino();
 
 				this.getDetalleServicio()
 						.getServicioProveedor()
@@ -1177,6 +1187,24 @@ public class ServicioAgenteMBean extends BaseMBean {
 												.getDetalleServicio()));
 
 			}
+		} catch (Exception ex) {
+			this.getDetalleServicio().getServicioProveedor()
+					.setPorcentajeComision(BigDecimal.ZERO);
+			logger.error(ex.getMessage(), ex);
+		}
+	}
+	
+	public void calcularComision(){
+		try {
+			seleccionarOrigenDestino();
+
+			this.getDetalleServicio()
+					.getServicioProveedor()
+					.setPorcentajeComision(
+							this.negocioServicio
+									.calculaPorcentajeComision(this
+											.getDetalleServicio()));
+
 		} catch (Exception ex) {
 			this.getDetalleServicio().getServicioProveedor()
 					.setPorcentajeComision(BigDecimal.ZERO);

@@ -291,14 +291,17 @@
 										columnClasses="col1iconoformulario,col1iconoformulario"
 										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraAerolinea}">
 										<h:selectOneMenu id="idSelAerolinea"
-											value="#{servicioAgenteMBean.detalleServicio.aerolinea.codigoEntero}"
-											valueChangeListener="#{servicioAgenteMBean.seleccionarAerolinea}">
+											value="#{servicioAgenteMBean.detalleServicio.aerolinea.codigoEntero}">
 											<f:selectItem itemLabel="-Seleccione la aerolinea-" />
 											<f:selectItems value="#{catalogoMBean.catalogoAerolineas}" />
-											<a4j:ajax event="valueChange" render="idGrComiPro" />
+											<a4j:ajax event="valueChange" render="idGrComiPro"
+												oncomplete="clicBoton('idFormVentaServi:idbtncalculacomision')" />
 										</h:selectOneMenu>
 										<rich:message for="idSelAerolinea" showSummary="true"
 											showDetail="false" ajaxRendered="true" />
+										<a4j:commandButton id="idbtncalculacomision"
+											style="display:none;" render="idGrComiPro"
+											action="#{servicioAgenteMBean.calcularComision()}"></a4j:commandButton>
 									</h:panelGrid>
 
 									<h:outputText value="Hotel"
