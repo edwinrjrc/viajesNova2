@@ -35,6 +35,7 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	private Date fechaRegreso;
 	private int cantidad;
 	private BigDecimal precioUnitario;
+	private BigDecimal precioUnitarioConIgv;
 	private BigDecimal montoComision;
 	private BigDecimal montoIGV;
 	private ServicioProveedor servicioProveedor;
@@ -638,6 +639,20 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	 */
 	public void setNumeroBoleto(String numeroBoleto) {
 		this.numeroBoleto = numeroBoleto;
+	}
+
+	/**
+	 * @return the precioUnitarioConIgv
+	 */
+	public BigDecimal getPrecioUnitarioConIgv() {
+		return precioUnitarioConIgv;
+	}
+
+	/**
+	 * @param precioUnitarioConIgv the precioUnitarioConIgv to set
+	 */
+	public void setPrecioUnitarioConIgv(BigDecimal precioUnitarioConIgv) {
+		this.precioUnitarioConIgv = precioUnitarioConIgv;
 	}
 
 }

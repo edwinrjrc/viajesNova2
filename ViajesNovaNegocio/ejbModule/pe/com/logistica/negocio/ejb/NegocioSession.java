@@ -2016,6 +2016,9 @@ public class NegocioSession implements NegocioSessionRemote,
 				Destino destinoConsultado = destinoDao
 						.consultarDestino(detalleServicio.getDestino()
 								.getCodigoEntero());
+				Destino origenConsultado = destinoDao
+						.consultarDestino(detalleServicio.getOrigen()
+								.getCodigoEntero());
 
 				Locale localidad = Locale.getDefault();
 
@@ -2028,7 +2031,8 @@ public class NegocioSession implements NegocioSessionRemote,
 							.getCodigoEntero().intValue() == detalleServicio
 							.getAerolinea().getCodigoEntero().intValue()) {
 						if (localidad.getCountry().equals(
-								destinoConsultado.getPais().getAbreviado())) {
+								destinoConsultado.getPais().getAbreviado()) && localidad.getCountry().equals(
+										origenConsultado.getPais().getAbreviado())) {
 							return servicioProveedor.getPorcentajeComision();
 						} else {
 							return servicioProveedor

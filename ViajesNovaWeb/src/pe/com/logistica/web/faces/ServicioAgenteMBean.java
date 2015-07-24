@@ -423,7 +423,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 			}*/
 			this.getDetalleServicio().setDestino(this.soporteServicio.consultaDestinoIATA(destino));
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
 	}
 
@@ -1121,6 +1121,11 @@ public class ServicioAgenteMBean extends BaseMBean {
 			
 			detalleServicio.setOrigen(origen);
 			detalleServicio.setDestino(destino);
+			
+			if (detalleServicio.isConIGV()){
+				detalleServicio.setPrecioUnitario(detalleServicio.getPrecioUnitarioConIgv());
+			}
+			
 			this.setDetalleServicio(detalleServicio);
 			
 			this.cargarEmpresas(detalleServicio.getTipoServicio().getCodigoEntero());
@@ -1214,10 +1219,18 @@ public class ServicioAgenteMBean extends BaseMBean {
 
 	public void eliminarServicio(DetalleServicioAgencia detalleServicio) {
 		if (listadoDetalleServicio != null) {
+			Integer codigoServicio = detalleServicio.getCodigoEntero();
 			for (int i = 0; i < listadoDetalleServicio.size(); i++) {
 				DetalleServicioAgencia detalle = listadoDetalleServicio.get(i);
-				if (detalleServicio.getCodigoEntero().equals(
-						detalle.getCodigoEntero())) {
+				if (codigoServicio.equals(detalle.getCodigoEntero())) {
+					this.listadoDetalleServicio.remove(i);
+					break;
+				}
+			}
+			
+			for (int i = 0; i < listadoDetalleServicio.size(); i++){
+				DetalleServicioAgencia detalle = listadoDetalleServicio.get(i);
+				if (codigoServicio.equals(detalle.getServicioPadre().getCodigoEntero())) {
 					this.listadoDetalleServicio.remove(i);
 				}
 			}

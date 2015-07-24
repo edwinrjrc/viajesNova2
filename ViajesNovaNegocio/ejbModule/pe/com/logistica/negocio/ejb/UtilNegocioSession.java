@@ -291,6 +291,7 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote, UtilNegocio
 										.getCantidad()));
 				if (calcularIGV) {
 					if (detalleServicio.isConIGV()) {
+						detalleServicio.setPrecioUnitarioConIgv(detalleServicio.getPrecioUnitario());
 						ParametroDao parametroDao = new ParametroDaoImpl();
 						BigDecimal valorParametro = BigDecimal.ZERO;
 						Parametro param = parametroDao
