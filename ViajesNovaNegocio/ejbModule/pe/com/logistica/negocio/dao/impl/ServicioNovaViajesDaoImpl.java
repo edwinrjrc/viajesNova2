@@ -382,13 +382,13 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			else{
 				cs.setNull(i++, Types.VARCHAR);
 			}
+			cs.setBigDecimal(i++, detalleServicio.getTotalServicio());
 			if (StringUtils.isNotBlank(detalleServicio.getNumeroBoleto())){
 				cs.setString(i++, detalleServicio.getNumeroBoleto());
 			}
 			else{
 				cs.setNull(i++, Types.VARCHAR);
 			}
-			cs.setBigDecimal(i++, detalleServicio.getTotalServicio());
 			if (detalleServicio.getServicioPadre().getCodigoEntero()!=null && detalleServicio.getServicioPadre().getCodigoEntero().intValue()!=0){
 				cs.setInt(i++, detalleServicio.getServicioPadre().getCodigoEntero().intValue());
 			}

@@ -1220,6 +1220,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 	public void eliminarServicio(DetalleServicioAgencia detalleServicio) {
 		if (listadoDetalleServicio != null) {
 			Integer codigoServicio = detalleServicio.getCodigoEntero();
+			eliminarServicioEHijos(codigoServicio);
 			for (int i = 0; i < listadoDetalleServicio.size(); i++) {
 				DetalleServicioAgencia detalle = listadoDetalleServicio.get(i);
 				if (codigoServicio.equals(detalle.getCodigoEntero())) {
@@ -1227,16 +1228,25 @@ public class ServicioAgenteMBean extends BaseMBean {
 					break;
 				}
 			}
-			
-			for (int i = 0; i < listadoDetalleServicio.size(); i++){
-				DetalleServicioAgencia detalle = listadoDetalleServicio.get(i);
-				if (codigoServicio.equals(detalle.getServicioPadre().getCodigoEntero())) {
-					this.listadoDetalleServicio.remove(i);
-				}
-			}
 		}
 
 		calcularTotales();
+	}
+	
+	private void eliminarServicioEHijos(Integer codigoDetalleServicio){
+		boolean entro = false;
+		if (listadoDetalleServicio != null) {
+			for (int i = 0; i < listadoDetalleServicio.size(); i++){
+				DetalleServicioAgencia detalle = listadoDetalleServicio.get(i);
+				if (codigoDetalleServicio.equals(detalle.getServicioPadre().getCodigoEntero())) {
+					this.listadoDetalleServicio.remove(i);
+					entro = true;
+				}
+			}
+		}
+		if (entro){
+			eliminarServicioEHijos(codigoDetalleServicio);
+		}
 	}
 
 	public void buscarDestino() {
