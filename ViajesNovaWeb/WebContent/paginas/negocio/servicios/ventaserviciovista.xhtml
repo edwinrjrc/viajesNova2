@@ -119,6 +119,50 @@
 						</f:facet>
 						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
 							style="width:100%;" columns="1">
+							<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+								style="width:100%;" columns="4">
+								<h:outputText value="Tipo Servicio" />
+								<h:outputText
+									value="#{servicioAgenteMBean.detalleServicio.tipoServicio.nombre}" />
+								<h:outputText value="Proveedor" />
+								<h:outputText
+									value="#{servicioAgenteMBean.detalleServicio.servicioProveedor.proveedor.nombreCompleto}" />
+								<h:outputText value="Origen" />
+								<h:outputText
+									value="#{servicioAgenteMBean.detalleServicio.origen.descripcion}" />
+								<h:outputText value="Destino" />
+								<h:outputText
+									value="#{servicioAgenteMBean.detalleServicio.destino.descripcion}" />
+								<h:outputText value="Aerolinea" />
+								<h:outputText
+									value="#{servicioAgenteMBean.detalleServicio.aerolinea.nombre}" />
+								<h:outputText value="Destino" />
+								<h:outputText
+									value="#{servicioAgenteMBean.detalleServicio.destino.descripcion}" />
+								<h:outputText value="Fecha Servicio" />
+								<h:outputText
+									value="#{servicioAgenteMBean.detalleServicio.fechaServicio}" />
+								<h:outputText value="Fecha Regreso" />
+								<h:outputText
+									value="#{servicioAgenteMBean.detalleServicio.fechaRegreso}" />
+								<h:outputText value="Cantidad" />
+								<h:outputText
+									value="#{servicioAgenteMBean.detalleServicio.cantidad}" />
+								<h:outputText value="Precio Base" />
+								<h:outputText
+									value="#{servicioAgenteMBean.detalleServicio.precioUnitario}" />
+								<h:outputText value="Comision" />
+								<h:outputText
+									value="#{servicioAgenteMBean.detalleServicio.origen.descripcion}" />
+								<h:outputText value="Tarifa Negociada" />
+								<h:outputText
+									value="#{servicioAgenteMBean.detalleServicio.destino.descripcion}" />
+							</h:panelGrid>
+
+
+						</h:panelGrid>
+						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+							style="width:100%;" columns="1">
 							<h:panelGrid columns="1" cellpadding="0" cellspacing="0"
 								border="0" style="width:100%;">
 								<rich:dataTable id="idServVentaVista" var="fila"
@@ -248,7 +292,8 @@
 											<rich:column>
 												<h:outputText value="" />
 											</rich:column>
-											<rich:column rendered="#{servicioAgenteMBean.guardoComprobantes or servicioAgenteMBean.guardoRelacionComprobantes}">
+											<rich:column
+												rendered="#{servicioAgenteMBean.guardoComprobantes or servicioAgenteMBean.guardoRelacionComprobantes}">
 												<h:outputText value="Obligacion" />
 											</rich:column>
 										</rich:columnGroup>
@@ -294,7 +339,8 @@
 												<f:selectItems
 													value="#{catalogoMBean.catalogoTipoComprobante}" />
 											</h:selectOneMenu>
-											<h:outputText value="#{filaDetalle.tipoComprobante.abreviatura}"
+											<h:outputText
+												value="#{filaDetalle.tipoComprobante.abreviatura}"
 												rendered="#{servicioAgenteMBean.servicioAgencia.guardoComprobante}" />
 										</rich:column>
 										<rich:column>
@@ -309,16 +355,20 @@
 											<h:panelGrid cellpadding="0" cellspacing="0" border="0"
 												columns="4">
 												<h:outputText value="D: " />
-												<h:selectBooleanCheckbox disabled="#{servicioAgenteMBean.servicioAgencia.guardoComprobante}"
+												<h:selectBooleanCheckbox
+													disabled="#{servicioAgenteMBean.servicioAgencia.guardoComprobante}"
 													value="#{filaDetalle.tieneDetraccion}" />
 												<h:outputText value="R: " />
-												<h:selectBooleanCheckbox disabled="#{servicioAgenteMBean.servicioAgencia.guardoComprobante}"
+												<h:selectBooleanCheckbox
+													disabled="#{servicioAgenteMBean.servicioAgencia.guardoComprobante}"
 													value="#{filaDetalle.tieneRetencion}" />
 											</h:panelGrid>
 										</rich:column>
-										<rich:column rendered="#{servicioAgenteMBean.servicioAgencia.guardoComprobante or servicioAgenteMBean.servicioAgencia.guardoRelacionComprobantes}">
+										<rich:column
+											rendered="#{servicioAgenteMBean.servicioAgencia.guardoComprobante or servicioAgenteMBean.servicioAgencia.guardoRelacionComprobantes}">
 											<h:panelGrid cellpadding="0" cellspacing="0" border="0"
-												columns="2" rendered="#{!servicioAgenteMBean.servicioAgencia.guardoRelacionComprobantes}">
+												columns="2"
+												rendered="#{!servicioAgenteMBean.servicioAgencia.guardoRelacionComprobantes}">
 												<h:inputText
 													value="#{filaDetalle.comprobanteAsociado.numeroComprobante}"
 													readonly="true" />
@@ -329,10 +379,12 @@
 														value="#{facesContext.externalContext.requestContextPath}/../resources/img/iconoLupa.gif" />
 												</a4j:commandLink>
 											</h:panelGrid>
-											<h:outputText rendered="#{servicioAgenteMBean.servicioAgencia.guardoRelacionComprobantes}" value="#{filaDetalle.comprobanteAsociado.tipoComprobante.abreviatura} - #{filaDetalle.comprobanteAsociado.numeroComprobante}" />
+											<h:outputText
+												rendered="#{servicioAgenteMBean.servicioAgencia.guardoRelacionComprobantes}"
+												value="#{filaDetalle.comprobanteAsociado.tipoComprobante.abreviatura} - #{filaDetalle.comprobanteAsociado.numeroComprobante}" />
 										</rich:column>
 									</rich:collapsibleSubTable>
-								</rich:dataTable>	
+								</rich:dataTable>
 								<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
 									border="0" style="width:100%;"
 									columnClasses="col1RSPN,col2RSPN">
@@ -587,7 +639,7 @@
 								oncomplete="mostrarModal('idformadmservicios')"
 								action="#{servicioAgenteMBean.registrarComprobante()}"
 								render="idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError,idGrVentaServicio,idServVentaVista2" />
-							
+
 						</h:panelGrid>
 						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
 							rendered="#{!servicioAgenteMBean.guardoRelacionComprobantes  and servicioAgenteMBean.guardoComprobantes}">
