@@ -38,6 +38,7 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	private BigDecimal precioUnitarioConIgv;
 	private BigDecimal montoComision;
 	private BigDecimal montoIGV;
+	private BigDecimal total;
 	private ServicioProveedor servicioProveedor;
 	private BaseVO servicioPadre;
 	private Consolidador consolidador;
@@ -653,6 +654,20 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	 */
 	public void setPrecioUnitarioConIgv(BigDecimal precioUnitarioConIgv) {
 		this.precioUnitarioConIgv = precioUnitarioConIgv;
+	}
+
+	/**
+	 * @return the total
+	 */
+	public BigDecimal getTotal() {
+		return total;
+	}
+
+	/**
+	 * @param total the total to set
+	 */
+	public void setTotal(BigDecimal total) {
+		this.total = total;
 	}
 
 }

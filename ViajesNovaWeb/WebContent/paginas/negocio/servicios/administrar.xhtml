@@ -171,22 +171,22 @@
 									rendered="#{sessionScope.usuarioSession.rol.codigoEntero == 3 and row.estadoServicio.codigoEntero==2}"
 									oncomplete="#{rich:component('idModaladmpagos')}.show();">
 									<h:graphicImage url="/resources/img/iconopagos.gif"
-										style="border:0" />
+										style="border:0;height:15px;width:15px;" />
 								</a4j:commandLink>
 								<a4j:commandLink
 									action="#{servicioAgenteMBean.consultarServicioRegistrado(row.codigoEntero)}"
 									render="idGrRegisVenServicio, idNomModal"
 									oncomplete="#{rich:component('idModalfrventaservicio')}.show();"
 									rendered="#{!row.esProgramaNovios and row.editable}">
-									<h:graphicImage height="25" width="20"
-										url="/resources/img/editar2.png" style="border:0" />
+									<h:graphicImage
+										url="/resources/img/editar2.png" style="border:0; height:15px;width:10px;" />
 								</a4j:commandLink>
 								<a4j:commandLink
 									action="#{servicioAgenteMBean.consultarServicioRegistrado(row.codigoEntero)}"
 									render="idGrVentaServicio"
 									oncomplete="#{rich:component('idModalventaservicio')}.show();">
 									<h:graphicImage url="/resources/img/vericono.gif"
-										style="border:0" />
+										style="border:0;heigth:15px;width:15px;" />
 								</a4j:commandLink>
 							</rich:column>
 							<f:facet name="footer">
@@ -277,6 +277,7 @@
 				<ui:param name="idGridPanel" value="idGrConfirID2" />
 			</ui:include>
 		</h:panelGrid>
+		<ui:include src="/paginas/negocio/servicios/modal/verdetalle.xhtml" />
 		<ui:include src="/paginas/negocio/servicios/modal/registrarpago.xhtml" />
 		<ui:include src="/paginas/negocio/servicios/modal/admpagos.xhtml" />
 		<ui:include src="/paginas/negocio/servicios/modal/adjuntararchivos.xhtml" />

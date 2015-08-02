@@ -465,5 +465,10 @@ public class NegocioServicioImpl implements NegocioServicio {
 			throws ErrorConsultaDataException {
 		return ejbSession.consultarArchivosCargados(reporteArchivoBusqueda);
 	}
+	
+	@Override
+	public DetalleServicioAgencia consultarDetalleServicioDetalle(int idServicio, int idDetServicio) throws SQLException{
+		return ejbSession.consultaDetalleServicioDetalle(idServicio, idDetServicio);
+	}
 }
 	

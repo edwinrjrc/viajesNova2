@@ -113,54 +113,10 @@
 						</h:panelGrid>
 					</rich:tab>
 
-					<rich:tab>
+					<rich:tab id="idTabServicios">
 						<f:facet name="header">
 							<h:outputText value="Servicios" />
 						</f:facet>
-						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
-							style="width:100%;" columns="1">
-							<h:panelGrid cellpadding="0" cellspacing="0" border="0"
-								style="width:100%;" columns="4">
-								<h:outputText value="Tipo Servicio" />
-								<h:outputText
-									value="#{servicioAgenteMBean.detalleServicio.tipoServicio.nombre}" />
-								<h:outputText value="Proveedor" />
-								<h:outputText
-									value="#{servicioAgenteMBean.detalleServicio.servicioProveedor.proveedor.nombreCompleto}" />
-								<h:outputText value="Origen" />
-								<h:outputText
-									value="#{servicioAgenteMBean.detalleServicio.origen.descripcion}" />
-								<h:outputText value="Destino" />
-								<h:outputText
-									value="#{servicioAgenteMBean.detalleServicio.destino.descripcion}" />
-								<h:outputText value="Aerolinea" />
-								<h:outputText
-									value="#{servicioAgenteMBean.detalleServicio.aerolinea.nombre}" />
-								<h:outputText value="Destino" />
-								<h:outputText
-									value="#{servicioAgenteMBean.detalleServicio.destino.descripcion}" />
-								<h:outputText value="Fecha Servicio" />
-								<h:outputText
-									value="#{servicioAgenteMBean.detalleServicio.fechaServicio}" />
-								<h:outputText value="Fecha Regreso" />
-								<h:outputText
-									value="#{servicioAgenteMBean.detalleServicio.fechaRegreso}" />
-								<h:outputText value="Cantidad" />
-								<h:outputText
-									value="#{servicioAgenteMBean.detalleServicio.cantidad}" />
-								<h:outputText value="Precio Base" />
-								<h:outputText
-									value="#{servicioAgenteMBean.detalleServicio.precioUnitario}" />
-								<h:outputText value="Comision" />
-								<h:outputText
-									value="#{servicioAgenteMBean.detalleServicio.origen.descripcion}" />
-								<h:outputText value="Tarifa Negociada" />
-								<h:outputText
-									value="#{servicioAgenteMBean.detalleServicio.destino.descripcion}" />
-							</h:panelGrid>
-
-
-						</h:panelGrid>
 						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
 							style="width:100%;" columns="1">
 							<h:panelGrid columns="1" cellpadding="0" cellspacing="0"
@@ -170,7 +126,7 @@
 									style="width:100%;">
 									<f:facet name="header">
 										<rich:columnGroup>
-											<rich:column colspan="6">
+											<rich:column colspan="7">
 												<h:outputText value="Servicios" />
 											</rich:column>
 											<rich:column breakRowBefore="true">
@@ -191,9 +147,11 @@
 											<rich:column>
 												<h:outputText value="Total" />
 											</rich:column>
+											<rich:column>
+											</rich:column>
 										</rich:columnGroup>
 									</f:facet>
-									<rich:column colspan="6">
+									<rich:column colspan="7">
 										<rich:collapsibleSubTableToggler for="idServHijos" />
 										<h:outputText value="#{fila.descripcionServicio}" />
 									</rich:column>
@@ -224,6 +182,12 @@
 											<h:outputText
 												value="#{nova:formatearMonto('$',filaDetalle.totalServicio)}">
 											</h:outputText>
+										</rich:column>
+										<rich:column>
+											<a4j:commandLink oncomplete="mostrarModal3('idModalverdetalle')" action="#{servicioAgenteMBean.verDetalleServicio(filaDetalle)}" render="idPnDetalle">
+												<h:graphicImage url="/resources/img/vericono.gif"
+													style="border:0; height:15px;width:15px;" />
+											</a4j:commandLink>
 										</rich:column>
 									</rich:collapsibleSubTable>
 								</rich:dataTable>
@@ -328,7 +292,7 @@
 										</rich:column>
 										<rich:column style="text-align:right;width: 20%;">
 											<h:outputText
-												value="#{nova:formatearMonto('$',filaDetalle.totalServicio)}">
+												value="#{nova:formatearMonto2('$',filaDetalle.totalServicio, filaDetalle.total)}">
 											</h:outputText>
 										</rich:column>
 										<rich:column>
@@ -411,7 +375,7 @@
 						</f:facet>
 
 						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
-							columns="1">
+							columns="1" style="width:100%;">
 							<rich:dataTable id="idTablaComprobantesAdd"
 								value="#{servicioAgenteMBean.listaComprobantesAdicionales}"
 								var="fila" style="width:100%;">

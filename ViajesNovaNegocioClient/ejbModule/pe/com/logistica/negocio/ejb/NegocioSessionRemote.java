@@ -234,4 +234,6 @@ public interface NegocioSessionRemote {
 	public boolean grabarComprobantesReporte(ReporteArchivo reporteArchivo, ColumnasExcel columnasExcel, List<ColumnasExcel> dataExcel) throws ErrorRegistroDataException, SQLException;
 	
 	public List<ReporteArchivoBusqueda> consultarArchivosCargados(ReporteArchivoBusqueda reporteArchivoBusqueda) throws ErrorConsultaDataException;
+	
+	public DetalleServicioAgencia consultaDetalleServicioDetalle(int idServicio, int idDetServicio) throws SQLException;
 }

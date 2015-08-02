@@ -46,4 +46,17 @@ public class FuncionesNova {
 		
 		return formateado;
 	}
+	
+	public static String formatearMonto2(String simboloMoneda, Object monto, Object montoAlternativo){
+		String formateado = "";
+		BigDecimal montoFormateado = (BigDecimal)monto;
+		if (montoAlternativo != null){
+			montoFormateado = (BigDecimal)montoAlternativo;
+		}
+		DecimalFormat formateador = new DecimalFormat("###,###,##0.00", new DecimalFormatSymbols(Locale.ENGLISH));
+		formateado = formateador.format(((BigDecimal) montoFormateado).doubleValue());
+		formateado =  simboloMoneda + " " + formateado;
+		
+		return formateado;
+	}
 }

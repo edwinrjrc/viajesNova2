@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<rich:popupPanel id="idModalverdetalle" modal="true" width="500"
+		height="250">
+
+		<f:facet name="header">
+			<h:outputText value="Detalle Servicio" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:outputLink value="#" style="border:0"
+				onclick="#{rich:component('idModalverdetalle')}.hide(); return false;">
+				<h:graphicImage height="18" width="18"
+					url="/resources/img/close.png" style="border:0" />
+			</h:outputLink>
+		</f:facet>
+
+		<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+			style="width:100%" columns="4" id="idPnDetalle">
+			<h:outputText value="Tipo Servicio" />
+			<h:outputText
+				value="#{servicioAgenteMBean.detalleServicio.tipoServicio.nombre}" />
+			<h:outputText value="Proveedor" />
+			<h:outputText
+				value="#{servicioAgenteMBean.detalleServicio.servicioProveedor.proveedor.nombreCompleto}" />
+			<h:outputText value="Origen" />
+			<h:outputText
+				value="#{servicioAgenteMBean.detalleServicio.origen.descripcion}" />
+			<h:outputText value="Destino" />
+			<h:outputText
+				value="#{servicioAgenteMBean.detalleServicio.destino.descripcion}" />
+			<h:outputText value="Aerolinea" />
+			<h:outputText
+				value="#{servicioAgenteMBean.detalleServicio.aerolinea.nombre}" />
+			<h:outputText value="Destino" />
+			<h:outputText
+				value="#{servicioAgenteMBean.detalleServicio.destino.descripcion}" />
+			<h:outputText value="Fecha Servicio" />
+			<h:outputText value="#{servicioAgenteMBean.detalleServicio.fechaIda}">
+				<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+			</h:outputText>
+			<h:outputText value="Fecha Regreso" />
+			<h:outputText
+				value="#{servicioAgenteMBean.detalleServicio.fechaRegreso}">
+				<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+			</h:outputText>
+			<h:outputText value="Cantidad" />
+			<h:outputText value="#{servicioAgenteMBean.detalleServicio.cantidad}" />
+			<h:outputText value="Precio Base" />
+			<h:outputText
+				value="#{servicioAgenteMBean.detalleServicio.precioUnitario}">
+				<f:convertNumber pattern="###,##0.00" locale="en_US" />
+			</h:outputText>
+			<h:outputText value="Comision" />
+			<h:outputText
+				value="#{servicioAgenteMBean.detalleServicio.servicioProveedor.porcentajeComision}">
+				<f:convertNumber pattern="###,##0.00" locale="en_US" />
+			</h:outputText>
+			<h:outputText value="Tarifa Negociada" />
+			<h:outputText
+				value="#{servicioAgenteMBean.detalleServicio.tarifaNegociada?'SI':'NO'}" />
+		</h:panelGrid>
+
+	</rich:popupPanel>
+</ui:composition>

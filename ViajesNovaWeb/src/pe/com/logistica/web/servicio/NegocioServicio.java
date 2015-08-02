@@ -245,4 +245,7 @@ public interface NegocioServicio {
 	public List<ReporteArchivoBusqueda> consultarArchivosCargados(
 			ReporteArchivoBusqueda reporteArchivoBusqueda)
 			throws ErrorConsultaDataException;
+
+	DetalleServicioAgencia consultarDetalleServicioDetalle(int idServicio,
+			int idDetServicio) throws SQLException;
 }

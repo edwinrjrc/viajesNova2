@@ -2510,4 +2510,12 @@ public class NegocioSession implements NegocioSessionRemote,
 			throw new ErrorConsultaDataException(e);
 		}
 	}
+	
+	@Override
+	public DetalleServicioAgencia consultaDetalleServicioDetalle(int idServicio, int idDetServicio) throws SQLException{
+		
+		ServicioNovaViajesDao servicioNovaViajesDao = new ServicioNovaViajesDaoImpl();
+		
+		return servicioNovaViajesDao.consultaDetalleServicioDetalle(idServicio, idDetServicio);
+	}
 }

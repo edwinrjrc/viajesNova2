@@ -24,4 +24,10 @@
         <function-signature>java.lang.String formatearMonto(java.lang.String, java.lang.Object)</function-signature>
     </function>
     
+    <function>
+        <function-name>formatearMonto2</function-name>
+        <function-class>pe.com.logistica.web.facelet.FuncionesNova</function-class>
+        <function-signature>java.lang.String formatearMonto2(java.lang.String, java.lang.Object, java.lang.Object)</function-signature>
+    </function>
+    
 </facelet-taglib>

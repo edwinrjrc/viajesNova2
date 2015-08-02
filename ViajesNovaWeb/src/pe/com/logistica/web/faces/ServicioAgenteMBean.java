@@ -121,6 +121,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 	private boolean consultoProveedor;
 	private boolean editaServicioAgregado;
 	private boolean cargoConfiguracionTipoServicio;
+	private boolean verDetalleServicio;
 
 	private ParametroServicio parametroServicio;
 	private NegocioServicio negocioServicio;
@@ -312,9 +313,9 @@ public class ServicioAgenteMBean extends BaseMBean {
 
 			this.setDetalleServicio(null);
 			borrarInvisibles();
-			calcularTotales();
+			calcularTotalesConsulta();
 			this.setTransaccionExito(false);
-
+			this.setVerDetalleServicio(false);
 		} catch (SQLException e) {
 			logger.error(e.getMessage(), e);
 		} catch (Exception e) {
@@ -338,6 +339,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 		this.setDetalleServicio(null);
 		this.setTransaccionExito(false);
 		this.setEditaServicioAgregado(false);
+		this.setVerDetalleServicio(false);
 
 		consultarTasaPredeterminada();
 		this.setListadoEmpresas(null);
@@ -754,6 +756,46 @@ public class ServicioAgenteMBean extends BaseMBean {
 		this.getServicioAgencia().setMontoTotalFee(montoFee);
 		this.getServicioAgencia().setMontoTotalIGV(montoIgv);
 	}
+	
+	private void calcularTotalesConsulta() {
+		BigDecimal montoTotal = BigDecimal.ZERO;
+		BigDecimal montoComision = BigDecimal.ZERO;
+		BigDecimal montoFee = BigDecimal.ZERO;
+		BigDecimal montoIgv = BigDecimal.ZERO;
+		try {
+			Parametro param = this.parametroServicio.consultarParametro(UtilWeb
+					.obtenerEnteroPropertieMaestro("codigoParametroIGV",
+							"aplicacionDatos"));
+
+			for (DetalleServicioAgencia ds : this.getListadoDetalleServicio()) {
+				for (DetalleServicioAgencia dsh : ds.getServiciosHijos()){
+					montoTotal = montoTotal.add(dsh.getTotalServicio());
+					montoComision = montoComision.add(dsh.getMontoComision());
+					if (dsh.getTipoServicio().getCodigoEntero().toString()
+							.equals(param.getValor())) {
+						montoIgv = montoIgv.add(dsh.getPrecioUnitario());
+					}
+
+					if (dsh.getTipoServicio().getCodigoEntero() != null
+							&& dsh.getTipoServicio().isEsFee()) {
+						montoFee = montoFee.add(ds.getTotalServicio());
+					}
+				}
+			}
+
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			montoComision = BigDecimal.ZERO;
+			montoFee = BigDecimal.ZERO;
+			montoIgv = BigDecimal.ZERO;
+			montoTotal = BigDecimal.ZERO;
+		}
+
+		this.getServicioAgencia().setMontoTotalServicios(montoTotal);
+		this.getServicioAgencia().setMontoTotalComision(montoComision);
+		this.getServicioAgencia().setMontoTotalFee(montoFee);
+		this.getServicioAgencia().setMontoTotalIGV(montoIgv);
+	}
 
 	public void ejecutarMetodo() {
 		try {
@@ -1140,6 +1182,46 @@ public class ServicioAgenteMBean extends BaseMBean {
 			
 			this.setEditaServicioAgregado(true);
 			this.setCargoConfiguracionTipoServicio(this.getDetalleServicio().getConfiguracionTipoServicio() != null);
+		} catch (SQLException e) {
+			this.setEditaServicioAgregado(false);
+			logger.error(e.getMessage(), e);
+		} catch (Exception e) {
+			this.setEditaServicioAgregado(false);
+			logger.error(e.getMessage(), e);
+		}
+	}
+	
+	public void verDetalleServicio(DetalleServicioAgencia detalleServicio){
+		try {
+			this.setVerDetalleServicio(false);
+			Destino destino = detalleServicio.getDestino();
+			destino.setCodigoCadena(destino.getDescripcion()+"("+destino.getCodigoIATA()+")");
+			Destino origen = detalleServicio.getOrigen();
+			origen.setCodigoCadena(origen.getDescripcion()+"("+origen.getCodigoIATA()+")");
+			
+			detalleServicio.setOrigen(origen);
+			detalleServicio.setDestino(destino);
+			
+			if (detalleServicio.isConIGV()){
+				detalleServicio.setPrecioUnitario(detalleServicio.getPrecioUnitarioConIgv());
+			}
+			
+			this.setDetalleServicio(this.negocioServicio.consultarDetalleServicioDetalle(servicioAgencia.getCodigoEntero(), detalleServicio.getCodigoEntero()));
+			
+			this.cargarEmpresas(detalleServicio.getTipoServicio().getCodigoEntero());
+			
+			MaestroServicio maestroServicio = this.negocioServicio
+					.consultarMaestroServicio(detalleServicio.getTipoServicio().getCodigoEntero());
+
+			this.getDetalleServicio().setTipoServicio(maestroServicio);
+			this.getDetalleServicio().setConfiguracionTipoServicio(
+					this.soporteServicio
+							.consultarConfiguracionServicio(detalleServicio.getTipoServicio().getCodigoEntero()));
+			
+			this.setCargoConfiguracionTipoServicio(this.getDetalleServicio().getConfiguracionTipoServicio() != null);
+			
+
+			this.setVerDetalleServicio(true);
 		} catch (SQLException e) {
 			this.setEditaServicioAgregado(false);
 			logger.error(e.getMessage(), e);
@@ -2650,5 +2732,19 @@ public class ServicioAgenteMBean extends BaseMBean {
 	public void setCargoConfiguracionTipoServicio(
 			boolean cargoConfiguracionTipoServicio) {
 		this.cargoConfiguracionTipoServicio = cargoConfiguracionTipoServicio;
+	}
+
+	/**
+	 * @return the verDetalleServicio
+	 */
+	public boolean isVerDetalleServicio() {
+		return verDetalleServicio;
+	}
+
+	/**
+	 * @param verDetalleServicio the verDetalleServicio to set
+	 */
+	public void setVerDetalleServicio(boolean verDetalleServicio) {
+		this.verDetalleServicio = verDetalleServicio;
 	}
 }

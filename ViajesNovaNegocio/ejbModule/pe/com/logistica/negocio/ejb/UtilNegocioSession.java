@@ -54,7 +54,6 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote, UtilNegocio
 			}
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -70,15 +69,19 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote, UtilNegocio
 			listaTiposServicio = maestroServicioDao.listarMaestroServiciosAdm();
 			int agrupados = 0;
 			BigDecimal montoAgrupado = null;
+			int cantidadAgrupado = 0;
+			
 			DetalleServicioAgencia detalle = null;
 			for (MaestroServicio maestroServicio : listaTiposServicio) {
 				detalle = null;
 				detalle = new DetalleServicioAgencia();
 				agrupados = 0;
 				montoAgrupado = BigDecimal.ZERO;
+				cantidadAgrupado = 0;
 				for (DetalleServicioAgencia detalleHijo : listaServicios){
 					if (detalleHijo.getTipoServicio().getCodigoEntero().intValue() == maestroServicio.getCodigoEntero().intValue()){
 						montoAgrupado = montoAgrupado.add(detalleHijo.getTotalServicio());
+						cantidadAgrupado += detalleHijo.getCantidad();
 						agrupados++;
 						detalle.setCodigoEntero(detalleHijo.getCodigoEntero());
 						detalle.setTipoServicio(maestroServicio);
@@ -107,10 +110,14 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote, UtilNegocio
 					}
 				}
 				if (agrupados > 1){
+					detalle.setCantidad(cantidadAgrupado);
 					detalle.setDescripcionServicio("Servicios agrupados :: "+agrupados);
 					detalle.setAgrupado(true);
 					detalle.setCantidadAgrupados(agrupados);
-					detalle.setPrecioUnitario(montoAgrupado);
+					
+					BigDecimal precio = montoAgrupado.divide(BigDecimal.valueOf(cantidadAgrupado), BigDecimal.ROUND_CEILING);
+					detalle.setPrecioUnitario(precio);
+					detalle.setTotal(montoAgrupado);
 					listaServiciosAgrupados.add(detalle);
 				}
 				else if (agrupados > 0) {

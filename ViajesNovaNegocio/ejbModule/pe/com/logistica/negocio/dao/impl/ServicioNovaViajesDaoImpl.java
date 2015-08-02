@@ -2768,4 +2768,82 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 		return false;
 	}
 	
+	@Override
+	public DetalleServicioAgencia consultaDetalleServicioDetalle(int idServicio, int idDetServicio)
+			throws SQLException {
+		Connection conn = null;
+		DetalleServicioAgencia detalleServicio = null;
+		CallableStatement cs = null;
+		ResultSet rs = null;
+		String sql = "{ ? = call negocio.fn_consultardetalleservicioventadetalle(?,?)}";
+		
+		try {
+			conn = UtilConexion.obtenerConexion();
+			cs = conn.prepareCall(sql);
+			int i=1;
+			cs.registerOutParameter(i++, Types.OTHER);
+			cs.setInt(i++, idServicio);
+			cs.setInt(i++, idDetServicio);
+			cs.execute();
+			
+			rs = (ResultSet)cs.getObject(1);
+			
+			if (rs.next()){
+				detalleServicio = new DetalleServicioAgencia();
+
+				detalleServicio.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idSerdetalle"));
+				detalleServicio.getTipoServicio().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idtiposervicio"));
+				detalleServicio.getTipoServicio().setNombre(UtilJdbc.obtenerCadena(rs, "nomtipservicio"));
+				detalleServicio.getTipoServicio().setDescripcion(UtilJdbc.obtenerCadena(rs, "descservicio"));
+				detalleServicio.getTipoServicio().setRequiereFee(UtilJdbc.obtenerBoolean(rs, "requierefee"));
+				detalleServicio.getTipoServicio().setPagaImpto(UtilJdbc.obtenerBoolean(rs, "pagaimpto"));
+				detalleServicio.getTipoServicio().setCargaComision(UtilJdbc.obtenerBoolean(rs, "cargacomision"));
+				detalleServicio.getTipoServicio().setEsImpuesto(UtilJdbc.obtenerBoolean(rs, "esimpuesto"));
+				detalleServicio.getTipoServicio().setEsFee(UtilJdbc.obtenerBoolean(rs, "esfee"));
+				detalleServicio.getOrigen().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idorigen"));
+				detalleServicio.getOrigen().setDescripcion(UtilJdbc.obtenerCadena(rs, "descripcionorigen"));
+				detalleServicio.getDestino().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "iddestino"));
+				detalleServicio.getDestino().setDescripcion(UtilJdbc.obtenerCadena(rs, "descripciondestino"));
+				detalleServicio.getAerolinea().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idempresatransporte"));
+				detalleServicio.getAerolinea().setNombre(UtilJdbc.obtenerCadena(rs, "descripcionemptransporte"));
+				detalleServicio.getHotel().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idhotel"));
+				detalleServicio.getHotel().setNombre(UtilJdbc.obtenerCadena(rs, "decripcionhotel"));
+				detalleServicio.setDescripcionServicio(UtilJdbc.obtenerCadena(rs, "descripcionservicio"));
+				detalleServicio.setFechaIda(UtilJdbc.obtenerFecha(rs, "fechaida"));
+				detalleServicio.setFechaRegreso(UtilJdbc.obtenerFecha(rs, "fecharegreso"));
+				detalleServicio.setCantidad(UtilJdbc.obtenerNumero(rs, "cantidad"));
+				detalleServicio.setPrecioUnitario(UtilJdbc.obtenerBigDecimal(rs, "preciobase"));
+				detalleServicio.getServicioProveedor().setPorcentajeComision(UtilJdbc.obtenerBigDecimal(rs, "porcencomision"));
+				detalleServicio.setMontoComision(UtilJdbc.obtenerBigDecimal(rs, "montocomision"));
+				detalleServicio.getServicioProveedor().getProveedor().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idempresaproveedor"));
+				detalleServicio.getServicioProveedor().getProveedor().setNombres(UtilJdbc.obtenerCadena(rs, "nombres"));
+				detalleServicio.getServicioProveedor().getProveedor().setApellidoPaterno(UtilJdbc.obtenerCadena(rs, "apellidopaterno"));
+				detalleServicio.getServicioProveedor().getProveedor().setApellidoMaterno(UtilJdbc.obtenerCadena(rs, "apellidomaterno"));
+				detalleServicio.setCodigoReserva(UtilJdbc.obtenerCadena(rs, "codigoreserva"));
+				detalleServicio.setNumeroBoleto(UtilJdbc.obtenerCadena(rs, "numeroboleto"));
+				
+			}
+		} catch (SQLException e) {
+			throw new SQLException(e);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (cs != null) {
+					cs.close();
+				}
+				if (conn != null){
+					conn.close();
+				}
+				
+			} catch (SQLException e) {
+				throw new SQLException(e);
+				
+			}
+		}
+		
+		return detalleServicio;
+	}
+	
 }

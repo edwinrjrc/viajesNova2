@@ -233,4 +233,6 @@ public interface NegocioSessionLocal {
 	
 	public List<ReporteArchivoBusqueda> consultarArchivosCargados(ReporteArchivoBusqueda reporteArchivoBusqueda) throws ErrorConsultaDataException;
 	
+	public DetalleServicioAgencia consultaDetalleServicioDetalle(int idServicio, int idDetServicio) throws SQLException;
+	
 }

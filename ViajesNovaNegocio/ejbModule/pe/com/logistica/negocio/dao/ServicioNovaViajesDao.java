@@ -147,4 +147,7 @@ public interface ServicioNovaViajesDao {
 	List<DetalleServicioAgencia> consultaServDetComprobanteObligacionHijo(
 			int idServicio, int idDetaServicio, Connection conn)
 			throws SQLException;
+
+	DetalleServicioAgencia consultaDetalleServicioDetalle(int idServicio,
+			int idDetServicio) throws SQLException;
 }
