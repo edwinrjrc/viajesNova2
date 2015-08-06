@@ -26,44 +26,61 @@
 			<h:outputText value="Tipo Servicio" />
 			<h:outputText
 				value="#{servicioAgenteMBean.detalleServicio.tipoServicio.nombre}" />
-			<h:outputText value="Proveedor" />
+			<h:outputText value="Proveedor"
+				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraProveedor}" />
 			<h:outputText
+				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraProveedor}"
 				value="#{servicioAgenteMBean.detalleServicio.servicioProveedor.proveedor.nombreCompleto}" />
-			<h:outputText value="Origen" />
+			<h:outputText value="Origen"
+				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraDestino}" />
 			<h:outputText
+				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraDestino}"
 				value="#{servicioAgenteMBean.detalleServicio.origen.descripcion}" />
-			<h:outputText value="Destino" />
+			<h:outputText value="Destino"
+				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraDestino}" />
 			<h:outputText
+				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraDestino}"
 				value="#{servicioAgenteMBean.detalleServicio.destino.descripcion}" />
-			<h:outputText value="Aerolinea" />
+			<h:outputText value="Aerolinea"
+				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraAerolinea}" />
 			<h:outputText
+				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraAerolinea}"
 				value="#{servicioAgenteMBean.detalleServicio.aerolinea.nombre}" />
-			<h:outputText value="Destino" />
-			<h:outputText
-				value="#{servicioAgenteMBean.detalleServicio.destino.descripcion}" />
-			<h:outputText value="Fecha Servicio" />
-			<h:outputText value="#{servicioAgenteMBean.detalleServicio.fechaIda}">
+			<h:outputText value="Fecha Servicio"
+				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraFechaServicio}" />
+			<h:outputText value="#{servicioAgenteMBean.detalleServicio.fechaIda}"
+				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraFechaServicio}">
 				<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
 			</h:outputText>
-			<h:outputText value="Fecha Regreso" />
+			<h:outputText value="Fecha Regreso"
+				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraFechaRegreso}" />
 			<h:outputText
+				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraFechaRegreso}"
 				value="#{servicioAgenteMBean.detalleServicio.fechaRegreso}">
 				<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
 			</h:outputText>
-			<h:outputText value="Cantidad" />
-			<h:outputText value="#{servicioAgenteMBean.detalleServicio.cantidad}" />
-			<h:outputText value="Precio Base" />
+			<h:outputText value="Cantidad"
+				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraCantidad}" />
+			<h:outputText value="#{servicioAgenteMBean.detalleServicio.cantidad}"
+				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraCantidad}" />
+			<h:outputText value="Precio Base"
+				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraPrecioBase}" />
 			<h:outputText
+				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraPrecioBase}"
 				value="#{servicioAgenteMBean.detalleServicio.precioUnitario}">
 				<f:convertNumber pattern="###,##0.00" locale="en_US" />
 			</h:outputText>
-			<h:outputText value="Comision" />
+			<h:outputText value="Comision"
+				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraComision}" />
 			<h:outputText
+				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraComision}"
 				value="#{servicioAgenteMBean.detalleServicio.servicioProveedor.porcentajeComision}">
 				<f:convertNumber pattern="###,##0.00" locale="en_US" />
 			</h:outputText>
-			<h:outputText value="Tarifa Negociada" />
+			<h:outputText value="Tarifa Negociada"
+				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraTarifaNegociada}" />
 			<h:outputText
+				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraTarifaNegociada}"
 				value="#{servicioAgenteMBean.detalleServicio.tarifaNegociada?'SI':'NO'}" />
 		</h:panelGrid>
 

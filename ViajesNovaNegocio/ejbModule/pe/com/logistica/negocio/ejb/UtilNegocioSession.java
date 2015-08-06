@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,10 +15,10 @@ import javax.ejb.Stateless;
 import org.apache.commons.lang3.StringUtils;
 
 import pe.com.logistica.bean.Util.UtilParse;
+import pe.com.logistica.bean.negocio.ConfiguracionTipoServicio;
 import pe.com.logistica.bean.negocio.DetalleServicioAgencia;
 import pe.com.logistica.bean.negocio.MaestroServicio;
 import pe.com.logistica.bean.negocio.Parametro;
-import pe.com.logistica.bean.negocio.Proveedor;
 import pe.com.logistica.bean.negocio.ServicioAgencia;
 import pe.com.logistica.negocio.dao.ComunDao;
 import pe.com.logistica.negocio.dao.DestinoDao;
@@ -38,31 +39,39 @@ import pe.com.logistica.negocio.util.UtilEjb;
  * Session Bean implementation class UtilNegocioSession
  */
 @Stateless(name = "UtilNegocioSession")
-public class UtilNegocioSession implements UtilNegocioSessionRemote, UtilNegocioSessionLocal {
-	
+public class UtilNegocioSession implements UtilNegocioSessionRemote,
+		UtilNegocioSessionLocal {
+
 	@EJB
 	NegocioSessionLocal negocioSessionLocal;
 
+	@EJB
+	SoporteLocal soporteSessionLocal;
+
 	@Override
-	public List<DetalleServicioAgencia> agruparServiciosHijos (List<DetalleServicioAgencia> listaServicios){
+	public List<DetalleServicioAgencia> agruparServiciosHijos(
+			List<DetalleServicioAgencia> listaServicios) {
 		List<DetalleServicioAgencia> listaServiciosAgrupados = new ArrayList<DetalleServicioAgencia>();
-		
+
 		try {
 			for (DetalleServicioAgencia detalleServicioAgencia : listaServicios) {
-				detalleServicioAgencia.setServiciosHijos(agruparHijos(detalleServicioAgencia.getServiciosHijos()));
+				detalleServicioAgencia
+						.setServiciosHijos(agruparHijos(detalleServicioAgencia
+								.getServiciosHijos()));
 				listaServiciosAgrupados.add(detalleServicioAgencia);
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return listaServiciosAgrupados;
 	}
-	
-	private List<DetalleServicioAgencia> agruparHijos (List<DetalleServicioAgencia> listaServicios){
+
+	private List<DetalleServicioAgencia> agruparHijos(
+			List<DetalleServicioAgencia> listaServicios) {
 		List<DetalleServicioAgencia> listaServiciosAgrupados = new ArrayList<DetalleServicioAgencia>();
-		
+
 		try {
 			MaestroServicioDao maestroServicioDao = new MaestroServicioDaoImpl();
 			List<MaestroServicio> listaTiposServicio = null;
@@ -70,7 +79,7 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote, UtilNegocio
 			int agrupados = 0;
 			BigDecimal montoAgrupado = null;
 			int cantidadAgrupado = 0;
-			
+
 			DetalleServicioAgencia detalle = null;
 			for (MaestroServicio maestroServicio : listaTiposServicio) {
 				detalle = null;
@@ -78,9 +87,12 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote, UtilNegocio
 				agrupados = 0;
 				montoAgrupado = BigDecimal.ZERO;
 				cantidadAgrupado = 0;
-				for (DetalleServicioAgencia detalleHijo : listaServicios){
-					if (detalleHijo.getTipoServicio().getCodigoEntero().intValue() == maestroServicio.getCodigoEntero().intValue()){
-						montoAgrupado = montoAgrupado.add(detalleHijo.getTotalServicio());
+				for (DetalleServicioAgencia detalleHijo : listaServicios) {
+					if (detalleHijo.getTipoServicio().getCodigoEntero()
+							.intValue() == maestroServicio.getCodigoEntero()
+							.intValue()) {
+						montoAgrupado = montoAgrupado.add(detalleHijo
+								.getTotalServicio());
 						cantidadAgrupado += detalleHijo.getCantidad();
 						agrupados++;
 						detalle.setCodigoEntero(detalleHijo.getCodigoEntero());
@@ -89,75 +101,105 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote, UtilNegocio
 						detalle.setFechaServicio(detalleHijo.getFechaServicio());
 						detalle.setFechaRegreso(detalleHijo.getFechaRegreso());
 						detalle.setCantidad(detalleHijo.getCantidad());
-						detalle.setPrecioUnitario(detalleHijo.getPrecioUnitario());
+						detalle.setPrecioUnitario(detalleHijo
+								.getPrecioUnitario());
 						detalle.setOrigen(detalleHijo.getOrigen());
 						detalle.setDestino(detalleHijo.getDestino());
-						detalle.setDescripcionServicio(detalleHijo.getDescripcionServicio());
-						detalle.setServicioProveedor(detalleHijo.getServicioProveedor());
+						detalle.setDescripcionServicio(detalleHijo
+								.getDescripcionServicio());
+						detalle.setServicioProveedor(detalleHijo
+								.getServicioProveedor());
 						detalle.setAerolinea(detalleHijo.getAerolinea());
 						detalle.setHotel(detalleHijo.getHotel());
-						detalle.setTieneDetraccion(detalleHijo.isTieneDetraccion());
-						detalle.setTieneRetencion(detalleHijo.isTieneRetencion());
-						detalle.setTarifaNegociada(detalleHijo.isTarifaNegociada());
-						detalle.setConfiguracionTipoServicio(detalleHijo.getConfiguracionTipoServicio());
+						detalle.setTieneDetraccion(detalleHijo
+								.isTieneDetraccion());
+						detalle.setTieneRetencion(detalleHijo
+								.isTieneRetencion());
+						detalle.setTarifaNegociada(detalleHijo
+								.isTarifaNegociada());
+						detalle.setConfiguracionTipoServicio(detalleHijo
+								.getConfiguracionTipoServicio());
 						detalle.setMontoComision(detalleHijo.getMontoComision());
-						detalle.getCodigoEnteroAgrupados().add(detalleHijo.getCodigoEntero());
-						detalle.setComprobanteAsociado(detalleHijo.getComprobanteAsociado());
-						detalle.setTipoComprobante(detalleHijo.getTipoComprobante());
-						detalle.setNroComprobante(detalleHijo.getNroComprobante());
-						detalle.setIdComprobanteGenerado(detalleHijo.getIdComprobanteGenerado());
+						detalle.getCodigoEnteroAgrupados().add(
+								detalleHijo.getCodigoEntero());
+						detalle.setComprobanteAsociado(detalleHijo
+								.getComprobanteAsociado());
+						detalle.setTipoComprobante(detalleHijo
+								.getTipoComprobante());
+						detalle.setNroComprobante(detalleHijo
+								.getNroComprobante());
+						detalle.setIdComprobanteGenerado(detalleHijo
+								.getIdComprobanteGenerado());
 						detalle.setServicioPadre(detalleHijo.getServicioPadre());
 					}
 				}
-				if (agrupados > 1){
+				if (agrupados > 1) {
 					detalle.setCantidad(cantidadAgrupado);
-					detalle.setDescripcionServicio("Servicios agrupados :: "+agrupados);
+					detalle.setDescripcionServicio("Servicios agrupados :: "
+							+ agrupados);
 					detalle.setAgrupado(true);
 					detalle.setCantidadAgrupados(agrupados);
-					
-					BigDecimal precio = montoAgrupado.divide(BigDecimal.valueOf(cantidadAgrupado), BigDecimal.ROUND_CEILING);
+
+					BigDecimal precio = montoAgrupado.divide(
+							BigDecimal.valueOf(cantidadAgrupado),
+							BigDecimal.ROUND_CEILING);
 					detalle.setPrecioUnitario(precio);
 					detalle.setTotal(montoAgrupado);
 					listaServiciosAgrupados.add(detalle);
-				}
-				else if (agrupados > 0) {
+				} else if (agrupados > 0) {
 					listaServiciosAgrupados.add(detalle);
 				}
 			}
-		} catch (SQLException e) {	
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return listaServiciosAgrupados;
 	}
-	
+
 	@Override
-	public ServicioAgencia colocarTipoNumeroComprobante(ServicioAgencia servicioAgencia){
+	public ServicioAgencia colocarTipoNumeroComprobante(
+			ServicioAgencia servicioAgencia) {
 		List<DetalleServicioAgencia> listaFinal = new ArrayList<DetalleServicioAgencia>();
-		for (int a=0; a<servicioAgencia.getListaDetalleServicio().size(); a++){
-			DetalleServicioAgencia detallePadre = servicioAgencia.getListaDetalleServicio().get(a);
-			System.out.println("detallePadre::"+detallePadre);
-			for (int b=0; b<detallePadre.getServiciosHijos().size(); b++){
-				DetalleServicioAgencia detalle = detallePadre.getServiciosHijos().get(b);
-				System.out.println("detalle::"+detalle);
-				for (int x=0; x<servicioAgencia.getListaDetalleServicioAgrupado().size(); x++){
-					DetalleServicioAgencia detallePadreAgrupado = servicioAgencia.getListaDetalleServicioAgrupado().get(x);
-					System.out.println("detallePadreAgrupado::"+detallePadreAgrupado);
-					for (int y=0; y<detallePadreAgrupado.getServiciosHijos().size(); y++){
-						DetalleServicioAgencia detalleAgrupado = detallePadreAgrupado.getServiciosHijos().get(y);
-						System.out.println("detalleAgrupado::"+detalleAgrupado);
-						System.out.println("detalleAgrupado.isAgrupado()::"+detalleAgrupado.isAgrupado());
-						if (detalleAgrupado.isAgrupado()){
-							for (Integer id : detalleAgrupado.getCodigoEnteroAgrupados()){
-								if (detalle.getCodigoEntero().intValue() == id.intValue() ){
-									detalle.setTipoComprobante(detalleAgrupado.getTipoComprobante());
-									detalle.setNroComprobante(detalleAgrupado.getNroComprobante());
+		for (int a = 0; a < servicioAgencia.getListaDetalleServicio().size(); a++) {
+			DetalleServicioAgencia detallePadre = servicioAgencia
+					.getListaDetalleServicio().get(a);
+			System.out.println("detallePadre::" + detallePadre);
+			for (int b = 0; b < detallePadre.getServiciosHijos().size(); b++) {
+				DetalleServicioAgencia detalle = detallePadre
+						.getServiciosHijos().get(b);
+				System.out.println("detalle::" + detalle);
+				for (int x = 0; x < servicioAgencia
+						.getListaDetalleServicioAgrupado().size(); x++) {
+					DetalleServicioAgencia detallePadreAgrupado = servicioAgencia
+							.getListaDetalleServicioAgrupado().get(x);
+					System.out.println("detallePadreAgrupado::"
+							+ detallePadreAgrupado);
+					for (int y = 0; y < detallePadreAgrupado
+							.getServiciosHijos().size(); y++) {
+						DetalleServicioAgencia detalleAgrupado = detallePadreAgrupado
+								.getServiciosHijos().get(y);
+						System.out.println("detalleAgrupado::"
+								+ detalleAgrupado);
+						System.out.println("detalleAgrupado.isAgrupado()::"
+								+ detalleAgrupado.isAgrupado());
+						if (detalleAgrupado.isAgrupado()) {
+							for (Integer id : detalleAgrupado
+									.getCodigoEnteroAgrupados()) {
+								if (detalle.getCodigoEntero().intValue() == id
+										.intValue()) {
+									detalle.setTipoComprobante(detalleAgrupado
+											.getTipoComprobante());
+									detalle.setNroComprobante(detalleAgrupado
+											.getNroComprobante());
 								}
 							}
-						}
-						else {
-							if (detalle.getCodigoEntero().intValue() == detalleAgrupado.getCodigoEntero().intValue()){
-								detalle.setTipoComprobante(detalleAgrupado.getTipoComprobante());
-								detalle.setNroComprobante(detalleAgrupado.getNroComprobante());
+						} else {
+							if (detalle.getCodigoEntero().intValue() == detalleAgrupado
+									.getCodigoEntero().intValue()) {
+								detalle.setTipoComprobante(detalleAgrupado
+										.getTipoComprobante());
+								detalle.setNroComprobante(detalleAgrupado
+										.getNroComprobante());
 							}
 						}
 					}
@@ -166,12 +208,12 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote, UtilNegocio
 			}
 			listaFinal.add(detallePadre);
 		}
-		
+
 		servicioAgencia.setListaDetalleServicio(listaFinal);
-		
+
 		return servicioAgencia;
 	}
-	
+
 	@Override
 	public List<DetalleServicioAgencia> agregarServicioVenta(
 			List<DetalleServicioAgencia> listaServiciosVenta,
@@ -188,23 +230,25 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote, UtilNegocio
 			ProveedorDao proveedorDao = new ProveedorDaoImpl();
 			ComunDao comunDao = new ComunDaoImpl();
 
-			detalleServicio.setTipoServicio(maestroServicioDao
+			MaestroServicio tipoServicio = maestroServicioDao
 					.consultarMaestroServicio(detalleServicio.getTipoServicio()
-							.getCodigoEntero(), conn));
+							.getCodigoEntero(), conn);
+			detalleServicio.setTipoServicio(tipoServicio);
 			DetalleServicioAgencia detalle = null;
-			if (!detalleServicio.getTipoServicio().isServicioPadre()){
-				for (int i=0; i<listaServiciosVenta.size(); i++){
+			if (!detalleServicio.getTipoServicio().isServicioPadre()) {
+				for (int i = 0; i < listaServiciosVenta.size(); i++) {
 					detalle = listaServiciosVenta.get(i);
-					if (detalle.getCodigoEntero().intValue() == detalleServicio.getServicioPadre().getCodigoEntero().intValue()){
+					if (detalle.getCodigoEntero().intValue() == detalleServicio
+							.getServicioPadre().getCodigoEntero().intValue()) {
 						break;
 					}
 				}
-				
-				if (detalleServicio.getFechaIda() == null){
+
+				if (detalleServicio.getFechaIda() == null) {
 					detalleServicio.setFechaIda(detalle.getFechaIda());
 				}
 			}
-			
+
 			// obtener nombre empresa proveedor
 			if (detalleServicio.getServicioProveedor().getProveedor()
 					.getCodigoEntero() != null
@@ -258,6 +302,11 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote, UtilNegocio
 								conn).getNombreCompleto());
 			}
 
+			if (StringUtils.isBlank(detalleServicio.getDescripcionServicio())) {
+				detalleServicio.setDescripcionServicio(this.generarDescripcionServicio(detalleServicio));
+
+			}
+
 			BigDecimal comision = BigDecimal.ZERO;
 			BigDecimal totalVenta = BigDecimal.ZERO;
 
@@ -272,8 +321,8 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote, UtilNegocio
 
 			if (detalleServicio.getCantidad() == 0) {
 				detalleServicio.setCantidad(1);
-				
-				if (!detalleServicio.getTipoServicio().isServicioPadre()){
+
+				if (!detalleServicio.getTipoServicio().isServicioPadre()) {
 					detalleServicio.setCantidad(detalle.getCantidad());
 				}
 			}
@@ -298,7 +347,8 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote, UtilNegocio
 										.getCantidad()));
 				if (calcularIGV) {
 					if (detalleServicio.isConIGV()) {
-						detalleServicio.setPrecioUnitarioConIgv(detalleServicio.getPrecioUnitario());
+						detalleServicio.setPrecioUnitarioConIgv(detalleServicio
+								.getPrecioUnitario());
 						ParametroDao parametroDao = new ParametroDaoImpl();
 						BigDecimal valorParametro = BigDecimal.ZERO;
 						Parametro param = parametroDao
@@ -384,7 +434,52 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote, UtilNegocio
 			}
 		}
 	}
-	
+
+	private String generarDescripcionServicio(DetalleServicioAgencia detalle) {
+
+		try {
+			ConfiguracionTipoServicio configuracion = this.soporteSessionLocal
+					.consultarConfiguracionServicio(detalle.getTipoServicio()
+							.getCodigoEntero());
+
+			String descripcion = "";
+			descripcion = detalle.getTipoServicio().getNombre() + " ";
+			if (configuracion.isMuestraDestino()) {
+				descripcion = descripcion + detalle.getOrigen().getDescripcion()
+						+ " a " + detalle.getDestino().getDescripcion() + "  ";
+			}
+			if (configuracion.isMuestraAerolinea()) {
+				descripcion = descripcion + " con "
+						+ detalle.getAerolinea().getNombre() + " ";
+			}
+			if (configuracion.isMuestraFechaServicio()) {
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+				descripcion =  descripcion +" desde " + sdf.format(detalle.getFechaIda());
+			}
+			if (configuracion.isMuestraFechaRegreso()) {
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+				descripcion = descripcion +" hasta " + sdf.format(detalle.getFechaRegreso());
+			}
+			if (configuracion.isMuestraHotel()) {
+				descripcion = descripcion +" en hotel " + detalle.getHotel().getNombre();
+			}
+			if (configuracion.isMuestraCodigoReserva()) {
+				descripcion = descripcion +" con codigo de reserva: "
+						+ detalle.getCodigoReserva();
+			}
+			if (configuracion.isMuestraNumeroBoleto()) {
+				descripcion = descripcion+" numero de boleto: " + detalle.getNumeroBoleto();
+			}
+			return StringUtils
+					.normalizeSpace(descripcion);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "";
+	}
+
 	@Override
 	public List<DetalleServicioAgencia> actualizarServicioVenta(
 			List<DetalleServicioAgencia> listaServiciosVenta,
@@ -396,14 +491,16 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote, UtilNegocio
 		try {
 			DetalleServicioAgencia detalleServicioAgencia = null;
 			int codigo = 0;
-			for (int i=0; i<listaServiciosVenta.size(); i++){
+			for (int i = 0; i < listaServiciosVenta.size(); i++) {
 				detalleServicioAgencia = listaServiciosVenta.get(i);
-				if (detalleServicioAgencia.getCodigoEntero().intValue() == detalleServicio.getCodigoEntero().intValue()){
-					codigo = detalleServicioAgencia.getCodigoEntero().intValue();
+				if (detalleServicioAgencia.getCodigoEntero().intValue() == detalleServicio
+						.getCodigoEntero().intValue()) {
+					codigo = detalleServicioAgencia.getCodigoEntero()
+							.intValue();
 					break;
 				}
 			}
-			
+
 			conn = UtilConexion.obtenerConexion();
 
 			MaestroServicioDao maestroServicioDao = new MaestroServicioDaoImpl();
@@ -559,27 +656,34 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote, UtilNegocio
 
 			List<DetalleServicioAgencia> listaInvisibles = null;
 			if (detalleServicio.getTipoServicio().isServicioPadre()) {
-				listaInvisibles = agregarServicioVentaInvisible(detalleServicioAgencia.getCodigoEntero(),
+				listaInvisibles = agregarServicioVentaInvisible(
+						detalleServicioAgencia.getCodigoEntero(),
 						detalleServicio, calcularIGV);
 			} else {
-				listaInvisibles = agregarServicioVentaInvisible(detalleServicioAgencia
-						.getServicioPadre().getCodigoEntero(), detalleServicio,
+				listaInvisibles = agregarServicioVentaInvisible(
+						detalleServicioAgencia.getServicioPadre()
+								.getCodigoEntero(), detalleServicio,
 						calcularIGV);
 			}
-			
+
 			for (DetalleServicioAgencia detalleServicioAgencia2 : listaServiciosVenta) {
-				if (detalleServicioAgencia2.getServicioPadre().getCodigoEntero()!= null && detalleServicioAgencia2.getServicioPadre().getCodigoEntero().intValue() == detalleServicio.getCodigoEntero().intValue()){
+				if (detalleServicioAgencia2.getServicioPadre()
+						.getCodigoEntero() != null
+						&& detalleServicioAgencia2.getServicioPadre()
+								.getCodigoEntero().intValue() == detalleServicio
+								.getCodigoEntero().intValue()) {
 					listaServiciosVenta.remove(detalleServicioAgencia2);
 				}
 			}
-			
+
 			for (int i = 0; i < listaServiciosVenta.size(); i++) {
-				DetalleServicioAgencia detalleServicioAgencia2 = listaServiciosVenta.get(i);
-				if (detalleServicioAgencia2.getCodigoEntero().intValue() == codigo){
+				DetalleServicioAgencia detalleServicioAgencia2 = listaServiciosVenta
+						.get(i);
+				if (detalleServicioAgencia2.getCodigoEntero().intValue() == codigo) {
 					listaServiciosVenta.remove(detalleServicioAgencia2);
 				}
 			}
-			
+
 			listaServiciosVenta.add(detalleServicioAgencia);
 			if (listaInvisibles != null) {
 				listaServiciosVenta.addAll(listaInvisibles);
@@ -589,7 +693,7 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote, UtilNegocio
 					.ordenarServiciosVenta(listaServiciosVenta);
 
 			return listaServiciosVenta;
-			
+
 		} catch (Exception e) {
 			throw new ErrorRegistroDataException(
 					"No se pudo agregar el servicio al listado", e);
@@ -599,7 +703,7 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote, UtilNegocio
 			}
 		}
 	}
-	
+
 	private List<DetalleServicioAgencia> agregarServicioVentaInvisible(
 			Integer idServicioPadre, DetalleServicioAgencia detalleServicio2,
 			boolean calcularIGV) throws ErrorConsultaDataException, Exception {

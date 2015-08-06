@@ -1220,6 +1220,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 			
 			this.setCargoConfiguracionTipoServicio(this.getDetalleServicio().getConfiguracionTipoServicio() != null);
 			
+			
 
 			this.setVerDetalleServicio(true);
 		} catch (SQLException e) {
@@ -1311,6 +1312,10 @@ public class ServicioAgenteMBean extends BaseMBean {
 				}
 			}
 		}
+		
+		this.setDetalleServicio(null);
+		this.setCargoConfiguracionTipoServicio(false);
+		this.setEditaServicioAgregado(false);
 
 		calcularTotales();
 	}
