@@ -57,11 +57,6 @@ public class UtilNegocioServicioImpl implements UtilNegocioServicio {
 	}
 	
 	@Override
-	public ServicioAgencia colocarTipoNumeroComprobante(ServicioAgencia servicioAgencia){
-		return ejbSession.colocarTipoNumeroComprobante(servicioAgencia);
-	}
-	
-	@Override
 	public List<DetalleServicioAgencia> agregarServicioVenta(
 			List<DetalleServicioAgencia> listaServiciosVenta,
 			DetalleServicioAgencia detalleServicio)

@@ -14,8 +14,6 @@ public interface UtilNegocioSessionRemote {
 
 	List<DetalleServicioAgencia> agruparServiciosHijos(
 			List<DetalleServicioAgencia> listaServicios);
-
-	ServicioAgencia colocarTipoNumeroComprobante(ServicioAgencia servicioAgencia);
 	
 	public List<DetalleServicioAgencia> agregarServicioVenta(
 			List<DetalleServicioAgencia> listaServiciosVenta,

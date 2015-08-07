@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import pe.com.logistica.bean.negocio.DetalleServicioAgencia;
-import pe.com.logistica.bean.negocio.ServicioAgencia;
 import pe.com.logistica.negocio.exception.ErrorRegistroDataException;
 
 /**
@@ -17,8 +16,6 @@ import pe.com.logistica.negocio.exception.ErrorRegistroDataException;
 public interface UtilNegocioServicio {
 	
 	public List<DetalleServicioAgencia> agruparServicios(List<DetalleServicioAgencia> listaServicios);
-
-	ServicioAgencia colocarTipoNumeroComprobante(ServicioAgencia servicioAgencia);
 
 	List<DetalleServicioAgencia> agregarServicioVenta(
 			List<DetalleServicioAgencia> listaServiciosVenta,

@@ -164,7 +164,7 @@ public class UtilEjb {
 								detalle.setCantidad(bean.getCantidad());
 								detalle.setPrecioUnitario(bean.getPrecioUnitario());
 								detalle.setTotalDetalle(bean.getTotalServicio());
-								detalle.setConcepto(bean.getDescripcionServicio());
+								detalle.setConcepto(obtenerDescripcionServicio(id, servicioAgencia.getListaDetalleServicio()));
 								detalle.setUsuarioCreacion(servicioAgencia
 										.getUsuarioCreacion());
 								detalle.setIpCreacion(servicioAgencia.getIpCreacion());
@@ -212,6 +212,23 @@ public class UtilEjb {
 			e.printStackTrace();
 		}
 		return comp;
+	}
+	
+	private static String obtenerDescripcionServicio(Integer id, List<DetalleServicioAgencia> lista){
+		
+		if (lista != null && !lista.isEmpty() && id != null){
+			for (DetalleServicioAgencia detalleServicioAgencia : lista) {
+				if (detalleServicioAgencia.getServiciosHijos() != null && !detalleServicioAgencia.getServiciosHijos().isEmpty()){
+					for (DetalleServicioAgencia detalleServicioHijo : detalleServicioAgencia.getServiciosHijos()){
+						if (detalleServicioHijo.getCodigoEntero().intValue() == id.intValue()){
+							return detalleServicioHijo.getDescripcionServicio();
+						}
+					}
+				}
+			}
+		}
+		
+		return "";
 	}
 
 	public static boolean correoValido(String correo) {

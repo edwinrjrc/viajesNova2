@@ -541,7 +541,7 @@
 											</h:panelGrid>
 										</f:facet>
 										<h:outputText
-											value="#{row.tipoServicio.nombre} - #{row.descripcionServicio}" />
+											value="#{row.descripcionServicio}" />
 									</rich:column>
 									<rich:column style="text-align:left;width: 75%;">
 										<f:facet name="header">
@@ -670,7 +670,7 @@
 								</rich:column>
 								<f:facet name="header">
 									<h:panelGrid cellpadding="0" cellspacing="0" border="0"
-										style="text-align:right;" columns="2">
+										style="text-align:right;" columns="2" rendered="#{!servicioAgenteMBean.transaccionExito}">
 										<a4j:commandButton value="Eliminar Adjuntados"
 											action="#{servicioAgenteMBean.limpiarArchivos()}"
 											render="idTablaDocAdicionalR,idUploadAdicional"></a4j:commandButton>

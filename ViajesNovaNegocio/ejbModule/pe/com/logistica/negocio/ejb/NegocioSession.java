@@ -1462,9 +1462,6 @@ public class NegocioSession implements NegocioSessionRemote,
 						.get(i);
 				detalleServicioAgencia
 						.setDescripcionServicio(detalleServicioAgencia
-								.getTipoServicio().getNombre()
-								+ " - "
-								+ detalleServicioAgencia
 										.getDescripcionServicio());
 				listaHijos = new ArrayList<DetalleServicioAgencia>();
 				listaHijos.add(detalleServicioAgencia);

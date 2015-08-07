@@ -19,7 +19,6 @@ import pe.com.logistica.bean.negocio.ConfiguracionTipoServicio;
 import pe.com.logistica.bean.negocio.DetalleServicioAgencia;
 import pe.com.logistica.bean.negocio.MaestroServicio;
 import pe.com.logistica.bean.negocio.Parametro;
-import pe.com.logistica.bean.negocio.ServicioAgencia;
 import pe.com.logistica.negocio.dao.ComunDao;
 import pe.com.logistica.negocio.dao.DestinoDao;
 import pe.com.logistica.negocio.dao.MaestroServicioDao;
@@ -154,64 +153,6 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 			e.printStackTrace();
 		}
 		return listaServiciosAgrupados;
-	}
-
-	@Override
-	public ServicioAgencia colocarTipoNumeroComprobante(
-			ServicioAgencia servicioAgencia) {
-		List<DetalleServicioAgencia> listaFinal = new ArrayList<DetalleServicioAgencia>();
-		for (int a = 0; a < servicioAgencia.getListaDetalleServicio().size(); a++) {
-			DetalleServicioAgencia detallePadre = servicioAgencia
-					.getListaDetalleServicio().get(a);
-			System.out.println("detallePadre::" + detallePadre);
-			for (int b = 0; b < detallePadre.getServiciosHijos().size(); b++) {
-				DetalleServicioAgencia detalle = detallePadre
-						.getServiciosHijos().get(b);
-				System.out.println("detalle::" + detalle);
-				for (int x = 0; x < servicioAgencia
-						.getListaDetalleServicioAgrupado().size(); x++) {
-					DetalleServicioAgencia detallePadreAgrupado = servicioAgencia
-							.getListaDetalleServicioAgrupado().get(x);
-					System.out.println("detallePadreAgrupado::"
-							+ detallePadreAgrupado);
-					for (int y = 0; y < detallePadreAgrupado
-							.getServiciosHijos().size(); y++) {
-						DetalleServicioAgencia detalleAgrupado = detallePadreAgrupado
-								.getServiciosHijos().get(y);
-						System.out.println("detalleAgrupado::"
-								+ detalleAgrupado);
-						System.out.println("detalleAgrupado.isAgrupado()::"
-								+ detalleAgrupado.isAgrupado());
-						if (detalleAgrupado.isAgrupado()) {
-							for (Integer id : detalleAgrupado
-									.getCodigoEnteroAgrupados()) {
-								if (detalle.getCodigoEntero().intValue() == id
-										.intValue()) {
-									detalle.setTipoComprobante(detalleAgrupado
-											.getTipoComprobante());
-									detalle.setNroComprobante(detalleAgrupado
-											.getNroComprobante());
-								}
-							}
-						} else {
-							if (detalle.getCodigoEntero().intValue() == detalleAgrupado
-									.getCodigoEntero().intValue()) {
-								detalle.setTipoComprobante(detalleAgrupado
-										.getTipoComprobante());
-								detalle.setNroComprobante(detalleAgrupado
-										.getNroComprobante());
-							}
-						}
-					}
-					detallePadre.getServiciosHijos().add(detalle);
-				}
-			}
-			listaFinal.add(detallePadre);
-		}
-
-		servicioAgencia.setListaDetalleServicio(listaFinal);
-
-		return servicioAgencia;
 	}
 
 	@Override
