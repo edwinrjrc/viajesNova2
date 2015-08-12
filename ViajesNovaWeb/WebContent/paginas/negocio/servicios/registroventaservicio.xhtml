@@ -773,6 +773,9 @@
 							render="idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError,idGrRegisVenServicio"
 							oncomplete="mostrarModal('idformadmservicios')" />
 
+						<a4j:commandButton value="Imprimir Venta"
+							rendered="#{servicioAgenteMBean.transaccionExito}"
+							oncomplete="clicBoton('idformadmservicios:idbtnImprimirVenta')"></a4j:commandButton>
 					</h:panelGrid>
 				</f:facet>
 			</h:panelGrid>

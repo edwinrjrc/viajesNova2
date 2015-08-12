@@ -3,13 +3,11 @@ package pe.com.logistica.negocio.ejb;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import javax.ejb.Stateless;
 import javax.mail.MessagingException;
@@ -31,7 +29,6 @@ import pe.com.logistica.bean.negocio.Contacto;
 import pe.com.logistica.bean.negocio.CorreoClienteMasivo;
 import pe.com.logistica.bean.negocio.CorreoMasivo;
 import pe.com.logistica.bean.negocio.CuotaPago;
-import pe.com.logistica.bean.negocio.Destino;
 import pe.com.logistica.bean.negocio.DetalleServicioAgencia;
 import pe.com.logistica.bean.negocio.Direccion;
 import pe.com.logistica.bean.negocio.DocumentoAdicional;
@@ -39,7 +36,6 @@ import pe.com.logistica.bean.negocio.EventoObsAnu;
 import pe.com.logistica.bean.negocio.Maestro;
 import pe.com.logistica.bean.negocio.MaestroServicio;
 import pe.com.logistica.bean.negocio.PagoServicio;
-import pe.com.logistica.bean.negocio.Parametro;
 import pe.com.logistica.bean.negocio.ProgramaNovios;
 import pe.com.logistica.bean.negocio.Proveedor;
 import pe.com.logistica.bean.negocio.ServicioAgencia;
@@ -47,11 +43,11 @@ import pe.com.logistica.bean.negocio.ServicioAgenciaBusqueda;
 import pe.com.logistica.bean.negocio.ServicioNovios;
 import pe.com.logistica.bean.negocio.ServicioProveedor;
 import pe.com.logistica.bean.negocio.Telefono;
+import pe.com.logistica.bean.negocio.Tramo;
 import pe.com.logistica.bean.negocio.Ubigeo;
 import pe.com.logistica.negocio.dao.ArchivoReporteDao;
 import pe.com.logistica.negocio.dao.ClienteDao;
 import pe.com.logistica.negocio.dao.ComprobanteNovaViajesDao;
-import pe.com.logistica.negocio.dao.ComunDao;
 import pe.com.logistica.negocio.dao.ConsolidadorDao;
 import pe.com.logistica.negocio.dao.ContactoDao;
 import pe.com.logistica.negocio.dao.CorreoMasivoDao;
@@ -59,7 +55,6 @@ import pe.com.logistica.negocio.dao.DestinoDao;
 import pe.com.logistica.negocio.dao.DireccionDao;
 import pe.com.logistica.negocio.dao.MaestroDao;
 import pe.com.logistica.negocio.dao.MaestroServicioDao;
-import pe.com.logistica.negocio.dao.ParametroDao;
 import pe.com.logistica.negocio.dao.PersonaDao;
 import pe.com.logistica.negocio.dao.ProveedorDao;
 import pe.com.logistica.negocio.dao.ServicioNegocioDao;
@@ -70,7 +65,6 @@ import pe.com.logistica.negocio.dao.UbigeoDao;
 import pe.com.logistica.negocio.dao.impl.ArchivoReporteDaoImpl;
 import pe.com.logistica.negocio.dao.impl.ClienteDaoImpl;
 import pe.com.logistica.negocio.dao.impl.ComprobanteNovaViajesDaoImpl;
-import pe.com.logistica.negocio.dao.impl.ComunDaoImpl;
 import pe.com.logistica.negocio.dao.impl.ConsolidadorDaoImpl;
 import pe.com.logistica.negocio.dao.impl.ContactoDaoImpl;
 import pe.com.logistica.negocio.dao.impl.CorreoMasivoDaoImpl;
@@ -78,7 +72,6 @@ import pe.com.logistica.negocio.dao.impl.DestinoDaoImpl;
 import pe.com.logistica.negocio.dao.impl.DireccionDaoImpl;
 import pe.com.logistica.negocio.dao.impl.MaestroDaoImpl;
 import pe.com.logistica.negocio.dao.impl.MaestroServicioDaoImpl;
-import pe.com.logistica.negocio.dao.impl.ParametroDaoImpl;
 import pe.com.logistica.negocio.dao.impl.PersonaDaoImpl;
 import pe.com.logistica.negocio.dao.impl.ProveedorDaoImpl;
 import pe.com.logistica.negocio.dao.impl.ServicioNegocioDaoImpl;
@@ -981,244 +974,6 @@ public class NegocioSession implements NegocioSessionRemote,
 	}
 
 	@Override
-	public List<DetalleServicioAgencia> agregarServicioVenta(
-			List<DetalleServicioAgencia> listaServiciosVenta,
-			DetalleServicioAgencia detalleServicio)
-			throws ErrorRegistroDataException, SQLException, Exception {
-
-		Connection conn = null;
-
-		try {
-			conn = UtilConexion.obtenerConexion();
-
-			MaestroServicioDao maestroServicioDao = new MaestroServicioDaoImpl();
-			DestinoDao destinoDao = new DestinoDaoImpl();
-			ProveedorDao proveedorDao = new ProveedorDaoImpl();
-			ComunDao comunDao = new ComunDaoImpl();
-
-			detalleServicio.setTipoServicio(maestroServicioDao
-					.consultarMaestroServicio(detalleServicio.getTipoServicio()
-							.getCodigoEntero(), conn));
-
-			// obtener nombre empresa proveedor
-			if (detalleServicio.getServicioProveedor().getProveedor()
-					.getCodigoEntero() != null
-					&& detalleServicio.getServicioProveedor().getProveedor()
-							.getCodigoEntero().intValue() != 0) {
-				detalleServicio.getServicioProveedor().setProveedor(
-						proveedorDao.consultarProveedor(detalleServicio
-								.getServicioProveedor().getProveedor()
-								.getCodigoEntero(), conn));
-			}
-
-			// obtener nombre aerolinea
-			if (detalleServicio.getAerolinea().getCodigoEntero() != null
-					&& detalleServicio.getAerolinea().getCodigoEntero()
-							.intValue() != 0) {
-				detalleServicio.getAerolinea().setNombre(
-						proveedorDao.consultarProveedor(
-								detalleServicio.getAerolinea()
-										.getCodigoEntero(), conn)
-								.getNombreCompleto());
-			}
-
-			// obtener nombre empresa transporte
-			if (detalleServicio.getEmpresaTransporte().getCodigoEntero() != null
-					&& detalleServicio.getEmpresaTransporte().getCodigoEntero()
-							.intValue() != 0) {
-				detalleServicio.getEmpresaTransporte().setNombre(
-						proveedorDao.consultarProveedor(
-								detalleServicio.getEmpresaTransporte()
-										.getCodigoEntero(), conn)
-								.getNombreCompleto());
-			}
-
-			// obtener nombre operador
-			if (detalleServicio.getOperadora().getCodigoEntero() != null
-					&& detalleServicio.getOperadora().getCodigoEntero()
-							.intValue() != 0) {
-				detalleServicio.getOperadora().setNombre(
-						proveedorDao.consultarProveedor(
-								detalleServicio.getOperadora()
-										.getCodigoEntero(), conn)
-								.getNombreCompleto());
-			}
-
-			// obtener nombre hotel
-			if (detalleServicio.getHotel().getCodigoEntero() != null
-					&& detalleServicio.getHotel().getCodigoEntero().intValue() != 0) {
-				detalleServicio.getHotel().setNombre(
-						proveedorDao.consultarProveedor(
-								detalleServicio.getHotel().getCodigoEntero(),
-								conn).getNombreCompleto());
-			}
-
-			BigDecimal comision = BigDecimal.ZERO;
-			BigDecimal totalVenta = BigDecimal.ZERO;
-
-			if (StringUtils.isBlank(detalleServicio.getDescripcionServicio())) {
-				detalleServicio.setDescripcionServicio(StringUtils
-						.upperCase(detalleServicio.getTipoServicio()
-								.getNombre()));
-			}
-
-			detalleServicio.setDescripcionServicio(StringUtils
-					.upperCase(detalleServicio.getDescripcionServicio()));
-
-			if (detalleServicio.getCantidad() == 0) {
-				detalleServicio.setCantidad(1);
-			}
-
-			if (detalleServicio.getOrigen().getCodigoEntero() != null) {
-				detalleServicio.setOrigen(destinoDao.consultarDestino(
-						detalleServicio.getOrigen().getCodigoEntero(), conn));
-				detalleServicio.setDestino(destinoDao.consultarDestino(
-						detalleServicio.getDestino().getCodigoEntero(), conn));
-			}
-
-			boolean calcularIGV = false;
-			calcularIGV = ("PE".equalsIgnoreCase(detalleServicio.getOrigen()
-					.getPais().getAbreviado()) || "PE"
-					.equalsIgnoreCase(detalleServicio.getDestino().getPais()
-							.getAbreviado()));
-
-			if (detalleServicio.getPrecioUnitario() != null) {
-				BigDecimal total = detalleServicio.getPrecioUnitario()
-						.multiply(
-								UtilParse.parseIntABigDecimal(detalleServicio
-										.getCantidad()));
-				if (calcularIGV) {
-					if (detalleServicio.isConIGV()) {
-						ParametroDao parametroDao = new ParametroDaoImpl();
-						BigDecimal valorParametro = BigDecimal.ZERO;
-						Parametro param = parametroDao
-								.consultarParametro(UtilEjb
-										.obtenerEnteroPropertieMaestro(
-												"codigoParametroIGV",
-												"aplicacionDatosEjb"));
-						List<MaestroServicio> lista = maestroServicioDao
-								.consultarServiciosInvisibles(detalleServicio
-										.getTipoServicio().getCodigoEntero());
-						for (MaestroServicio maestroServicio : lista) {
-							if (maestroServicio.getCodigoEntero().intValue() == UtilEjb
-									.convertirCadenaEntero(param.getValor())) {
-								valorParametro = UtilEjb
-										.convertirCadenaDecimal(maestroServicio
-												.getValorParametro());
-								break;
-							}
-						}
-						valorParametro = valorParametro.add(BigDecimal.ONE);
-						BigDecimal precioBase = detalleServicio
-								.getPrecioUnitario().divide(valorParametro, 4,
-										RoundingMode.HALF_DOWN);
-						total = precioBase.multiply(UtilParse
-								.parseIntABigDecimal(detalleServicio
-										.getCantidad()));
-						detalleServicio.setPrecioUnitario(precioBase);
-					}
-				}
-
-				totalVenta = totalVenta.add(total);
-			}
-
-			if (detalleServicio.getServicioProveedor().getPorcentajeComision() != null) {
-				comision = detalleServicio.getServicioProveedor()
-						.getPorcentajeComision().multiply(totalVenta);
-				comision = comision.divide(BigDecimal.valueOf(100.0));
-
-				ParametroDao parametroDao = new ParametroDaoImpl();
-				Parametro paramIGV = parametroDao
-						.consultarParametro(UtilEjb
-								.obtenerEnteroPropertieMaestro(
-										"codigoParametroImptoIGV",
-										"aplicacionDatosEjb"));
-				BigDecimal valorParametroIGV = BigDecimal.ZERO;
-				valorParametroIGV = UtilEjb.convertirCadenaDecimal(paramIGV
-						.getValor());
-				valorParametroIGV = valorParametroIGV.add(BigDecimal.ONE);
-
-				comision = comision.multiply(valorParametroIGV);
-			}
-
-			if (detalleServicio.getServicioProveedor().getProveedor()
-					.getCodigoEntero() != null) {
-				Proveedor proveedor = consultarProveedor(detalleServicio
-						.getServicioProveedor().getProveedor()
-						.getCodigoEntero().intValue());
-				detalleServicio.getServicioProveedor().setProveedor(proveedor);
-			}
-
-			detalleServicio.setMontoComision(comision);
-
-			int idDetServicio = comunDao.obtenerSiguienteSecuencia(conn);
-			detalleServicio.setCodigoEntero(idDetServicio);
-			listaServiciosVenta.add(detalleServicio);
-			/*
-			 * DetalleServicioAgencia detalleServicioPadre = null; if
-			 * (detalleServicio.getTipoServicio().isServicioPadre()){
-			 * detalleServicioPadre = new DetalleServicioAgencia();
-			 * detalleServicioPadre.setCodigoEntero(idDetServicio);
-			 * detalleServicioPadre
-			 * .setTipoServicio(detalleServicio.getTipoServicio());
-			 * detalleServicioPadre.setOrigen(detalleServicio.getOrigen());
-			 * detalleServicioPadre.setDestino(detalleServicio.getDestino());
-			 * detalleServicioPadre
-			 * .setDescripcionServicio(detalleServicio.getTipoServicio
-			 * ().getDescripcion() +
-			 * " "+detalleServicio.getOrigen().getCodigoIATA
-			 * ()+" --> "+detalleServicio.getDestino().getCodigoIATA());
-			 * listaServiciosVenta.add(detalleServicioPadre); } else{ if
-			 * (listaServiciosVenta == null){ listaServiciosVenta = new
-			 * ArrayList<DetalleServicioAgencia>(); } for
-			 * (DetalleServicioAgencia detalleServicioAgencia :
-			 * listaServiciosVenta) { if
-			 * (detalleServicioAgencia.getCodigoEntero().intValue() ==
-			 * detalleServicio.getServicioPadre().getCodigoEntero().intValue()){
-			 * detalleServicioPadre = detalleServicioAgencia; break; } }
-			 * detalleServicio.setCodigoEntero(idDetServicio);
-			 * listaServiciosVenta.add(detalleServicio); }
-			 */
-			List<DetalleServicioAgencia> listaInvisibles = null;
-			if (detalleServicio.getTipoServicio().isServicioPadre()) {
-				listaInvisibles = agregarServicioVentaInvisible(idDetServicio,
-						detalleServicio, calcularIGV);
-			} else {
-				listaInvisibles = agregarServicioVentaInvisible(detalleServicio
-						.getServicioPadre().getCodigoEntero(), detalleServicio,
-						calcularIGV);
-			}
-
-			if (listaInvisibles != null) {
-				listaServiciosVenta.addAll(listaInvisibles);
-			}
-
-			listaServiciosVenta = UtilEjb
-					.ordenarServiciosVenta(listaServiciosVenta);
-			/*
-			 * detalleServicio.setCodigoEntero(comunDao
-			 * .obtenerSiguienteSecuencia(conn));
-			 * detalleServicioPadre.getServiciosHijos().add(detalleServicio);
-			 * detalleServicioPadre
-			 * .setServiciosHijos(agregarServicioVentaInvisible
-			 * (detalleServicioPadre, detalleServicio, calcularIGV));
-			 * UtilEjb.ordenarServiciosVenta
-			 * (detalleServicioPadre.getServiciosHijos()); if (nuevo){
-			 * listaServiciosVenta.add(detalleServicioPadre); }
-			 */
-
-			return listaServiciosVenta;
-		} catch (Exception e) {
-			throw new ErrorRegistroDataException(
-					"No se pudo agregar el servicio al listado", e);
-		} finally {
-			if (conn != null) {
-				conn.close();
-			}
-		}
-	}
-
-	@Override
 	public BigDecimal calcularValorCuota(ServicioAgencia servicioAgencia)
 			throws SQLException, Exception {
 		BigDecimal valorCuota = BigDecimal.ZERO;
@@ -1273,10 +1028,21 @@ public class NegocioSession implements NegocioSessionRemote,
 			}
 			if (servicioAgencia.getListaDetalleServicio() != null
 					&& !servicioAgencia.getListaDetalleServicio().isEmpty()) {
+				
 				for (DetalleServicioAgencia detalleServicio : servicioAgencia
 						.getListaDetalleServicio()) {
-
 					if (detalleServicio.getTipoServicio().isServicioPadre()) {
+						for (Tramo tramo : detalleServicio.getRuta().getTramos()){
+							tramo = servicioNovaViajesDao.registrarTramo(tramo, conexion);
+							if (tramo.getCodigoEntero()== null || tramo.getCodigoEntero().intValue()==0){
+								throw new ErrorRegistroDataException(
+										"No se pudo registrar los servicios de la venta");
+							}
+							servicioNovaViajesDao.obtenerSiguienteRuta(conexion);
+							detalleServicio.getRuta().setTramo(tramo);
+							servicioNovaViajesDao.registrarRuta(detalleServicio.getRuta(), conexion);
+						}
+						
 						Integer idSerDetaPadre = servicioNovaViajesDao
 								.ingresarDetalleServicio(detalleServicio,
 										idServicio, conexion);
@@ -1893,70 +1659,6 @@ public class NegocioSession implements NegocioSessionRemote,
 		return clienteDao.listarClienteCumpleanieros();
 	}
 
-	private List<DetalleServicioAgencia> agregarServicioVentaInvisible(
-			Integer idServicioPadre, DetalleServicioAgencia detalleServicio2,
-			boolean calcularIGV) throws ErrorConsultaDataException, Exception {
-
-		List<DetalleServicioAgencia> listaServicios = new ArrayList<DetalleServicioAgencia>();
-		try {
-			if (calcularIGV) {
-				ComunDao comunDao = new ComunDaoImpl();
-				MaestroServicioDao maestroServicioDao = new MaestroServicioDaoImpl();
-				List<MaestroServicio> lista = maestroServicioDao
-						.consultarServiciosInvisibles(detalleServicio2
-								.getTipoServicio().getCodigoEntero());
-
-				DetalleServicioAgencia detalle = null;
-				for (MaestroServicio maestroServicio : lista) {
-					detalle = new DetalleServicioAgencia();
-					detalle.setCodigoEntero(comunDao
-							.obtenerSiguienteSecuencia());
-					detalle.setDescripcionServicio(maestroServicio.getNombre());
-					detalle.setCantidad(1);
-					detalle.getTipoServicio().setCodigoEntero(
-							maestroServicio.getCodigoEntero());
-					detalle.getTipoServicio().setNombre(
-							maestroServicio.getNombre());
-					detalle.setFechaIda(new Date());
-					detalle.getServicioPadre().setCodigoEntero(idServicioPadre);
-
-					try {
-						BigDecimal cantidad = BigDecimal.valueOf(Double
-								.valueOf(String.valueOf(detalleServicio2
-										.getCantidad())));
-						BigDecimal precioBase = detalleServicio2
-								.getPrecioUnitario();
-						BigDecimal porcenIGV = BigDecimal.valueOf(Double
-								.valueOf(maestroServicio.getValorParametro()));
-						BigDecimal totalServicioPrecede = precioBase
-								.multiply(cantidad);
-
-						BigDecimal igvServicio = totalServicioPrecede
-								.multiply(porcenIGV);
-
-						detalle.setMontoIGV(igvServicio);
-						detalle.setPrecioUnitario(igvServicio);
-						listaServicios.add(detalle);
-					} catch (Exception e) {
-						detalle.setMontoIGV(BigDecimal.ZERO);
-						detalle.setPrecioUnitario(BigDecimal.ZERO);
-						listaServicios.add(detalle);
-						e.printStackTrace();
-					}
-				}
-			}
-
-			return listaServicios;
-		} catch (SQLException e) {
-			throw new ErrorConsultaDataException(
-					"Error en Consulta de Servicios Ocultos", e);
-		} catch (Exception e) {
-			throw new ErrorConsultaDataException(
-					"Error en Consulta de Servicios Ocultos", e);
-		}
-
-	}
-
 	@Override
 	public List<BaseVO> consultaServiciosDependientes(Integer idServicio)
 			throws SQLException, Exception {
@@ -1995,81 +1697,6 @@ public class NegocioSession implements NegocioSessionRemote,
 		ConsolidadorDao consolidadorDao = new ConsolidadorDaoImpl();
 
 		return consolidadorDao.consultarConsolidador(consolidador);
-	}
-
-	@Override
-	public BigDecimal calculaPorcentajeComision(
-			DetalleServicioAgencia detalleServicio) throws SQLException,
-			Exception {
-		DestinoDao destinoDao = new DestinoDaoImpl();
-		ProveedorDao proveedorDao = new ProveedorDaoImpl();
-
-		switch (detalleServicio.getTipoServicio().getCodigoEntero().intValue()) {
-		case 11:// BOLETO DE VIAJE
-			if (detalleServicio.getDestino().getCodigoEntero() != null
-					&& detalleServicio.getServicioProveedor().getProveedor()
-							.getCodigoEntero() != null
-					&& detalleServicio.getAerolinea().getCodigoEntero() != null) {
-				Destino destinoConsultado = destinoDao
-						.consultarDestino(detalleServicio.getDestino()
-								.getCodigoEntero());
-				Destino origenConsultado = destinoDao
-						.consultarDestino(detalleServicio.getOrigen()
-								.getCodigoEntero());
-
-				Locale localidad = Locale.getDefault();
-
-				List<ServicioProveedor> lista = proveedorDao
-						.consultarServicioProveedor(detalleServicio
-								.getServicioProveedor().getProveedor()
-								.getCodigoEntero());
-				for (ServicioProveedor servicioProveedor : lista) {
-					if (servicioProveedor.getProveedorServicio()
-							.getCodigoEntero().intValue() == detalleServicio
-							.getAerolinea().getCodigoEntero().intValue()) {
-						if (localidad.getCountry().equals(
-								destinoConsultado.getPais().getAbreviado()) && localidad.getCountry().equals(
-										origenConsultado.getPais().getAbreviado())) {
-							return servicioProveedor.getPorcentajeComision();
-						} else {
-							return servicioProveedor
-									.getPorcenComInternacional();
-						}
-					}
-				}
-			}
-			break;
-		case 12:// FEE
-			break;
-		case 13:// IGV
-			break;
-		case 14:// PROGRAMA
-			break;
-		case 15:// PAQUETE
-			break;
-		case 16:// IMPUESTO AEREO
-			break;
-		case 17:// HOTEL
-			if (detalleServicio.getServicioProveedor().getProveedor()
-					.getCodigoEntero() != null
-					&& detalleServicio.getHotel().getCodigoEntero() != null) {
-				List<ServicioProveedor> lista = proveedorDao
-						.consultarServicioProveedor(detalleServicio
-								.getServicioProveedor().getProveedor()
-								.getCodigoEntero());
-				for (ServicioProveedor servicioProveedor : lista) {
-					if (servicioProveedor.getProveedorServicio()
-							.getCodigoEntero().intValue() == detalleServicio
-							.getHotel().getCodigoEntero().intValue()) {
-						return servicioProveedor.getPorcentajeComision();
-					}
-				}
-			}
-
-			break;
-		}
-
-		return BigDecimal.ZERO;
 	}
 
 	@Override

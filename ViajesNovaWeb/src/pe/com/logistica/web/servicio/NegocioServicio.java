@@ -88,11 +88,6 @@ public interface NegocioServicio {
 	ServicioNovios agregarServicioNovios(ServicioNovios servicioNovios)
 			throws SQLException, Exception;
 
-	List<DetalleServicioAgencia> agregarServicioVenta(
-			List<DetalleServicioAgencia> listaServiciosVenta,
-			DetalleServicioAgencia detalleServicio)
-			throws ErrorRegistroDataException, SQLException, Exception;
-
 	public BigDecimal calcularValorCuota(ServicioAgencia servicioAgencia)
 			throws SQLException, Exception;
 
@@ -173,10 +168,6 @@ public interface NegocioServicio {
 
 	public Consolidador consultarConsolidador(Consolidador consolidador)
 			throws SQLException, Exception;
-
-	public BigDecimal calculaPorcentajeComision(
-			DetalleServicioAgencia detalleServicio) throws SQLException,
-			Exception;
 
 	public void registrarPago(PagoServicio pago) throws SQLException, Exception;
 

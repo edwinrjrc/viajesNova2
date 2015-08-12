@@ -173,13 +173,6 @@ public class NegocioServicioImpl implements NegocioServicio {
 	}
 	
 	@Override
-	public List<DetalleServicioAgencia> agregarServicioVenta(List<DetalleServicioAgencia> listaServiciosVenta, DetalleServicioAgencia detalleServicio)
-			throws ErrorRegistroDataException, SQLException,
-			Exception {
-		return ejbSession.agregarServicioVenta(listaServiciosVenta, detalleServicio);
-	}
-
-	@Override
 	public BigDecimal calcularValorCuota(ServicioAgencia servicioAgencia) throws SQLException, Exception {
 		return ejbSession.calcularValorCuota(servicioAgencia);
 	}
@@ -334,12 +327,6 @@ public class NegocioServicioImpl implements NegocioServicio {
 	public Consolidador consultarConsolidador(Consolidador consolidador)
 			throws SQLException, Exception {
 		return ejbSession.consultarConsolidador(consolidador);
-	}
-
-	@Override
-	public BigDecimal calculaPorcentajeComision(
-			DetalleServicioAgencia detalleServicio) throws SQLException, Exception {
-		return ejbSession.calculaPorcentajeComision(detalleServicio);
 	}
 
 	@Override

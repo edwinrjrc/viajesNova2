@@ -11,10 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -27,8 +24,10 @@ import pe.com.logistica.bean.negocio.DetalleServicioAgencia;
 import pe.com.logistica.bean.negocio.DocumentoAdicional;
 import pe.com.logistica.bean.negocio.EventoObsAnu;
 import pe.com.logistica.bean.negocio.PagoServicio;
+import pe.com.logistica.bean.negocio.Ruta;
 import pe.com.logistica.bean.negocio.ServicioAgencia;
 import pe.com.logistica.bean.negocio.ServicioAgenciaBusqueda;
+import pe.com.logistica.bean.negocio.Tramo;
 import pe.com.logistica.negocio.dao.ServicioNovaViajesDao;
 import pe.com.logistica.negocio.util.UtilConexion;
 import pe.com.logistica.negocio.util.UtilJdbc;
@@ -345,29 +344,11 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
-			if (detalleServicio.getOrigen().getCodigoEntero() != null && detalleServicio.getOrigen().getCodigoEntero().intValue()!=0){
-				cs.setInt(i++, detalleServicio.getOrigen().getCodigoEntero().intValue());
+			if (detalleServicio.getRuta().getCodigoEntero() != null && detalleServicio.getRuta().getCodigoEntero().intValue() != 0){
+				cs.setInt(i++, detalleServicio.getRuta().getCodigoEntero().intValue());
 			}
 			else{
 				cs.setNull(i++, Types.INTEGER);
-			}
-			if (StringUtils.isNotBlank(detalleServicio.getOrigen().getDescripcion())){
-				cs.setString(i++, detalleServicio.getOrigen().getDescripcion());
-			}
-			else{
-				cs.setNull(i++, Types.VARCHAR);
-			}
-			if (detalleServicio.getDestino().getCodigoEntero() != null && detalleServicio.getDestino().getCodigoEntero().intValue()!=0){
-				cs.setInt(i++, detalleServicio.getDestino().getCodigoEntero().intValue());
-			}
-			else{
-				cs.setNull(i++, Types.INTEGER);
-			}
-			if (StringUtils.isNotBlank(detalleServicio.getDestino().getDescripcion())){
-				cs.setString(i++, detalleServicio.getDestino().getDescripcion());
-			}
-			else{
-				cs.setNull(i++, Types.VARCHAR);
 			}
 			cs.setBigDecimal(i++, detalleServicio.getPrecioUnitario());
 			cs.setBoolean(i++, detalleServicio.getServicioProveedor().isEditoComision());
@@ -689,8 +670,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 				detalleServicio.getTipoServicio().setEsImpuesto(UtilJdbc.obtenerBoolean(rs, "esimpuesto"));
 				detalleServicio.getTipoServicio().setEsFee(UtilJdbc.obtenerBoolean(rs, "esfee"));
 				detalleServicio.setDescripcionServicio(UtilJdbc.obtenerCadena(rs, "descripcionservicio"));
-				detalleServicio.getDestino().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "iddestino"));
-				detalleServicio.getDestino().setDescripcion(UtilJdbc.obtenerCadena(rs, "descripciondestino"));
+				detalleServicio.getRuta().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idruta"));
 				detalleServicio.setDias(UtilJdbc.obtenerNumero(rs, "dias"));
 				detalleServicio.setNoches(UtilJdbc.obtenerNumero(rs, "noches"));
 				detalleServicio.setFechaIda(UtilJdbc.obtenerFecha(rs, "fechaida"));
@@ -2803,10 +2783,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 				detalleServicio.getTipoServicio().setCargaComision(UtilJdbc.obtenerBoolean(rs, "cargacomision"));
 				detalleServicio.getTipoServicio().setEsImpuesto(UtilJdbc.obtenerBoolean(rs, "esimpuesto"));
 				detalleServicio.getTipoServicio().setEsFee(UtilJdbc.obtenerBoolean(rs, "esfee"));
-				detalleServicio.getOrigen().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idorigen"));
-				detalleServicio.getOrigen().setDescripcion(UtilJdbc.obtenerCadena(rs, "descripcionorigen"));
-				detalleServicio.getDestino().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "iddestino"));
-				detalleServicio.getDestino().setDescripcion(UtilJdbc.obtenerCadena(rs, "descripciondestino"));
+				detalleServicio.getRuta().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idruta"));
 				detalleServicio.getAerolinea().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idempresatransporte"));
 				detalleServicio.getAerolinea().setNombre(UtilJdbc.obtenerCadena(rs, "descripcionemptransporte"));
 				detalleServicio.getHotel().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idhotel"));
@@ -2849,4 +2826,92 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 		return detalleServicio;
 	}
 	
+	@Override
+	public Tramo registrarTramo(Tramo tramo, Connection conn) throws SQLException{
+		CallableStatement cs = null;
+		String sql = "";
+		
+		try{
+			sql = "{ ? = call negocio.fn_ingresartramo(?,?,?,?,?,?,?,?,?)}";
+			int i=0;
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(i++, Types.INTEGER);
+			cs.setInt(i++, tramo.getOrigen().getCodigoEntero().intValue());
+			cs.setString(i++, tramo.getOrigen().getDescripcion());
+			cs.setTimestamp(i++, UtilJdbc.convertirUtilDateTimeStamp(tramo.getFechaSalida()));
+			cs.setInt(i++, tramo.getDestino().getCodigoEntero().intValue());
+			cs.setString(i++, tramo.getDestino().getDescripcion());
+			cs.setTimestamp(i++, UtilJdbc.convertirUtilDateTimeStamp(tramo.getFechaSalida()));
+			cs.setBigDecimal(i++, tramo.getPrecio());
+			cs.setString(i++, tramo.getUsuarioCreacion());
+			cs.setString(i++, tramo.getIpCreacion());
+			cs.execute();
+			
+			tramo.setCodigoEntero(cs.getInt(1));
+		}
+		catch (SQLException e){
+			throw new SQLException(e);
+		}
+		finally{
+			if (cs != null){
+				cs.close();
+			}
+		}
+		return tramo;
+	}
+	
+	@Override
+	public Integer obtenerSiguienteRuta(Connection conn) throws SQLException{
+		Integer resultado = 0;
+		CallableStatement cs = null;
+		String sql = "";
+		
+		try{
+			sql = "{ ? = call negocio.fn_siguienteruta()}";
+			int i=0;
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(i++, Types.INTEGER);
+			cs.execute();
+			
+			resultado = cs.getInt(1);
+		}
+		catch (SQLException e){
+			throw new SQLException(e);
+		}
+		finally{
+			if (cs != null){
+				cs.close();
+			}
+		}
+		
+		return resultado;
+	}
+	
+	@Override
+	public boolean registrarRuta(Ruta ruta, Connection conn) throws SQLException{
+		CallableStatement cs = null;
+		String sql = "";
+		
+		try{
+			sql = "{ ? = call negocio.fn_ingresarruta(?,?,?,?)}";
+			int i=0;
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(i++, Types.INTEGER);
+			cs.setInt(i++, ruta.getCodigoEntero().intValue());
+			cs.setInt(i++, ruta.getTramo().getCodigoEntero().intValue());
+			cs.setString(i++, ruta.getUsuarioCreacion());
+			cs.setString(i++, ruta.getIpCreacion());
+			cs.execute();
+				
+			return true;
+		}
+		catch (SQLException e){
+			throw new SQLException(e);
+		}
+		finally{
+			if (cs != null){
+				cs.close();
+			}
+		}
+	}
 }

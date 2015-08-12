@@ -4,12 +4,15 @@
 package pe.com.logistica.web.faces;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import javax.faces.application.FacesMessage;
@@ -23,6 +26,15 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -193,39 +205,6 @@ public class ServicioAgenteMBean extends BaseMBean {
 
 	public void seleccionarCliente() {
 		this.getServicioAgencia().setCliente(obtenerClienteListado());
-	}
-
-	public void seleccionarDestino() {
-		try {
-			this.getDetalleServicio().setDestino(obtenerDestinoListado());
-
-			this.getDetalleServicio()
-					.getServicioProveedor()
-					.setPorcentajeComision(
-							this.negocioServicio.calculaPorcentajeComision(this
-									.getDetalleServicio()));
-		} catch (SQLException e) {
-			this.mostrarMensajeError(e.getMessage());
-			logger.error(e.getMessage(), e);
-		} catch (Exception e) {
-			this.mostrarMensajeError(e.getMessage());
-			logger.error(e.getMessage(), e);
-		}
-	}
-
-	private Destino obtenerDestinoListado() {
-		try {
-			for (Destino destino : this.listaDestinosBusqueda) {
-				if (destino.getCodigoEntero().intValue() == destino
-						.getCodigoSeleccionado().intValue()) {
-					return destino;
-				}
-			}
-
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-		}
-		return null;
 	}
 
 	private Cliente obtenerClienteListado() {
@@ -423,7 +402,6 @@ public class ServicioAgenteMBean extends BaseMBean {
 					break;
 				}
 			}*/
-			this.getDetalleServicio().setDestino(this.soporteServicio.consultaDestinoIATA(destino));
 		} catch (SQLException e) {
 			logger.error(e.getMessage(), e);
 		}
@@ -474,6 +452,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 
 				String etiqueta = "" + detalle.getTipoServicio().getNombre();
 
+				/*
 				if (StringUtils.isNotBlank(detalle.getOrigen().getCodigoIATA())
 						&& StringUtils.isNotBlank(detalle.getDestino()
 								.getCodigoIATA())) {
@@ -486,7 +465,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 						etiqueta = etiqueta + detalle.getDescripcionServicio().substring(0, 15);
 					}
 					
-				}
+				}*/
 
 				si.setLabel(etiqueta);
 				this.getListadoServiciosPadre().add(si);
@@ -1888,6 +1867,62 @@ public class ServicioAgenteMBean extends BaseMBean {
 			this.mostrarMensajeError(e.getMessage());
 			logger.error(e.getMessage(), e);
 		}
+	}
+	
+	public void imprimirVenta(){
+		String rutaCarpeta = "/../resources/jasper/";
+		String[] rutaJasper = { "ventaservicio.jasper"};
+
+		try {
+			HttpServletResponse response = obtenerResponse();
+			response.setHeader("Content-Type", "application/pdf");
+			response.setHeader("Content-disposition",
+					"attachment;filename=servicioventa.pdf");
+			response.setHeader("Content-Transfer-Encoding", "binary");
+
+			FacesContext facesContext = obtenerContexto();
+			InputStream[] jasperStream = new InputStream[4];
+			OutputStream stream = response.getOutputStream();
+			for (int i = 0; i < rutaJasper.length; i++) {
+				rutaJasper[i] = obtenerRequest().getContextPath() + rutaCarpeta
+						+ rutaJasper[i];
+				jasperStream[i] = facesContext.getExternalContext()
+						.getResourceAsStream(rutaJasper[i]);
+			}
+			//imprimirPDF(enviarParametros(), stream, jasperStream);
+
+			facesContext.responseComplete();
+
+		} catch (IOException e) {
+			logger.error(e.getMessage(), e);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		
+		
+		
+	}
+
+	private void imprimirPDF(Map<String, Object> map, OutputStream outputStream,
+			InputStream[] jasperStream) throws JRException {
+		List<JasperPrint> printList = new ArrayList<JasperPrint>();
+
+		for (int i = 0; i < jasperStream.length; i++) {
+			printList.add(JasperFillManager.fillReport(jasperStream[i], map));
+		}
+
+		JRPdfExporter exporter = new JRPdfExporter();
+		exporter.setExporterInput(SimpleExporterInput.getInstance(printList));
+		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(
+				outputStream));
+		SimplePdfExporterConfiguration configuration = new SimplePdfExporterConfiguration();
+		configuration.setCreatingBatchModeBookmarks(true);
+		exporter.exportReport();
+	}
+
+	private Object enviarParametros() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/**

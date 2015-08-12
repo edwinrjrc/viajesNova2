@@ -15,8 +15,10 @@ import pe.com.logistica.bean.negocio.DetalleServicioAgencia;
 import pe.com.logistica.bean.negocio.DocumentoAdicional;
 import pe.com.logistica.bean.negocio.EventoObsAnu;
 import pe.com.logistica.bean.negocio.PagoServicio;
+import pe.com.logistica.bean.negocio.Ruta;
 import pe.com.logistica.bean.negocio.ServicioAgencia;
 import pe.com.logistica.bean.negocio.ServicioAgenciaBusqueda;
+import pe.com.logistica.bean.negocio.Tramo;
 
 /**
  * @author edwreb
@@ -150,4 +152,10 @@ public interface ServicioNovaViajesDao {
 
 	DetalleServicioAgencia consultaDetalleServicioDetalle(int idServicio,
 			int idDetServicio) throws SQLException;
+
+	Tramo registrarTramo(Tramo tramo, Connection conn) throws SQLException;
+
+	boolean registrarRuta(Ruta ruta, Connection conn) throws SQLException;
+
+	Integer obtenerSiguienteRuta(Connection conn) throws SQLException;
 }

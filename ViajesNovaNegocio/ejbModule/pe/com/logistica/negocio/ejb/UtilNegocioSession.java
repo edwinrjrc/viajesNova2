@@ -19,6 +19,7 @@ import pe.com.logistica.bean.negocio.ConfiguracionTipoServicio;
 import pe.com.logistica.bean.negocio.DetalleServicioAgencia;
 import pe.com.logistica.bean.negocio.MaestroServicio;
 import pe.com.logistica.bean.negocio.Parametro;
+import pe.com.logistica.bean.negocio.Tramo;
 import pe.com.logistica.negocio.dao.ComunDao;
 import pe.com.logistica.negocio.dao.DestinoDao;
 import pe.com.logistica.negocio.dao.MaestroServicioDao;
@@ -102,8 +103,7 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 						detalle.setCantidad(detalleHijo.getCantidad());
 						detalle.setPrecioUnitario(detalleHijo
 								.getPrecioUnitario());
-						detalle.setOrigen(detalleHijo.getOrigen());
-						detalle.setDestino(detalleHijo.getDestino());
+						detalle.setRuta(detalleHijo.getRuta());
 						detalle.setDescripcionServicio(detalleHijo
 								.getDescripcionServicio());
 						detalle.setServicioProveedor(detalleHijo
@@ -268,18 +268,25 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 				}
 			}
 
-			if (detalleServicio.getOrigen().getCodigoEntero() != null) {
-				detalleServicio.setOrigen(destinoDao.consultarDestino(
-						detalleServicio.getOrigen().getCodigoEntero(), conn));
-				detalleServicio.setDestino(destinoDao.consultarDestino(
-						detalleServicio.getDestino().getCodigoEntero(), conn));
+			if (detalleServicio.getRuta() != null) {
+				for (Tramo tramo : detalleServicio.getRuta().getTramos()){
+					tramo.setOrigen(destinoDao.consultarDestino(
+							tramo.getOrigen().getCodigoEntero(), conn));
+					tramo.setDestino(destinoDao.consultarDestino(
+							tramo.getDestino().getCodigoEntero(), conn));
+				}
 			}
 
 			boolean calcularIGV = false;
-			calcularIGV = ("PE".equalsIgnoreCase(detalleServicio.getOrigen()
-					.getPais().getAbreviado()) || "PE"
-					.equalsIgnoreCase(detalleServicio.getDestino().getPais()
-							.getAbreviado()));
+			for (Tramo tramo : detalleServicio.getRuta().getTramos()){
+				calcularIGV = ("PE".equalsIgnoreCase(tramo.getOrigen()
+						.getPais().getAbreviado()) || "PE"
+						.equalsIgnoreCase(tramo.getDestino().getPais()
+								.getAbreviado()));
+				if (calcularIGV){
+					break;	
+				}
+			}
 
 			if (detalleServicio.getPrecioUnitario() != null) {
 				BigDecimal total = detalleServicio.getPrecioUnitario()
@@ -386,8 +393,9 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 			String descripcion = "";
 			descripcion = detalle.getTipoServicio().getNombre() + " ";
 			if (configuracion.isMuestraDestino()) {
-				descripcion = descripcion + detalle.getOrigen().getDescripcion()
-						+ " a " + detalle.getDestino().getDescripcion() + "  ";
+				for (Tramo tramo : detalle.getRuta().getTramos()){
+					descripcion = descripcion + tramo.getOrigen().getDescripcion() + " - " + tramo.getDestino().getDescripcion() + " / ";
+				}
 			}
 			if (configuracion.isMuestraAerolinea()) {
 				descripcion = descripcion + " con "
@@ -522,18 +530,25 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 				detalleServicioAgencia.setCantidad(1);
 			}
 
-			if (detalleServicio.getOrigen().getCodigoEntero() != null) {
-				detalleServicioAgencia.setOrigen(destinoDao.consultarDestino(
-						detalleServicio.getOrigen().getCodigoEntero(), conn));
-				detalleServicioAgencia.setDestino(destinoDao.consultarDestino(
-						detalleServicio.getDestino().getCodigoEntero(), conn));
+			if (detalleServicio.getRuta() != null) {
+				for (Tramo tramo : detalleServicio.getRuta().getTramos()){
+					tramo.setOrigen(destinoDao.consultarDestino(
+							tramo.getOrigen().getCodigoEntero(), conn));
+					tramo.setDestino(destinoDao.consultarDestino(
+							tramo.getDestino().getCodigoEntero(), conn));
+				}
 			}
 
 			boolean calcularIGV = false;
-			calcularIGV = ("PE".equalsIgnoreCase(detalleServicio.getOrigen()
-					.getPais().getAbreviado()) || "PE"
-					.equalsIgnoreCase(detalleServicio.getDestino().getPais()
-							.getAbreviado()));
+			for (Tramo tramo : detalleServicio.getRuta().getTramos()){
+				calcularIGV = ("PE".equalsIgnoreCase(tramo.getOrigen()
+						.getPais().getAbreviado()) || "PE"
+						.equalsIgnoreCase(tramo.getDestino().getPais()
+								.getAbreviado()));
+				if (calcularIGV){
+					break;	
+				}
+			}
 
 			if (detalleServicio.getPrecioUnitario() != null) {
 				BigDecimal total = detalleServicio.getPrecioUnitario()

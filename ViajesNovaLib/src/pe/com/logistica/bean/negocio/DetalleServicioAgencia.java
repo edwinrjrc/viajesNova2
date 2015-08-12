@@ -24,10 +24,9 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	
 	private MaestroServicio tipoServicio;
 	private String descripcionServicio;
-	private Destino origen;
-	private Destino destino;
 	private BaseVO aerolinea;
 	private BaseVO operadora;
+	private Ruta ruta;
 	private int dias;
 	private int noches;
 	private Date fechaServicio;
@@ -99,23 +98,6 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	 */
 	public void setDescripcionServicio(String descripcionServicio) {
 		this.descripcionServicio = descripcionServicio;
-	}
-
-	/**
-	 * @return the destino
-	 */
-	public Destino getDestino() {
-		if (destino == null){
-			destino = new Destino();
-		}
-		return destino;
-	}
-
-	/**
-	 * @param destino the destino to set
-	 */
-	public void setDestino(Destino destino) {
-		this.destino = destino;
 	}
 
 	/**
@@ -367,23 +349,6 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	 */
 	public void setAerolinea(BaseVO aerolinea) {
 		this.aerolinea = aerolinea;
-	}
-
-	/**
-	 * @return the origen
-	 */
-	public Destino getOrigen() {
-		if (origen == null){
-			origen = new Destino();
-		}
-		return origen;
-	}
-
-	/**
-	 * @param origen the origen to set
-	 */
-	public void setOrigen(Destino origen) {
-		this.origen = origen;
 	}
 
 	/**
@@ -668,6 +633,23 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	 */
 	public void setTotal(BigDecimal total) {
 		this.total = total;
+	}
+
+	/**
+	 * @return the ruta
+	 */
+	public Ruta getRuta() {
+		if (ruta == null){
+			ruta = new Ruta();
+		}
+		return ruta;
+	}
+
+	/**
+	 * @param ruta the ruta to set
+	 */
+	public void setRuta(Ruta ruta) {
+		this.ruta = ruta;
 	}
 
 }

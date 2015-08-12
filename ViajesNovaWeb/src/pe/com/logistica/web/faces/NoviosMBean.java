@@ -52,10 +52,8 @@ import pe.com.logistica.bean.negocio.Usuario;
 import pe.com.logistica.negocio.exception.ErrorRegistroDataException;
 import pe.com.logistica.negocio.exception.ValidacionException;
 import pe.com.logistica.web.servicio.NegocioServicio;
-import pe.com.logistica.web.servicio.ParametroServicio;
 import pe.com.logistica.web.servicio.SoporteServicio;
 import pe.com.logistica.web.servicio.impl.NegocioServicioImpl;
-import pe.com.logistica.web.servicio.impl.ParametroServicioImpl;
 import pe.com.logistica.web.servicio.impl.SoporteServicioImpl;
 import pe.com.logistica.web.util.UtilWeb;
 
