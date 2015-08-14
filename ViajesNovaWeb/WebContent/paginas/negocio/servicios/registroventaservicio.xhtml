@@ -227,44 +227,19 @@
 									<h:outputText value="" />
 									<h:outputText value="" />
 								</h:panelGrid>
+
+								<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+									style="width:100%;text_align:center;"
+									rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraRuta}">
+
+									<a4j:commandButton value="Ingresar Ruta"
+										oncomplete="mostrarModal3('idModalrutaservicio')"></a4j:commandButton>
+
+								</h:panelGrid>
+
 								<h:panelGrid columns="4" cellpadding="0" cellspacing="0"
 									border="0" style="width:100%;"
 									columnClasses="col1fil1formulario,col2fil1formulario,col3fil1formulario,col4fil1formulario">
-									<h:outputText value="Origen"
-										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraDestino}" />
-									<h:panelGrid columns="2" border="0" cellpadding="0"
-										cellspacing="0" id="idSelOrigen"
-										columnClasses="col1iconoformulario,col1iconoformulario"
-										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraDestino}">
-										<rich:autocomplete id="idTxtOrigen" mode="client"
-											value="#{servicioAgenteMBean.detalleServicio.origen.codigoCadena}"
-											autocompleteList="#{servicioAgenteMBean.listaOrigenesBusqueda}"
-											var="origen" layout="div"
-											fetchValue="#{origen.descripcion}(#{origen.codigoIATA})">
-											<b>#{origen.descripcion}</b> - <i>(#{origen.codigoIATA})
-											</i>
-										</rich:autocomplete>
-										<rich:message for="idTxtOrigen" showSummary="true"
-											showDetail="false" ajaxRendered="true" />
-									</h:panelGrid>
-
-									<h:outputText value="Destino"
-										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraDestino}" />
-									<h:panelGrid columns="2" border="0" cellpadding="0"
-										cellspacing="0" id="idSelDestino"
-										columnClasses="col1iconoformulario,col1iconoformulario"
-										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraDestino}">
-										<rich:autocomplete id="idTxtDestino" mode="client"
-											value="#{servicioAgenteMBean.detalleServicio.destino.codigoCadena}"
-											autocompleteList="#{servicioAgenteMBean.listaDestinosBusqueda}"
-											var="destino" layout="div" onselectitem="clicBoton('idFormVentaServi:idbtncalculacomision')"
-											fetchValue="#{destino.descripcion}(#{destino.codigoIATA})">
-											<b>#{destino.descripcion}</b> - <i>(#{destino.codigoIATA})
-											</i>
-										</rich:autocomplete>
-										<rich:message for="idTxtDestino" showSummary="true"
-											showDetail="false" ajaxRendered="true" />
-									</h:panelGrid>
 
 									<h:outputText value="Codigo Reserva"
 										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraCodigoReserva}" />
@@ -540,8 +515,7 @@
 												<h:outputText value="Servicio - Descripcion" />
 											</h:panelGrid>
 										</f:facet>
-										<h:outputText
-											value="#{row.descripcionServicio}" />
+										<h:outputText value="#{row.descripcionServicio}" />
 									</rich:column>
 									<rich:column style="text-align:left;width: 75%;">
 										<f:facet name="header">
@@ -670,7 +644,8 @@
 								</rich:column>
 								<f:facet name="header">
 									<h:panelGrid cellpadding="0" cellspacing="0" border="0"
-										style="text-align:right;" columns="2" rendered="#{!servicioAgenteMBean.transaccionExito}">
+										style="text-align:right;" columns="2"
+										rendered="#{!servicioAgenteMBean.transaccionExito}">
 										<a4j:commandButton value="Eliminar Adjuntados"
 											action="#{servicioAgenteMBean.limpiarArchivos()}"
 											render="idTablaDocAdicionalR,idUploadAdicional"></a4j:commandButton>

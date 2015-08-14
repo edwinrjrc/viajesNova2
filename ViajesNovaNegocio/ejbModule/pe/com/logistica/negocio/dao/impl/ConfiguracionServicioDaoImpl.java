@@ -64,7 +64,7 @@ public class ConfiguracionServicioDaoImpl implements ConfiguracionServicioDao {
 				resultado.setMuestraFechaRegreso(UtilJdbc.obtenerBoolean(rs, "muestrafecharegreso"));
 				resultado.setMuestraCantidad(UtilJdbc.obtenerBoolean(rs, "muestracantidad"));
 				resultado.setMuestraPrecioBase(UtilJdbc.obtenerBoolean(rs, "muestraprecio"));
-				resultado.setMuestraDestino(UtilJdbc.obtenerBoolean(rs, "muestradestino"));
+				resultado.setMuestraRuta(UtilJdbc.obtenerBoolean(rs, "muestraruta"));
 				resultado.setMuestraComision(UtilJdbc.obtenerBoolean(rs, "muestracomision"));
 				resultado.setMuestraOperadora(UtilJdbc.obtenerBoolean(rs, "muestraoperador"));
 				resultado.setMuestraTarifaNegociada(UtilJdbc.obtenerBoolean(rs, "muestratarifanegociada"));
@@ -130,7 +130,7 @@ public class ConfiguracionServicioDaoImpl implements ConfiguracionServicioDao {
 				bean.setMuestraFechaRegreso(UtilJdbc.obtenerBoolean(rs, "muestrafecharegreso"));
 				bean.setMuestraCantidad(UtilJdbc.obtenerBoolean(rs, "muestracantidad"));
 				bean.setMuestraPrecioBase(UtilJdbc.obtenerBoolean(rs, "muestraprecio"));
-				bean.setMuestraDestino(UtilJdbc.obtenerBoolean(rs, "muestradestino"));
+				bean.setMuestraRuta(UtilJdbc.obtenerBoolean(rs, "muestraruta"));
 				bean.setMuestraComision(UtilJdbc.obtenerBoolean(rs, "muestracomision"));
 				bean.setMuestraOperadora(UtilJdbc.obtenerBoolean(rs, "muestraoperador"));
 				bean.setMuestraTarifaNegociada(UtilJdbc.obtenerBoolean(rs, "muestratarifanegociada"));
@@ -279,7 +279,7 @@ public class ConfiguracionServicioDaoImpl implements ConfiguracionServicioDao {
 			cs.setBoolean(i++, configuracion.isMuestraFechaRegreso());
 			cs.setBoolean(i++, configuracion.isMuestraCantidad());
 			cs.setBoolean(i++, configuracion.isMuestraPrecioBase());
-			cs.setBoolean(i++, configuracion.isMuestraDestino());
+			cs.setBoolean(i++, configuracion.isMuestraRuta());
 			cs.setBoolean(i++, configuracion.isMuestraComision());
 			cs.setBoolean(i++, configuracion.isMuestraOperadora());
 			cs.setBoolean(i++, configuracion.isMuestraTarifaNegociada());

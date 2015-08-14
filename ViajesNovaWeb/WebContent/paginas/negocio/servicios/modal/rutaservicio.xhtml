@@ -7,7 +7,7 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich">
 
-	<rich:popupPanel id="idModalverdetalle" modal="true" width="500"
+	<rich:popupPanel id="idModalrutaservicio" modal="true" width="500"
 		height="250">
 
 		<f:facet name="header">
@@ -15,7 +15,7 @@
 		</f:facet>
 		<f:facet name="controls">
 			<h:outputLink value="#" style="border:0"
-				onclick="#{rich:component('idModalverdetalle')}.hide(); return false;">
+				onclick="#{rich:component('idModalrutaservicio')}.hide(); return false;">
 				<h:graphicImage height="18" width="18"
 					url="/resources/img/close.png" style="border:0" />
 			</h:outputLink>
@@ -23,31 +23,57 @@
 
 		<h:panelGrid cellpadding="0" cellspacing="0" border="0"
 			style="width:100%" columns="4" id="idPnRutaServicio">
-			<rich:dataTable value="#{servicioAgenteMBean.detalleServicio.ruta.tramos}">
+			<rich:dataTable
+				value="#{servicioAgenteMBean.detalleServicio.ruta.tramos}"
+				var="tramo">
 				<rich:column>
 					<f:facet name="header">
 						<h:outputText value="Origen" />
 					</f:facet>
+					<rich:autocomplete id="idTxtOrigen" mode="client"
+						value="#{tramo.origen.codigoCadena}"
+						autocompleteList="#{servicioAgenteMBean.listaOrigenesBusqueda}"
+						var="origen" layout="div"
+						fetchValue="#{origen.descripcion}(#{origen.codigoIATA})">
+						<b>#{origen.descripcion}</b> - <i>(#{origen.codigoIATA}) </i>
+					</rich:autocomplete>
 				</rich:column>
 				<rich:column>
 					<f:facet name="header">
 						<h:outputText value="Fecha Salida" />
 					</f:facet>
+					<rich:calendar datePattern="dd/MM/yyyy HH:mm"
+						showApplyButton="true" value="#{tramo.fechaSalida}"></rich:calendar>
 				</rich:column>
 				<rich:column>
 					<f:facet name="header">
 						<h:outputText value="Destino" />
 					</f:facet>
+					<rich:autocomplete id="idTxtDestino" mode="client"
+						value="#{tramo.destino.codigoCadena}"
+						autocompleteList="#{servicioAgenteMBean.listaDestinosBusqueda}"
+						var="destino" layout="div"
+						onselectitem="clicBoton('idFormVentaServi:idbtncalculacomision')"
+						fetchValue="#{destino.descripcion}(#{destino.codigoIATA})">
+						<b>#{destino.descripcion}</b> - <i>(#{destino.codigoIATA}) </i>
+					</rich:autocomplete>
 				</rich:column>
 				<rich:column>
 					<f:facet name="header">
-						<h:outputText value="Fecha Salida" />
+						<h:outputText value="Fecha Llegada" />
 					</f:facet>
+					<rich:calendar datePattern="dd/MM/yyyy HH:mm"
+						showApplyButton="true" value="#{tramo.fechaLlegada}"></rich:calendar>
 				</rich:column>
 				<rich:column>
 					<f:facet name="header">
 						<h:outputText value="Precio Tramo" />
 					</f:facet>
+					<h:inputText
+						onkeypress="return js_soloDecimal(event)"
+						style="text-align:right;"
+						value="#{tramo.precio}"
+						size="10" maxlength="8" />
 				</rich:column>
 				<rich:column>
 					<a4j:commandButton value=" + "></a4j:commandButton>

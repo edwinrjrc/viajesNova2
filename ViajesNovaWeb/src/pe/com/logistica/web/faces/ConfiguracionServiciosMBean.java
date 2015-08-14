@@ -106,11 +106,11 @@ public class ConfiguracionServiciosMBean extends BaseMBean {
 	}
 
 	public void agregarTipoServicio(){
-		this.listaConfigServicios.add(new ConfiguracionTipoServicio());
+		getListaConfigServicios().add(new ConfiguracionTipoServicio());
 	}
 	
 	public void eliminar(ConfiguracionTipoServicio configuracion){
-		this.listaConfigServicios.remove(configuracion);
+		getListaConfigServicios().remove(configuracion);
 	}
 
 	/**

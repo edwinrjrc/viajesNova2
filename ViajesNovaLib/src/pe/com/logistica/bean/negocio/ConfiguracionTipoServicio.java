@@ -20,7 +20,7 @@ public class ConfiguracionTipoServicio extends BaseNegocio{
 	private boolean muestraFechaRegreso;
 	private boolean muestraCantidad;
 	private boolean muestraPrecioBase;
-	private boolean muestraDestino;
+	private boolean muestraRuta;
 	private boolean muestraComision;
 	private boolean muestraTarifaNegociada;
 	private boolean muestraCodigoReserva;
@@ -157,20 +157,6 @@ public class ConfiguracionTipoServicio extends BaseNegocio{
 	}
 
 	/**
-	 * @return the muestraDestino
-	 */
-	public boolean isMuestraDestino() {
-		return muestraDestino;
-	}
-
-	/**
-	 * @param muestraDestino the muestraDestino to set
-	 */
-	public void setMuestraDestino(boolean muestraDestino) {
-		this.muestraDestino = muestraDestino;
-	}
-
-	/**
 	 * @return the muestraComision
 	 */
 	public boolean isMuestraComision() {
@@ -238,6 +224,20 @@ public class ConfiguracionTipoServicio extends BaseNegocio{
 	 */
 	public void setMuestraNumeroBoleto(boolean muestraNumeroBoleto) {
 		this.muestraNumeroBoleto = muestraNumeroBoleto;
+	}
+
+	/**
+	 * @return the muestraRuta
+	 */
+	public boolean isMuestraRuta() {
+		return muestraRuta;
+	}
+
+	/**
+	 * @param muestraRuta the muestraRuta to set
+	 */
+	public void setMuestraRuta(boolean muestraRuta) {
+		this.muestraRuta = muestraRuta;
 	}
 
 }
