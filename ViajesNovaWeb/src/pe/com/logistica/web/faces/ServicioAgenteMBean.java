@@ -27,7 +27,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -1926,6 +1925,14 @@ public class ServicioAgenteMBean extends BaseMBean {
 	public void agregarRutaInicial(){
 		this.getDetalleServicio().getRuta().setTramos(null);
 		this.getDetalleServicio().getRuta().getTramos().add(new Tramo());
+	}
+	
+	public void agregarTramo(){
+		this.getDetalleServicio().getRuta().getTramos().add(new Tramo());
+	}
+	
+	public void eliminarTramo(Tramo tramo){
+		this.getDetalleServicio().getRuta().getTramos().remove(tramo);
 	}
 
 	/**

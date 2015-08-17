@@ -232,8 +232,8 @@
 									style="width:100%;text_align:center;"
 									rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraRuta}">
 
-									<a4j:commandButton value="Ingresar Ruta"
-										oncomplete="mostrarModal3('idModalrutaservicio')"></a4j:commandButton>
+									<a4j:commandButton value="Ingresar Ruta" action="#{servicioAgenteMBean.agregarRutaInicial()}"
+										oncomplete="mostrarModal3('idModalrutaservicio')" render="idPnRutaServicio"></a4j:commandButton>
 
 								</h:panelGrid>
 

@@ -739,23 +739,26 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 			int nacionales = 0;
 			int internacionales = 0;
 			Locale localidad = Locale.getDefault();
-			for (Tramo tramo : detalleServicio.getRuta().getTramos()){
-				Destino destinoConsultado = destinoDao
-						.consultarDestino(tramo.getDestino()
-								.getCodigoEntero());
-				if (localidad.getCountry().equals(destinoConsultado.getPais().getAbreviado())){
-					nacionales++;
-				}
-				Destino origenConsultado = destinoDao
-						.consultarDestino(tramo.getOrigen()
-								.getCodigoEntero());
-				if (!localidad.getCountry().equals(origenConsultado.getPais().getAbreviado())){
-					internacionales++;
-				}
-				if (nacionales>0 && internacionales>0){
-					break;
+			if (!detalleServicio.getRuta().getTramos().isEmpty()){
+				for (Tramo tramo : detalleServicio.getRuta().getTramos()){
+					Destino destinoConsultado = destinoDao
+							.consultarDestino(tramo.getDestino()
+									.getCodigoEntero());
+					if (localidad.getCountry().equals(destinoConsultado.getPais().getAbreviado())){
+						nacionales++;
+					}
+					Destino origenConsultado = destinoDao
+							.consultarDestino(tramo.getOrigen()
+									.getCodigoEntero());
+					if (!localidad.getCountry().equals(origenConsultado.getPais().getAbreviado())){
+						internacionales++;
+					}
+					if (nacionales>0 && internacionales>0){
+						break;
+					}
 				}
 			}
+			
 			List<ServicioProveedor> lista = proveedorDao
 					.consultarServicioProveedor(detalleServicio
 							.getServicioProveedor().getProveedor()
