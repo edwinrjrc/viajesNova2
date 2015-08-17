@@ -724,8 +724,8 @@ public class NoviosMBean extends BaseMBean {
 				getServicioNovios().getServicioProveedor().setEditoComision(
 						this.isEditarComision());
 
-				this.setListadoDetalleServicio(negocioServicio
-						.agregarServicioVenta(this.getListadoDetalleServicio(),getServicioNovios()));
+				/*this.setListadoDetalleServicio(negocioServicio
+						.agregarServicioVenta(this.getListadoDetalleServicio(),getServicioNovios()));*/
 
 				this.setServicioNovios(null);
 
@@ -734,7 +734,7 @@ public class NoviosMBean extends BaseMBean {
 				this.setServicioFee(false);
 				this.setListadoEmpresas(null);
 			}
-		} catch (ErrorRegistroDataException e) {
+		/*} catch (ErrorRegistroDataException e) {
 			logger.error(e.getMessage(), e);
 			this.setShowModal(true);
 			this.setMensajeModal(e.getMessage());
@@ -743,7 +743,7 @@ public class NoviosMBean extends BaseMBean {
 			logger.error(e.getMessage(), e);
 			this.setShowModal(true);
 			this.setMensajeModal(e.getMessage());
-			this.setTipoModal(TIPO_MODAL_ERROR);
+			this.setTipoModal(TIPO_MODAL_ERROR);*/
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			this.setShowModal(true);
@@ -999,10 +999,7 @@ public class NoviosMBean extends BaseMBean {
 
 				this.getServicioNovios()
 						.getServicioProveedor()
-						.setPorcentajeComision(
-								this.negocioServicio
-										.calculaPorcentajeComision(this
-												.getServicioNovios()));
+						.setPorcentajeComision(null);
 
 			}
 		} catch (Exception ex) {
@@ -1069,30 +1066,6 @@ public class NoviosMBean extends BaseMBean {
 		}
 	}
 
-	public void seleccionarDestino() {
-		try {
-			this.getServicioNovios().setDestino(obtenerDestinoListado());
-
-			this.getServicioNovios()
-					.getServicioProveedor()
-					.setPorcentajeComision(
-							this.negocioServicio.calculaPorcentajeComision(this
-									.getServicioNovios()));
-		} catch (SQLException e) {
-			logger.error(e.getMessage(), e);
-			this.setShowModal(true);
-			this.setMensajeModal(e.getMessage());
-			this.setTipoModal(TIPO_MODAL_ERROR);
-			e.printStackTrace();
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			this.setShowModal(true);
-			this.setMensajeModal(e.getMessage());
-			this.setTipoModal(TIPO_MODAL_ERROR);
-			e.printStackTrace();
-		}
-	}
-
 	private Destino obtenerDestinoListado() {
 		try {
 			for (Destino destino : this.listaDestinosBusqueda) {
@@ -1114,19 +1087,6 @@ public class NoviosMBean extends BaseMBean {
 
 	public void buscarOrigen() {
 
-	}
-
-	public void seleccionarOrigen() {
-		try {
-			this.getServicioNovios().setOrigen(obtenerOrigenListado());
-
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			this.setShowModal(true);
-			this.setMensajeModal(e.getMessage());
-			this.setTipoModal(TIPO_MODAL_ERROR);
-			e.printStackTrace();
-		}
 	}
 
 	private Destino obtenerOrigenListado() {

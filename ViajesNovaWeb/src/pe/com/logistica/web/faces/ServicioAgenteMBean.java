@@ -58,6 +58,7 @@ import pe.com.logistica.bean.negocio.Proveedor;
 import pe.com.logistica.bean.negocio.ServicioAgencia;
 import pe.com.logistica.bean.negocio.ServicioAgenciaBusqueda;
 import pe.com.logistica.bean.negocio.ServicioProveedor;
+import pe.com.logistica.bean.negocio.Tramo;
 import pe.com.logistica.bean.negocio.Usuario;
 import pe.com.logistica.negocio.exception.ErrorRegistroDataException;
 import pe.com.logistica.negocio.exception.ValidacionException;
@@ -347,7 +348,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 				getDetalleServicio().getServicioProveedor().setEditoComision(
 						this.isEditarComision());
 				
-				seleccionarOrigenDestino();
+				//seleccionarOrigenDestino();
 
 				this.setListadoDetalleServicio(this.utilNegocioServicio
 						.agregarServicioVenta(this.getListadoDetalleServicio(),
@@ -375,6 +376,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 
 	}
 	
+	/*
 	private void seleccionarOrigenDestino() {
 		String origen = "";
 		String destino = "";
@@ -384,28 +386,28 @@ public class ServicioAgenteMBean extends BaseMBean {
 			origen = StringUtils.substring(origen, StringUtils.indexOf(origen,"(")+1, StringUtils.indexOf(origen,")"));
 			
 			this.getDetalleServicio().setOrigen(this.soporteServicio.consultaDestinoIATA(origen));
-			/*this.soporteServicio.consultarDestino(descripcion)
+			this.soporteServicio.consultarDestino(descripcion)
 			
 			for(Destino destinoBean : this.getListaOrigenesBusqueda()){
 				if (StringUtils.equals(destinoBean.getCodigoIATA(), origen)){
 					this.getDetalleServicio().setOrigen(destinoBean);
 					break;
 				}
-			}*/
+			}
 			
 			destino = StringUtils.trim(this.getDetalleServicio().getDestino().getCodigoCadena());
 			destino = StringUtils.substring(destino, StringUtils.indexOf(destino,"(")+1, StringUtils.indexOf(destino,")"));
 			
-			/*for(Destino destinoBean : this.getListaOrigenesBusqueda()){
+			for(Destino destinoBean : this.getListaOrigenesBusqueda()){
 				if (StringUtils.equals(destinoBean.getCodigoIATA(), destino)){
 					this.getDetalleServicio().setDestino(destinoBean);
 					break;
 				}
-			}*/
+			}
 		} catch (SQLException e) {
 			logger.error(e.getMessage(), e);
 		}
-	}
+	}*/
 
 	public void actualizarServicio(){
 		try {
@@ -615,18 +617,6 @@ public class ServicioAgenteMBean extends BaseMBean {
 			ConfiguracionTipoServicio configuracionTipoServicio = this
 					.getDetalleServicio().getConfiguracionTipoServicio();
 
-			if (configuracionTipoServicio.isMuestraDestino() && StringUtils.isBlank(this.getDetalleServicio().getOrigen().getCodigoCadena())){
-				this.agregarMensaje(idFormulario + ":idTxtOrigen",
-						"Seleccione el origen", "",
-						FacesMessage.SEVERITY_ERROR);
-				resultado = false;
-			}
-			if (configuracionTipoServicio.isMuestraDestino() && StringUtils.isBlank(this.getDetalleServicio().getOrigen().getCodigoCadena())){
-				this.agregarMensaje(idFormulario + ":idTxtDestino",
-						"Seleccione el destino", "",
-						FacesMessage.SEVERITY_ERROR);
-				resultado = false;
-			}
 			if (false && configuracionTipoServicio.isMuestraDescServicio()
 					&& StringUtils.isBlank(this.getDetalleServicio()
 							.getDescripcionServicio())) {
@@ -1135,14 +1125,14 @@ public class ServicioAgenteMBean extends BaseMBean {
 	public void editarServicioAgregado(DetalleServicioAgencia detalleServicio){
 		try {
 			
-			Destino destino = detalleServicio.getDestino();
+			/*Destino destino = detalleServicio.getDestino();
 			destino.setCodigoCadena(destino.getDescripcion()+"("+destino.getCodigoIATA()+")");
 			Destino origen = detalleServicio.getOrigen();
 			origen.setCodigoCadena(origen.getDescripcion()+"("+origen.getCodigoIATA()+")");
 			
 			detalleServicio.setOrigen(origen);
 			detalleServicio.setDestino(destino);
-			
+			*/
 			if (detalleServicio.isConIGV()){
 				detalleServicio.setPrecioUnitario(detalleServicio.getPrecioUnitarioConIgv());
 			}
@@ -1173,13 +1163,13 @@ public class ServicioAgenteMBean extends BaseMBean {
 	public void verDetalleServicio(DetalleServicioAgencia detalleServicio){
 		try {
 			this.setVerDetalleServicio(false);
-			Destino destino = detalleServicio.getDestino();
+			/*Destino destino = detalleServicio.getDestino();
 			destino.setCodigoCadena(destino.getDescripcion()+"("+destino.getCodigoIATA()+")");
 			Destino origen = detalleServicio.getOrigen();
 			origen.setCodigoCadena(origen.getDescripcion()+"("+origen.getCodigoIATA()+")");
 			
 			detalleServicio.setOrigen(origen);
-			detalleServicio.setDestino(destino);
+			detalleServicio.setDestino(destino);*/
 			
 			if (detalleServicio.isConIGV()){
 				detalleServicio.setPrecioUnitario(detalleServicio.getPrecioUnitarioConIgv());
@@ -1222,10 +1212,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 
 				this.getDetalleServicio()
 						.getServicioProveedor()
-						.setPorcentajeComision(
-								this.negocioServicio
-										.calculaPorcentajeComision(this
-												.getDetalleServicio()));
+						.setPorcentajeComision(this.utilNegocioServicio.calcularPorcentajeComision(getDetalleServicio()));
 
 			}
 		} catch (Exception ex) {
@@ -1244,14 +1231,11 @@ public class ServicioAgenteMBean extends BaseMBean {
 				this.getDetalleServicio().getAerolinea()
 						.setCodigoEntero(UtilWeb.convertirCadenaEntero(valor));
 				
-				seleccionarOrigenDestino();
+				//seleccionarOrigenDestino();
 
 				this.getDetalleServicio()
 						.getServicioProveedor()
-						.setPorcentajeComision(
-								this.negocioServicio
-										.calculaPorcentajeComision(this
-												.getDetalleServicio()));
+						.setPorcentajeComision(this.utilNegocioServicio.calcularPorcentajeComision(getDetalleServicio()));
 
 			}
 		} catch (Exception ex) {
@@ -1263,14 +1247,11 @@ public class ServicioAgenteMBean extends BaseMBean {
 	
 	public void calcularComision(){
 		try {
-			seleccionarOrigenDestino();
+			//seleccionarOrigenDestino();
 
 			this.getDetalleServicio()
 					.getServicioProveedor()
-					.setPorcentajeComision(
-							this.negocioServicio
-									.calculaPorcentajeComision(this
-											.getDetalleServicio()));
+					.setPorcentajeComision(this.utilNegocioServicio.calcularPorcentajeComision(getDetalleServicio()));
 
 		} catch (Exception ex) {
 			this.getDetalleServicio().getServicioProveedor()
@@ -1338,16 +1319,6 @@ public class ServicioAgenteMBean extends BaseMBean {
 		}
 	}
 
-	public void seleccionarOrigen() {
-		try {
-			this.getDetalleServicio().setOrigen(obtenerOrigenListado());
-
-		} catch (Exception e) {
-			this.mostrarMensajeError(e.getMessage());
-			logger.error(e.getMessage(), e);
-		}
-	}
-
 	private Destino obtenerOrigenListado() {
 		try {
 			for (Destino destino : this.getListaOrigenesBusqueda()) {
@@ -1374,10 +1345,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 
 				this.getDetalleServicio()
 						.getServicioProveedor()
-						.setPorcentajeComision(
-								this.negocioServicio
-										.calculaPorcentajeComision(this
-												.getDetalleServicio()));
+						.setPorcentajeComision(this.utilNegocioServicio.calcularPorcentajeComision(getDetalleServicio()));
 
 			}
 		} catch (Exception ex) {
@@ -1924,14 +1892,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	/**
-	 * ========================================================================
-	 * ===========================
-	 * 
-	 * @throws ValidacionException
-	 */
-
+	
 	private boolean validarComprobantesAdicionales() throws ValidacionException {
 
 		for (Comprobante comprobante : listaComprobantesAdicionales) {
@@ -1961,6 +1922,18 @@ public class ServicioAgenteMBean extends BaseMBean {
 
 		return true;
 	}
+	
+	public void agregarRutaInicial(){
+		this.getDetalleServicio().getRuta().setTramos(null);
+		this.getDetalleServicio().getRuta().getTramos().add(new Tramo());
+	}
+
+	/**
+	 * ========================================================================
+	 * ===========================
+	 * 
+	 * @throws ValidacionException
+	 */
 
 	/**
 	 * @param listadoServicioAgencia

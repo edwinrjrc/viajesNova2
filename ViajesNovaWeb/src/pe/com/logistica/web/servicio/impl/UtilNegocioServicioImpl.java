@@ -3,6 +3,7 @@
  */
 package pe.com.logistica.web.servicio.impl;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
@@ -70,6 +71,11 @@ public class UtilNegocioServicioImpl implements UtilNegocioServicio {
 			DetalleServicioAgencia detalleServicio)
 			throws ErrorRegistroDataException, SQLException, Exception{
 		return ejbSession.actualizarServicioVenta(listaServiciosVenta, detalleServicio);
+	}
+	
+	@Override
+	public BigDecimal calcularPorcentajeComision(DetalleServicioAgencia detalleServicio) throws SQLException, Exception{
+		return ejbSession.calculaPorcentajeComision(detalleServicio);
 	}
 
 }

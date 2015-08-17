@@ -3,6 +3,7 @@
  */
 package pe.com.logistica.web.servicio;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -26,5 +27,8 @@ public interface UtilNegocioServicio {
 			List<DetalleServicioAgencia> listaServiciosVenta,
 			DetalleServicioAgencia detalleServicio)
 			throws ErrorRegistroDataException, SQLException, Exception;
+
+	BigDecimal calcularPorcentajeComision(DetalleServicioAgencia detalleServicio)
+			throws SQLException, Exception;
 	
 }

@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -16,9 +17,11 @@ import org.apache.commons.lang3.StringUtils;
 
 import pe.com.logistica.bean.Util.UtilParse;
 import pe.com.logistica.bean.negocio.ConfiguracionTipoServicio;
+import pe.com.logistica.bean.negocio.Destino;
 import pe.com.logistica.bean.negocio.DetalleServicioAgencia;
 import pe.com.logistica.bean.negocio.MaestroServicio;
 import pe.com.logistica.bean.negocio.Parametro;
+import pe.com.logistica.bean.negocio.ServicioProveedor;
 import pe.com.logistica.bean.negocio.Tramo;
 import pe.com.logistica.negocio.dao.ComunDao;
 import pe.com.logistica.negocio.dao.DestinoDao;
@@ -392,7 +395,7 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 
 			String descripcion = "";
 			descripcion = detalle.getTipoServicio().getNombre() + " ";
-			if (configuracion.isMuestraDestino()) {
+			if (configuracion.isMuestraRuta()) {
 				for (Tramo tramo : detalle.getRuta().getTramos()){
 					descripcion = descripcion + tramo.getOrigen().getDescripcion() + " - " + tramo.getDestino().getDescripcion() + " / ";
 				}
@@ -722,5 +725,94 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 					"Error en Consulta de Servicios Ocultos", e);
 		}
 
+	}
+	
+	@Override
+	public BigDecimal calculaPorcentajeComision(
+			DetalleServicioAgencia detalleServicio) throws SQLException,
+			Exception {
+		DestinoDao destinoDao = new DestinoDaoImpl();
+		ProveedorDao proveedorDao = new ProveedorDaoImpl();
+
+		switch (detalleServicio.getTipoServicio().getCodigoEntero().intValue()) {
+		case 11:// BOLETO DE VIAJE
+			int nacionales = 0;
+			int internacionales = 0;
+			Locale localidad = Locale.getDefault();
+			for (Tramo tramo : detalleServicio.getRuta().getTramos()){
+				Destino destinoConsultado = destinoDao
+						.consultarDestino(tramo.getDestino()
+								.getCodigoEntero());
+				if (localidad.getCountry().equals(destinoConsultado.getPais().getAbreviado())){
+					nacionales++;
+				}
+				Destino origenConsultado = destinoDao
+						.consultarDestino(tramo.getOrigen()
+								.getCodigoEntero());
+				if (!localidad.getCountry().equals(origenConsultado.getPais().getAbreviado())){
+					internacionales++;
+				}
+				if (nacionales>0 && internacionales>0){
+					break;
+				}
+			}
+			List<ServicioProveedor> lista = proveedorDao
+					.consultarServicioProveedor(detalleServicio
+							.getServicioProveedor().getProveedor()
+							.getCodigoEntero());
+			
+			if (nacionales>0 && internacionales>0){
+				
+				for (ServicioProveedor servicioProveedor : lista) {
+					if (servicioProveedor.getProveedorServicio()
+							.getCodigoEntero().intValue() == detalleServicio
+							.getAerolinea().getCodigoEntero().intValue()) {
+							return servicioProveedor
+									.getPorcenComInternacional();
+					}
+				}
+			}
+			else {
+				for (ServicioProveedor servicioProveedor : lista) {
+					if (servicioProveedor.getProveedorServicio()
+							.getCodigoEntero().intValue() == detalleServicio
+							.getAerolinea().getCodigoEntero().intValue()) {
+							return servicioProveedor.getPorcentajeComision();
+					}
+				}
+			}
+			
+			break;
+		case 12:// FEE
+			break;
+		case 13:// IGV
+			break;
+		case 14:// PROGRAMA
+			break;
+		case 15:// PAQUETE
+			break;
+		case 16:// IMPUESTO AEREO
+			break;
+		case 17:// HOTEL
+			if (detalleServicio.getServicioProveedor().getProveedor()
+					.getCodigoEntero() != null
+					&& detalleServicio.getHotel().getCodigoEntero() != null) {
+				lista = proveedorDao
+						.consultarServicioProveedor(detalleServicio
+								.getServicioProveedor().getProveedor()
+								.getCodigoEntero());
+				for (ServicioProveedor servicioProveedor : lista) {
+					if (servicioProveedor.getProveedorServicio()
+							.getCodigoEntero().intValue() == detalleServicio
+							.getHotel().getCodigoEntero().intValue()) {
+						return servicioProveedor.getPorcentajeComision();
+					}
+				}
+			}
+
+			break;
+		}
+
+		return BigDecimal.ZERO;
 	}
 }
