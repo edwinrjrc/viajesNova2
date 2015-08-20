@@ -44,7 +44,8 @@
 							<h:outputText value="Fecha Salida" />
 						</f:facet>
 						<rich:calendar datePattern="dd/MM/yyyy HH:mm"
-							showApplyButton="true" value="#{tramo.fechaSalida}"></rich:calendar>
+							enableManualInput="true" showApplyButton="true"
+							value="#{tramo.fechaSalida}"></rich:calendar>
 					</rich:column>
 					<rich:column>
 						<f:facet name="header">
@@ -64,7 +65,8 @@
 							<h:outputText value="Fecha Llegada" />
 						</f:facet>
 						<rich:calendar datePattern="dd/MM/yyyy HH:mm"
-							showApplyButton="true" value="#{tramo.fechaLlegada}"></rich:calendar>
+							enableManualInput="true" showApplyButton="true"
+							value="#{tramo.fechaLlegada}"></rich:calendar>
 					</rich:column>
 					<rich:column>
 						<f:facet name="header">
@@ -83,6 +85,13 @@
 							action="#{servicioAgenteMBean.agregarTramo()}"></a4j:commandButton>
 					</f:facet>
 				</rich:dataTable>
+
+				<f:facet name="footer">
+					<h:panelGrid style="width:100%;text-align:center;">
+						<a4j:commandButton value="Aceptar"
+							oncomplete="#{rich:component('idModalrutaservicio')}.hide(); return false;"></a4j:commandButton>
+					</h:panelGrid>
+				</f:facet>
 			</h:panelGrid>
 		</h:form>
 
