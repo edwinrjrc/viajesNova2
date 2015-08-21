@@ -228,12 +228,19 @@
 									<h:outputText value="" />
 								</h:panelGrid>
 
-								<h:panelGrid cellpadding="0" cellspacing="0" border="0"
-									style="width:100%;text_align:center;"
+								<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
+									border="0" style="width:100%;text_align:center;" id="idPnRutaServicio"
+									columnClasses="col1fil2formulario,col2fil2formulario"
 									rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraRuta}">
 
-									<a4j:commandButton value="Ingresar Ruta" action="#{servicioAgenteMBean.agregarRutaInicial()}"
+									<h:outputText value="Ruta" />
+
+									<h:panelGrid columns="1" cellpadding="0" cellspacing="0"
+										border="0" style="width:100%;text_align:center;">
+										<h:outputText value="#{servicioAgenteMBean.detalleServicio.ruta.descripcionRuta}" />
+										<a4j:commandButton value="Ingresar Ruta" action="#{servicioAgenteMBean.agregarRutaInicial()}"
 										oncomplete="mostrarModal3('idModalrutaservicio')" render="idPnRutaServicio"></a4j:commandButton>
+									</h:panelGrid>
 
 								</h:panelGrid>
 

@@ -19,6 +19,7 @@ public class Ruta extends BaseNegocio {
 	private static final long serialVersionUID = 7358273367993273258L;
 	
 	private List<Tramo> tramos;
+	private String descripcionRuta;
 	private Tramo tramo;
 
 	/**
@@ -53,6 +54,20 @@ public class Ruta extends BaseNegocio {
 	 */
 	public void setTramo(Tramo tramo) {
 		this.tramo = tramo;
+	}
+
+	/**
+	 * @return the descripcionRuta
+	 */
+	public String getDescripcionRuta() {
+		return descripcionRuta;
+	}
+
+	/**
+	 * @param descripcionRuta the descripcionRuta to set
+	 */
+	public void setDescripcionRuta(String descripcionRuta) {
+		this.descripcionRuta = descripcionRuta;
 	}
 
 }

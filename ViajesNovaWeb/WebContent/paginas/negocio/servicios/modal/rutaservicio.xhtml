@@ -11,7 +11,7 @@
 		height="350">
 
 		<f:facet name="header">
-			<h:outputText value="Detalle Servicio" />
+			<h:outputText value="Detalle Ruta Servicio" />
 		</f:facet>
 		<f:facet name="controls">
 			<h:outputLink value="#" style="border:0"
@@ -33,7 +33,7 @@
 						</f:facet>
 						<rich:autocomplete id="idTxtOrigen" mode="client"
 							value="#{tramo.origen.codigoCadena}"
-							autocompleteList="#{servicioAgenteMBean.listaOrigenesBusqueda}"
+							autocompleteList="#{servicioAgenteMBean.listaDestinosBusqueda}"
 							var="origen" layout="div"
 							fetchValue="#{origen.descripcion}(#{origen.codigoIATA})">
 							<b>#{origen.descripcion}</b> - <i>(#{origen.codigoIATA}) </i>
@@ -88,7 +88,7 @@
 
 				<f:facet name="footer">
 					<h:panelGrid style="width:100%;text-align:center;">
-						<a4j:commandButton value="Aceptar"
+						<a4j:commandButton value="Aceptar" render="idPnRutaServicio" action="#{servicioAgenteMBean.aceptarRuta()}"
 							oncomplete="#{rich:component('idModalrutaservicio')}.hide(); return false;"></a4j:commandButton>
 					</h:panelGrid>
 				</f:facet>

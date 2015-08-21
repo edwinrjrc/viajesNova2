@@ -111,7 +111,6 @@ public class ServicioAgenteMBean extends BaseMBean {
 	private List<SelectItem> listadoEmpresas;
 	private List<ServicioProveedor> listaProveedores;
 	private List<Destino> listaDestinosBusqueda;
-	private List<Destino> listaOrigenesBusqueda;
 	private List<PagoServicio> listaPagosServicios;
 	private List<PagoServicio> listaPagosComprobante;
 	private List<Comprobante> listaComprobantes;
@@ -119,6 +118,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 	private List<DocumentoAdicional> listaDocumentosAdicionales;
 	private List<Comprobante> listaComprobantesAdicionales;
 	private List<SelectItem> listadoServiciosPadre;
+	private List<Tramo> listaTramos;
 
 	private boolean nuevaVenta;
 	private boolean editarVenta;
@@ -185,7 +185,6 @@ public class ServicioAgenteMBean extends BaseMBean {
 			List<Destino> listaDestinos = this.soporteServicio.listarDestinos();
 
 			this.setListaDestinosBusqueda(listaDestinos);
-			this.setListaOrigenesBusqueda(listaDestinos);
 		} catch (SQLException e) {
 			logger.error(e.getMessage(), e);
 		} catch (Exception e) {
@@ -1307,32 +1306,6 @@ public class ServicioAgenteMBean extends BaseMBean {
 		}
 	}
 
-	public void buscarOrigen() {
-		try {
-			this.setListaOrigenesBusqueda(this.soporteServicio
-					.consultarOrigen(this.getOrigenBusqueda().getDescripcion()));
-		} catch (SQLException e) {
-			logger.error(e.getMessage(), e);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-		}
-	}
-
-	private Destino obtenerOrigenListado() {
-		try {
-			for (Destino destino : this.getListaOrigenesBusqueda()) {
-				if (destino.getCodigoEntero().intValue() == destino
-						.getCodigoSeleccionado().intValue()) {
-					return destino;
-				}
-			}
-
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-		}
-		return null;
-	}
-
 	public void seleccionarHotel(ValueChangeEvent e) {
 		Object oe = e.getNewValue();
 		try {
@@ -1886,11 +1859,6 @@ public class ServicioAgenteMBean extends BaseMBean {
 		configuration.setCreatingBatchModeBookmarks(true);
 		exporter.exportReport();
 	}
-
-	private Object enviarParametros() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	private boolean validarComprobantesAdicionales() throws ValidacionException {
 
@@ -1923,8 +1891,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 	}
 	
 	public void agregarRutaInicial(){
-		this.getDetalleServicio().getRuta().setTramos(null);
-		this.getDetalleServicio().getRuta().getTramos().add(new Tramo());
+		
 	}
 	
 	public void agregarTramo(){
@@ -1933,6 +1900,30 @@ public class ServicioAgenteMBean extends BaseMBean {
 	
 	public void eliminarTramo(Tramo tramo){
 		this.getDetalleServicio().getRuta().getTramos().remove(tramo);
+	}
+	
+	public void aceptarRuta(){
+		String descripcion = "";
+		try {
+			for (Tramo tramo : this.getDetalleServicio().getRuta().getTramos()){
+				
+				String origen = StringUtils.trim(tramo.getOrigen().getCodigoCadena());
+				origen = StringUtils.substring(origen, StringUtils.indexOf(origen,"(")+1, StringUtils.indexOf(origen,")"));
+				tramo.setOrigen(this.soporteServicio.consultaDestinoIATA(origen));
+				
+				String destino = StringUtils.trim(tramo.getOrigen().getCodigoCadena());
+				destino = StringUtils.substring(destino, StringUtils.indexOf(destino,"(")+1, StringUtils.indexOf(destino,")"));
+				tramo.setDestino(this.soporteServicio.consultaDestinoIATA(destino));
+				
+				descripcion = descripcion + tramo.getOrigen().getDescripcion()+" >> "+tramo.getDestino().getDescripcion() + " / ";
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		descripcion = descripcion.substring(0, (descripcion.length()-2));
+		
+		this.getDetalleServicio().getRuta().setDescripcionRuta(descripcion);
 	}
 
 	/**
@@ -2158,21 +2149,6 @@ public class ServicioAgenteMBean extends BaseMBean {
 	}
 
 	/**
-	 * @return the listaDestinosBusqueda
-	 */
-	public List<Destino> getListaDestinosBusqueda() {
-		return listaDestinosBusqueda;
-	}
-
-	/**
-	 * @param listaDestinosBusqueda
-	 *            the listaDestinosBusqueda to set
-	 */
-	public void setListaDestinosBusqueda(List<Destino> listaDestinosBusqueda) {
-		this.listaDestinosBusqueda = listaDestinosBusqueda;
-	}
-
-	/**
 	 * @return the editarComision
 	 */
 	public boolean isEditarComision() {
@@ -2203,21 +2179,6 @@ public class ServicioAgenteMBean extends BaseMBean {
 	 */
 	public void setOrigenBusqueda(Destino origenBusqueda) {
 		this.origenBusqueda = origenBusqueda;
-	}
-
-	/**
-	 * @return the listaOrigenesBusqueda
-	 */
-	public List<Destino> getListaOrigenesBusqueda() {
-		return listaOrigenesBusqueda;
-	}
-
-	/**
-	 * @param listaOrigenesBusqueda
-	 *            the listaOrigenesBusqueda to set
-	 */
-	public void setListaOrigenesBusqueda(List<Destino> listaOrigenesBusqueda) {
-		this.listaOrigenesBusqueda = listaOrigenesBusqueda;
 	}
 
 	/**
@@ -2766,5 +2727,36 @@ public class ServicioAgenteMBean extends BaseMBean {
 	 */
 	public void setVerDetalleServicio(boolean verDetalleServicio) {
 		this.verDetalleServicio = verDetalleServicio;
+	}
+
+	/**
+	 * @return the listaDestinosBusqueda
+	 */
+	public List<Destino> getListaDestinosBusqueda() {
+		return listaDestinosBusqueda;
+	}
+
+	/**
+	 * @param listaDestinosBusqueda the listaDestinosBusqueda to set
+	 */
+	public void setListaDestinosBusqueda(List<Destino> listaDestinosBusqueda) {
+		this.listaDestinosBusqueda = listaDestinosBusqueda;
+	}
+
+	/**
+	 * @return the listaTramos
+	 */
+	public List<Tramo> getListaTramos() {
+		if (listaTramos == null){
+			listaTramos = new ArrayList<Tramo>();
+		}
+		return listaTramos;
+	}
+
+	/**
+	 * @param listaTramos the listaTramos to set
+	 */
+	public void setListaTramos(List<Tramo> listaTramos) {
+		this.listaTramos = listaTramos;
 	}
 }
