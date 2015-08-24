@@ -177,7 +177,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			throws SQLException {
 		Integer idservicio = 0;
 		CallableStatement cs = null;
-		String sql = "{ ? = call negocio.fn_ingresarserviciocabecera(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+		String sql = "{ ? = call negocio.fn_ingresarserviciocabecera(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 		
 		try {
 			cs = conn.prepareCall(sql);
@@ -195,12 +195,6 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			cs.setBigDecimal(i++, servicioAgencia.getMontoTotal());
 			cs.setBigDecimal(i++, servicioAgencia.getMontoTotalFee());
 			cs.setBigDecimal(i++, servicioAgencia.getMontoTotalComision());
-			if (servicioAgencia.getFormaPago().getCodigoEntero()!=null && servicioAgencia.getFormaPago().getCodigoEntero().intValue()!=0){
-				cs.setInt(i++, servicioAgencia.getFormaPago().getCodigoEntero().intValue());
-			}
-			else{
-				cs.setNull(i++, Types.INTEGER);
-			}
 			cs.setInt(i++, 1);
 			cs.setInt(i++, servicioAgencia.getEstadoServicio().getCodigoEntero());
 			if (servicioAgencia.getNroCuotas()!=0){
@@ -267,7 +261,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 		Integer resultado = 0;
 		CallableStatement cs = null;
 
-		String sql = "{ ? = call negocio.fn_ingresarserviciodetalle(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+		String sql = "{ ? = call negocio.fn_ingresarserviciodetalle(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 		
 		try {
 			cs = conn.prepareCall(sql);
@@ -598,8 +592,6 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 				servicioAgencia2.setMontoTotalComision(UtilJdbc.obtenerBigDecimal(rs, "montocomisiontotal"));
 				servicioAgencia2.setMontoTotalIGV(UtilJdbc.obtenerBigDecimal(rs, "montototaligv"));
 				servicioAgencia2.setMontoTotalFee(UtilJdbc.obtenerBigDecimal(rs, "montototalfee"));
-				servicioAgencia2.getFormaPago().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idformapago"));
-				servicioAgencia2.getFormaPago().setNombre(UtilJdbc.obtenerCadena(rs, "nommediopago"));
 				servicioAgencia2.getEstadoPago().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idestadopago"));
 				servicioAgencia2.getEstadoPago().setNombre(UtilJdbc.obtenerCadena(rs, "nomestpago"));
 				servicioAgencia2.setServicioPagado(UtilJdbc.comparaNumero(servicioAgencia2.getEstadoPago().getCodigoEntero().intValue(),2));
@@ -2831,7 +2823,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 		
 		try{
 			sql = "{ ? = call negocio.fn_ingresartramo(?,?,?,?,?,?,?,?,?)}";
-			int i=0;
+			int i=1;
 			cs = conn.prepareCall(sql);
 			cs.registerOutParameter(i++, Types.INTEGER);
 			cs.setInt(i++, tramo.getOrigen().getCodigoEntero().intValue());
@@ -2866,7 +2858,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 		
 		try{
 			sql = "{ ? = call negocio.fn_siguienteruta()}";
-			int i=0;
+			int i=1;
 			cs = conn.prepareCall(sql);
 			cs.registerOutParameter(i++, Types.INTEGER);
 			cs.execute();
@@ -2892,9 +2884,9 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 		
 		try{
 			sql = "{ ? = call negocio.fn_ingresarruta(?,?,?,?)}";
-			int i=0;
+			int i=1;
 			cs = conn.prepareCall(sql);
-			cs.registerOutParameter(i++, Types.INTEGER);
+			cs.registerOutParameter(i++, Types.BOOLEAN);
 			cs.setInt(i++, ruta.getCodigoEntero().intValue());
 			cs.setInt(i++, ruta.getTramo().getCodigoEntero().intValue());
 			cs.setString(i++, ruta.getUsuarioCreacion());

@@ -37,6 +37,7 @@ public class PagoServicio extends BaseNegocio {
 	private String comentario;
 	
 	private BaseVO tipoPago;
+	private BaseVO formaPago;
 	/**
 	 * 
 	 */
@@ -230,6 +231,20 @@ public class PagoServicio extends BaseNegocio {
 	 */
 	public void setTipoPago(BaseVO tipoPago) {
 		this.tipoPago = tipoPago;
+	}
+
+	/**
+	 * @return the formaPago
+	 */
+	public BaseVO getFormaPago() {
+		return formaPago;
+	}
+
+	/**
+	 * @param formaPago the formaPago to set
+	 */
+	public void setFormaPago(BaseVO formaPago) {
+		this.formaPago = formaPago;
 	}
 
 }

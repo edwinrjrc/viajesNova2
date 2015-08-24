@@ -318,12 +318,14 @@ public class ServicioAgenteMBean extends BaseMBean {
 		this.setTransaccionExito(false);
 		this.setEditaServicioAgregado(false);
 		this.setVerDetalleServicio(false);
+		this.setCargoConfiguracionTipoServicio(false);
 
 		consultarTasaPredeterminada();
 		this.setListadoEmpresas(null);
 		this.setListadoDetalleServicio(null);
 		this.setListaDocumentosAdicionales(null);
 		this.setListadoServiciosPadre(null);
+		this.setListaTramos(null);
 
 		this.setVendedor(false);
 		HttpSession session = obtenerSession(false);
@@ -345,8 +347,6 @@ public class ServicioAgenteMBean extends BaseMBean {
 			if (validarServicioVenta()) {
 				getDetalleServicio().getServicioProveedor().setEditoComision(
 						this.isEditarComision());
-				
-				//seleccionarOrigenDestino();
 
 				this.setListadoDetalleServicio(this.utilNegocioServicio
 						.agregarServicioVenta(this.getListadoDetalleServicio(),
@@ -775,6 +775,9 @@ public class ServicioAgenteMBean extends BaseMBean {
 							usuario.getUsuario());
 					getServicioAgencia().setIpCreacion(
 							obtenerRequest().getRemoteAddr());
+					
+					getDetalleServicio().getRuta().setUsuarioCreacion(usuario.getUsuario());
+					getDetalleServicio().getRuta().setIpCreacion(obtenerRequest().getRemoteAddr());
 
 					for (DetalleServicioAgencia detalleServicio : getListadoDetalleServicio()) {
 						detalleServicio
@@ -1048,6 +1051,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 		Object oe = e.getNewValue();
 		this.setCalculadorIGV(false);
 		this.setEditaServicioAgregado(false);
+		this.setListaTramos(null);
 		try {
 			setListadoEmpresas(null);
 			this.getDetalleServicio().getServicioProveedor().setProveedor(null);
@@ -1890,33 +1894,53 @@ public class ServicioAgenteMBean extends BaseMBean {
 		return true;
 	}
 	
-	public void agregarRutaInicial(){
-		
-	}
-	
 	public void agregarTramo(){
-		this.getDetalleServicio().getRuta().getTramos().add(new Tramo());
+		Tramo tramo = new Tramo();
+		HttpSession session = obtenerSession(false);
+		Usuario usuario = (Usuario) session
+				.getAttribute("usuarioSession");
+		tramo.setUsuarioCreacion(
+				usuario.getUsuario());
+		tramo.setIpCreacion(
+				obtenerRequest().getRemoteAddr()); 
+		
+		this.getListaTramos().add(tramo);
 	}
 	
 	public void eliminarTramo(Tramo tramo){
-		this.getDetalleServicio().getRuta().getTramos().remove(tramo);
+		this.getListaTramos().remove(tramo);
 	}
 	
 	public void aceptarRuta(){
 		String descripcion = "";
 		try {
-			for (Tramo tramo : this.getDetalleServicio().getRuta().getTramos()){
+			BigDecimal precioRuta = BigDecimal.ZERO;
+			for (Tramo tramo : this.getListaTramos()){
 				
 				String origen = StringUtils.trim(tramo.getOrigen().getCodigoCadena());
 				origen = StringUtils.substring(origen, StringUtils.indexOf(origen,"(")+1, StringUtils.indexOf(origen,")"));
 				tramo.setOrigen(this.soporteServicio.consultaDestinoIATA(origen));
+				tramo.getOrigen().setCodigoCadena(tramo.getOrigen().getDescripcion()+"("+tramo.getOrigen().getCodigoIATA()+")");
 				
-				String destino = StringUtils.trim(tramo.getOrigen().getCodigoCadena());
+				String destino = StringUtils.trim(tramo.getDestino().getCodigoCadena());
 				destino = StringUtils.substring(destino, StringUtils.indexOf(destino,"(")+1, StringUtils.indexOf(destino,")"));
 				tramo.setDestino(this.soporteServicio.consultaDestinoIATA(destino));
+				tramo.getDestino().setCodigoCadena(tramo.getDestino().getDescripcion()+"("+tramo.getDestino().getCodigoIATA()+")");
 				
 				descripcion = descripcion + tramo.getOrigen().getDescripcion()+" >> "+tramo.getDestino().getDescripcion() + " / ";
+				
+				precioRuta = precioRuta.add(tramo.getPrecio());
 			}
+			
+			this.getDetalleServicio().setFechaIda(getListaTramos().get(0).getFechaSalida());
+			getDetalleServicio().getRuta().setTramos(getListaTramos());
+			HttpSession session = obtenerSession(false);
+			Usuario usuario = (Usuario) session
+					.getAttribute("usuarioSession");
+			getDetalleServicio().getRuta().setUsuarioCreacion(usuario.getUsuario());
+			getDetalleServicio().getRuta().setIpCreacion(obtenerRequest().getRemoteAddr());
+			
+			getDetalleServicio().setPrecioUnitario(precioRuta);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

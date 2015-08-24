@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import pe.com.logistica.bean.base.BaseNegocio;
-import pe.com.logistica.bean.base.BaseVO;
 
 /**
  * @author Edwin

@@ -28,13 +28,6 @@ public class Destino extends BaseNegocio {
 	
 
 	/**
-	 * 
-	 */
-	public Destino() {
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
 	 * @return the tipoDestino
 	 */
 	public BaseVO getTipoDestino() {

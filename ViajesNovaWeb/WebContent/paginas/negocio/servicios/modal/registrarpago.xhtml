@@ -58,6 +58,11 @@
 						<f:selectItem itemLabel="Detracción" itemValue="D"/>
 						<f:selectItem itemLabel="Retención" itemValue="R"/>
 					</h:selectOneMenu>
+					<h:outputText value="Forma Pago" />
+					<h:selectOneMenu value="#{servicioAgenteMBean.pagoServicio.formaPago.codigoEntero}">
+						<f:selectItem itemLabel="-Seleccione-" />
+						<f:selectItems value="#{catalogoMBean.catalogoFormaPago}"/>
+					</h:selectOneMenu>
 					<h:outputText value="Monto Pago" />
 					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
 						<h:inputText id="idMontoPago"

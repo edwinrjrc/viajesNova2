@@ -1032,15 +1032,22 @@ public class NegocioSession implements NegocioSessionRemote,
 				for (DetalleServicioAgencia detalleServicio : servicioAgencia
 						.getListaDetalleServicio()) {
 					if (detalleServicio.getTipoServicio().isServicioPadre()) {
+						Integer idRuta = null;
 						for (Tramo tramo : detalleServicio.getRuta().getTramos()){
 							tramo = servicioNovaViajesDao.registrarTramo(tramo, conexion);
 							if (tramo.getCodigoEntero()== null || tramo.getCodigoEntero().intValue()==0){
 								throw new ErrorRegistroDataException(
 										"No se pudo registrar los servicios de la venta");
 							}
-							servicioNovaViajesDao.obtenerSiguienteRuta(conexion);
 							detalleServicio.getRuta().setTramo(tramo);
-							servicioNovaViajesDao.registrarRuta(detalleServicio.getRuta(), conexion);
+							if (idRuta == null){
+								idRuta = servicioNovaViajesDao.obtenerSiguienteRuta(conexion);
+							}
+							detalleServicio.getRuta().setCodigoEntero(idRuta);
+							if (!servicioNovaViajesDao.registrarRuta(detalleServicio.getRuta(), conexion)){
+								throw new ErrorRegistroDataException(
+										"No se pudo registrar los servicios de la venta");
+							}
 						}
 						
 						Integer idSerDetaPadre = servicioNovaViajesDao
@@ -1243,7 +1250,7 @@ public class NegocioSession implements NegocioSessionRemote,
 			}
 			servicioAgencia.setListaDetalleServicio(listaServiciosPadreNueva);
 
-			if (servicioAgencia.getFormaPago().getCodigoEntero().intValue() == 2) {
+			if (servicioAgencia.getFormaPago().getCodigoEntero() != null && servicioAgencia.getFormaPago().getCodigoEntero().intValue() == 2) {
 				servicioAgencia.setCronogramaPago(servicioNovaViajesDao
 						.consultarCronogramaPago(servicioAgencia));
 			}

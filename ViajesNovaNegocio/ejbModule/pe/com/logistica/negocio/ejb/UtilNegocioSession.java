@@ -764,23 +764,21 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 							.getServicioProveedor().getProveedor()
 							.getCodigoEntero());
 			
-			if (nacionales>0 && internacionales>0){
-				
-				for (ServicioProveedor servicioProveedor : lista) {
-					if (servicioProveedor.getProveedorServicio()
-							.getCodigoEntero().intValue() == detalleServicio
-							.getAerolinea().getCodigoEntero().intValue()) {
-							return servicioProveedor
-									.getPorcenComInternacional();
+			for (ServicioProveedor servicioProveedor : lista) {
+				if ((servicioProveedor.getProveedorServicio()
+						.getCodigoEntero() != null && detalleServicio
+								.getAerolinea().getCodigoEntero() != null)
+						&&
+						servicioProveedor.getProveedorServicio()
+						.getCodigoEntero().intValue() == detalleServicio
+						.getAerolinea().getCodigoEntero().intValue()) {
+					
+					if (nacionales>0 && internacionales>0){
+						return servicioProveedor
+								.getPorcenComInternacional();
 					}
-				}
-			}
-			else {
-				for (ServicioProveedor servicioProveedor : lista) {
-					if (servicioProveedor.getProveedorServicio()
-							.getCodigoEntero().intValue() == detalleServicio
-							.getAerolinea().getCodigoEntero().intValue()) {
-							return servicioProveedor.getPorcentajeComision();
+					else{
+						return servicioProveedor.getPorcentajeComision();
 					}
 				}
 			}

@@ -64,19 +64,6 @@
 							<h:panelGrid columns="4" border="0" cellpadding="0"
 								cellspacing="0" style="width:100%;" id="idGrfpago"
 								columnClasses="col1form,col2form,col1form,col2form">
-								<h:outputText value="Forma Pago" />
-								<h:panelGrid columns="1" border="0" cellpadding="0"
-									cellspacing="0">
-									<h:selectOneMenu id="idSelForPago"
-										value="#{servicioAgenteMBean.servicioAgencia.formaPago.codigoEntero}">
-										<f:selectItem itemLabel="-Seleccione la forma de pago-" />
-										<f:selectItems value="#{catalogoMBean.catalogoFormaPago}" />
-										<a4j:ajax event="valueChange" render="idfrcred" />
-									</h:selectOneMenu>
-									<rich:message for="idSelForPago" showDetail="false"
-										showSummary="true" ajaxRendered="true" />
-								</h:panelGrid>
-
 								<h:outputText value="Fecha Servicio" />
 								<h:panelGrid columns="1" border="0" cellpadding="0"
 									cellspacing="0">
@@ -229,7 +216,7 @@
 								</h:panelGrid>
 
 								<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
-									border="0" style="width:100%;text_align:center;" id="idPnRutaServicio"
+									border="0" style="width:100%;text_align:center;" id="idPnRutaServicioTexto"
 									columnClasses="col1fil2formulario,col2fil2formulario"
 									rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraRuta}">
 
@@ -238,7 +225,7 @@
 									<h:panelGrid columns="1" cellpadding="0" cellspacing="0"
 										border="0" style="width:100%;text_align:center;">
 										<h:outputText value="#{servicioAgenteMBean.detalleServicio.ruta.descripcionRuta}" />
-										<a4j:commandButton value="Ingresar Ruta" action="#{servicioAgenteMBean.agregarRutaInicial()}"
+										<a4j:commandButton value="Ingresar Ruta"
 										oncomplete="mostrarModal3('idModalrutaservicio')" render="idPnRutaServicio"></a4j:commandButton>
 									</h:panelGrid>
 
