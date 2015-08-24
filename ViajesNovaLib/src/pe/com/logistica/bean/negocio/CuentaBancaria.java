@@ -1,6 +1,8 @@
 package pe.com.logistica.bean.negocio;
 
-import pe.com.logistica.bean.base.Base;
+import java.math.BigDecimal;
+
+import pe.com.logistica.bean.base.BaseNegocio;
 import pe.com.logistica.bean.base.BaseVO;
 
 /**
@@ -8,7 +10,7 @@ import pe.com.logistica.bean.base.BaseVO;
  * @version 1.0
  * @created 14-dic-2013 01:14:34 p.m.
  */
-public class CuentaBancaria extends Base {
+public class CuentaBancaria extends BaseNegocio {
 
 	/**
 	 * 
@@ -17,6 +19,9 @@ public class CuentaBancaria extends Base {
 	private BaseVO banco;
 	private String numeroCuenta;
 	private int prioridad;
+	private String nombreCuenta;
+	private BigDecimal saldo;
+	
 
 	public CuentaBancaria() {
 
@@ -30,6 +35,9 @@ public class CuentaBancaria extends Base {
 	 * @return the banco
 	 */
 	public BaseVO getBanco() {
+		if (banco == null){
+			banco = new BaseVO();
+		}
 		return banco;
 	}
 
@@ -69,6 +77,34 @@ public class CuentaBancaria extends Base {
 	 */
 	public void setPrioridad(int prioridad) {
 		this.prioridad = prioridad;
+	}
+
+	/**
+	 * @return the nombreCuenta
+	 */
+	public String getNombreCuenta() {
+		return nombreCuenta;
+	}
+
+	/**
+	 * @param nombreCuenta the nombreCuenta to set
+	 */
+	public void setNombreCuenta(String nombreCuenta) {
+		this.nombreCuenta = nombreCuenta;
+	}
+
+	/**
+	 * @return the saldo
+	 */
+	public BigDecimal getSaldo() {
+		return saldo;
+	}
+
+	/**
+	 * @param saldo the saldo to set
+	 */
+	public void setSaldo(BigDecimal saldo) {
+		this.saldo = saldo;
 	}
 
 }
