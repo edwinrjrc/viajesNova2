@@ -18,6 +18,7 @@ import pe.com.logistica.bean.negocio.Consolidador;
 import pe.com.logistica.bean.negocio.Contacto;
 import pe.com.logistica.bean.negocio.CorreoClienteMasivo;
 import pe.com.logistica.bean.negocio.CorreoMasivo;
+import pe.com.logistica.bean.negocio.CuentaBancaria;
 import pe.com.logistica.bean.negocio.CuotaPago;
 import pe.com.logistica.bean.negocio.DetalleServicioAgencia;
 import pe.com.logistica.bean.negocio.Direccion;
@@ -239,4 +240,15 @@ public interface NegocioServicio {
 
 	DetalleServicioAgencia consultarDetalleServicioDetalle(int idServicio,
 			int idDetServicio) throws SQLException;
+
+	List<CuentaBancaria> listarCuentasBancarias() throws SQLException;
+
+	boolean registrarCuentaBancaria(CuentaBancaria cuentaBancaria)
+			throws SQLException;
+
+	boolean actualizarCuentaBancaria(CuentaBancaria cuentaBancaria)
+			throws SQLException;
+
+	CuentaBancaria consultarCuentaBancaria(Integer idCuenta)
+			throws SQLException;
 }

@@ -24,6 +24,7 @@ import pe.com.logistica.bean.negocio.Consolidador;
 import pe.com.logistica.bean.negocio.Contacto;
 import pe.com.logistica.bean.negocio.CorreoClienteMasivo;
 import pe.com.logistica.bean.negocio.CorreoMasivo;
+import pe.com.logistica.bean.negocio.CuentaBancaria;
 import pe.com.logistica.bean.negocio.CuotaPago;
 import pe.com.logistica.bean.negocio.DetalleServicioAgencia;
 import pe.com.logistica.bean.negocio.Direccion;
@@ -456,6 +457,26 @@ public class NegocioServicioImpl implements NegocioServicio {
 	@Override
 	public DetalleServicioAgencia consultarDetalleServicioDetalle(int idServicio, int idDetServicio) throws SQLException{
 		return ejbSession.consultaDetalleServicioDetalle(idServicio, idDetServicio);
+	}
+	
+	@Override
+	public List<CuentaBancaria> listarCuentasBancarias() throws SQLException{
+		return ejbSession.listarCuentasBancarias();
+	}
+	
+	@Override
+	public boolean registrarCuentaBancaria(CuentaBancaria cuentaBancaria) throws SQLException{
+		return ejbSession.registrarCuentaBancaria(cuentaBancaria);
+	}
+	
+	@Override
+	public boolean actualizarCuentaBancaria(CuentaBancaria cuentaBancaria) throws SQLException{
+		return ejbSession.actualizarCuentaBancaria(cuentaBancaria);
+	}
+	
+	@Override
+	public CuentaBancaria consultarCuentaBancaria(Integer idCuenta) throws SQLException{
+		return ejbSession.consultaCuentaBancaria(idCuenta);
 	}
 }
 	

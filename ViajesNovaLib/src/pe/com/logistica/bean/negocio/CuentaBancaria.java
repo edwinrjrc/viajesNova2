@@ -18,6 +18,7 @@ public class CuentaBancaria extends BaseNegocio {
 	private static final long serialVersionUID = -8231091082712340586L;
 	private BaseVO banco;
 	private String numeroCuenta;
+	private BaseVO tipoCuenta;
 	private int prioridad;
 	private String nombreCuenta;
 	private BigDecimal saldo;
@@ -105,6 +106,20 @@ public class CuentaBancaria extends BaseNegocio {
 	 */
 	public void setSaldo(BigDecimal saldo) {
 		this.saldo = saldo;
+	}
+
+	/**
+	 * @return the tipoCuenta
+	 */
+	public BaseVO getTipoCuenta() {
+		return tipoCuenta;
+	}
+
+	/**
+	 * @param tipoCuenta the tipoCuenta to set
+	 */
+	public void setTipoCuenta(BaseVO tipoCuenta) {
+		this.tipoCuenta = tipoCuenta;
 	}
 
 }

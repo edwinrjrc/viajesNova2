@@ -17,6 +17,7 @@ import pe.com.logistica.bean.negocio.Consolidador;
 import pe.com.logistica.bean.negocio.Contacto;
 import pe.com.logistica.bean.negocio.CorreoClienteMasivo;
 import pe.com.logistica.bean.negocio.CorreoMasivo;
+import pe.com.logistica.bean.negocio.CuentaBancaria;
 import pe.com.logistica.bean.negocio.CuotaPago;
 import pe.com.logistica.bean.negocio.DetalleServicioAgencia;
 import pe.com.logistica.bean.negocio.Direccion;
@@ -228,4 +229,12 @@ public interface NegocioSessionRemote {
 	public List<ReporteArchivoBusqueda> consultarArchivosCargados(ReporteArchivoBusqueda reporteArchivoBusqueda) throws ErrorConsultaDataException;
 	
 	public DetalleServicioAgencia consultaDetalleServicioDetalle(int idServicio, int idDetServicio) throws SQLException;
+	
+	public List<CuentaBancaria> listarCuentasBancarias() throws SQLException;
+	
+	public boolean registrarCuentaBancaria(CuentaBancaria cuentaBancaria) throws SQLException;
+	
+	public boolean actualizarCuentaBancaria(CuentaBancaria cuentaBancaria) throws SQLException;
+	
+	public CuentaBancaria consultaCuentaBancaria(Integer idCuenta) throws SQLException;
 }

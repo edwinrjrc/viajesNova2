@@ -28,6 +28,7 @@ import pe.com.logistica.bean.negocio.Consolidador;
 import pe.com.logistica.bean.negocio.Contacto;
 import pe.com.logistica.bean.negocio.CorreoClienteMasivo;
 import pe.com.logistica.bean.negocio.CorreoMasivo;
+import pe.com.logistica.bean.negocio.CuentaBancaria;
 import pe.com.logistica.bean.negocio.CuotaPago;
 import pe.com.logistica.bean.negocio.DetalleServicioAgencia;
 import pe.com.logistica.bean.negocio.Direccion;
@@ -51,6 +52,7 @@ import pe.com.logistica.negocio.dao.ComprobanteNovaViajesDao;
 import pe.com.logistica.negocio.dao.ConsolidadorDao;
 import pe.com.logistica.negocio.dao.ContactoDao;
 import pe.com.logistica.negocio.dao.CorreoMasivoDao;
+import pe.com.logistica.negocio.dao.CuentaBancariaDao;
 import pe.com.logistica.negocio.dao.DestinoDao;
 import pe.com.logistica.negocio.dao.DireccionDao;
 import pe.com.logistica.negocio.dao.MaestroDao;
@@ -68,6 +70,7 @@ import pe.com.logistica.negocio.dao.impl.ComprobanteNovaViajesDaoImpl;
 import pe.com.logistica.negocio.dao.impl.ConsolidadorDaoImpl;
 import pe.com.logistica.negocio.dao.impl.ContactoDaoImpl;
 import pe.com.logistica.negocio.dao.impl.CorreoMasivoDaoImpl;
+import pe.com.logistica.negocio.dao.impl.CuentaBancariaDaoImpl;
 import pe.com.logistica.negocio.dao.impl.DestinoDaoImpl;
 import pe.com.logistica.negocio.dao.impl.DireccionDaoImpl;
 import pe.com.logistica.negocio.dao.impl.MaestroDaoImpl;
@@ -2148,5 +2151,29 @@ public class NegocioSession implements NegocioSessionRemote,
 		ServicioNovaViajesDao servicioNovaViajesDao = new ServicioNovaViajesDaoImpl();
 		
 		return servicioNovaViajesDao.consultaDetalleServicioDetalle(idServicio, idDetServicio);
+	}
+	@Override
+	public List<CuentaBancaria> listarCuentasBancarias() throws SQLException{
+		CuentaBancariaDao cuentaBancariaDao = new CuentaBancariaDaoImpl();
+		
+		return cuentaBancariaDao.listarCuentasBancarias();
+	}
+	@Override
+	public boolean registrarCuentaBancaria(CuentaBancaria cuentaBancaria) throws SQLException{
+		CuentaBancariaDao cuentaBancariaDao = new CuentaBancariaDaoImpl();
+		
+		return cuentaBancariaDao.registrarCuentaBancaria(cuentaBancaria);
+	}
+	@Override
+	public boolean actualizarCuentaBancaria(CuentaBancaria cuentaBancaria) throws SQLException{
+		CuentaBancariaDao cuentaBancariaDao = new CuentaBancariaDaoImpl();
+		
+		return cuentaBancariaDao.actualizarCuentaBancaria(cuentaBancaria);
+	}
+	@Override
+	public CuentaBancaria consultaCuentaBancaria(Integer idCuenta) throws SQLException{
+		CuentaBancariaDao cuentaBancariaDao = new CuentaBancariaDaoImpl();
+		
+		return cuentaBancariaDao.consultaCuentaBancaria(idCuenta);
 	}
 }
