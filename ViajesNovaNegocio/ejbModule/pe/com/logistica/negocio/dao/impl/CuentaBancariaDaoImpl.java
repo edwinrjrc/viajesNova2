@@ -77,8 +77,37 @@ public class CuentaBancariaDaoImpl implements CuentaBancariaDao {
 	@Override
 	public boolean registrarCuentaBancaria(CuentaBancaria cuentaBancaria)
 			throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
+		Connection conn = null;
+		CallableStatement cs = null;
+		String sql = "";
+		try{
+			sql = "{ call ? = negocio.fn_registrarcuentabancaria(?,?,?,?,?,?)}";
+			conn = UtilConexion.obtenerConexion();
+			cs = conn.prepareCall(sql);
+			int i=1;
+			cs.registerOutParameter(i++, Types.OTHER);
+			cs.setString(i++, cuentaBancaria.getNombreCuenta());
+			cs.setString(i++, cuentaBancaria.getNumeroCuenta());
+			cs.setInt(i++, cuentaBancaria.getBanco().getCodigoEntero().intValue());
+			cs.setBigDecimal(i++, cuentaBancaria.getSaldo());
+			cs.setString(i++, cuentaBancaria.getUsuarioCreacion());
+			cs.setString(i++, cuentaBancaria.getIpCreacion());
+			cs.execute();
+			
+			return true;
+		}
+		catch (SQLException e){
+			throw new SQLException(e);
+		}
+		finally{
+			if (cs != null){
+				cs.close();
+			}
+			if (conn != null){
+				conn.close();
+			}
+		}
+		
 	}
 
 	/* (non-Javadoc)
@@ -87,8 +116,36 @@ public class CuentaBancariaDaoImpl implements CuentaBancariaDao {
 	@Override
 	public boolean actualizarCuentaBancaria(CuentaBancaria cuentaBancaria)
 			throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
+		Connection conn = null;
+		CallableStatement cs = null;
+		String sql = "";
+		try{
+			sql = "{ call ? = negocio.fn_actualizarcuentabancaria(?,?,?,?,?,?)}";
+			conn = UtilConexion.obtenerConexion();
+			cs = conn.prepareCall(sql);
+			int i=1;
+			cs.registerOutParameter(i++, Types.OTHER);
+			cs.setInt(i++, cuentaBancaria.getCodigoEntero().intValue());
+			cs.setString(i++, cuentaBancaria.getNombreCuenta());
+			cs.setString(i++, cuentaBancaria.getNumeroCuenta());
+			cs.setBigDecimal(i++, cuentaBancaria.getSaldo());
+			cs.setString(i++, cuentaBancaria.getUsuarioCreacion());
+			cs.setString(i++, cuentaBancaria.getIpCreacion());
+			cs.execute();
+			
+			return true;
+		}
+		catch (SQLException e){
+			throw new SQLException(e);
+		}
+		finally{
+			if (cs != null){
+				cs.close();
+			}
+			if (conn != null){
+				conn.close();
+			}
+		}
 	}
 
 	/* (non-Javadoc)
