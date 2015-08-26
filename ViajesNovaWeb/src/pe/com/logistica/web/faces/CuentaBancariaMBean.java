@@ -3,6 +3,7 @@
  */
 package pe.com.logistica.web.faces;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -52,11 +53,13 @@ public class CuentaBancariaMBean extends BaseMBean {
 	public void nuevaCuenta(){
 		this.setNuevaCuentaBancaria(true);
 		this.setEditarCuentaBancaria(false);
+		this.setNombreFormulario("Nueva Cuenta Bancaria");
 	}
 	
 	public void editarCuenta(){
 		this.setNuevaCuentaBancaria(false);
 		this.setEditarCuentaBancaria(true);
+		this.setNombreFormulario("Edita Cuenta Bancaria");
 	}
 
 	
@@ -78,6 +81,15 @@ public class CuentaBancariaMBean extends BaseMBean {
 	 * @return the listaCuentasBancarias
 	 */
 	public List<CuentaBancaria> getListaCuentasBancarias() {
+		
+		try {
+			listaCuentasBancarias = this.negocioServicio.listarCuentasBancarias();
+			
+			
+		} catch (SQLException e) {
+			logger.error(e.getMessage(), e);
+		}
+		
 		return listaCuentasBancarias;
 	}
 

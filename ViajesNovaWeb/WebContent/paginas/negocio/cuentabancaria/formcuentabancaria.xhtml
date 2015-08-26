@@ -67,11 +67,11 @@
 					<h:outputLabel value="Tipo Cuenta"
 						style="width: 100px; text-align:left" />
 					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
-						<h:inputTextarea id="idDescServicioLarga"
-							styleClass="estilocampo1"
-							value="#{maeServiciosMBean.maestroServicio.descripcion}"
-							cols="50" rows="3" />
-						<rich:message for="idDescServicioLarga" showDetail="false"
+						<h:selectOneMenu id="idSelTipoCuenta" value="#{cuentaBancariaMBean.cuentaBancaria.tipoCuenta.codigoEntero}">
+							<f:selectItem itemLabel="Seleccione"/>
+							<f:selectItems value="#{catalogoMBean.catalogoTipoCuenta}"></f:selectItems>
+						</h:selectOneMenu>
+						<rich:message for="idSelTipoCuenta" showDetail="false"
 							showSummary="true" />
 					</h:panelGrid>
 				</h:panelGrid>
@@ -81,20 +81,13 @@
 					columnClasses="col1servicio,col2servicio">
 					<h:outputLabel value="Banco"
 						style="width: 100px; text-align:left" />
-					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="2"
-						id="idGrFee">
-						<h:selectBooleanCheckbox
-							value="#{maeServiciosMBean.maestroServicio.requiereFee}">
-							<a4j:ajax event="valueChange" render="idGrFee, idSelSerFee"></a4j:ajax>
-						</h:selectBooleanCheckbox>
-						<h:outputText value=""
-							rendered="#{!maeServiciosMBean.maestroServicio.requiereFee}" />
-						<h:selectOneMenu id="idSelSerFee"
-							rendered="#{maeServiciosMBean.maestroServicio.requiereFee}"
-							value="#{maeServiciosMBean.maestroServicio.servicioFee.codigoEntero}">
-							<f:selectItem itemLabel="-Seleccione-" />
-							<f:selectItems value="#{catalogoMBean.catalogoTipoServicioFee}"></f:selectItems>
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
+						<h:selectOneMenu id="idSelCodigoBanco" value="#{cuentaBancariaMBean.cuentaBancaria.tipoCuenta.codigoEntero}">
+							<f:selectItem itemLabel="Seleccione"/>
+							<f:selectItems value="#{catalogoMBean.catalogoTipoCuenta}"></f:selectItems>
 						</h:selectOneMenu>
+						<rich:message for="idSelCodigoBanco" showDetail="false"
+							showSummary="true" />
 					</h:panelGrid>
 				</h:panelGrid>
 
@@ -103,14 +96,15 @@
 					columnClasses="col1servicio,col2servicio">
 					<h:outputLabel value="Moneda"
 						style="width: 100px; text-align:left" />
-					<h:selectBooleanCheckbox
-						value="#{maeServiciosMBean.maestroServicio.pagaImpto}">
-						<a4j:ajax event="valueChange" render="idGrPagaImpto, idTabImpto"></a4j:ajax>
-					</h:selectBooleanCheckbox>
-					<h:outputText value=""
-						rendered="#{!maeServiciosMBean.maestroServicio.pagaImpto}" />
-					<h:outputText value=""
-						rendered="#{!maeServiciosMBean.maestroServicio.pagaImpto}" />
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
+						<h:selectOneMenu id="idSelCodigoMoneda" value="#{cuentaBancariaMBean.cuentaBancaria.moneda.codigoEntero}">
+							<f:selectItem itemLabel="-Seleccione-" />
+							<f:selectItem itemLabel="Nuevos Soles (S/.)" itemValue="1" />
+							<f:selectItem itemLabel="Dolares Americanos ($)" itemValue="2" />
+						</h:selectOneMenu>
+						<rich:message for="idSelCodigoMoneda" showDetail="false"
+							showSummary="true" />
+					</h:panelGrid>
 				</h:panelGrid>
 
 				<f:facet name="footer">

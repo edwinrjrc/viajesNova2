@@ -124,6 +124,11 @@
    <to-view-id>/paginas/negocio/cargareporteproveedor/administrar.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
+  <navigation-case>
+   <from-outcome>irAdministrarCuentaBancaria</from-outcome>
+   <to-view-id>/paginas/negocio/cuentabancaria/administrar.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
  </navigation-rule>
  <navigation-rule>
   <from-view-id>/paginas/soporte/maestro/administrar.xhtml</from-view-id>

@@ -125,6 +125,12 @@
     PATH="/paginas/negocio/cargareporteproveedor/administrar.xhtml"
     TARGET="rules:#paginas#negocio#cargareporteproveedor#administrar.xhtml"
     TITLE="irAdministrarCargaArchivo" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="irAdministrarCuentaBancaria::#paginas#negocio#cuentabancaria#administrar.xhtml"
+    NAME="output22"
+    PATH="/paginas/negocio/cuentabancaria/administrar.xhtml"
+    TARGET="rules:#paginas#negocio#cuentabancaria#administrar.xhtml"
+    TITLE="irAdministrarCuentaBancaria" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#paginas#seguridad#usuario#administrar.xhtml"
@@ -251,4 +257,8 @@
   NAME="rules:#paginas#negocio#cargareporteproveedor#administrar.xhtml"
   PATH="/paginas/negocio/cargareporteproveedor/administrar.xhtml"
   SHAPE="304,817,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#paginas#negocio#cuentabancaria#administrar.xhtml"
+  PATH="/paginas/negocio/cuentabancaria/administrar.xhtml"
+  SHAPE="304,849,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

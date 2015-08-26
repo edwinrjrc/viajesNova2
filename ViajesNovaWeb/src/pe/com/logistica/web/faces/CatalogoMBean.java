@@ -77,6 +77,8 @@ public class CatalogoMBean implements Serializable{
 	private List<SelectItem> catalogoOperador;
 	private List<SelectItem> catalogoTipoComprobante;
 	private List<SelectItem> catalogoDocumentosAdicionales;
+	private List<SelectItem> catalogoBanco;
+	private List<SelectItem> catalogoTipoCuenta;
 
 	private SeguridadServicio seguridadServicio;
 	private SoporteServicio soporteServicio;
@@ -804,6 +806,56 @@ public class CatalogoMBean implements Serializable{
 	public void setCatalogoDocumentosAdicionales(
 			List<SelectItem> catalogoDocumentosAdicionales) {
 		this.catalogoDocumentosAdicionales = catalogoDocumentosAdicionales;
+	}
+
+	/**
+	 * @return the catalogoBanco
+	 */
+	public List<SelectItem> getCatalogoBanco() {
+		int idmaestro = UtilWeb.obtenerEnteroPropertieMaestro(
+				"maestroBanco", "aplicacionDatos");
+
+		try {
+			List<BaseVO> lista = soporteServicio
+					.listarCatalogoMaestro(idmaestro);
+			catalogoBanco = UtilWeb.convertirSelectItem(lista);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		
+		return catalogoBanco;
+	}
+
+	/**
+	 * @param catalogoBanco the catalogoBanco to set
+	 */
+	public void setCatalogoBanco(List<SelectItem> catalogoBanco) {
+		this.catalogoBanco = catalogoBanco;
+	}
+
+	/**
+	 * @return the catalogoTipoCuenta
+	 */
+	public List<SelectItem> getCatalogoTipoCuenta() {
+		int idmaestro = UtilWeb.obtenerEnteroPropertieMaestro(
+				"maestroTipoCuenta", "aplicacionDatos");
+
+		try {
+			List<BaseVO> lista = soporteServicio
+					.listarCatalogoMaestro(idmaestro);
+			catalogoTipoCuenta = UtilWeb.convertirSelectItem(lista);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		
+		return catalogoTipoCuenta;
+	}
+
+	/**
+	 * @param catalogoTipoCuenta the catalogoTipoCuenta to set
+	 */
+	public void setCatalogoTipoCuenta(List<SelectItem> catalogoTipoCuenta) {
+		this.catalogoTipoCuenta = catalogoTipoCuenta;
 	}
 
 }
