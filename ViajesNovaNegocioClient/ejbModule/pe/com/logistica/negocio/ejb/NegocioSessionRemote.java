@@ -232,7 +232,7 @@ public interface NegocioSessionRemote {
 	
 	public List<CuentaBancaria> listarCuentasBancarias() throws SQLException;
 	
-	public boolean registrarCuentaBancaria(CuentaBancaria cuentaBancaria) throws SQLException;
+	public boolean registrarCuentaBancaria(CuentaBancaria cuentaBancaria) throws ErrorRegistroDataException;
 	
 	public boolean actualizarCuentaBancaria(CuentaBancaria cuentaBancaria) throws SQLException;
 	

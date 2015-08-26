@@ -2159,10 +2159,14 @@ public class NegocioSession implements NegocioSessionRemote,
 		return cuentaBancariaDao.listarCuentasBancarias();
 	}
 	@Override
-	public boolean registrarCuentaBancaria(CuentaBancaria cuentaBancaria) throws SQLException{
-		CuentaBancariaDao cuentaBancariaDao = new CuentaBancariaDaoImpl();
-		
-		return cuentaBancariaDao.registrarCuentaBancaria(cuentaBancaria);
+	public boolean registrarCuentaBancaria(CuentaBancaria cuentaBancaria) throws ErrorRegistroDataException{
+		try {
+			CuentaBancariaDao cuentaBancariaDao = new CuentaBancariaDaoImpl();
+			
+			return cuentaBancariaDao.registrarCuentaBancaria(cuentaBancaria);
+		} catch (Exception e) {
+			throw new ErrorRegistroDataException(e);
+		}
 	}
 	@Override
 	public boolean actualizarCuentaBancaria(CuentaBancaria cuentaBancaria) throws SQLException{

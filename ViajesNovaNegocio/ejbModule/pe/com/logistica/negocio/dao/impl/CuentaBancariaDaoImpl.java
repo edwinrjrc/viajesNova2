@@ -84,11 +84,11 @@ public class CuentaBancariaDaoImpl implements CuentaBancariaDao {
 		CallableStatement cs = null;
 		String sql = "";
 		try{
-			sql = "{ call ? = negocio.fn_registrarcuentabancaria(?,?,?,?,?,?,?,?)}";
+			sql = "{ ? = call negocio.fn_registrarcuentabancaria(?,?,?,?,?,?,?,?)}";
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
 			int i=1;
-			cs.registerOutParameter(i++, Types.OTHER);
+			cs.registerOutParameter(i++, Types.BOOLEAN);
 			cs.setString(i++, cuentaBancaria.getNombreCuenta());
 			cs.setString(i++, cuentaBancaria.getNumeroCuenta());
 			cs.setInt(i++, cuentaBancaria.getTipoCuenta().getCodigoEntero().intValue());
@@ -129,7 +129,7 @@ public class CuentaBancariaDaoImpl implements CuentaBancariaDao {
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
 			int i=1;
-			cs.registerOutParameter(i++, Types.OTHER);
+			cs.registerOutParameter(i++, Types.BOOLEAN);
 			cs.setInt(i++, cuentaBancaria.getCodigoEntero().intValue());
 			cs.setString(i++, cuentaBancaria.getNombreCuenta());
 			cs.setString(i++, cuentaBancaria.getNumeroCuenta());

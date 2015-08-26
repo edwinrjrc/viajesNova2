@@ -244,7 +244,7 @@ public interface NegocioServicio {
 	List<CuentaBancaria> listarCuentasBancarias() throws SQLException;
 
 	boolean registrarCuentaBancaria(CuentaBancaria cuentaBancaria)
-			throws SQLException;
+			throws ErrorRegistroDataException;
 
 	boolean actualizarCuentaBancaria(CuentaBancaria cuentaBancaria)
 			throws SQLException;

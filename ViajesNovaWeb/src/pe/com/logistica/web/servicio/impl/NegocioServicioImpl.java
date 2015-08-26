@@ -465,7 +465,7 @@ public class NegocioServicioImpl implements NegocioServicio {
 	}
 	
 	@Override
-	public boolean registrarCuentaBancaria(CuentaBancaria cuentaBancaria) throws SQLException{
+	public boolean registrarCuentaBancaria(CuentaBancaria cuentaBancaria) throws ErrorRegistroDataException{
 		return ejbSession.registrarCuentaBancaria(cuentaBancaria);
 	}
 	

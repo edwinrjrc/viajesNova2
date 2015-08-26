@@ -11,10 +11,13 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
 import pe.com.logistica.bean.negocio.CuentaBancaria;
+import pe.com.logistica.bean.negocio.Usuario;
+import pe.com.logistica.negocio.exception.ErrorRegistroDataException;
 import pe.com.logistica.web.servicio.NegocioServicio;
 import pe.com.logistica.web.servicio.impl.NegocioServicioImpl;
 
@@ -64,13 +67,33 @@ public class CuentaBancariaMBean extends BaseMBean {
 
 	
 	public void ejecutarMetodo(){
-		if (validarCuentaBancaria()){
-			
+		try {
+			if (validarCuentaBancaria()){
+				
+				if (this.isNuevaCuentaBancaria()){
+					
+					HttpSession session = obtenerSession(false);
+					Usuario usuario = (Usuario) session
+							.getAttribute("usuarioSession");
+					getCuentaBancaria().setUsuarioCreacion(
+							usuario.getUsuario());
+					getCuentaBancaria().setIpCreacion(
+							obtenerRequest().getRemoteAddr());
+					
+					this.negocioServicio.registrarCuentaBancaria(getCuentaBancaria());
+					
+					this.mostrarMensajeExito("Cuenta Bancaria registrada satisfactoriamente");
+				}
+			}
+		} catch (ErrorRegistroDataException e) {
+			logger.error(e.getMessage(), e);
+			this.mostrarMensajeError(e.getMessage());
 		}
 	}
 	private boolean validarCuentaBancaria() {
-		// TODO Auto-generated method stub
-		return false;
+		boolean resultado = true; 
+		
+		return resultado;
 	}
 	
 	public void consultarCuenta(Integer idCuenta){
@@ -104,6 +127,9 @@ public class CuentaBancariaMBean extends BaseMBean {
 	 * @return the cuentaBancaria
 	 */
 	public CuentaBancaria getCuentaBancaria() {
+		if (cuentaBancaria == null){
+			cuentaBancaria = new CuentaBancaria();
+		}
 		return cuentaBancaria;
 	}
 
