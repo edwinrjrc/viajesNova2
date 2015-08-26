@@ -69,6 +69,10 @@ public class CuentaBancariaMBean extends BaseMBean {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	public void consultarCuenta(Integer idCuenta){
+		
+	}
 
 	/**
 	 * @return the listaCuentasBancarias

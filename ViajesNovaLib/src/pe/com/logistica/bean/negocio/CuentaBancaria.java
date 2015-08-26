@@ -21,14 +21,11 @@ public class CuentaBancaria extends BaseNegocio {
 	private BaseVO tipoCuenta;
 	private int prioridad;
 	private String nombreCuenta;
+	private BaseVO moneda;
 	private BigDecimal saldo;
 	
 
 	public CuentaBancaria() {
-
-	}
-
-	public void finalize() throws Throwable {
 
 	}
 
@@ -112,6 +109,9 @@ public class CuentaBancaria extends BaseNegocio {
 	 * @return the tipoCuenta
 	 */
 	public BaseVO getTipoCuenta() {
+		if (tipoCuenta == null){
+			tipoCuenta = new BaseVO();
+		}
 		return tipoCuenta;
 	}
 
@@ -120,6 +120,23 @@ public class CuentaBancaria extends BaseNegocio {
 	 */
 	public void setTipoCuenta(BaseVO tipoCuenta) {
 		this.tipoCuenta = tipoCuenta;
+	}
+
+	/**
+	 * @return the moneda
+	 */
+	public BaseVO getMoneda() {
+		if (moneda == null){
+			moneda = new BaseVO();
+		}
+		return moneda;
+	}
+
+	/**
+	 * @param moneda the moneda to set
+	 */
+	public void setMoneda(BaseVO moneda) {
+		this.moneda = moneda;
 	}
 
 }

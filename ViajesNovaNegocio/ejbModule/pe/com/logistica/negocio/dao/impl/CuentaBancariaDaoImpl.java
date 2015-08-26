@@ -3,6 +3,7 @@
  */
 package pe.com.logistica.negocio.dao.impl;
 
+import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -48,7 +49,9 @@ public class CuentaBancariaDaoImpl implements CuentaBancariaDao {
 				cuentaBancaria.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
 				cuentaBancaria.setNombreCuenta(UtilJdbc.obtenerCadena(rs, "nombrecuenta"));
 				cuentaBancaria.setNumeroCuenta(UtilJdbc.obtenerCadena(rs, "numerocuenta"));
+				cuentaBancaria.getTipoCuenta().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idtipocuenta"));
 				cuentaBancaria.getBanco().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idbanco"));
+				cuentaBancaria.getMoneda().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idmoneda"));
 				cuentaBancaria.setSaldo(UtilJdbc.obtenerBigDecimal(rs, "saldocuenta"));
 				resultado.add(cuentaBancaria);
 			}
@@ -81,15 +84,17 @@ public class CuentaBancariaDaoImpl implements CuentaBancariaDao {
 		CallableStatement cs = null;
 		String sql = "";
 		try{
-			sql = "{ call ? = negocio.fn_registrarcuentabancaria(?,?,?,?,?,?)}";
+			sql = "{ call ? = negocio.fn_registrarcuentabancaria(?,?,?,?,?,?,?,?)}";
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
 			int i=1;
 			cs.registerOutParameter(i++, Types.OTHER);
 			cs.setString(i++, cuentaBancaria.getNombreCuenta());
 			cs.setString(i++, cuentaBancaria.getNumeroCuenta());
+			cs.setInt(i++, cuentaBancaria.getTipoCuenta().getCodigoEntero().intValue());
 			cs.setInt(i++, cuentaBancaria.getBanco().getCodigoEntero().intValue());
-			cs.setBigDecimal(i++, cuentaBancaria.getSaldo());
+			cs.setInt(i++, cuentaBancaria.getMoneda().getCodigoEntero().intValue());
+			cs.setBigDecimal(i++, BigDecimal.ZERO);
 			cs.setString(i++, cuentaBancaria.getUsuarioCreacion());
 			cs.setString(i++, cuentaBancaria.getIpCreacion());
 			cs.execute();
@@ -120,7 +125,7 @@ public class CuentaBancariaDaoImpl implements CuentaBancariaDao {
 		CallableStatement cs = null;
 		String sql = "";
 		try{
-			sql = "{ call ? = negocio.fn_actualizarcuentabancaria(?,?,?,?,?,?)}";
+			sql = "{ call ? = negocio.fn_actualizarcuentabancaria(?,?,?,?,?,?,?)}";
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
 			int i=1;
@@ -128,7 +133,8 @@ public class CuentaBancariaDaoImpl implements CuentaBancariaDao {
 			cs.setInt(i++, cuentaBancaria.getCodigoEntero().intValue());
 			cs.setString(i++, cuentaBancaria.getNombreCuenta());
 			cs.setString(i++, cuentaBancaria.getNumeroCuenta());
-			cs.setBigDecimal(i++, cuentaBancaria.getSaldo());
+			cs.setInt(i++, cuentaBancaria.getTipoCuenta().getCodigoEntero().intValue());
+			cs.setInt(i++, cuentaBancaria.getBanco().getCodigoEntero().intValue());
 			cs.setString(i++, cuentaBancaria.getUsuarioCreacion());
 			cs.setString(i++, cuentaBancaria.getIpCreacion());
 			cs.execute();
@@ -175,7 +181,9 @@ public class CuentaBancariaDaoImpl implements CuentaBancariaDao {
 				resultado.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
 				resultado.setNombreCuenta(UtilJdbc.obtenerCadena(rs, "nombrecuenta"));
 				resultado.setNumeroCuenta(UtilJdbc.obtenerCadena(rs, "numerocuenta"));
+				resultado.getTipoCuenta().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idtipocuenta"));
 				resultado.getBanco().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idbanco"));
+				resultado.getMoneda().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idmoneda"));
 				resultado.setSaldo(UtilJdbc.obtenerBigDecimal(rs, "saldocuenta"));
 			}
 		}
