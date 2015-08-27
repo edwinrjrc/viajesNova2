@@ -62,7 +62,7 @@
 									</f:facet>
 									<h:outputText value="#{row.tipoCuenta.nombre}" />
 								</rich:column>
-								
+
 								<rich:column>
 									<f:facet name="header">
 										<h:outputText value="Banco" />
@@ -74,22 +74,27 @@
 									<f:facet name="header">
 										<h:outputText value="Saldo Cuenta" />
 									</f:facet>
-									<h:outputText value="#{row.saldo}">
-										<f:convertNumber currencySymbol="#{row.moneda.abreviatura}" groupingUsed="true"
-											maxFractionDigits="2" type="currency" />
-									</h:outputText>
+									<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+										style="width:100%;text-align:right;">
+										<h:outputText value="#{row.moneda.abreviatura} #{row.saldo}">
+											<f:convertNumber locale="en_US" pattern="###,##0.00" />
+										</h:outputText>
+									</h:panelGrid>
 								</rich:column>
 
 								<rich:column>
 									<f:facet name="header">
 										<h:outputText value="Opciones" />
 									</f:facet>
-									<a4j:commandLink render="idModalCuentaBancaria, idNomModal"
-										action="#{cuentaBancariaMBean.consultarCuenta(row.codigoEntero)}"
-										oncomplete="#{rich:component('idModalCuentaBancaria')}.show()">
-										<h:graphicImage height="25" width="20"
-											url="/resources/img/editar2.png" style="border:0" />
-									</a4j:commandLink>
+									<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+										style="width:100%;text-align:center;">
+										<a4j:commandLink render="idGrFrCuentaBancaria, idNomModal"
+											action="#{cuentaBancariaMBean.consultarCuenta(row.codigoEntero)}"
+											oncomplete="#{rich:component('idModalCuentaBancaria')}.show()">
+											<h:graphicImage height="25" width="20"
+												url="/resources/img/editar2.png" style="border:0" />
+										</a4j:commandLink>
+									</h:panelGrid>
 								</rich:column>
 
 							</rich:dataTable></td>

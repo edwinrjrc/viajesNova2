@@ -232,7 +232,7 @@ public interface NegocioSessionLocal {
 	
 	public boolean registrarCuentaBancaria(CuentaBancaria cuentaBancaria) throws ErrorRegistroDataException;
 	
-	public boolean actualizarCuentaBancaria(CuentaBancaria cuentaBancaria) throws SQLException;
+	public boolean actualizarCuentaBancaria(CuentaBancaria cuentaBancaria) throws ErrorRegistroDataException;
 	
 	public CuentaBancaria consultaCuentaBancaria(Integer idCuenta) throws SQLException;
 }

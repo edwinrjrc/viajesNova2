@@ -21,4 +21,6 @@ public interface CuentaBancariaDao {
 	public boolean actualizarCuentaBancaria(CuentaBancaria cuentaBancaria) throws SQLException;
 	
 	public CuentaBancaria consultaCuentaBancaria(Integer idCuenta) throws SQLException;
+	
+	public List<CuentaBancaria> listarCuentasBancariasCombo() throws SQLException;
 }

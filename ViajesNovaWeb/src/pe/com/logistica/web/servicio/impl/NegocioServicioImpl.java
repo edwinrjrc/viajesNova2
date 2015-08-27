@@ -470,7 +470,7 @@ public class NegocioServicioImpl implements NegocioServicio {
 	}
 	
 	@Override
-	public boolean actualizarCuentaBancaria(CuentaBancaria cuentaBancaria) throws SQLException{
+	public boolean actualizarCuentaBancaria(CuentaBancaria cuentaBancaria) throws ErrorRegistroDataException{
 		return ejbSession.actualizarCuentaBancaria(cuentaBancaria);
 	}
 	

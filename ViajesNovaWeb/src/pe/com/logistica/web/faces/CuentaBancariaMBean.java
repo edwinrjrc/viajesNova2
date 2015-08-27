@@ -54,6 +54,7 @@ public class CuentaBancariaMBean extends BaseMBean {
 	}
 	
 	public void nuevaCuenta(){
+		this.setCuentaBancaria(null);
 		this.setNuevaCuentaBancaria(true);
 		this.setEditarCuentaBancaria(false);
 		this.setNombreFormulario("Nueva Cuenta Bancaria");
@@ -84,11 +85,24 @@ public class CuentaBancariaMBean extends BaseMBean {
 					
 					this.mostrarMensajeExito("Cuenta Bancaria registrada satisfactoriamente");
 				}
+				else{
+					HttpSession session = obtenerSession(false);
+					Usuario usuario = (Usuario) session
+							.getAttribute("usuarioSession");
+					getCuentaBancaria().setUsuarioModificacion(
+							usuario.getUsuario());
+					getCuentaBancaria().setIpModificacion(
+							obtenerRequest().getRemoteAddr());
+					
+					this.negocioServicio.actualizarCuentaBancaria(getCuentaBancaria());
+					
+					this.mostrarMensajeExito("Cuenta Bancaria actualizada satisfactoriamente");
+				}
 			}
 		} catch (ErrorRegistroDataException e) {
 			logger.error(e.getMessage(), e);
 			this.mostrarMensajeError(e.getMessage());
-		}
+		} 
 	}
 	private boolean validarCuentaBancaria() {
 		boolean resultado = true; 
@@ -97,7 +111,13 @@ public class CuentaBancariaMBean extends BaseMBean {
 	}
 	
 	public void consultarCuenta(Integer idCuenta){
-		
+		try {
+			this.setCuentaBancaria(this.negocioServicio.consultarCuentaBancaria(idCuenta));
+			
+			editarCuenta();
+		} catch (SQLException e) {
+			logger.error(e.getMessage(), e);
+		}
 	}
 
 	/**
@@ -108,7 +128,7 @@ public class CuentaBancariaMBean extends BaseMBean {
 		try {
 			listaCuentasBancarias = this.negocioServicio.listarCuentasBancarias();
 			
-			
+			this.setShowModal(false);
 		} catch (SQLException e) {
 			logger.error(e.getMessage(), e);
 		}

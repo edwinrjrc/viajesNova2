@@ -38,6 +38,7 @@ public class PagoServicio extends BaseNegocio {
 	
 	private BaseVO tipoPago;
 	private BaseVO formaPago;
+	private BaseVO cuentaBancaria;
 	/**
 	 * 
 	 */
@@ -245,6 +246,20 @@ public class PagoServicio extends BaseNegocio {
 	 */
 	public void setFormaPago(BaseVO formaPago) {
 		this.formaPago = formaPago;
+	}
+
+	/**
+	 * @return the cuentaBancaria
+	 */
+	public BaseVO getCuentaBancaria() {
+		return cuentaBancaria;
+	}
+
+	/**
+	 * @param cuentaBancaria the cuentaBancaria to set
+	 */
+	public void setCuentaBancaria(BaseVO cuentaBancaria) {
+		this.cuentaBancaria = cuentaBancaria;
 	}
 
 }

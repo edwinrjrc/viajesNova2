@@ -247,7 +247,7 @@ public interface NegocioServicio {
 			throws ErrorRegistroDataException;
 
 	boolean actualizarCuentaBancaria(CuentaBancaria cuentaBancaria)
-			throws SQLException;
+			throws ErrorRegistroDataException;
 
 	CuentaBancaria consultarCuentaBancaria(Integer idCuenta)
 			throws SQLException;

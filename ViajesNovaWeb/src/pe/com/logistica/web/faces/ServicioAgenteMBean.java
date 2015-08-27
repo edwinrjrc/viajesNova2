@@ -1949,6 +1949,10 @@ public class ServicioAgenteMBean extends BaseMBean {
 		
 		this.getDetalleServicio().getRuta().setDescripcionRuta(descripcion);
 	}
+	
+	public void cambiarFormaPago(ValueChangeEvent e){
+		
+	}
 
 	/**
 	 * ========================================================================

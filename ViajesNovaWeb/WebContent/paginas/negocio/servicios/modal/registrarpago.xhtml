@@ -53,16 +53,28 @@
 							showSummary="true" showDetail="false" />
 					</h:panelGrid>
 					<h:outputText value="Tipo Pago" />
-					<h:selectOneMenu value="#{servicioAgenteMBean.pagoServicio.tipoPago.codigoCadena}">
+					<h:selectOneMenu
+						value="#{servicioAgenteMBean.pagoServicio.tipoPago.codigoCadena}">
 						<f:selectItem itemLabel="-Seleccione-" />
-						<f:selectItem itemLabel="Detracción" itemValue="D"/>
-						<f:selectItem itemLabel="Retención" itemValue="R"/>
+						<f:selectItem itemLabel="Detracción" itemValue="D" />
+						<f:selectItem itemLabel="Retención" itemValue="R" />
 					</h:selectOneMenu>
 					<h:outputText value="Forma Pago" />
-					<h:selectOneMenu value="#{servicioAgenteMBean.pagoServicio.formaPago.codigoEntero}">
-						<f:selectItem itemLabel="-Seleccione-" />
-						<f:selectItems value="#{catalogoMBean.catalogoFormaPago}"/>
-					</h:selectOneMenu>
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="3">
+						<h:selectOneMenu
+							value="#{servicioAgenteMBean.pagoServicio.formaPago.codigoEntero}"
+							valueChangeListener="#{servicioAgenteMBean.cambiarFormaPago}">
+							<f:selectItem itemLabel="-Seleccione-" />
+							<f:selectItems value="#{catalogoMBean.catalogoFormaPago}" />
+							<a4j:ajax event="valueChange"
+												render="idFrNuevServicio,idGrComiPro" />
+						</h:selectOneMenu>
+						<h:selectOneMenu rendered="false"
+							value="#{servicioAgenteMBean.pagoServicio.cuentaBancaria.codigoEntero}">
+							<f:selectItem itemLabel="-Seleccione-" />
+							<f:selectItems value="#{catalogoMBean.catalogoFormaPago}" />
+						</h:selectOneMenu>
+					</h:panelGrid>
 					<h:outputText value="Monto Pago" />
 					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
 						<h:inputText id="idMontoPago"

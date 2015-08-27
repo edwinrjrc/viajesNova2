@@ -129,7 +129,7 @@ public class CuentaBancariaDaoImpl implements CuentaBancariaDao {
 		CallableStatement cs = null;
 		String sql = "";
 		try{
-			sql = "{ call ? = negocio.fn_actualizarcuentabancaria(?,?,?,?,?,?,?)}";
+			sql = "{ ? = call negocio.fn_actualizarcuentabancaria(?,?,?,?,?,?,?)}";
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
 			int i=1;
@@ -139,8 +139,8 @@ public class CuentaBancariaDaoImpl implements CuentaBancariaDao {
 			cs.setString(i++, cuentaBancaria.getNumeroCuenta());
 			cs.setInt(i++, cuentaBancaria.getTipoCuenta().getCodigoEntero().intValue());
 			cs.setInt(i++, cuentaBancaria.getBanco().getCodigoEntero().intValue());
-			cs.setString(i++, cuentaBancaria.getUsuarioCreacion());
-			cs.setString(i++, cuentaBancaria.getIpCreacion());
+			cs.setString(i++, cuentaBancaria.getUsuarioModificacion());
+			cs.setString(i++, cuentaBancaria.getIpModificacion());
 			cs.execute();
 			
 			return true;
@@ -189,6 +189,50 @@ public class CuentaBancariaDaoImpl implements CuentaBancariaDao {
 				resultado.getBanco().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idbanco"));
 				resultado.getMoneda().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idmoneda"));
 				resultado.setSaldo(UtilJdbc.obtenerBigDecimal(rs, "saldocuenta"));
+			}
+		}
+		catch (SQLException e){
+			throw new SQLException(e);
+		}
+		finally{
+			if (rs != null){
+				rs.close();
+			}
+			if (cs != null){
+				cs.close();
+			}
+			if (conn != null){
+				conn.close();
+			}
+		}
+		
+		return resultado;
+	}
+
+	@Override
+	public List<CuentaBancaria> listarCuentasBancariasCombo()
+			throws SQLException {
+		List<CuentaBancaria> resultado = null;
+		Connection conn = null;
+		CallableStatement cs = null;
+		ResultSet rs = null;
+		String sql = "";
+		
+		try{
+			sql = "{ ? = call negocio.fn_listarcuentasbancariascombo() }";
+			conn = UtilConexion.obtenerConexion();
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(1, Types.OTHER);
+			cs.execute();
+			
+			rs = (ResultSet)cs.getObject(1);
+			CuentaBancaria cuentaBancaria = null;
+			resultado = new ArrayList<CuentaBancaria>();
+			while (rs.next()){
+				cuentaBancaria = new CuentaBancaria();
+				cuentaBancaria.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
+				cuentaBancaria.setNombreCuenta(UtilJdbc.obtenerCadena(rs, "nombrecuenta"));
+				resultado.add(cuentaBancaria);
 			}
 		}
 		catch (SQLException e){
