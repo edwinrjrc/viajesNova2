@@ -50,8 +50,12 @@ public class CuentaBancariaDaoImpl implements CuentaBancariaDao {
 				cuentaBancaria.setNombreCuenta(UtilJdbc.obtenerCadena(rs, "nombrecuenta"));
 				cuentaBancaria.setNumeroCuenta(UtilJdbc.obtenerCadena(rs, "numerocuenta"));
 				cuentaBancaria.getTipoCuenta().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idtipocuenta"));
+				cuentaBancaria.getTipoCuenta().setNombre(UtilJdbc.obtenerCadena(rs, "nombretipocuenta"));
 				cuentaBancaria.getBanco().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idbanco"));
+				cuentaBancaria.getBanco().setNombre(UtilJdbc.obtenerCadena(rs, "nombrebanco"));
 				cuentaBancaria.getMoneda().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idmoneda"));
+				cuentaBancaria.getMoneda().setNombre(UtilJdbc.obtenerCadena(rs, "nombremoneda"));
+				cuentaBancaria.getMoneda().setAbreviatura(UtilJdbc.obtenerCadena(rs, "abreviatura"));
 				cuentaBancaria.setSaldo(UtilJdbc.obtenerBigDecimal(rs, "saldocuenta"));
 				resultado.add(cuentaBancaria);
 			}

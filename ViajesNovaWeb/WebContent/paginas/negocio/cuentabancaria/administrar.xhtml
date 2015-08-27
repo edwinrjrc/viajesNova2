@@ -62,13 +62,20 @@
 									</f:facet>
 									<h:outputText value="#{row.tipoCuenta.nombre}" />
 								</rich:column>
+								
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText value="Banco" />
+									</f:facet>
+									<h:outputText value="#{row.banco.nombre}" />
+								</rich:column>
 
 								<rich:column>
 									<f:facet name="header">
 										<h:outputText value="Saldo Cuenta" />
 									</f:facet>
 									<h:outputText value="#{row.saldo}">
-										<f:convertNumber currencySymbol="$" groupingUsed="true"
+										<f:convertNumber currencySymbol="#{row.moneda.abreviatura}" groupingUsed="true"
 											maxFractionDigits="2" type="currency" />
 									</h:outputText>
 								</rich:column>
