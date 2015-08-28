@@ -251,4 +251,6 @@ public interface NegocioServicio {
 
 	CuentaBancaria consultarCuentaBancaria(Integer idCuenta)
 			throws SQLException;
+
+	List<CuentaBancaria> listarCuentasBancariasCombo() throws SQLException;
 }

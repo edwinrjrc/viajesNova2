@@ -237,4 +237,6 @@ public interface NegocioSessionRemote {
 	public boolean actualizarCuentaBancaria(CuentaBancaria cuentaBancaria) throws ErrorRegistroDataException;
 	
 	public CuentaBancaria consultaCuentaBancaria(Integer idCuenta) throws SQLException;
+	
+	public List<CuentaBancaria> listarCuentasBancariasCombo() throws SQLException;
 }

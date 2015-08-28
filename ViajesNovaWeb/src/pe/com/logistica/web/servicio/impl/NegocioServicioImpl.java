@@ -478,5 +478,10 @@ public class NegocioServicioImpl implements NegocioServicio {
 	public CuentaBancaria consultarCuentaBancaria(Integer idCuenta) throws SQLException{
 		return ejbSession.consultaCuentaBancaria(idCuenta);
 	}
+	
+	@Override
+	public List<CuentaBancaria> listarCuentasBancariasCombo() throws SQLException{
+		return ejbSession.listarCuentasBancariasCombo();
+	}
 }
 	

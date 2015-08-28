@@ -46,6 +46,7 @@ import pe.com.logistica.bean.base.BaseVO;
 import pe.com.logistica.bean.negocio.Cliente;
 import pe.com.logistica.bean.negocio.Comprobante;
 import pe.com.logistica.bean.negocio.ConfiguracionTipoServicio;
+import pe.com.logistica.bean.negocio.CuentaBancaria;
 import pe.com.logistica.bean.negocio.Destino;
 import pe.com.logistica.bean.negocio.DetalleServicioAgencia;
 import pe.com.logistica.bean.negocio.DocumentoAdicional;
@@ -119,6 +120,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 	private List<Comprobante> listaComprobantesAdicionales;
 	private List<SelectItem> listadoServiciosPadre;
 	private List<Tramo> listaTramos;
+	private List<SelectItem> listadoCuentasBancarias;
 
 	private boolean nuevaVenta;
 	private boolean editarVenta;
@@ -134,6 +136,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 	private boolean editaServicioAgregado;
 	private boolean cargoConfiguracionTipoServicio;
 	private boolean verDetalleServicio;
+	private boolean seleccionaTransferencia;
 
 	private ParametroServicio parametroServicio;
 	private NegocioServicio negocioServicio;
@@ -1951,7 +1954,26 @@ public class ServicioAgenteMBean extends BaseMBean {
 	}
 	
 	public void cambiarFormaPago(ValueChangeEvent e){
+		Object oe = e.getNewValue();
 		
+		try {
+			if (oe != null){
+				String formaPago = oe.toString();
+				
+				List<CuentaBancaria> lista = this.negocioServicio.listarCuentasBancariasCombo();
+				SelectItem si = null;
+				for (CuentaBancaria cuentaBancaria : lista) {
+					si = new SelectItem();
+					
+					si.setValue(cuentaBancaria.getCodigoEntero());
+					si.setLabel(cuentaBancaria.getNombreCuenta());
+					this.getListadoCuentasBancarias().add(si);
+				}
+				this.setSeleccionaTransferencia(true);
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 	}
 
 	/**
@@ -2786,5 +2808,36 @@ public class ServicioAgenteMBean extends BaseMBean {
 	 */
 	public void setListaTramos(List<Tramo> listaTramos) {
 		this.listaTramos = listaTramos;
+	}
+
+	/**
+	 * @return the listadoCuentasBancarias
+	 */
+	public List<SelectItem> getListadoCuentasBancarias() {
+		if (listadoCuentasBancarias == null){
+			listadoCuentasBancarias = new ArrayList<SelectItem>();
+		}
+		return listadoCuentasBancarias;
+	}
+
+	/**
+	 * @param listadoCuentasBancarias the listadoCuentasBancarias to set
+	 */
+	public void setListadoCuentasBancarias(List<SelectItem> listadoCuentasBancarias) {
+		this.listadoCuentasBancarias = listadoCuentasBancarias;
+	}
+
+	/**
+	 * @return the seleccionaTransferencia
+	 */
+	public boolean isSeleccionaTransferencia() {
+		return seleccionaTransferencia;
+	}
+
+	/**
+	 * @param seleccionaTransferencia the seleccionaTransferencia to set
+	 */
+	public void setSeleccionaTransferencia(boolean seleccionaTransferencia) {
+		this.seleccionaTransferencia = seleccionaTransferencia;
 	}
 }

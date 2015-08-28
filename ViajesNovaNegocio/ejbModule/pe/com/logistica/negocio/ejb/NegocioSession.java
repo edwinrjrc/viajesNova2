@@ -2184,4 +2184,10 @@ public class NegocioSession implements NegocioSessionRemote,
 		
 		return cuentaBancariaDao.consultaCuentaBancaria(idCuenta);
 	}
+	@Override
+	public List<CuentaBancaria> listarCuentasBancariasCombo() throws SQLException{
+		CuentaBancariaDao cuentaBancariaDao = new CuentaBancariaDaoImpl();
+		
+		return cuentaBancariaDao.listarCuentasBancariasCombo();
+	}
 }

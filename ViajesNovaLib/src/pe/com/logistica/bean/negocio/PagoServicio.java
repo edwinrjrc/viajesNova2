@@ -238,6 +238,9 @@ public class PagoServicio extends BaseNegocio {
 	 * @return the formaPago
 	 */
 	public BaseVO getFormaPago() {
+		if (formaPago == null){
+			formaPago = new BaseVO();
+		}
 		return formaPago;
 	}
 
@@ -252,6 +255,9 @@ public class PagoServicio extends BaseNegocio {
 	 * @return the cuentaBancaria
 	 */
 	public BaseVO getCuentaBancaria() {
+		if (cuentaBancaria == null){
+			cuentaBancaria = new BaseVO();
+		}
 		return cuentaBancaria;
 	}
 
