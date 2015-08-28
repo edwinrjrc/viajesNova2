@@ -14,6 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 
 import pe.com.logistica.bean.base.BaseVO;
 import pe.com.logistica.bean.negocio.Comprobante;
@@ -29,6 +30,8 @@ import pe.com.logistica.negocio.dao.impl.ParametroDaoImpl;
  *
  */
 public class UtilEjb {
+	
+	private final static Logger logger = Logger.getLogger(UtilEjb.class);
 
 	public static String obtenerCadenaPropertieMaestro(String llave,
 			String maestroPropertie) {
@@ -268,5 +271,49 @@ public class UtilEjb {
 				});
 
 		return listaServicio;
+	}
+	
+	public static String generaSentenciaFuncion(String nombreFuncion, int numeroParametros){
+		String sql = "";
+		
+		sql = "{ ? = call ";
+		sql = sql + nombreFuncion + "(";
+		sql = sql + completarParametrosSQL(numeroParametros);
+		sql = sql + ")}";
+		
+		logger.info(sql);
+		
+		return sql;
+	}
+	
+	public static String completarParametrosSQL(int numeroParametros){
+		String parametros = "";
+		
+		parametros = completarCaracter(parametros,"?,",numeroParametros,"D");
+		parametros = parametros.substring(0, (parametros.length()-1));
+		
+		return parametros;
+	}
+	
+	public static String completarCaracter(String cadena, String caracter, int cantidad, String direccion){
+		if ("D".equals(direccion)){
+			String cadenaNueva = cadena;
+			int i=0;
+			while((cadena.length() + i) < cantidad){
+				cadenaNueva = cadenaNueva + caracter;
+				i++;
+			}
+			return cadenaNueva;
+		}
+		else if("I".equals(direccion)){	
+			String cadenaNueva = cadena;
+			int i=0;
+			while((cadena.length() + i) < cantidad){
+				cadenaNueva =  caracter + cadenaNueva;
+				i++;
+			}
+			return cadenaNueva;
+		}
+		return cadena;
 	}
 }

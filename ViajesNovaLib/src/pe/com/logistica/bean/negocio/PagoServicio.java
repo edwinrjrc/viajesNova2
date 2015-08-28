@@ -39,6 +39,7 @@ public class PagoServicio extends BaseNegocio {
 	private BaseVO tipoPago;
 	private BaseVO formaPago;
 	private BaseVO cuentaBancaria;
+	private TarjetaCredito tarjetaCredito;
 	/**
 	 * 
 	 */
@@ -266,6 +267,20 @@ public class PagoServicio extends BaseNegocio {
 	 */
 	public void setCuentaBancaria(BaseVO cuentaBancaria) {
 		this.cuentaBancaria = cuentaBancaria;
+	}
+
+	/**
+	 * @return the tarjetaCredito
+	 */
+	public TarjetaCredito getTarjetaCredito() {
+		return tarjetaCredito;
+	}
+
+	/**
+	 * @param tarjetaCredito the tarjetaCredito to set
+	 */
+	public void setTarjetaCredito(TarjetaCredito tarjetaCredito) {
+		this.tarjetaCredito = tarjetaCredito;
 	}
 
 }

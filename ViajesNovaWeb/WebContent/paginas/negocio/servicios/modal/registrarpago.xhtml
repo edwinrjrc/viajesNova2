@@ -60,21 +60,30 @@
 						<f:selectItem itemLabel="Retención" itemValue="R" />
 					</h:selectOneMenu>
 					<h:outputText value="Forma Pago" />
-					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="3" id="idPnFormaPago">
-						<h:selectOneMenu
-							value="#{servicioAgenteMBean.pagoServicio.formaPago.codigoEntero}"
-							valueChangeListener="#{servicioAgenteMBean.cambiarFormaPago}">
-							<f:selectItem itemLabel="-Seleccione-" />
-							<f:selectItems value="#{catalogoMBean.catalogoFormaPago}" />
-							<a4j:ajax event="valueChange"
-												render="idPnFormaPago" />
-						</h:selectOneMenu>
-						<h:selectOneMenu rendered="#{servicioAgenteMBean.seleccionaTransferencia}" id="idSelCuentaBancaria"
-							value="#{servicioAgenteMBean.pagoServicio.cuentaBancaria.codigoEntero}">
-							<f:selectItem itemLabel="-Seleccione-" />
-							<f:selectItems value="#{servicioAgenteMBean.listadoCuentasBancarias}" />
-						</h:selectOneMenu>
-					</h:panelGrid>
+					<h:selectOneMenu
+						value="#{servicioAgenteMBean.pagoServicio.formaPago.codigoEntero}"
+						valueChangeListener="#{servicioAgenteMBean.cambiarFormaPago}">
+						<f:selectItem itemLabel="-Seleccione-" />
+						<f:selectItems value="#{catalogoMBean.catalogoFormaPago}" />
+						<a4j:ajax event="valueChange" render="idPnFormaPago" />
+					</h:selectOneMenu>
+					<h:outputText value="Cuenta Bancaria" />
+					<h:selectOneMenu
+						rendered="#{servicioAgenteMBean.seleccionaTransferencia}"
+						id="idSelCuentaBancaria"
+						value="#{servicioAgenteMBean.pagoServicio.cuentaBancaria.codigoEntero}">
+						<f:selectItem itemLabel="-Seleccione-" />
+						<f:selectItems
+							value="#{servicioAgenteMBean.listadoCuentasBancarias}" />
+					</h:selectOneMenu>
+					<h:outputText value="Numero Tarjeta" />
+					<h:inputText
+						value="#{servicioAgenteMBean.pagoServicio.tarjetaCredito.numeroTarjeta}" />
+					<h:outputText value="Tipo Tarjeta" />
+					
+					<h:outputText value="Nombre Titular" />
+					<h:inputText
+						value="#{servicioAgenteMBean.pagoServicio.tarjetaCredito.nombreTitular}" />
 					<h:outputText value="Monto Pago" />
 					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
 						<h:inputText id="idMontoPago"

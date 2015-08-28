@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 
 import pe.com.logistica.bean.Util.UtilParse;
 import pe.com.logistica.bean.base.BaseVO;
@@ -30,6 +31,7 @@ import pe.com.logistica.bean.negocio.ServicioAgenciaBusqueda;
 import pe.com.logistica.bean.negocio.Tramo;
 import pe.com.logistica.negocio.dao.ServicioNovaViajesDao;
 import pe.com.logistica.negocio.util.UtilConexion;
+import pe.com.logistica.negocio.util.UtilEjb;
 import pe.com.logistica.negocio.util.UtilJdbc;
 
 /**
@@ -37,6 +39,8 @@ import pe.com.logistica.negocio.util.UtilJdbc;
  *
  */
 public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
+	
+	private final static Logger logger = Logger.getLogger(ServicioNovaViajesDaoImpl.class);
 
 	@Override
 	public Integer ingresarCabeceraServicio(ServicioAgencia servicioAgencia)
@@ -1544,7 +1548,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 	@Override
 	public void registrarPagoServicio(PagoServicio pago) throws SQLException {
 		CallableStatement cs = null;
-		String sql = "{ ? = call negocio.fn_registrarpagoservicio(?,?,?,?,?,?,?,?,?,?,?,?)}";
+		String sql = UtilEjb.generaSentenciaFuncion("negocio.fn_registrarpagoservicio", 17);
 		Connection conn = null;
 		try {
 			conn = UtilConexion.obtenerConexion();
@@ -1552,6 +1556,26 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			int i=1;
 			cs.registerOutParameter(i++, Types.INTEGER);
 			cs.setInt(i++, pago.getServicio().getCodigoEntero());
+			cs.setInt(i++, pago.getFormaPago().getCodigoEntero().intValue());
+			cs.setInt(i++, pago.getCuentaBancaria().getCodigoEntero().intValue());
+			if (pago.getTarjetaCredito().getProveedoTarjeta().getCodigoEntero() != null && pago.getTarjetaCredito().getProveedoTarjeta().getCodigoEntero().intValue() !=0){
+				cs.setInt(i++, pago.getTarjetaCredito().getProveedoTarjeta().getCodigoEntero().intValue());
+			}
+			else{
+				cs.setNull(i++, Types.INTEGER);
+			}
+			if (StringUtils.isNotBlank(pago.getTarjetaCredito().getNombreTitular())){
+				cs.setString(i++, pago.getTarjetaCredito().getNombreTitular());
+			}
+			else{
+				cs.setNull(i++, Types.VARCHAR);
+			}
+			if (StringUtils.isNotBlank(pago.getTarjetaCredito().getNumeroTarjeta())){
+				cs.setString(i++, pago.getTarjetaCredito().getNumeroTarjeta());
+			}
+			else{
+				cs.setNull(i++, Types.VARCHAR);
+			}
 			cs.setDate(i++, UtilJdbc.convertirUtilDateSQLDate(pago.getFechaPago()));
 			cs.setBigDecimal(i++, pago.getMontoPago());
 			if (pago.getSustentoPagoByte()!=null){
@@ -1601,45 +1625,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			cs.execute();
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
-			try {
-				cs.close();
-				cs = conn.prepareCall(sql);
-				int i=1;
-				cs.registerOutParameter(i++, Types.INTEGER);
-				cs.setInt(i++, pago.getServicio().getCodigoEntero());
-				cs.setDate(i++, UtilJdbc.convertirUtilDateSQLDate(pago.getFechaPago()));
-				cs.setBigDecimal(i++, pago.getMontoPago());
-				if (pago.getSustentoPagoByte()!=null){
-					cs.setBinaryStream(i++, new ByteArrayInputStream(pago.getSustentoPagoByte()));
-				}
-				else{
-					cs.setNull(i++, Types.VARBINARY);
-				}
-				if (StringUtils.isNotBlank(pago.getComentario())){
-					cs.setString(i++, pago.getComentario());
-				}
-				else {
-					cs.setNull(i++, Types.VARCHAR);
-				}
-				if (StringUtils.isNotBlank(pago.getTipoPago().getCodigoCadena())){
-					cs.setBoolean(i++, "D".equals(pago.getTipoPago().getCodigoCadena()));
-				}
-				else {
-					cs.setNull(i++, Types.BOOLEAN);
-				}
-				if (StringUtils.isNotBlank(pago.getTipoPago().getCodigoCadena())){
-					cs.setBoolean(i++, "R".equals(pago.getTipoPago().getCodigoCadena()));
-				}
-				else {
-					cs.setNull(i++, Types.BOOLEAN);
-				}
-				cs.setString(i++, pago.getUsuarioCreacion());
-				cs.setString(i++, pago.getIpCreacion());
-				cs.execute();
-			} catch (SQLException e1) {
-				throw new SQLException(e);
-			}
+			throw new SQLException(e);
 		} finally {
 			try {
 				if (cs != null) {
