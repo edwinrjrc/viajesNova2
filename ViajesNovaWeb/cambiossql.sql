@@ -33,16 +33,27 @@ WITH (
   OIDS=FALSE
 );
 
-
 -- Function: negocio.fn_registrarpagoservicio(integer, date, numeric, bytea, character varying, character varying, character varying, character varying, boolean, boolean, character varying, character varying)
 
 -- DROP FUNCTION negocio.fn_registrarpagoservicio(integer, date, numeric, bytea, character varying, character varying, character varying, character varying, boolean, boolean, character varying, character varying);
 
-CREATE OR REPLACE FUNCTION negocio.fn_registrarpagoservicio(p_idservicio integer, p_idformapago integer, p_idcuentadestino integer, 
-p_idtipotarjeta integer, p_nombretitular character varying, p_numerotarjeta character varying, 
-p_fechapago date, p_montopago numeric, p_sustentopago bytea, 
-p_nombrearchivo character varying, p_extensionarchivo character varying, p_tipocontenido character varying, p_comentario character varying, 
-p_espagodetraccion boolean, p_espagoretencion boolean, p_usuariocreacion character varying, p_ipcreacion character varying)
+CREATE OR REPLACE FUNCTION negocio.fn_registrarpagoservicio(p_idservicio integer, 
+p_idformapago integer, 
+p_idcuentadestino integer, 
+p_idtipotarjeta integer, 
+p_nombretitular character varying, 
+p_numerotarjeta character varying, 
+p_fechapago date, 
+p_montopago numeric, 
+p_sustentopago bytea, 
+p_nombrearchivo character varying, 
+p_extensionarchivo character varying, 
+p_tipocontenido character varying, 
+p_comentario character varying, 
+p_espagodetraccion boolean, 
+p_espagoretencion boolean, 
+p_usuariocreacion character varying, 
+p_ipcreacion character varying)
   RETURNS integer AS
 $BODY$
 
@@ -115,3 +126,4 @@ end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
+
