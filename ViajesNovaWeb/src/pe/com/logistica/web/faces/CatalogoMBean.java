@@ -80,6 +80,7 @@ public class CatalogoMBean implements Serializable{
 	private List<SelectItem> catalogoBanco;
 	private List<SelectItem> catalogoTipoCuenta;
 	private List<SelectItem> catalogoMoneda;
+	private List<SelectItem> catalogoProveedorTarjeta;
 
 	private SeguridadServicio seguridadServicio;
 	private SoporteServicio soporteServicio;
@@ -881,6 +882,30 @@ public class CatalogoMBean implements Serializable{
 	 */
 	public void setCatalogoMoneda(List<SelectItem> catalogoMoneda) {
 		this.catalogoMoneda = catalogoMoneda;
+	}
+
+	/**
+	 * @return the catalogoProveedorTarjeta
+	 */
+	public List<SelectItem> getCatalogoProveedorTarjeta() {
+		int idmaestro = UtilWeb.obtenerEnteroPropertieMaestro(
+				"maestroProveedorTarjeta", "aplicacionDatos");
+
+		try {
+			List<BaseVO> lista = soporteServicio
+					.listarCatalogoMaestro(idmaestro);
+			catalogoProveedorTarjeta = UtilWeb.convertirSelectItem(lista);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		return catalogoProveedorTarjeta;
+	}
+
+	/**
+	 * @param catalogoProveedorTarjeta the catalogoProveedorTarjeta to set
+	 */
+	public void setCatalogoProveedorTarjeta(List<SelectItem> catalogoProveedorTarjeta) {
+		this.catalogoProveedorTarjeta = catalogoProveedorTarjeta;
 	}
 
 }

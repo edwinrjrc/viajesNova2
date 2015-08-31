@@ -20,6 +20,7 @@ public class TarjetaCredito extends BaseNegocio {
 	private String numeroTarjeta;
 	private String fechaVencimiento;
 	private BaseVO proveedoTarjeta;
+	private BaseVO banco;
 	
 	
 	/**
@@ -62,6 +63,9 @@ public class TarjetaCredito extends BaseNegocio {
 	 * @return the proveedoTarjeta
 	 */
 	public BaseVO getProveedoTarjeta() {
+		if (proveedoTarjeta == null){
+			proveedoTarjeta = new BaseVO();
+		}
 		return proveedoTarjeta;
 	}
 	/**
@@ -69,6 +73,21 @@ public class TarjetaCredito extends BaseNegocio {
 	 */
 	public void setProveedoTarjeta(BaseVO proveedoTarjeta) {
 		this.proveedoTarjeta = proveedoTarjeta;
+	}
+	/**
+	 * @return the banco
+	 */
+	public BaseVO getBanco() {
+		if (banco == null){
+			banco = new BaseVO();
+		}
+		return banco;
+	}
+	/**
+	 * @param banco the banco to set
+	 */
+	public void setBanco(BaseVO banco) {
+		this.banco = banco;
 	}
 	
 	

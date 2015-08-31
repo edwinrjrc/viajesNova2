@@ -24,12 +24,13 @@
 		<h:form id="idFormRegisPago" enctype="multipart/form-data">
 			<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
 				style="width:100%;" id="idGrFrRegpagos">
-				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="2"
-					style="width:100%;" columnClasses="col1fil2Negrita,col2fil2Negrita">
+				<h:panelGrid id="idPnRegpago" cellpadding="0" cellspacing="0"
+					border="0" columns="2" style="width:100%;"
+					columnClasses="col1fil2Negrita,col2fil2Negrita">
 					<f:facet name="header">
 						<h:panelGrid border="0" cellpadding="0" cellspacing="0"
 							style="text-align: left;vertical-align: top; width: 100%;">
-							<h:outputText value="Información Servicio" style="height: 100px"
+							<h:outputText value="Registrar Pago" style="height: 100px"
 								styleClass="subtitulo2" />
 							<hr width="100%" />
 						</h:panelGrid>
@@ -65,24 +66,41 @@
 						valueChangeListener="#{servicioAgenteMBean.cambiarFormaPago}">
 						<f:selectItem itemLabel="-Seleccione-" />
 						<f:selectItems value="#{catalogoMBean.catalogoFormaPago}" />
-						<a4j:ajax event="valueChange" render="idPnFormaPago" />
+						<a4j:ajax event="valueChange" render="idPnRegpago" />
 					</h:selectOneMenu>
-					<h:outputText value="Cuenta Bancaria" />
-					<h:selectOneMenu
-						rendered="#{servicioAgenteMBean.seleccionaTransferencia}"
+					<h:outputText value="Cuenta Bancaria"
+						rendered="#{servicioAgenteMBean.mostrarCuenta}" />
+					<h:selectOneMenu rendered="#{servicioAgenteMBean.mostrarCuenta}"
 						id="idSelCuentaBancaria"
 						value="#{servicioAgenteMBean.pagoServicio.cuentaBancaria.codigoEntero}">
 						<f:selectItem itemLabel="-Seleccione-" />
 						<f:selectItems
 							value="#{servicioAgenteMBean.listadoCuentasBancarias}" />
 					</h:selectOneMenu>
-					<h:outputText value="Numero Tarjeta" />
-					<h:inputText
+					<h:outputText value="Numero Tarjeta"
+						rendered="#{servicioAgenteMBean.mostrarTarjeta}" />
+					<h:inputText rendered="#{servicioAgenteMBean.mostrarTarjeta}" maxlength="16"
 						value="#{servicioAgenteMBean.pagoServicio.tarjetaCredito.numeroTarjeta}" />
-					<h:outputText value="Tipo Tarjeta" />
-					
-					<h:outputText value="Nombre Titular" />
-					<h:inputText
+					<h:outputText value="Tipo Tarjeta"
+						rendered="#{servicioAgenteMBean.mostrarTarjeta}" />
+					<h:selectOneMenu rendered="#{servicioAgenteMBean.mostrarTarjeta}"
+						value="#{servicioAgenteMBean.pagoServicio.tarjetaCredito.proveedoTarjeta.codigoEntero}"
+						valueChangeListener="#{servicioAgenteMBean.cambiarFormaPago}">
+						<f:selectItem itemLabel="-Seleccione-" />
+						<f:selectItems value="#{catalogoMBean.catalogoProveedorTarjeta}" />
+					</h:selectOneMenu>
+					<h:outputText value="Banco Tarjeta"
+						rendered="#{servicioAgenteMBean.mostrarTarjeta}" />
+					<h:selectOneMenu rendered="#{servicioAgenteMBean.mostrarTarjeta}"
+						value="#{servicioAgenteMBean.pagoServicio.tarjetaCredito.banco.codigoEntero}"
+						valueChangeListener="#{servicioAgenteMBean.cambiarFormaPago}">
+						<f:selectItem itemLabel="-Seleccione-" />
+						<f:selectItems value="#{catalogoMBean.catalogoBanco}" />
+					</h:selectOneMenu>
+					<h:outputText value="Nombre Titular Tarjeta"
+						rendered="#{servicioAgenteMBean.mostrarTarjeta}" />
+					<h:inputText rendered="#{servicioAgenteMBean.mostrarTarjeta}"
+						maxlength="30" size="20"
 						value="#{servicioAgenteMBean.pagoServicio.tarjetaCredito.nombreTitular}" />
 					<h:outputText value="Monto Pago" />
 					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1">
@@ -102,7 +120,7 @@
 							showSummary="true" showDetail="false" />
 					</h:panelGrid>
 					<h:outputText value="Sustento Pago" />
-					<rich:fileUpload
+					<rich:fileUpload style="Height: 100px;"
 						fileUploadListener="#{servicioAgenteMBean.listener}" id="upload"
 						acceptedTypes="jpg, gif, png, jpeg, pdf, JPG, GIF, PNG, JPEG, PDF"
 						ontyperejected="alert('Only JPG, GIF, PNG, PDF files are accepted');"
@@ -112,10 +130,14 @@
 				</h:panelGrid>
 
 				<f:facet name="footer">
-					<a4j:commandButton value="Grabar"
-						action="#{servicioAgenteMBean.registrarPago()}"
-						render="idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError,idGrRegisVenServicio,idDatapagos,idGrSaldoServicio"
-						oncomplete="mostrarModal('idformadmservicios'); #{rich:component('idModalregpagos')}.hide(); return false;"></a4j:commandButton>
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+						style="width:100%;text-align:center;" columns="1">
+						<br />
+						<a4j:commandButton value="Grabar" style="width:150px;Height;25px"
+							action="#{servicioAgenteMBean.registrarPago()}"
+							render="idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError,idGrRegisVenServicio,idDatapagos,idGrSaldoServicio"
+							oncomplete="mostrarModal('idformadmservicios'); #{rich:component('idModalregpagos')}.hide(); return false;"></a4j:commandButton>
+					</h:panelGrid>
 				</f:facet>
 			</h:panelGrid>
 		</h:form>

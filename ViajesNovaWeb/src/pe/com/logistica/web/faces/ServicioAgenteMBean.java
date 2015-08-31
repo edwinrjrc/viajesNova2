@@ -136,7 +136,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 	private boolean editaServicioAgregado;
 	private boolean cargoConfiguracionTipoServicio;
 	private boolean verDetalleServicio;
-	private boolean seleccionaTransferencia;
+	private boolean mostrarCuenta;
+	private boolean mostrarTarjeta;
 
 	private ParametroServicio parametroServicio;
 	private NegocioServicio negocioServicio;
@@ -1340,6 +1341,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 
 	public void registrarNuevoPago() {
 		this.setPagoServicio(null);
+		this.setMostrarTarjeta(false);
+		this.setMostrarCuenta(false);
 	}
 
 	public void registrarPago() {
@@ -1379,7 +1382,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 		String idFormulario = "idFormRegisPago";
 		if (this.getPagoServicio().getMontoPago() == null
 				|| BigDecimal.ZERO
-						.equals(this.getPagoServicio().getMontoPago())) {
+						.equals(this.getPagoServicio().getMontoPago())) {	
 			this.agregarMensaje(idFormulario + ":idMontoPago",
 					"Ingrese el monto a pagar", "", FacesMessage.SEVERITY_ERROR);
 			resultado = false;
@@ -1960,19 +1963,25 @@ public class ServicioAgenteMBean extends BaseMBean {
 			if (oe != null){
 				String formaPago = oe.toString();
 				
-				List<CuentaBancaria> lista = this.negocioServicio.listarCuentasBancariasCombo();
-				SelectItem si = null;
-				for (CuentaBancaria cuentaBancaria : lista) {
-					si = new SelectItem();
-					
-					si.setValue(cuentaBancaria.getCodigoEntero());
-					si.setLabel(cuentaBancaria.getNombreCuenta());
-					this.getListadoCuentasBancarias().add(si);
+				if ("2".equals(formaPago) || "3".equals(formaPago)){
+					List<CuentaBancaria> lista = this.negocioServicio.listarCuentasBancariasCombo();
+					SelectItem si = null;
+					for (CuentaBancaria cuentaBancaria : lista) {
+						si = new SelectItem();
+						
+						si.setValue(cuentaBancaria.getCodigoEntero());
+						si.setLabel(cuentaBancaria.getNombreCuenta());
+						this.getListadoCuentasBancarias().add(si);
+					}
+					this.setMostrarCuenta(true);
 				}
-				this.setSeleccionaTransferencia(true);
+				else if ("4".equals(formaPago)){
+					this.setMostrarTarjeta(true);
+				}
+				
 			}
 		} catch (SQLException e1) {
-			e1.printStackTrace();
+			logger.error(e1.getMessage(), e1);
 		}
 	}
 
@@ -2828,16 +2837,30 @@ public class ServicioAgenteMBean extends BaseMBean {
 	}
 
 	/**
-	 * @return the seleccionaTransferencia
+	 * @return the mostrarCuenta
 	 */
-	public boolean isSeleccionaTransferencia() {
-		return seleccionaTransferencia;
+	public boolean isMostrarCuenta() {
+		return mostrarCuenta;
 	}
 
 	/**
-	 * @param seleccionaTransferencia the seleccionaTransferencia to set
+	 * @param mostrarCuenta the mostrarCuenta to set
 	 */
-	public void setSeleccionaTransferencia(boolean seleccionaTransferencia) {
-		this.seleccionaTransferencia = seleccionaTransferencia;
+	public void setMostrarCuenta(boolean mostrarCuenta) {
+		this.mostrarCuenta = mostrarCuenta;
+	}
+
+	/**
+	 * @return the mostrarTarjeta
+	 */
+	public boolean isMostrarTarjeta() {
+		return mostrarTarjeta;
+	}
+
+	/**
+	 * @param mostrarTarjeta the mostrarTarjeta to set
+	 */
+	public void setMostrarTarjeta(boolean mostrarTarjeta) {
+		this.mostrarTarjeta = mostrarTarjeta;
 	}
 }

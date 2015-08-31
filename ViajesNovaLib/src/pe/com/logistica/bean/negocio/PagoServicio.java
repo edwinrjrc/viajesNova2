@@ -273,6 +273,9 @@ public class PagoServicio extends BaseNegocio {
 	 * @return the tarjetaCredito
 	 */
 	public TarjetaCredito getTarjetaCredito() {
+		if (tarjetaCredito == null){
+			tarjetaCredito = new TarjetaCredito();
+		}
 		return tarjetaCredito;
 	}
 

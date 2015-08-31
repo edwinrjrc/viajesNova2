@@ -1548,7 +1548,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 	@Override
 	public void registrarPagoServicio(PagoServicio pago) throws SQLException {
 		CallableStatement cs = null;
-		String sql = UtilEjb.generaSentenciaFuncion("negocio.fn_registrarpagoservicio", 17);
+		String sql = UtilEjb.generaSentenciaFuncion("negocio.fn_registrarpagoservicio", 18);
 		Connection conn = null;
 		try {
 			conn = UtilConexion.obtenerConexion();
@@ -1557,7 +1557,18 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			cs.registerOutParameter(i++, Types.INTEGER);
 			cs.setInt(i++, pago.getServicio().getCodigoEntero());
 			cs.setInt(i++, pago.getFormaPago().getCodigoEntero().intValue());
-			cs.setInt(i++, pago.getCuentaBancaria().getCodigoEntero().intValue());
+			if (pago.getCuentaBancaria().getCodigoEntero() != null && pago.getCuentaBancaria().getCodigoEntero().intValue() != 0){
+				cs.setInt(i++, pago.getCuentaBancaria().getCodigoEntero().intValue());
+			}
+			else{
+				cs.setNull(i++, Types.INTEGER);
+			}
+			if (pago.getTarjetaCredito().getBanco().getCodigoEntero()!=null && pago.getTarjetaCredito().getBanco().getCodigoEntero().intValue()!=0){
+				cs.setInt(i++, pago.getTarjetaCredito().getBanco().getCodigoEntero().intValue());
+			}
+			else{
+				cs.setNull(i++, Types.INTEGER);
+			}
 			if (pago.getTarjetaCredito().getProveedoTarjeta().getCodigoEntero() != null && pago.getTarjetaCredito().getProveedoTarjeta().getCodigoEntero().intValue() !=0){
 				cs.setInt(i++, pago.getTarjetaCredito().getProveedoTarjeta().getCodigoEntero().intValue());
 			}
