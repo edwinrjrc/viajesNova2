@@ -59,7 +59,7 @@
 						</h:panelGrid>
 					</f:facet>
 					<h:outputText value="" />
-					<rich:dataTable style="width:100%;" id="idDatapagos"
+					<rich:dataTable style="width:100%;" id="idDatapagos" rows="5"
 						value="#{servicioAgenteMBean.listaPagosServicios}" var="fila">
 						<f:facet name="noData">
 							<h:panelGrid border="0" style="width:100%;text-align:center;">
@@ -70,23 +70,32 @@
 							<f:facet name="header">
 								<h:outputText value="Id" />
 							</f:facet>
-							<h:outputText value="#{fila.codigoEntero}" />
+							<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+								style="width:100%;text-align:center;" columns="1">
+								<h:outputText value="#{fila.codigoEntero}" />
+							</h:panelGrid>
 						</rich:column>
 						<rich:column>
 							<f:facet name="header">
 								<h:outputText value="Fecha Pago" />
 							</f:facet>
-							<h:outputText value="#{fila.fechaPago}">
-								<f:convertDateTime pattern="dd/MM/yyyy" locale="es_PE" />
-							</h:outputText>
+							<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+								style="width:100%;text-align:center;" columns="1">
+								<h:outputText value="#{fila.fechaPago}">
+									<f:convertDateTime pattern="dd/MM/yyyy" locale="es_PE" />
+								</h:outputText>
+							</h:panelGrid>
 						</rich:column>
 						<rich:column>
 							<f:facet name="header">
 								<h:outputText value="Importe" />
 							</f:facet>
-							<h:outputText value="#{fila.montoPago}">
-								<f:convertNumber pattern="$ #,###,##0.00" locale="en_US" />
-							</h:outputText>
+							<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+								style="width:100%;text-align:right;" columns="1">
+								<h:outputText value="#{fila.montoPago}">
+									<f:convertNumber pattern="$ #,###,##0.00" locale="en_US" />
+								</h:outputText>
+							</h:panelGrid>
 						</rich:column>
 						<rich:column>
 							<f:facet name="header">
@@ -97,12 +106,23 @@
 						</rich:column>
 						<rich:column>
 							<f:facet name="header">
+								<h:outputText value="Forma Pago" />
+							</f:facet>
+							<h:outputText value="#{fila.formaPago.nombre}">
+							</h:outputText>
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
 								<h:outputText value="Sustento" />
 							</f:facet>
-							<a4j:commandButton value="Ver" action="#{servicioAgenteMBean.verArchivo(fila.codigoEntero)}"
-							rendered="#{fila.tieneSustento}"
-							oncomplete="document.getElementById('idformadmservicios:idbtnExportarArchivo').click();">
-							</a4j:commandButton>
+							<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+								style="width:100%;text-align:center;" columns="1">
+								<a4j:commandButton value="Ver"
+									action="#{servicioAgenteMBean.verArchivo(fila.codigoEntero)}"
+									rendered="#{fila.tieneSustento}"
+									oncomplete="document.getElementById('idformadmservicios:idbtnExportarArchivo').click();">
+								</a4j:commandButton>
+							</h:panelGrid>
 						</rich:column>
 						<f:facet name="header">
 							<h:panelGrid border="0" style="width:100%;text-align:left;">
@@ -112,6 +132,9 @@
 									oncomplete="#{rich:component('idModalregpagos')}.show();"
 									action="#{servicioAgenteMBean.registrarNuevoPago()}"></a4j:commandButton>
 							</h:panelGrid>
+						</f:facet>
+						<f:facet name="footer">
+							<rich:dataScroller for="idDatapagos"></rich:dataScroller>
 						</f:facet>
 					</rich:dataTable>
 					<h:outputText value="" />
@@ -131,8 +154,7 @@
 						<h:panelGrid border="0" style="width:100%;"
 							columnClasses="col1RSPN,col2RSPN" columns="2">
 							<h:outputText value="Total" />
-							<h:outputText
-								value="#{servicioAgenteMBean.saldoServicio}">
+							<h:outputText value="#{servicioAgenteMBean.saldoServicio}">
 								<f:convertNumber currencyCode="USD" currencySymbol="$"
 									pattern="$ ###,##0.00" locale="en_US" />
 							</h:outputText>

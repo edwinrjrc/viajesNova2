@@ -1681,6 +1681,8 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 				pago = new PagoServicio();
 				pago.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idpago"));
 				pago.getServicio().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idservicio"));
+				pago.getFormaPago().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idformapago"));
+				pago.getFormaPago().setNombre(UtilJdbc.obtenerCadena(rs, "nombreformapago"));
 				pago.setFechaPago(UtilJdbc.obtenerFecha(rs, "fechapago"));
 				pago.setMontoPago(UtilJdbc.obtenerBigDecimal(rs, "montopagado"));
 				byte[] sustento = rs.getBytes("sustentopago");
