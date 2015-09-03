@@ -58,22 +58,60 @@
 						<h:inputText id="idMontoPago"
 							onkeypress="return js_soloDecimal(event)"
 							style="text-align:right;"
-							value="#{obligacionPorPagarMBean.pagoComprobante.montoPago}" size="10"
-							maxlength="8" />
+							value="#{obligacionPorPagarMBean.pagoComprobante.montoPago}"
+							size="10" maxlength="8" />
 						<rich:message for="idMontoPago" ajaxRendered="true"
 							showSummary="true" showDetail="false" />
 					</h:panelGrid>
 					<h:outputText value="Tipo Pago" />
-					<h:selectOneMenu value="#{obligacionPorPagarMBean.pagoComprobante.tipoPago.codigoCadena}">
+					<h:selectOneMenu
+						value="#{obligacionPorPagarMBean.pagoComprobante.tipoPago.codigoCadena}">
 						<f:selectItem itemLabel="-Seleccione-" />
-						<f:selectItem itemLabel="Detracción" itemValue="D"/>
-						<f:selectItem itemLabel="Retención" itemValue="R"/>
+						<f:selectItem itemLabel="Detracción" itemValue="D" />
+						<f:selectItem itemLabel="Retención" itemValue="R" />
 					</h:selectOneMenu>
 					<h:outputText value="Forma Pago" />
-					<h:selectOneMenu value="#{obligacionPorPagarMBean.pagoComprobante.formaPago.codigoEntero}">
+					<h:selectOneMenu
+						value="#{obligacionPorPagarMBean.pagoComprobante.formaPago.codigoEntero}"
+						valueChangeListener="#{obligacionPorPagarMBean.cambiarFormaPago}">
 						<f:selectItem itemLabel="-Seleccione-" />
-						<f:selectItems value="#{catalogoMBean.catalogoFormaPago}"/>
+						<f:selectItems value="#{catalogoMBean.catalogoFormaPago}" />
+						<a4j:ajax event="valueChange" render="idGrFrRegpagoscomp" />
 					</h:selectOneMenu>
+					<h:outputText value="Cuenta Bancaria"
+						rendered="#{obligacionPorPagarMBean.mostrarCuenta}" />
+					<h:selectOneMenu rendered="#{obligacionPorPagarMBean.mostrarCuenta}"
+						id="idSelCuentaBancaria"
+						value="#obligacionPorPagarMBean.pagoComprobante.cuentaBancaria.codigoEntero}">
+						<f:selectItem itemLabel="-Seleccione-" />
+						<f:selectItems
+							value="#{obligacionPorPagarMBean.listadoCuentasBancarias}" />
+					</h:selectOneMenu>
+					<h:outputText value="Numero Tarjeta"
+						rendered="#{obligacionPorPagarMBean.mostrarTarjeta}" />
+					<h:inputText rendered="#{obligacionPorPagarMBean.mostrarTarjeta}"
+						maxlength="16"
+						value="#{obligacionPorPagarMBean.pagoComprobante.tarjetaCredito.numeroTarjeta}" />
+					<h:outputText value="Tipo Tarjeta"
+						rendered="#{obligacionPorPagarMBean.mostrarTarjeta}" />
+					<h:selectOneMenu rendered="#{obligacionPorPagarMBean.mostrarTarjeta}"
+						value="#{obligacionPorPagarMBean.pagoComprobante.tarjetaCredito.proveedoTarjeta.codigoEntero}">
+						<f:selectItem itemLabel="-Seleccione-" />
+						<f:selectItems value="#{catalogoMBean.catalogoProveedorTarjeta}" />
+					</h:selectOneMenu>
+					<h:outputText value="Banco Tarjeta"
+						rendered="#{obligacionPorPagarMBean.mostrarTarjeta}" />
+					<h:selectOneMenu rendered="#{servicioAgenteMBean.mostrarTarjeta}"
+						value="#{obligacionPorPagarMBean.pagoComprobante.tarjetaCredito.banco.codigoEntero}"
+						valueChangeListener="#{obligacionPorPagarMBean.cambiarFormaPago}">
+						<f:selectItem itemLabel="-Seleccione-" />
+						<f:selectItems value="#{catalogoMBean.catalogoBanco}" />
+					</h:selectOneMenu>
+					<h:outputText value="Nombre Titular Tarjeta"
+						rendered="#{obligacionPorPagarMBean.mostrarTarjeta}" />
+					<h:inputText rendered="#{obligacionPorPagarMBean.mostrarTarjeta}"
+						maxlength="30" size="20"
+						value="#{obligacionPorPagarMBean.pagoComprobante.tarjetaCredito.nombreTitular}" />
 					<h:outputText value="Comentario" />
 					<h:panelGrid cellpadding="0" cellspacing="0" border="0">
 						<h:inputTextarea id="idTxtComentario" rows="5" cols="50"
@@ -82,8 +120,9 @@
 							showSummary="true" showDetail="false" />
 					</h:panelGrid>
 					<h:outputText value="Sustento Pago" />
-					<rich:fileUpload
-						fileUploadListener="#{obligacionPorPagarMBean.listener}" id="upload"
+					<rich:fileUpload style="height:150px;"
+						fileUploadListener="#{obligacionPorPagarMBean.listener}"
+						id="upload"
 						acceptedTypes="jpg, gif, png, jpeg, pdf, JPG, GIF, PNG, JPEG, PDF"
 						ontyperejected="alert('Only JPG, GIF, PNG, PDF files are accepted');"
 						maxFilesQuantity="1">

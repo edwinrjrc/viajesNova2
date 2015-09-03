@@ -6,6 +6,7 @@ package pe.com.logistica.web.faces;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -14,6 +15,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
+import javax.faces.model.SelectItem;
 import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
@@ -27,6 +30,7 @@ import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
 
 import pe.com.logistica.bean.negocio.Comprobante;
+import pe.com.logistica.bean.negocio.CuentaBancaria;
 import pe.com.logistica.bean.negocio.PagoServicio;
 import pe.com.logistica.bean.negocio.Proveedor;
 import pe.com.logistica.bean.negocio.Usuario;
@@ -57,12 +61,15 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	private List<Comprobante> listaComprobantes;
 	private List<Proveedor> listadoProveedores;
 	private List<PagoServicio> listaPagos;
+	private List<SelectItem> listadoCuentasBancarias;
 	
 	private boolean nuevaObligacion;
 	private boolean editarObligacion;
 	private boolean consultoProveedor;
 	private boolean buscoObligaciones;
 	private boolean busquedaProveedor;
+	private boolean mostrarCuenta;
+	private boolean mostrarTarjeta;
 
 	private NegocioServicio negocioServicio;
 	/**
@@ -259,6 +266,8 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	
 	public void registrarNuevoPago(){
 		this.setPagoComprobante(null);
+		this.setMostrarTarjeta(false);
+		this.setMostrarCuenta(false);
 	}
 	
 	public void listener(FileUploadEvent event) throws Exception {
@@ -309,7 +318,40 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 			e.printStackTrace();
 		}
 	}
+	
+	public void cambiarFormaPago(ValueChangeEvent e){
+		Object oe = e.getNewValue();
+		
+		try {
+			this.setListadoCuentasBancarias(null);
+			if (oe != null){
+				String formaPago = oe.toString();
+				
+				if ("2".equals(formaPago) || "3".equals(formaPago)){
+					List<CuentaBancaria> lista = this.negocioServicio.listarCuentasBancariasCombo();
+					SelectItem si = null;
+					for (CuentaBancaria cuentaBancaria : lista) {
+						si = new SelectItem();
+						
+						si.setValue(cuentaBancaria.getCodigoEntero());
+						si.setLabel(cuentaBancaria.getNombreCuenta());
+						this.getListadoCuentasBancarias().add(si);
+					}
+					this.setMostrarCuenta(true);
+				}
+				else if ("4".equals(formaPago)){
+					this.setMostrarTarjeta(true);
+				}
+				
+			}
+		} catch (SQLException e1) {
+			logger.error(e1.getMessage(), e1);
+		}
+	}
 
+	/**
+	 * ==================================================================================================
+	 */
 	/**
 	 * @return the comprobante
 	 */
@@ -525,6 +567,51 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	 */
 	public void setListaPagos(List<PagoServicio> listaPagos) {
 		this.listaPagos = listaPagos;
+	}
+
+	/**
+	 * @return the mostrarCuenta
+	 */
+	public boolean isMostrarCuenta() {
+		return mostrarCuenta;
+	}
+
+	/**
+	 * @param mostrarCuenta the mostrarCuenta to set
+	 */
+	public void setMostrarCuenta(boolean mostrarCuenta) {
+		this.mostrarCuenta = mostrarCuenta;
+	}
+
+	/**
+	 * @return the mostrarTarjeta
+	 */
+	public boolean isMostrarTarjeta() {
+		return mostrarTarjeta;
+	}
+
+	/**
+	 * @param mostrarTarjeta the mostrarTarjeta to set
+	 */
+	public void setMostrarTarjeta(boolean mostrarTarjeta) {
+		this.mostrarTarjeta = mostrarTarjeta;
+	}
+
+	/**
+	 * @return the listadoCuentasBancarias
+	 */
+	public List<SelectItem> getListadoCuentasBancarias() {
+		if (listadoCuentasBancarias == null){
+			listadoCuentasBancarias = new ArrayList<SelectItem>();
+		}
+		return listadoCuentasBancarias;
+	}
+
+	/**
+	 * @param listadoCuentasBancarias the listadoCuentasBancarias to set
+	 */
+	public void setListadoCuentasBancarias(List<SelectItem> listadoCuentasBancarias) {
+		this.listadoCuentasBancarias = listadoCuentasBancarias;
 	}
 
 }

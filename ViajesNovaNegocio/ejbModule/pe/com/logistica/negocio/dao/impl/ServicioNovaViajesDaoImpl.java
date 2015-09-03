@@ -2468,7 +2468,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 	@Override
 	public void registrarPagoObligacion(PagoServicio pago) throws SQLException {
 		CallableStatement cs = null;
-		String sql = "{ ? = call negocio.fn_registrarpagoobligacion(?,?,?,?,?,?,?,?,?,?,?,?)}";
+		String sql = UtilEjb.generaSentenciaFuncion("negocio.fn_registrarpagoobligacion", 18);
 		Connection conn = null;
 		try {
 			conn = UtilConexion.obtenerConexion();
@@ -2476,6 +2476,37 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			int i=1;
 			cs.registerOutParameter(i++, Types.INTEGER);
 			cs.setInt(i++, pago.getIdObligacion().intValue());
+			cs.setInt(i++, pago.getFormaPago().getCodigoEntero().intValue());
+			if (pago.getCuentaBancaria().getCodigoEntero() != null && pago.getCuentaBancaria().getCodigoEntero().intValue() != 0){
+				cs.setInt(i++, pago.getCuentaBancaria().getCodigoEntero().intValue());
+			}
+			else{
+				cs.setNull(i++, Types.INTEGER);
+			}
+			if (pago.getTarjetaCredito().getBanco().getCodigoEntero()!=null && pago.getTarjetaCredito().getBanco().getCodigoEntero().intValue()!=0){
+				cs.setInt(i++, pago.getTarjetaCredito().getBanco().getCodigoEntero().intValue());
+			}
+			else{
+				cs.setNull(i++, Types.INTEGER);
+			}
+			if (pago.getTarjetaCredito().getProveedoTarjeta().getCodigoEntero() != null && pago.getTarjetaCredito().getProveedoTarjeta().getCodigoEntero().intValue() !=0){
+				cs.setInt(i++, pago.getTarjetaCredito().getProveedoTarjeta().getCodigoEntero().intValue());
+			}
+			else{
+				cs.setNull(i++, Types.INTEGER);
+			}
+			if (StringUtils.isNotBlank(pago.getTarjetaCredito().getNombreTitular())){
+				cs.setString(i++, pago.getTarjetaCredito().getNombreTitular());
+			}
+			else{
+				cs.setNull(i++, Types.VARCHAR);
+			}
+			if (StringUtils.isNotBlank(pago.getTarjetaCredito().getNumeroTarjeta())){
+				cs.setString(i++, pago.getTarjetaCredito().getNumeroTarjeta());
+			}
+			else{
+				cs.setNull(i++, Types.VARCHAR);
+			}
 			cs.setDate(i++, UtilJdbc.convertirUtilDateSQLDate(pago.getFechaPago()));
 			cs.setBigDecimal(i++, pago.getMontoPago());
 			if (pago.getSustentoPagoByte()!=null){
@@ -2508,42 +2539,25 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
-			cs.setBoolean(i++, "D".equals(pago.getTipoPago().getCodigoCadena()));
-			cs.setBoolean(i++, "R".equals(pago.getTipoPago().getCodigoCadena()));
+			if (StringUtils.isNotBlank(pago.getTipoPago().getCodigoCadena())){
+				cs.setBoolean(i++, "D".equals(pago.getTipoPago().getCodigoCadena()));
+			}
+			else {
+				cs.setNull(i++, Types.BOOLEAN);
+			}
+			if (StringUtils.isNotBlank(pago.getTipoPago().getCodigoCadena())){
+				cs.setBoolean(i++, "R".equals(pago.getTipoPago().getCodigoCadena()));
+			}
+			else {
+				cs.setNull(i++, Types.BOOLEAN);
+			}
 			cs.setString(i++, pago.getUsuarioCreacion());
 			cs.setString(i++, pago.getIpCreacion());
 			cs.execute();
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
-			try {
-				cs.close();
-				cs = conn.prepareCall(sql);
-				int i=1;
-				cs.registerOutParameter(i++, Types.INTEGER);
-				cs.setInt(i++, pago.getIdObligacion().intValue());
-				cs.setDate(i++, UtilJdbc.convertirUtilDateSQLDate(pago.getFechaPago()));
-				cs.setBigDecimal(i++, pago.getMontoPago());
-				if (pago.getSustentoPagoByte()!=null){
-					cs.setBinaryStream(i++, new ByteArrayInputStream(pago.getSustentoPagoByte()));
-				}
-				else{
-					cs.setNull(i++, Types.VARBINARY);
-				}
-				if (StringUtils.isNotBlank(pago.getComentario())){
-					cs.setString(i++, pago.getComentario());
-				}
-				else {
-					cs.setNull(i++, Types.VARCHAR);
-				}
-				cs.setBoolean(i++, pago.getTipoPago().getCodigoCadena().equals("D"));
-				cs.setBoolean(i++, pago.getTipoPago().getCodigoCadena().equals("R"));
-				cs.setString(i++, pago.getUsuarioCreacion());
-				cs.setString(i++, pago.getIpCreacion());
-				cs.execute();
-			} catch (SQLException e1) {
-				throw new SQLException(e);
-			}
+			logger.error(e.getMessage(), e);
+			throw new SQLException(e);
 		} finally {
 			try {
 				if (cs != null) {
