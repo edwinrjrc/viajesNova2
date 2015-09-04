@@ -2468,7 +2468,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 	@Override
 	public void registrarPagoObligacion(PagoServicio pago) throws SQLException {
 		CallableStatement cs = null;
-		String sql = UtilEjb.generaSentenciaFuncion("negocio.fn_registrarpagoobligacion", 18);
+		String sql = UtilEjb.generaSentenciaFuncion("negocio.fn_registrarpagoobligacion", 19);
 		Connection conn = null;
 		try {
 			conn = UtilConexion.obtenerConexion();
@@ -2550,6 +2550,12 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			}
 			else {
 				cs.setNull(i++, Types.BOOLEAN);
+			}
+			if (pago.getUsuarioAutoriza().getCodigoEntero() != null && pago.getUsuarioAutoriza().getCodigoEntero().intValue() != 0){
+				cs.setInt(i++, pago.getUsuarioAutoriza().getCodigoEntero().intValue());
+			}
+			else{
+				cs.setNull(i++, Types.INTEGER);
 			}
 			cs.setString(i++, pago.getUsuarioCreacion());
 			cs.setString(i++, pago.getIpCreacion());
