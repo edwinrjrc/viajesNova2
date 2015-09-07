@@ -24,8 +24,9 @@
 		<h:form id="idFrRegiPagoComp" enctype="multipart/form-data">
 			<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1"
 				style="width:100%;" id="idGrFrRegpagoscomp">
-				<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="2"
-					style="width:100%;" columnClasses="col1fil2Negrita,col2fil2Negrita">
+				<h:panelGrid id="idGrpagos" cellpadding="0" cellspacing="0"
+					border="0" columns="2" style="width:100%;"
+					columnClasses="col1fil2Negrita,col2fil2Negrita">
 					<f:facet name="header">
 						<h:panelGrid border="0" cellpadding="0" cellspacing="0"
 							style="text-align: left;vertical-align: top; width: 100%;">
@@ -76,13 +77,18 @@
 						valueChangeListener="#{obligacionPorPagarMBean.cambiarFormaPago}">
 						<f:selectItem itemLabel="-Seleccione-" />
 						<f:selectItems value="#{catalogoMBean.catalogoFormaPago}" />
-						<a4j:ajax event="valueChange" render="idGrFrRegpagoscomp" />
+						<a4j:ajax event="valueChange" render="idGrpagosDetalleFp" />
 					</h:selectOneMenu>
+				</h:panelGrid>
+				<h:panelGrid id="idGrpagosDetalleFp" cellpadding="0" cellspacing="0"
+					border="0" columns="2" style="width:100%;"
+					columnClasses="col1fil2Negrita,col2fil2Negrita">
 					<h:outputText value="Cuenta Bancaria"
 						rendered="#{obligacionPorPagarMBean.mostrarCuenta}" />
-					<h:selectOneMenu rendered="#{obligacionPorPagarMBean.mostrarCuenta}"
+					<h:selectOneMenu
+						rendered="#{obligacionPorPagarMBean.mostrarCuenta}"
 						id="idSelCuentaBancaria"
-						value="#obligacionPorPagarMBean.pagoComprobante.cuentaBancaria.codigoEntero}">
+						value="#{obligacionPorPagarMBean.pagoComprobante.cuentaBancaria.codigoEntero}">
 						<f:selectItem itemLabel="-Seleccione-" />
 						<f:selectItems
 							value="#{obligacionPorPagarMBean.listadoCuentasBancarias}" />
@@ -94,7 +100,8 @@
 						value="#{obligacionPorPagarMBean.pagoComprobante.tarjetaCredito.numeroTarjeta}" />
 					<h:outputText value="Tipo Tarjeta"
 						rendered="#{obligacionPorPagarMBean.mostrarTarjeta}" />
-					<h:selectOneMenu rendered="#{obligacionPorPagarMBean.mostrarTarjeta}"
+					<h:selectOneMenu
+						rendered="#{obligacionPorPagarMBean.mostrarTarjeta}"
 						value="#{obligacionPorPagarMBean.pagoComprobante.tarjetaCredito.proveedoTarjeta.codigoEntero}">
 						<f:selectItem itemLabel="-Seleccione-" />
 						<f:selectItems value="#{catalogoMBean.catalogoProveedorTarjeta}" />
@@ -102,8 +109,7 @@
 					<h:outputText value="Banco Tarjeta"
 						rendered="#{obligacionPorPagarMBean.mostrarTarjeta}" />
 					<h:selectOneMenu rendered="#{servicioAgenteMBean.mostrarTarjeta}"
-						value="#{obligacionPorPagarMBean.pagoComprobante.tarjetaCredito.banco.codigoEntero}"
-						valueChangeListener="#{obligacionPorPagarMBean.cambiarFormaPago}">
+						value="#{obligacionPorPagarMBean.pagoComprobante.tarjetaCredito.banco.codigoEntero}">
 						<f:selectItem itemLabel="-Seleccione-" />
 						<f:selectItems value="#{catalogoMBean.catalogoBanco}" />
 					</h:selectOneMenu>
@@ -112,6 +118,10 @@
 					<h:inputText rendered="#{obligacionPorPagarMBean.mostrarTarjeta}"
 						maxlength="30" size="20"
 						value="#{obligacionPorPagarMBean.pagoComprobante.tarjetaCredito.nombreTitular}" />
+				</h:panelGrid>
+				<h:panelGrid id="idGrpagos3" cellpadding="0" cellspacing="0"
+					border="0" columns="2" style="width:100%;"
+					columnClasses="col1fil2Negrita,col2fil2Negrita">
 					<h:outputText value="Comentario" />
 					<h:panelGrid cellpadding="0" cellspacing="0" border="0">
 						<h:inputTextarea id="idTxtComentario" rows="5" cols="50"
@@ -129,7 +139,6 @@
 						<a4j:ajax event="uploadcomplete" execute="@none" />
 					</rich:fileUpload>
 				</h:panelGrid>
-
 				<f:facet name="footer">
 					<a4j:commandButton value="Grabar"
 						action="#{obligacionPorPagarMBean.registrarPagoComprobante()}"
