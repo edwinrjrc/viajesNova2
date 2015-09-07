@@ -28,6 +28,7 @@ public class Comprobante extends BaseNegocio {
 	private Date fechaComprobante;
 	private BigDecimal totalIGV;
 	private BigDecimal totalComprobante;
+	private BigDecimal saldoComprobante;
 	private Integer idServicio;
 	
 	private Date fechaPago;
@@ -246,6 +247,20 @@ public class Comprobante extends BaseNegocio {
 	 */
 	public void setTieneRetencion(boolean tieneRetencion) {
 		this.tieneRetencion = tieneRetencion;
+	}
+
+	/**
+	 * @return the saldoComprobante
+	 */
+	public BigDecimal getSaldoComprobante() {
+		return saldoComprobante;
+	}
+
+	/**
+	 * @param saldoComprobante the saldoComprobante to set
+	 */
+	public void setSaldoComprobante(BigDecimal saldoComprobante) {
+		this.saldoComprobante = saldoComprobante;
 	}
 
 }

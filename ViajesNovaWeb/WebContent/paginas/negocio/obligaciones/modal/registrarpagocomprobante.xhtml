@@ -108,7 +108,7 @@
 					</h:selectOneMenu>
 					<h:outputText value="Banco Tarjeta"
 						rendered="#{obligacionPorPagarMBean.mostrarTarjeta}" />
-					<h:selectOneMenu rendered="#{servicioAgenteMBean.mostrarTarjeta}"
+					<h:selectOneMenu rendered="#{obligacionPorPagarMBean.mostrarTarjeta}"
 						value="#{obligacionPorPagarMBean.pagoComprobante.tarjetaCredito.banco.codigoEntero}">
 						<f:selectItem itemLabel="-Seleccione-" />
 						<f:selectItems value="#{catalogoMBean.catalogoBanco}" />

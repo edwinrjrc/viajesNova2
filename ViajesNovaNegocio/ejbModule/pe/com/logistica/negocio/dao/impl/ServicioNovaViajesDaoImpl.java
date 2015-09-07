@@ -2390,6 +2390,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 				comprobante2.setDetalleTextoComprobante(UtilJdbc.obtenerCadena(rs, "detallecomprobante"));
 				comprobante2.setTotalIGV(UtilJdbc.obtenerBigDecimal(rs, "totaligv"));
 				comprobante2.setTotalComprobante(UtilJdbc.obtenerBigDecimal(rs, "totalcomprobante"));
+				comprobante2.setSaldoComprobante(UtilJdbc.obtenerBigDecimal(rs, "saldocomprobante"));
 				
 				resultado.add(comprobante2);
 			}

@@ -321,6 +321,8 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	
 	public void cambiarFormaPago(ValueChangeEvent e){
 		Object oe = e.getNewValue();
+		this.setMostrarCuenta(false);
+		this.setMostrarTarjeta(false);
 		
 		try {
 			this.setListadoCuentasBancarias(null);
