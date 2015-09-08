@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import pe.com.logistica.bean.base.BaseNegocio;
+import pe.com.logistica.bean.base.BaseVO;
 
 /**
  * @author Edwin
@@ -25,6 +26,7 @@ public class Tramo extends BaseNegocio {
 	private Destino destino;
 	private Date fechaLlegada;
 	private BigDecimal precio;
+	private BaseVO aerolinea;
 	
 	
 	/**
@@ -92,6 +94,21 @@ public class Tramo extends BaseNegocio {
 	 */
 	public void setPrecio(BigDecimal precio) {
 		this.precio = precio;
+	}
+	/**
+	 * @return the aerolinea
+	 */
+	public BaseVO getAerolinea() {
+		if (aerolinea == null){
+			aerolinea = new BaseVO();
+		}
+		return aerolinea;
+	}
+	/**
+	 * @param aerolinea the aerolinea to set
+	 */
+	public void setAerolinea(BaseVO aerolinea) {
+		this.aerolinea = aerolinea;
 	}
 	
 	
