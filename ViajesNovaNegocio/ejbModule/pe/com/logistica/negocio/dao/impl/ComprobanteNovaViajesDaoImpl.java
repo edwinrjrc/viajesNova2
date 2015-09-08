@@ -18,6 +18,7 @@ import pe.com.logistica.bean.negocio.ComprobanteBusqueda;
 import pe.com.logistica.bean.negocio.DetalleComprobante;
 import pe.com.logistica.negocio.dao.ComprobanteNovaViajesDao;
 import pe.com.logistica.negocio.util.UtilConexion;
+import pe.com.logistica.negocio.util.UtilEjb;
 import pe.com.logistica.negocio.util.UtilJdbc;
 
 /**
@@ -233,6 +234,59 @@ public class ComprobanteNovaViajesDaoImpl implements ComprobanteNovaViajesDao {
 			}
 		}
 		return resultado;
+	}
+	
+	@Override
+	public Comprobante consultarObligacion(Integer idObligacion) throws SQLException {
+		Comprobante comprobante = null;
+		Connection conn = null;
+		CallableStatement cs = null;
+		ResultSet rs = null;
+		String sql = "";
+		try {
+			sql = UtilEjb.generaSentenciaFuncion("negocio.fn_consultarobligacion", 1);
+			conn = UtilConexion.obtenerConexion();
+			cs = conn.prepareCall(sql);
+			int i=1;
+			cs.registerOutParameter(i++, Types.OTHER);
+			cs.setInt(i++, idObligacion.intValue());
+			
+			cs.execute();
+			rs = (ResultSet) cs.getObject(1);
+			
+			
+			if (rs.next()){
+				comprobante = new Comprobante();
+				comprobante.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
+				comprobante.getTipoComprobante().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idtipocomprobante"));
+				comprobante.getTipoComprobante().setNombre(UtilJdbc.obtenerCadena(rs, "nombre"));
+				comprobante.setNumeroComprobante(UtilJdbc.obtenerCadena(rs, "numerocomprobante"));
+				comprobante.getTitular().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idtitular"));
+				comprobante.getTitular().setNombres(UtilJdbc.obtenerCadena(rs, "nombres"));
+				comprobante.getTitular().setApellidoPaterno(UtilJdbc.obtenerCadena(rs, "apellidopaterno"));
+				comprobante.getTitular().setApellidoMaterno(UtilJdbc.obtenerCadena(rs, "apellidomaterno"));
+				comprobante.setFechaComprobante(UtilJdbc.obtenerFecha(rs, "fechacomprobante"));
+				comprobante.setTotalComprobante(UtilJdbc.obtenerBigDecimal(rs, "totalcomprobante"));
+				comprobante.setSaldoComprobante(UtilJdbc.obtenerBigDecimal(rs, "saldocomprobante"));
+			}
+		} catch (SQLException e) {
+			throw new SQLException(e);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (cs != null) {
+					cs.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				throw new SQLException(e);
+			}
+		}
+		return comprobante;
 	}
 
 }

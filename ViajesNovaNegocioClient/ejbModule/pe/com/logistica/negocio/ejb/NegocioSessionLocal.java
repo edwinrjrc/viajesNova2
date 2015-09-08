@@ -237,4 +237,6 @@ public interface NegocioSessionLocal {
 	public CuentaBancaria consultaCuentaBancaria(Integer idCuenta) throws SQLException;
 	
 	public List<CuentaBancaria> listarCuentasBancariasCombo() throws SQLException;
+	
+	public Comprobante consultarComprobanteObligacion(Integer idObligacion) throws SQLException;
 }

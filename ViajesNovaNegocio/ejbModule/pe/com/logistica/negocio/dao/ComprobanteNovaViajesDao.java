@@ -26,5 +26,7 @@ public interface ComprobanteNovaViajesDao {
 	public List<Comprobante> consultarComprobantes(ComprobanteBusqueda comprobanteBusqueda) throws SQLException;
 	
 	public List<DetalleComprobante> consultarDetalleComprobante (Integer idComprobante) throws SQLException;
+
+	Comprobante consultarObligacion(Integer idObligacion) throws SQLException;
 	
 }

@@ -2190,4 +2190,10 @@ public class NegocioSession implements NegocioSessionRemote,
 		
 		return cuentaBancariaDao.listarCuentasBancariasCombo();
 	}
+	@Override
+	public Comprobante consultarComprobanteObligacion(Integer idObligacion) throws SQLException{
+		ComprobanteNovaViajesDao comprobanteDao = new ComprobanteNovaViajesDaoImpl();
+		
+		return comprobanteDao.consultarObligacion(idObligacion);
+	}
 }

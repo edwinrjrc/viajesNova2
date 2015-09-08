@@ -253,4 +253,7 @@ public interface NegocioServicio {
 			throws SQLException;
 
 	List<CuentaBancaria> listarCuentasBancariasCombo() throws SQLException;
+
+	Comprobante consultarComprobanteObligacion(Integer idObligacion)
+			throws ErrorConsultaDataException, SQLException;
 }

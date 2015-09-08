@@ -142,7 +142,7 @@
 				<f:facet name="footer">
 					<a4j:commandButton value="Grabar"
 						action="#{obligacionPorPagarMBean.registrarPagoComprobante()}"
-						render="idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError,idDatapagoscomp"
+						render="idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError,idDatapagoscomp, idGrSaldoObligacion"
 						oncomplete="mostrarModal('idformadmobligatorios'); #{rich:component('idModalregpagoscomprobante')}.hide(); return false;"></a4j:commandButton>
 				</f:facet>
 			</h:panelGrid>

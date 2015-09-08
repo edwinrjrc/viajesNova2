@@ -220,6 +220,8 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 				this.setShowModal(true);
 				this.setMensajeModal("Pago Registrado Satisfactoriamente");
 				this.setTipoModal(TIPO_MODAL_EXITO);
+				
+				this.setComprobante(this.negocioServicio.consultarComprobanteObligacion(getPagoComprobante().getIdObligacion()));
 			}
 			
 		} catch (SQLException e) {
