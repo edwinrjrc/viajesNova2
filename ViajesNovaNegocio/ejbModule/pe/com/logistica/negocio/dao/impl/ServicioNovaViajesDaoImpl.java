@@ -2842,7 +2842,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 		String sql = "";
 		
 		try{
-			sql = "{ ? = call negocio.fn_ingresartramo(?,?,?,?,?,?,?,?,?)}";
+			sql = "{ ? = call negocio.fn_ingresartramo(?,?,?,?,?,?,?,?,?,?)}";
 			int i=1;
 			cs = conn.prepareCall(sql);
 			cs.registerOutParameter(i++, Types.INTEGER);
@@ -2853,6 +2853,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			cs.setString(i++, tramo.getDestino().getDescripcion());
 			cs.setTimestamp(i++, UtilJdbc.convertirUtilDateTimeStamp(tramo.getFechaSalida()));
 			cs.setBigDecimal(i++, tramo.getPrecio());
+			cs.setInt(i++, tramo.getAerolinea().getCodigoEntero().intValue());
 			cs.setString(i++, tramo.getUsuarioCreacion());
 			cs.setString(i++, tramo.getIpCreacion());
 			cs.execute();

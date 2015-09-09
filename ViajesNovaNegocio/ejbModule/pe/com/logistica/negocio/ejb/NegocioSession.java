@@ -1005,14 +1005,6 @@ public class NegocioSession implements NegocioSessionRemote,
 				servicioAgencia.setFechaServicio(fechaSer);
 			}
 
-			if (servicioAgencia.getValorCuota() == null
-					&& servicioAgencia.getFormaPago().getCodigoEntero()
-							.intValue() == 2) {
-				ServicioNegocioDao servicioNegocioDao = new ServicioNegocioDaoImpl();
-				servicioAgencia.setValorCuota(servicioNegocioDao
-						.calcularCuota(servicioAgencia));
-			}
-
 			if (!servicioAgencia.getListaDetalleServicio().isEmpty()) {
 				servicioAgencia.setCantidadServicios(servicioAgencia
 						.getListaDetalleServicio().size());
@@ -1089,15 +1081,6 @@ public class NegocioSession implements NegocioSessionRemote,
 			} else {
 				throw new ErrorRegistroDataException(
 						"No se agregaron servicios a la venta");
-			}
-
-			if (servicioAgencia.getFormaPago().getCodigoEntero().intValue() == 2) {
-				boolean resultado = servicioNovaViajesDao
-						.generarCronogramaPago(servicioAgencia, conexion);
-				if (!resultado) {
-					throw new ErrorRegistroDataException(
-							"No se pudo generar el cronograma de pagos");
-				}
 			}
 
 			servicioNovaViajesDao.registrarSaldosServicio(servicioAgencia,

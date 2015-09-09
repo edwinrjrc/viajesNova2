@@ -491,38 +491,6 @@ public class ServicioAgenteMBean extends BaseMBean {
 			resultado = false;
 		}
 
-		if (this.getServicioAgencia().getFormaPago().getCodigoEntero() == null
-				|| this.getServicioAgencia().getFormaPago().getCodigoEntero()
-						.intValue() == 0) {
-			this.agregarMensaje(idFormulario + ":idSelForPago",
-					"Seleccione el forma de Pago", "",
-					FacesMessage.SEVERITY_ERROR);
-			resultado = false;
-		} else {
-			if (this.getServicioAgencia().getFormaPago().getCodigoEntero()
-					.intValue() == 2) {
-				if (this.getServicioAgencia().getTea() == null
-						|| this.getServicioAgencia().getTea()
-								.compareTo(BigDecimal.ZERO) == 0) {
-					this.agregarMensaje(idFormulario + ":idTea",
-							"Ingrese la tasa de interes", "",
-							FacesMessage.SEVERITY_ERROR);
-					resultado = false;
-				}
-				if (this.getServicioAgencia().getNroCuotas() == 0) {
-					this.agregarMensaje(idFormulario + ":idNroCuotas",
-							"Ingrese el número de cuotas", "",
-							FacesMessage.SEVERITY_ERROR);
-					resultado = false;
-				}
-				if (this.getServicioAgencia().getFechaPrimerCuota() == null) {
-					this.agregarMensaje(idFormulario + ":idFecPriVcto",
-							"Ingrese la fecha de primer vencimiento", "",
-							FacesMessage.SEVERITY_ERROR);
-					resultado = false;
-				}
-			}
-		}
 		if (this.getServicioAgencia().getVendedor().getCodigoEntero() == null
 				|| this.getServicioAgencia().getVendedor().getCodigoEntero()
 						.intValue() == 0) {
