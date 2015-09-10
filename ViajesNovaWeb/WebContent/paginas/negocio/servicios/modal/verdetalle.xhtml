@@ -22,59 +22,111 @@
 		</f:facet>
 
 		<h:panelGrid cellpadding="0" cellspacing="0" border="0"
-			style="width:100%" columns="4" id="idPnDetalle">
-			<h:outputText value="Tipo Servicio" />
-			<h:outputText
-				value="#{servicioAgenteMBean.detalleServicio.tipoServicio.nombre}" />
-			<h:outputText value="Proveedor"
-				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraProveedor}" />
-			<h:outputText
-				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraProveedor}"
-				value="#{servicioAgenteMBean.detalleServicio.servicioProveedor.proveedor.nombreCompleto}" />
-				
-				ruta
+			style="width:100%" columns="1" id="idPnDetalle">
+			<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+				style="width:100%" columns="4">
+				<h:outputText value="Tipo Servicio" />
+				<h:outputText
+					value="#{servicioAgenteMBean.detalleServicio.tipoServicio.nombre}" />
+				<h:outputText value="Proveedor"
+					rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraProveedor}" />
+				<h:outputText
+					rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraProveedor}"
+					value="#{servicioAgenteMBean.detalleServicio.servicioProveedor.proveedor.nombreCompleto}" />
+			</h:panelGrid>
 
-			<h:outputText value="Aerolinea"
-				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraAerolinea}" />
-			<h:outputText
-				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraAerolinea}"
-				value="#{servicioAgenteMBean.detalleServicio.aerolinea.nombre}" />
-			<h:outputText value="Fecha Servicio"
-				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraFechaServicio}" />
-			<h:outputText value="#{servicioAgenteMBean.detalleServicio.fechaIda}"
-				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraFechaServicio}">
-				<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
-			</h:outputText>
-			<h:outputText value="Fecha Regreso"
-				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraFechaRegreso}" />
-			<h:outputText
-				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraFechaRegreso}"
-				value="#{servicioAgenteMBean.detalleServicio.fechaRegreso}">
-				<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
-			</h:outputText>
-			<h:outputText value="Cantidad"
-				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraCantidad}" />
-			<h:outputText value="#{servicioAgenteMBean.detalleServicio.cantidad}"
-				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraCantidad}" />
-			<h:outputText value="Precio Base"
-				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraPrecioBase}" />
-			<h:outputText
-				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraPrecioBase}"
-				value="#{servicioAgenteMBean.detalleServicio.precioUnitario}">
-				<f:convertNumber pattern="###,##0.00" locale="en_US" />
-			</h:outputText>
-			<h:outputText value="Comision"
-				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraComision}" />
-			<h:outputText
-				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraComision}"
-				value="#{servicioAgenteMBean.detalleServicio.servicioProveedor.porcentajeComision}">
-				<f:convertNumber pattern="###,##0.00" locale="en_US" />
-			</h:outputText>
-			<h:outputText value="Tarifa Negociada"
-				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraTarifaNegociada}" />
-			<h:outputText
-				rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraTarifaNegociada}"
-				value="#{servicioAgenteMBean.detalleServicio.tarifaNegociada?'SI':'NO'}" />
+			<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+				style="width:100%" columns="1">
+				<rich:dataTable rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraRuta}"
+					value="#{servicioAgenteMBean.detalleServicio.ruta.tramos}"
+					var="tramo" style="width:100%;">
+					<rich:column>
+						<f:facet name="header">
+							<h:outputText value="Origen" />
+						</f:facet>
+						<h:outputText value="#{tramo.origen.descripcion}" />
+					</rich:column>
+					<rich:column>
+						<f:facet name="header">
+							<h:outputText value="Fecha Salida" />
+						</f:facet>
+						<h:outputText value="#{tramo.fechaSalida}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="es_PE" />
+						</h:outputText>
+					</rich:column>
+					<rich:column>
+						<f:facet name="header">
+							<h:outputText value="Destino" />
+						</f:facet>
+						<h:outputText value="#{tramo.destino.descripcion}" />
+					</rich:column>
+					<rich:column>
+						<f:facet name="header">
+							<h:outputText value="Fecha Llegada" />
+						</f:facet>
+						<h:outputText value="#{tramo.fechaLlegada}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="es_PE" />
+						</h:outputText>
+					</rich:column>
+					<rich:column>
+						<f:facet name="header">
+							<h:outputText value="Aerolinea" />
+						</f:facet>
+						<h:outputText value="#{tramo.aerolinea.nombre}" />
+					</rich:column>
+					<rich:column>
+						<f:facet name="header">
+							<h:outputText value="Precio" />
+						</f:facet>
+						<h:outputText value="#{tramo.precio}">
+							<f:convertNumber pattern="###,##0.00" locale="en_US" />
+						</h:outputText>
+					</rich:column>
+				</rich:dataTable>
+			</h:panelGrid>
+
+			<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+				style="width:100%" columns="4">
+				<h:outputText value="Fecha Servicio"
+					rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraFechaServicio}" />
+				<h:outputText
+					value="#{servicioAgenteMBean.detalleServicio.fechaIda}"
+					rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraFechaServicio}">
+					<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+				</h:outputText>
+				<h:outputText value="Fecha Regreso"
+					rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraFechaRegreso}" />
+				<h:outputText
+					rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraFechaRegreso}"
+					value="#{servicioAgenteMBean.detalleServicio.fechaRegreso}">
+					<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+				</h:outputText>
+				<h:outputText value="Cantidad"
+					rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraCantidad}" />
+				<h:outputText
+					value="#{servicioAgenteMBean.detalleServicio.cantidad}"
+					rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraCantidad}" />
+				<h:outputText value="Precio Base"
+					rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraPrecioBase}" />
+				<h:outputText
+					rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraPrecioBase}"
+					value="#{servicioAgenteMBean.detalleServicio.precioUnitario}">
+					<f:convertNumber pattern="###,##0.00" locale="en_US" />
+				</h:outputText>
+				<h:outputText value="Comision"
+					rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraComision}" />
+				<h:outputText
+					rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraComision}"
+					value="#{servicioAgenteMBean.detalleServicio.servicioProveedor.porcentajeComision}">
+					<f:convertNumber pattern="###,##0.00" locale="en_US" />
+				</h:outputText>
+				<h:outputText value="Tarifa Negociada"
+					rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraTarifaNegociada}" />
+				<h:outputText
+					rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraTarifaNegociada}"
+					value="#{servicioAgenteMBean.detalleServicio.tarifaNegociada?'SI':'NO'}" />
+			</h:panelGrid>
+
 		</h:panelGrid>
 
 	</rich:popupPanel>

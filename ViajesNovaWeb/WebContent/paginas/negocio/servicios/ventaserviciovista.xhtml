@@ -45,10 +45,6 @@
 							<h:panelGrid columns="4" border="0" cellpadding="0"
 								cellspacing="0" style="width:100%;"
 								columnClasses="col1form,col2form,col1form,col2form">
-								<h:outputText value="Forma Pago" />
-								<h:outputText
-									value="#{servicioAgenteMBean.servicioAgencia.formaPago.nombre}" />
-
 								<h:outputText value="Fecha Servicio" />
 								<h:outputText
 									value="#{servicioAgenteMBean.servicioAgencia.fechaServicio}">
@@ -105,8 +101,8 @@
 							<h:panelGrid columns="2" border="0" cellpadding="0"
 								cellspacing="0" style="width:100%;"
 								columnClasses="col1form,col3form">
-								<h:outputText value="Observaciones" />
-								<h:outputText
+								<h:outputText value="Observaciones" rendered="#{servicioAgenteMBean.servicioAgencia.observaciones != null}" />
+								<h:outputText rendered="#{servicioAgenteMBean.servicioAgencia.observaciones != null}"
 									value="#{servicioAgenteMBean.servicioAgencia.observaciones}" />
 
 							</h:panelGrid>
