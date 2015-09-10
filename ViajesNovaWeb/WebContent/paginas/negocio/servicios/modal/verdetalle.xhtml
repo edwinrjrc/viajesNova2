@@ -24,20 +24,25 @@
 		<h:panelGrid cellpadding="0" cellspacing="0" border="0"
 			style="width:100%" columns="1" id="idPnDetalle">
 			<h:panelGrid cellpadding="0" cellspacing="0" border="0"
-				style="width:100%" columns="4">
+				style="width:100%" columns="4" columnClasses="detaServicio1Col,detaServicio2Col,detaServicio1Col,detaServicio2Col">
 				<h:outputText value="Tipo Servicio" />
 				<h:outputText
 					value="#{servicioAgenteMBean.detalleServicio.tipoServicio.nombre}" />
 				<h:outputText value="Proveedor"
 					rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraProveedor}" />
+				<h:outputText value=""
+					rendered="#{!servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraProveedor}" />
 				<h:outputText
 					rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraProveedor}"
 					value="#{servicioAgenteMBean.detalleServicio.servicioProveedor.proveedor.nombreCompleto}" />
+				<h:outputText value=""
+					rendered="#{!servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraProveedor}" />
 			</h:panelGrid>
 
 			<h:panelGrid cellpadding="0" cellspacing="0" border="0"
-				style="width:100%" columns="1">
-				<rich:dataTable rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraRuta}"
+				style="width:100%" columns="1" rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraRuta}">
+				<br />
+				<rich:dataTable 
 					value="#{servicioAgenteMBean.detalleServicio.ruta.tramos}"
 					var="tramo" style="width:100%;">
 					<rich:column>
@@ -78,15 +83,16 @@
 						<f:facet name="header">
 							<h:outputText value="Precio" />
 						</f:facet>
-						<h:outputText value="#{tramo.precio}">
+						<h:outputText value="$ #{tramo.precio}">
 							<f:convertNumber pattern="###,##0.00" locale="en_US" />
 						</h:outputText>
 					</rich:column>
 				</rich:dataTable>
+				<br />
 			</h:panelGrid>
 
 			<h:panelGrid cellpadding="0" cellspacing="0" border="0"
-				style="width:100%" columns="4">
+				style="width:100%" columns="4" columnClasses="detaServicio1Col,detaServicio2Col,detaServicio1Col,detaServicio2Col">
 				<h:outputText value="Fecha Servicio"
 					rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraFechaServicio}" />
 				<h:outputText
@@ -111,7 +117,7 @@
 				<h:outputText
 					rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraPrecioBase}"
 					value="#{servicioAgenteMBean.detalleServicio.precioUnitario}">
-					<f:convertNumber pattern="###,##0.00" locale="en_US" />
+					<f:convertNumber pattern="###,##0.00" locale="en_US" currencySymbol="$" type="currency" currencyCode="USD" />
 				</h:outputText>
 				<h:outputText value="Comision"
 					rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraComision}" />

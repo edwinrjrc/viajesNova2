@@ -158,4 +158,6 @@ public interface ServicioNovaViajesDao {
 	boolean registrarRuta(Ruta ruta, Connection conn) throws SQLException;
 
 	Integer obtenerSiguienteRuta(Connection conn) throws SQLException;
+
+	List<Tramo> consultarTramos(Integer codigoEntero) throws SQLException;
 }

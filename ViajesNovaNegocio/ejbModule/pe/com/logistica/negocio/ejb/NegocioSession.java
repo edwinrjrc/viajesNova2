@@ -2133,7 +2133,16 @@ public class NegocioSession implements NegocioSessionRemote,
 		
 		ServicioNovaViajesDao servicioNovaViajesDao = new ServicioNovaViajesDaoImpl();
 		
-		return servicioNovaViajesDao.consultaDetalleServicioDetalle(idServicio, idDetServicio);
+		DetalleServicioAgencia detalle = servicioNovaViajesDao.consultaDetalleServicioDetalle(idServicio, idDetServicio);
+		
+		switch (detalle.getTipoServicio().getCodigoEntero().intValue()) {
+		case 11:// BOLETO DE VIAJE
+			detalle.getRuta().setTramos(servicioNovaViajesDao.consultarTramos(detalle.getRuta().getCodigoEntero()));
+			break;
+		};
+		
+		
+		return detalle;
 	}
 	@Override
 	public List<CuentaBancaria> listarCuentasBancarias() throws SQLException{

@@ -1162,8 +1162,6 @@ public class ServicioAgenteMBean extends BaseMBean {
 							.consultarConfiguracionServicio(detalleServicio.getTipoServicio().getCodigoEntero()));
 			
 			this.setCargoConfiguracionTipoServicio(this.getDetalleServicio().getConfiguracionTipoServicio() != null);
-			
-			
 
 			this.setVerDetalleServicio(true);
 		} catch (SQLException e) {

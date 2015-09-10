@@ -2785,6 +2785,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 				detalleServicio = new DetalleServicioAgencia();
 
 				detalleServicio.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idSerdetalle"));
+				detalleServicio.getServicioPadre().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idservicio"));
 				detalleServicio.getTipoServicio().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idtiposervicio"));
 				detalleServicio.getTipoServicio().setNombre(UtilJdbc.obtenerCadena(rs, "nomtipservicio"));
 				detalleServicio.getTipoServicio().setDescripcion(UtilJdbc.obtenerCadena(rs, "descservicio"));
@@ -2798,6 +2799,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 				detalleServicio.getAerolinea().setNombre(UtilJdbc.obtenerCadena(rs, "descripcionemptransporte"));
 				detalleServicio.getHotel().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idhotel"));
 				detalleServicio.getHotel().setNombre(UtilJdbc.obtenerCadena(rs, "decripcionhotel"));
+				detalleServicio.getRuta().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idruta"));
 				detalleServicio.setDescripcionServicio(UtilJdbc.obtenerCadena(rs, "descripcionservicio"));
 				detalleServicio.setFechaIda(UtilJdbc.obtenerFecha(rs, "fechaida"));
 				detalleServicio.setFechaRegreso(UtilJdbc.obtenerFecha(rs, "fecharegreso"));
@@ -2922,6 +2924,60 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 		finally{
 			if (cs != null){
 				cs.close();
+			}
+		}
+	}
+
+
+	@Override
+	public List<Tramo> consultarTramos(Integer idRuta) throws SQLException {
+		List<Tramo> tramos = null;
+		Connection conn = null;
+		CallableStatement cs = null;
+		ResultSet rs = null;
+		String sql = UtilEjb.generaSentenciaFuncion("negocio.fn_consultartramosruta", 1);
+		
+		try {
+			conn = UtilConexion.obtenerConexion();
+			cs = conn.prepareCall(sql);
+			int i=1;
+			cs.registerOutParameter(i++, Types.OTHER);
+			cs.setInt(i++, idRuta);
+			cs.execute();
+			
+			rs = (ResultSet)cs.getObject(1);
+			tramos = new ArrayList<Tramo>();
+			Tramo tramo = null;
+			while (rs.next()){
+				tramo = new Tramo();
+
+				tramo.getOrigen().setDescripcion(UtilJdbc.obtenerCadena(rs, "descripcionorigen"));
+				tramo.setFechaSalida(UtilJdbc.obtenerFecha(rs, "fechasalida"));
+				tramo.getDestino().setDescripcion(UtilJdbc.obtenerCadena(rs, "descripciondestino"));
+				tramo.setFechaLlegada(UtilJdbc.obtenerFecha(rs, "fechallegada"));
+				tramo.setPrecio(UtilJdbc.obtenerBigDecimal(rs, "preciobase"));
+				tramo.getAerolinea().setNombre(UtilJdbc.obtenerCadena(rs, "nombres"));
+				tramos.add(tramo);
+			}
+			
+			return tramos;
+		} catch (SQLException e) {
+			throw new SQLException(e);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (cs != null) {
+					cs.close();
+				}
+				if (conn != null){
+					conn.close();
+				}
+				
+			} catch (SQLException e) {
+				throw new SQLException(e);
+				
 			}
 		}
 	}

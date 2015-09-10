@@ -206,3 +206,14 @@
 .col3TablaCentro{
 	width: 20%;
 }
+.detaServicio1Col{
+	text-align: left;
+	font-size: 11px;
+	font-weight: bold;
+	width: 20%;
+}
+.detaServicio2Col{
+	text-align: left;
+	font-size: 11px;
+	width: 30%;
+}
