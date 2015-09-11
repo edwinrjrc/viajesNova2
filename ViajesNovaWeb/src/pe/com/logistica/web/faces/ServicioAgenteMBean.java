@@ -304,6 +304,11 @@ public class ServicioAgenteMBean extends BaseMBean {
 			logger.error(e.getMessage(), e);
 		}
 	}
+	
+	public void consultarServicioRegistradoPagos(int idServicio) {
+		this.consultarServicioRegistrado(idServicio);
+		this.listarPagosServicio();
+	}
 
 	private void borrarInvisibles() {
 		for (DetalleServicioAgencia detalle : this.getListadoDetalleServicio()) {
@@ -1950,6 +1955,18 @@ public class ServicioAgenteMBean extends BaseMBean {
 			logger.error(e1.getMessage(), e1);
 		}
 	}
+	
+	public void listarPagosServicio(){
+		try {
+			this.setListaPagosServicios(this.negocioServicio.listarPagosServicio(this
+					.getServicioAgencia().getCodigoEntero()));
+		} catch (SQLException e) {
+			logger.error(e.getMessage(), e);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+
+	}
 
 	/**
 	 * ========================================================================
@@ -2228,15 +2245,9 @@ public class ServicioAgenteMBean extends BaseMBean {
 	 * @return the listaPagosServicios
 	 */
 	public List<PagoServicio> getListaPagosServicios() {
-		try {
-			listaPagosServicios = this.negocioServicio.listarPagosServicio(this
-					.getServicioAgencia().getCodigoEntero());
-		} catch (SQLException e) {
-			logger.error(e.getMessage(), e);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+		if (listaPagosServicios == null){
+			listaPagosServicios = new ArrayList<PagoServicio>();
 		}
-
 		return listaPagosServicios;
 	}
 

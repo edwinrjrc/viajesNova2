@@ -157,7 +157,7 @@
 									<h:outputText value="Opciones" />
 								</f:facet>
 								<a4j:commandLink
-									action="#{servicioAgenteMBean.consultarServicioRegistrado(row.codigoEntero)}"
+									action="#{servicioAgenteMBean.consultarServicioRegistradoPagos(row.codigoEntero)}"
 									render="idGrFrAdmpagos"
 									rendered="#{sessionScope.usuarioSession.rol.codigoEntero == 3 and row.estadoServicio.codigoEntero==2}"
 									oncomplete="#{rich:component('idModaladmpagos')}.show();">
