@@ -16,11 +16,13 @@ import org.apache.commons.lang3.StringUtils;
 
 import pe.com.logistica.bean.base.BaseVO;
 import pe.com.logistica.bean.negocio.Contacto;
+import pe.com.logistica.bean.negocio.CuentaBancaria;
 import pe.com.logistica.bean.negocio.Proveedor;
 import pe.com.logistica.bean.negocio.ServicioProveedor;
 import pe.com.logistica.bean.negocio.Telefono;
 import pe.com.logistica.negocio.dao.ProveedorDao;
 import pe.com.logistica.negocio.util.UtilConexion;
+import pe.com.logistica.negocio.util.UtilEjb;
 import pe.com.logistica.negocio.util.UtilJdbc;
 
 /**
@@ -648,5 +650,40 @@ public class ProveedorDaoImpl implements ProveedorDao {
 		}
 		
 		return resultado;
+	}
+	
+	@Override
+	public boolean ingresarCuentaBancaria(Integer idProveedor, CuentaBancaria cuenta, Connection conexion)throws SQLException {
+		CallableStatement cs = null;
+		String sql = UtilEjb.generaSentenciaFuncion("negocio.fn_ingresarcuentabancariaproveedor", 8);
+		
+		try {
+			cs = conexion.prepareCall(sql);
+			int i=1;
+			cs.registerOutParameter(i++, Types.BOOLEAN);
+			cs.setString(i++, cuenta.getNombreCuenta());
+			cs.setString(i++, cuenta.getNumeroCuenta());
+			cs.setInt(i++, cuenta.getTipoCuenta().getCodigoEntero().intValue());
+			cs.setInt(i++, cuenta.getBanco().getCodigoEntero().intValue());
+			cs.setInt(i++, cuenta.getMoneda().getCodigoEntero().intValue());
+			cs.setInt(i++, cuenta.getMoneda().getCodigoEntero().intValue());
+			cs.setInt(i++, idProveedor.intValue());
+			cs.setString(i++, cuenta.getUsuarioCreacion());
+			cs.setString(i++, cuenta.getIpCreacion());
+			
+			cs.execute();
+			
+			return true;
+		} catch (SQLException e) {
+			throw new SQLException(e);
+		} finally{
+			try {
+				if (cs != null){
+					cs.close();
+				}
+			} catch (SQLException e) {
+				throw new SQLException(e);
+			}
+		}
 	}
 }

@@ -1548,7 +1548,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 	@Override
 	public void registrarPagoServicio(PagoServicio pago) throws SQLException {
 		CallableStatement cs = null;
-		String sql = UtilEjb.generaSentenciaFuncion("negocio.fn_registrarpagoservicio", 18);
+		String sql = UtilEjb.generaSentenciaFuncion("negocio.fn_registrarpagoservicio", 19);
 		Connection conn = null;
 		try {
 			conn = UtilConexion.obtenerConexion();
@@ -1557,8 +1557,8 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			cs.registerOutParameter(i++, Types.INTEGER);
 			cs.setInt(i++, pago.getServicio().getCodigoEntero());
 			cs.setInt(i++, pago.getFormaPago().getCodigoEntero().intValue());
-			if (pago.getCuentaBancaria().getCodigoEntero() != null && pago.getCuentaBancaria().getCodigoEntero().intValue() != 0){
-				cs.setInt(i++, pago.getCuentaBancaria().getCodigoEntero().intValue());
+			if (pago.getCuentaBancariaOrigen().getCodigoEntero() != null && pago.getCuentaBancariaOrigen().getCodigoEntero().intValue() != 0){
+				cs.setInt(i++, pago.getCuentaBancariaOrigen().getCodigoEntero().intValue());
 			}
 			else{
 				cs.setNull(i++, Types.INTEGER);
@@ -1588,6 +1588,12 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 				cs.setNull(i++, Types.VARCHAR);
 			}
 			cs.setDate(i++, UtilJdbc.convertirUtilDateSQLDate(pago.getFechaPago()));
+			if (StringUtils.isNotBlank(pago.getNumeroOperacion())){
+				cs.setString(i++, pago.getNumeroOperacion());
+			}
+			else{
+				cs.setNull(i++, Types.VARCHAR);
+			}
 			cs.setBigDecimal(i++, pago.getMontoPago());
 			if (pago.getSustentoPagoByte()!=null){
 				cs.setBinaryStream(i++, new ByteArrayInputStream(pago.getSustentoPagoByte()), pago.getSustentoPagoByte().length);
@@ -2469,7 +2475,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 	@Override
 	public void registrarPagoObligacion(PagoServicio pago) throws SQLException {
 		CallableStatement cs = null;
-		String sql = UtilEjb.generaSentenciaFuncion("negocio.fn_registrarpagoobligacion", 19);
+		String sql = UtilEjb.generaSentenciaFuncion("negocio.fn_registrarpagoobligacion", 21);
 		Connection conn = null;
 		try {
 			conn = UtilConexion.obtenerConexion();
@@ -2478,8 +2484,14 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			cs.registerOutParameter(i++, Types.INTEGER);
 			cs.setInt(i++, pago.getIdObligacion().intValue());
 			cs.setInt(i++, pago.getFormaPago().getCodigoEntero().intValue());
-			if (pago.getCuentaBancaria().getCodigoEntero() != null && pago.getCuentaBancaria().getCodigoEntero().intValue() != 0){
-				cs.setInt(i++, pago.getCuentaBancaria().getCodigoEntero().intValue());
+			if (pago.getCuentaBancariaOrigen().getCodigoEntero() != null && pago.getCuentaBancariaOrigen().getCodigoEntero().intValue() != 0){
+				cs.setInt(i++, pago.getCuentaBancariaOrigen().getCodigoEntero().intValue());
+			}
+			else{
+				cs.setNull(i++, Types.INTEGER);
+			}
+			if (pago.getCuentaBancariaDestino().getCodigoEntero() != null && pago.getCuentaBancariaDestino().getCodigoEntero().intValue() != 0){
+				cs.setInt(i++, pago.getCuentaBancariaOrigen().getCodigoEntero().intValue());
 			}
 			else{
 				cs.setNull(i++, Types.INTEGER);
@@ -2509,6 +2521,12 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 				cs.setNull(i++, Types.VARCHAR);
 			}
 			cs.setDate(i++, UtilJdbc.convertirUtilDateSQLDate(pago.getFechaPago()));
+			if (StringUtils.isNotBlank(pago.getNumeroOperacion())){
+				cs.setString(i++, pago.getNumeroOperacion());
+			}
+			else{
+				cs.setNull(i++, Types.VARCHAR);
+			}
 			cs.setBigDecimal(i++, pago.getMontoPago());
 			if (pago.getSustentoPagoByte()!=null){
 				cs.setBinaryStream(i++, new ByteArrayInputStream(pago.getSustentoPagoByte()), pago.getSustentoPagoByte().length);

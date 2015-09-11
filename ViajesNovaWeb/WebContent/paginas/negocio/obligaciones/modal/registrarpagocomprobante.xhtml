@@ -83,16 +83,31 @@
 				<h:panelGrid id="idGrpagosDetalleFp" cellpadding="0" cellspacing="0"
 					border="0" columns="2" style="width:100%;"
 					columnClasses="col1fil2Negrita,col2fil2Negrita">
-					<h:outputText value="Cuenta Bancaria"
+					<h:outputText value="Cuenta Bancaria Origen"
 						rendered="#{obligacionPorPagarMBean.mostrarCuenta}" />
 					<h:selectOneMenu
 						rendered="#{obligacionPorPagarMBean.mostrarCuenta}"
-						id="idSelCuentaBancaria"
-						value="#{obligacionPorPagarMBean.pagoComprobante.cuentaBancaria.codigoEntero}">
+						id="idSelCuentaBancariaOrigen"
+						value="#{obligacionPorPagarMBean.pagoComprobante.cuentaBancariaOrigen.codigoEntero}">
 						<f:selectItem itemLabel="-Seleccione-" />
 						<f:selectItems
 							value="#{obligacionPorPagarMBean.listadoCuentasBancarias}" />
 					</h:selectOneMenu>
+					<h:outputText value="Cuenta Bancaria Destino"
+						rendered="#{obligacionPorPagarMBean.mostrarCuenta}" />
+					<h:selectOneMenu
+						rendered="#{obligacionPorPagarMBean.mostrarCuenta}"
+						id="idSelCuentaBancariaDestino"
+						value="#{obligacionPorPagarMBean.pagoComprobante.cuentaBancariaDestino.codigoEntero}">
+						<f:selectItem itemLabel="-Seleccione-" />
+						<f:selectItems
+							value="#{obligacionPorPagarMBean.listadoCuentasBancariasDestino}" />
+					</h:selectOneMenu>
+					<h:outputText value="Número Operación"
+						rendered="#{obligacionPorPagarMBean.mostrarCuenta}" />
+					<h:inputText rendered="#{obligacionPorPagarMBean.mostrarCuenta}"
+						maxlength="20"
+						value="#{obligacionPorPagarMBean.pagoComprobante.numeroOperacion}" />
 					<h:outputText value="Numero Tarjeta"
 						rendered="#{obligacionPorPagarMBean.mostrarTarjeta}" />
 					<h:inputText rendered="#{obligacionPorPagarMBean.mostrarTarjeta}"

@@ -298,7 +298,7 @@
 										<h:inputText maxlength="2" value="#{row.porcentajeComision}"
 											onkeypress="return js_soloEntero(event);" size="5" />
 										<h:outputLabel value="Internac." />
-										<h:inputText maxlength="2" size="5" 
+										<h:inputText maxlength="2" size="5"
 											value="#{row.porcenComInternacional}"
 											onkeypress="return js_soloEntero(event);" />
 									</h:panelGrid>
@@ -313,6 +313,65 @@
 											action="#{proveedorMBean.agregarServicio()}"
 											render="idGrdListaServicio" immediate="true" />
 									</h:panelGrid>
+								</f:facet>
+							</rich:dataTable>
+						</h:panelGrid>
+					</rich:tab>
+					<rich:tab header="Cuentas Bancarias">
+						<h:panelGrid border="0" cellpadding="o" cellspacing="0"
+							style="width:100%;" columns="1" id="idGrdTablaCuentas">
+							<rich:dataTable id="idTabCuentas" value="#{proveedorMBean.proveedor.listaCuentas}"
+								var="cuenta">
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText value="Nombre Cuenta" />
+									</f:facet>
+									<h:inputText value="#{cuenta.nombreCuenta}" />
+								</rich:column>
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText value="Banco" />
+									</f:facet>
+									<h:selectOneMenu id="idSelCodigoBanco"
+										value="#{cuenta.banco.codigoEntero}" required="true"
+										requiredMessage="Seleccione el banco">
+										<f:selectItem itemLabel="Seleccione" />
+										<f:selectItems value="#{catalogoMBean.catalogoBanco}"></f:selectItems>
+									</h:selectOneMenu>
+								</rich:column>
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText value="Tipo Cuenta" />
+									</f:facet>
+									<h:selectOneMenu id="idSelTipoCuenta"
+										value="#{cuenta.tipoCuenta.codigoEntero}" required="true"
+										requiredMessage="Seleccione el tipo de cuenta">
+										<f:selectItem itemLabel="Seleccione" />
+										<f:selectItems value="#{catalogoMBean.catalogoTipoCuenta}"></f:selectItems>
+									</h:selectOneMenu>
+								</rich:column>
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText value="Numero Cuenta" />
+									</f:facet>
+									<h:inputText value="#{cuenta.numeroCuenta}" maxlength="11" />
+								</rich:column>
+								<rich:column>
+									<f:facet name="header">
+										<h:outputText value="Moneda Cuenta" />
+									</f:facet>
+									<h:selectOneMenu id="idSelCodMonProv"
+										value="#{cuenta.moneda.codigoEntero}">
+										<f:selectItem itemLabel="-Seleccione-" />
+										<f:selectItems value="#{catalogoMBean.catalogoMoneda}" />
+									</h:selectOneMenu>
+								</rich:column>
+								<rich:column>
+									<a4j:commandButton value="-" action="#{proveedorMBean.removerCuenta(cuenta)}"></a4j:commandButton>
+								</rich:column>
+								<f:facet name="header">
+									<a4j:commandButton value="Agregar" render="idGrdTablaCuentas"
+										action="#{proveedorMBean.agregarCuenta()}"></a4j:commandButton>
 								</f:facet>
 							</rich:dataTable>
 						</h:panelGrid>

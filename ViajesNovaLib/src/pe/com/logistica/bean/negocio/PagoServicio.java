@@ -38,9 +38,12 @@ public class PagoServicio extends BaseNegocio {
 	
 	private BaseVO tipoPago;
 	private BaseVO formaPago;
-	private BaseVO cuentaBancaria;
+	private BaseVO cuentaBancariaOrigen;
+	private BaseVO cuentaBancariaDestino;
 	private TarjetaCredito tarjetaCredito;
 	private Usuario usuarioAutoriza;
+	private String numeroOperacion;
+	
 	/**
 	 * 
 	 */
@@ -254,23 +257,6 @@ public class PagoServicio extends BaseNegocio {
 	}
 
 	/**
-	 * @return the cuentaBancaria
-	 */
-	public BaseVO getCuentaBancaria() {
-		if (cuentaBancaria == null){
-			cuentaBancaria = new BaseVO();
-		}
-		return cuentaBancaria;
-	}
-
-	/**
-	 * @param cuentaBancaria the cuentaBancaria to set
-	 */
-	public void setCuentaBancaria(BaseVO cuentaBancaria) {
-		this.cuentaBancaria = cuentaBancaria;
-	}
-
-	/**
 	 * @return the tarjetaCredito
 	 */
 	public TarjetaCredito getTarjetaCredito() {
@@ -302,6 +288,54 @@ public class PagoServicio extends BaseNegocio {
 	 */
 	public void setUsuarioAutoriza(Usuario usuarioAutoriza) {
 		this.usuarioAutoriza = usuarioAutoriza;
+	}
+
+	/**
+	 * @return the numeroOperacion
+	 */
+	public String getNumeroOperacion() {
+		return numeroOperacion;
+	}
+
+	/**
+	 * @param numeroOperacion the numeroOperacion to set
+	 */
+	public void setNumeroOperacion(String numeroOperacion) {
+		this.numeroOperacion = numeroOperacion;
+	}
+
+	/**
+	 * @return the cuentaBancariaOrigen
+	 */
+	public BaseVO getCuentaBancariaOrigen() {
+		if (cuentaBancariaOrigen == null){
+			cuentaBancariaOrigen = new BaseVO();
+		}
+		return cuentaBancariaOrigen;
+	}
+
+	/**
+	 * @param cuentaBancariaOrigen the cuentaBancariaOrigen to set
+	 */
+	public void setCuentaBancariaOrigen(BaseVO cuentaBancariaOrigen) {
+		this.cuentaBancariaOrigen = cuentaBancariaOrigen;
+	}
+
+	/**
+	 * @return the cuentaBancariaDestino
+	 */
+	public BaseVO getCuentaBancariaDestino() {
+		if (cuentaBancariaDestino == null){
+			cuentaBancariaDestino = new BaseVO();
+		}
+		return cuentaBancariaDestino;
+	}
+
+	/**
+	 * @param cuentaBancariaDestino the cuentaBancariaDestino to set
+	 */
+	public void setCuentaBancariaDestino(BaseVO cuentaBancariaDestino) {
+		this.cuentaBancariaDestino = cuentaBancariaDestino;
 	}
 
 }

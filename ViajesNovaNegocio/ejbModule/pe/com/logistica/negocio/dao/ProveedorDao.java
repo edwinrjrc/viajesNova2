@@ -9,6 +9,7 @@ import java.util.List;
 
 import pe.com.logistica.bean.base.BaseVO;
 import pe.com.logistica.bean.negocio.Contacto;
+import pe.com.logistica.bean.negocio.CuentaBancaria;
 import pe.com.logistica.bean.negocio.Proveedor;
 import pe.com.logistica.bean.negocio.ServicioProveedor;
 
@@ -53,4 +54,7 @@ public interface ProveedorDao {
 
 	Proveedor consultarProveedor(int idProveedor, Connection conn)
 			throws SQLException;
+
+	boolean ingresarCuentaBancaria(Integer idProveedor, CuentaBancaria cuenta,
+			Connection conexion) throws SQLException;
 }

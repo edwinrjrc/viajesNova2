@@ -62,6 +62,7 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	private List<Proveedor> listadoProveedores;
 	private List<PagoServicio> listaPagos;
 	private List<SelectItem> listadoCuentasBancarias;
+	private List<SelectItem> listadoCuentasBancariasDestino;
 	
 	private boolean nuevaObligacion;
 	private boolean editarObligacion;
@@ -616,6 +617,24 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	 */
 	public void setListadoCuentasBancarias(List<SelectItem> listadoCuentasBancarias) {
 		this.listadoCuentasBancarias = listadoCuentasBancarias;
+	}
+
+	/**
+	 * @return the listadoCuentasBancariasDestino
+	 */
+	public List<SelectItem> getListadoCuentasBancariasDestino() {
+		if (listadoCuentasBancariasDestino == null){
+			listadoCuentasBancariasDestino = new ArrayList<SelectItem>();
+		}
+		return listadoCuentasBancariasDestino;
+	}
+
+	/**
+	 * @param listadoCuentasBancariasDestino the listadoCuentasBancariasDestino to set
+	 */
+	public void setListadoCuentasBancariasDestino(
+			List<SelectItem> listadoCuentasBancariasDestino) {
+		this.listadoCuentasBancariasDestino = listadoCuentasBancariasDestino;
 	}
 
 }

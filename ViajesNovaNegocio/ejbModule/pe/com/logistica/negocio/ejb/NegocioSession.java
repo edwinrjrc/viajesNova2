@@ -238,6 +238,15 @@ public class NegocioSession implements NegocioSessionRemote,
 					}
 				}
 			}
+			
+			if (proveedor.getListaCuentas() != null){
+				for (CuentaBancaria cuenta : proveedor.getListaCuentas()) {
+					if(!proveedorDao.ingresarCuentaBancaria(idPersona, cuenta, conexion)){
+						throw new ResultadoCeroDaoException(
+								"No se pudo completar el registro del proveedor");
+					}
+				}
+			}
 
 			proveedorDao.registroProveedor(proveedor, conexion);
 

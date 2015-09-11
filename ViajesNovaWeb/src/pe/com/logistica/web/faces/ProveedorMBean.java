@@ -24,6 +24,7 @@ import org.apache.log4j.Logger;
 import pe.com.logistica.bean.base.BaseVO;
 import pe.com.logistica.bean.base.CorreoElectronico;
 import pe.com.logistica.bean.negocio.Contacto;
+import pe.com.logistica.bean.negocio.CuentaBancaria;
 import pe.com.logistica.bean.negocio.Direccion;
 import pe.com.logistica.bean.negocio.Proveedor;
 import pe.com.logistica.bean.negocio.ServicioProveedor;
@@ -655,6 +656,14 @@ public class ProveedorMBean extends BaseMBean {
 	
 	public void eliminarServicio(ServicioProveedor servicio){
 		this.getProveedor().getListaServicioProveedor().remove(servicio);
+	}
+	
+	public void agregarCuenta(){
+		this.getProveedor().getListaCuentas().add(new CuentaBancaria());
+	}
+	
+	public void removerCuenta(CuentaBancaria cuenta){
+		this.getProveedor().getListaCuentas().remove(cuenta);
 	}
 
 	/**
