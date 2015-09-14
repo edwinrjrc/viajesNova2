@@ -7,7 +7,7 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich">
 
-	<rich:popupPanel id="idModalformproveedor" modal="true" width="800"
+	<rich:popupPanel id="idModalformproveedor" modal="true" width="1000"
 		height="500" style="background-color: #FFFFFF">
 
 		<f:facet name="header">
@@ -317,11 +317,11 @@
 							</rich:dataTable>
 						</h:panelGrid>
 					</rich:tab>
-					<rich:tab header="Cuentas Bancarias">
+					<rich:tab header="Cuentas Bancarias" rendered="#{sessionScope.usuarioSession.rol.codigoEntero == 3}">
 						<h:panelGrid border="0" cellpadding="o" cellspacing="0"
 							style="width:100%;" columns="1" id="idGrdTablaCuentas">
 							<rich:dataTable id="idTabCuentas" value="#{proveedorMBean.proveedor.listaCuentas}"
-								var="cuenta">
+								var="cuenta" style="width:100%;">
 								<rich:column>
 									<f:facet name="header">
 										<h:outputText value="Nombre Cuenta" />
@@ -333,8 +333,7 @@
 										<h:outputText value="Banco" />
 									</f:facet>
 									<h:selectOneMenu id="idSelCodigoBanco"
-										value="#{cuenta.banco.codigoEntero}" required="true"
-										requiredMessage="Seleccione el banco">
+										value="#{cuenta.banco.codigoEntero}">
 										<f:selectItem itemLabel="Seleccione" />
 										<f:selectItems value="#{catalogoMBean.catalogoBanco}"></f:selectItems>
 									</h:selectOneMenu>
@@ -344,8 +343,7 @@
 										<h:outputText value="Tipo Cuenta" />
 									</f:facet>
 									<h:selectOneMenu id="idSelTipoCuenta"
-										value="#{cuenta.tipoCuenta.codigoEntero}" required="true"
-										requiredMessage="Seleccione el tipo de cuenta">
+										value="#{cuenta.tipoCuenta.codigoEntero}">
 										<f:selectItem itemLabel="Seleccione" />
 										<f:selectItems value="#{catalogoMBean.catalogoTipoCuenta}"></f:selectItems>
 									</h:selectOneMenu>
@@ -367,7 +365,7 @@
 									</h:selectOneMenu>
 								</rich:column>
 								<rich:column>
-									<a4j:commandButton value="-" action="#{proveedorMBean.removerCuenta(cuenta)}"></a4j:commandButton>
+									<a4j:commandButton render="idGrdTablaCuentas" value="-" action="#{proveedorMBean.removerCuenta(cuenta)}"></a4j:commandButton>
 								</rich:column>
 								<f:facet name="header">
 									<a4j:commandButton value="Agregar" render="idGrdTablaCuentas"

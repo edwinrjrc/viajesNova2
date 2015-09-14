@@ -241,4 +241,6 @@ public interface NegocioSessionRemote {
 	public List<CuentaBancaria> listarCuentasBancariasCombo() throws SQLException;
 	
 	public Comprobante consultarComprobanteObligacion(Integer idObligacion) throws SQLException;
+	
+	public List<CuentaBancaria> listarCuentasBancariasProveedor(Integer idProveedor) throws SQLException;
 }

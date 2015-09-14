@@ -72,6 +72,7 @@ public class ProveedorMBean extends BaseMBean {
 	private String nombreFormularioDireccion;
 	private String nombreFormularioContacto;
 	private String pestanaActiva = "idFC01";
+	private String cuentasBorradas;
 
 	private List<SelectItem> listaProvincia;
 	private List<SelectItem> listaDistrito;
@@ -204,6 +205,7 @@ public class ProveedorMBean extends BaseMBean {
 								}
 								
 								parseaUsuarioListaServicio(getProveedor());
+								parseaUsuarioListaCuentasBancarias(getProveedor());
 								this.setShowModal(negocioServicio
 										.actualizarProveedor(getProveedor()));
 								this.setTipoModal("1");
@@ -242,6 +244,25 @@ public class ProveedorMBean extends BaseMBean {
 			this.setMensajeModal(ex.getMessage());
 			logger.error(ex.getMessage(), ex);
 		}
+	}
+
+	private void parseaUsuarioListaCuentasBancarias(Proveedor proveedor2) {
+		if (proveedor2.getListaCuentas() != null && !proveedor2.getListaCuentas().isEmpty()){
+			for (CuentaBancaria cuenta : proveedor2.getListaCuentas()) {
+				HttpSession session = obtenerSession(false);
+				Usuario usuario = (Usuario) session
+						.getAttribute("usuarioSession");
+				cuenta.setUsuarioCreacion(
+						usuario.getUsuario());
+				cuenta.setIpCreacion(
+						obtenerRequest().getRemoteAddr());
+				cuenta.setUsuarioModificacion(
+						usuario.getUsuario());
+				cuenta.setIpModificacion(
+						obtenerRequest().getRemoteAddr());
+			}
+		}
+		
 	}
 
 	private void parseaUsuarioListaServicio(Proveedor proveedor2) throws Exception {
@@ -659,10 +680,22 @@ public class ProveedorMBean extends BaseMBean {
 	}
 	
 	public void agregarCuenta(){
-		this.getProveedor().getListaCuentas().add(new CuentaBancaria());
+		CuentaBancaria cuenta = new CuentaBancaria();
+		HttpSession session = obtenerSession(false);
+		Usuario usuario = (Usuario) session
+				.getAttribute("usuarioSession");
+		cuenta.setUsuarioCreacion(
+				usuario.getUsuario());
+		cuenta.setIpCreacion(
+				obtenerRequest().getRemoteAddr());
+		
+		this.getProveedor().getListaCuentas().add(cuenta);
 	}
 	
 	public void removerCuenta(CuentaBancaria cuenta){
+		if (cuenta.getCodigoEntero() != null){
+			this.cuentasBorradas = cuenta.getCodigoEntero().intValue()+",";
+		}
 		this.getProveedor().getListaCuentas().remove(cuenta);
 	}
 
@@ -983,6 +1016,20 @@ public class ProveedorMBean extends BaseMBean {
 	 */
 	public void setPestanaActiva(String pestanaActiva) {
 		this.pestanaActiva = pestanaActiva;
+	}
+
+	/**
+	 * @return the cuentasBorradas
+	 */
+	public String getCuentasBorradas() {
+		return cuentasBorradas;
+	}
+
+	/**
+	 * @param cuentasBorradas the cuentasBorradas to set
+	 */
+	public void setCuentasBorradas(String cuentasBorradas) {
+		this.cuentasBorradas = cuentasBorradas;
 	}
 
 }

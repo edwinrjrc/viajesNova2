@@ -285,6 +285,7 @@ public class NegocioSession implements NegocioSessionRemote,
 				throw new ResultadoCeroDaoException(
 						"No se pudo completar la actualización de la persona");
 			}
+			proveedor.setCodigoEntero(idPersona);
 			direccionDao.eliminarDireccionPersona(proveedor, conexion);
 			if (proveedor.getListaDirecciones() != null) {
 				int idDireccion = 0;
@@ -366,8 +367,30 @@ public class NegocioSession implements NegocioSessionRemote,
 			proveedorDao.actualizarProveedor(proveedor, conexion);
 
 			proveedorDao.actualizarProveedorTipo(proveedor, conexion);
+			
+			if (proveedor.getListaCuentas() != null && !proveedor.getListaCuentas().isEmpty()){
+				if (StringUtils.isNotBlank(proveedor.getCuentasEliminadas())){
+					for (int i=0; i<proveedor.getCuentasEliminadas().split(",").length; i++){
+						Integer idCuenta = UtilEjb.convertirCadenaEntero(proveedor.getCuentasEliminadas().split(",")[i]);
+						proveedorDao.validarEliminarCuentaBancaria(idCuenta, idPersona, conexion);
+					}
+				}
+				if (proveedorDao.eliminarCuentasBancarias(proveedor, conexion)){
+					for (CuentaBancaria cuentaBancaria : proveedor.getListaCuentas()) {
+						if (!proveedorDao.ingresarCuentaBancaria(idPersona, cuentaBancaria, conexion)){
+							throw new ResultadoCeroDaoException(
+									"No se pudo completar el registro de cuentas bancarias");
+						}
+					}
+				}
+				else {
+					throw new ResultadoCeroDaoException(
+							"No se pudo completar la actualizacion de cuentas bancarias");
+				}
+			}
 
 			return true;
+			
 		} catch (ResultadoCeroDaoException e) {
 			throw new ResultadoCeroDaoException(e.getMensajeError(), e);
 		} catch (SQLException e) {
@@ -2197,4 +2220,11 @@ public class NegocioSession implements NegocioSessionRemote,
 		
 		return comprobanteDao.consultarObligacion(idObligacion);
 	}
+	@Override
+	public List<CuentaBancaria> listarCuentasBancariasProveedor(Integer idProveedor) throws SQLException{
+		ProveedorDao proveedorDao = new ProveedorDaoImpl();
+		
+		return proveedorDao.listarCuentasBancarias(idProveedor);
+	}
 }
+	

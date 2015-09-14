@@ -45,25 +45,25 @@ import pe.com.logistica.web.util.UtilWeb;
 @ManagedBean(name = "obligacionPorPagarMBean")
 @SessionScoped()
 public class ObligacionPorPagarMBean extends BaseMBean {
-	
+
 	private final static Logger logger = Logger
 			.getLogger(ObligacionPorPagarMBean.class);
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6007823264843587230L;
-	
+
 	private Comprobante comprobante;
 	private Comprobante comprobanteBusqueda;
 	private Proveedor proveedorBusqueda;
 	private PagoServicio pagoComprobante;
-	
+
 	private List<Comprobante> listaComprobantes;
 	private List<Proveedor> listadoProveedores;
 	private List<PagoServicio> listaPagos;
 	private List<SelectItem> listadoCuentasBancarias;
 	private List<SelectItem> listadoCuentasBancariasDestino;
-	
+
 	private boolean nuevaObligacion;
 	private boolean editarObligacion;
 	private boolean consultoProveedor;
@@ -73,6 +73,7 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	private boolean mostrarTarjeta;
 
 	private NegocioServicio negocioServicio;
+
 	/**
 	 * 
 	 */
@@ -86,11 +87,12 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 			logger.error(e.getMessage(), e);
 		}
 	}
-	
-	public void buscar(){
+
+	public void buscar() {
 		try {
-			this.setListaComprobantes(this.negocioServicio.listarObligacionXPagar(getComprobanteBusqueda()));
-			
+			this.setListaComprobantes(this.negocioServicio
+					.listarObligacionXPagar(getComprobanteBusqueda()));
+
 			this.setBuscoObligaciones(true);
 		} catch (SQLException e) {
 			this.setShowModal(true);
@@ -104,8 +106,8 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 			e.printStackTrace();
 		}
 	}
-	
-	public void nuevaObligacion(){
+
+	public void nuevaObligacion() {
 		this.setNombreFormulario("Nueva Obligacion por Pagar");
 		this.setNuevaObligacion(true);
 		this.setEditarObligacion(false);
@@ -114,22 +116,25 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 		this.setListadoProveedores(null);
 		this.setBusquedaProveedor(false);
 	}
-	
-	public void ejecutarMetodo(){
-		if (validarObligacion()){
+
+	public void ejecutarMetodo() {
+		if (validarObligacion()) {
 			try {
-				if (this.isNuevaObligacion()){
+				if (this.isNuevaObligacion()) {
 					HttpSession session = obtenerSession(false);
-					
-					Usuario usuario = (Usuario) session.getAttribute(USUARIO_SESSION);
+
+					Usuario usuario = (Usuario) session
+							.getAttribute(USUARIO_SESSION);
 					getComprobante().setUsuarioCreacion(usuario.getUsuario());
-					getComprobante().setIpCreacion(obtenerRequest().getRemoteAddr());
-					
-					this.setShowModal(this.negocioServicio.registrarObligacionXPagar(getComprobante()));
+					getComprobante().setIpCreacion(
+							obtenerRequest().getRemoteAddr());
+
+					this.setShowModal(this.negocioServicio
+							.registrarObligacionXPagar(getComprobante()));
 					this.setMensajeModal("Obligación registrados satisfactoriamente");
 					this.setTipoModal(TIPO_MODAL_EXITO);
 				}
-				
+
 				this.setBuscoObligaciones(false);
 			} catch (SQLException e) {
 				this.setShowModal(true);
@@ -144,34 +149,42 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 			}
 		}
 	}
-	
-	
+
 	private boolean validarObligacion() {
 		boolean resultado = true;
 		String idFormulario = "idFormObligacion";
 		Date fechaHoy = UtilWeb.fechaHoy();
-		
-		if (StringUtils.isBlank(this.getComprobante().getProveedor().getNombres())){
-			this.agregarMensaje(idFormulario+":idTxtProveedor", "Seleccione el proveedor", "", FacesMessage.SEVERITY_ERROR);
+
+		if (StringUtils.isBlank(this.getComprobante().getProveedor()
+				.getNombres())) {
+			this.agregarMensaje(idFormulario + ":idTxtProveedor",
+					"Seleccione el proveedor", "", FacesMessage.SEVERITY_ERROR);
 			resultado = false;
 		}
-		if (this.getComprobante().getFechaComprobante().after(fechaHoy) || this.getComprobante().getFechaComprobante().equals(fechaHoy)){
-			this.agregarMensaje(idFormulario+":idFecComprobante", "La fecha de comprobante no debe ser mayor a la fecha de hoy", "", FacesMessage.SEVERITY_ERROR);
+		if (this.getComprobante().getFechaComprobante().after(fechaHoy)
+				|| this.getComprobante().getFechaComprobante().equals(fechaHoy)) {
+			this.agregarMensaje(
+					idFormulario + ":idFecComprobante",
+					"La fecha de comprobante no debe ser mayor a la fecha de hoy",
+					"", FacesMessage.SEVERITY_ERROR);
 			resultado = false;
 		}
-		if (this.getComprobante().getFechaPago().before(fechaHoy) || this.getComprobante().getFechaPago().equals(fechaHoy)){
-			this.agregarMensaje(idFormulario+":idFecPago", "La fecha de pago debe ser mayor a la fecha de hoy", "", FacesMessage.SEVERITY_ERROR);
+		if (this.getComprobante().getFechaPago().before(fechaHoy)
+				|| this.getComprobante().getFechaPago().equals(fechaHoy)) {
+			this.agregarMensaje(idFormulario + ":idFecPago",
+					"La fecha de pago debe ser mayor a la fecha de hoy", "",
+					FacesMessage.SEVERITY_ERROR);
 			resultado = false;
 		}
-		
+
 		return resultado;
 	}
-	
-	public void buscarProveedor(){
+
+	public void buscarProveedor() {
 		try {
 			this.setListadoProveedores(this.negocioServicio
 					.buscarProveedor(getProveedorBusqueda()));
-			
+
 			this.setConsultoProveedor(true);
 		} catch (SQLException e) {
 			logger.error(e.getMessage(), e);
@@ -179,31 +192,32 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 			e.printStackTrace();
 		}
 	}
-	
-	public void seleccionarProveedor(){
-		for (Proveedor proveedor : this.listadoProveedores){
-			if (proveedor.getCodigoEntero().equals(proveedor.getCodigoSeleccionado())){
-				if (this.isBusquedaProveedor()){
+
+	public void seleccionarProveedor() {
+		for (Proveedor proveedor : this.listadoProveedores) {
+			if (proveedor.getCodigoEntero().equals(
+					proveedor.getCodigoSeleccionado())) {
+				if (this.isBusquedaProveedor()) {
 					this.getComprobanteBusqueda().setProveedor(proveedor);
 					break;
-				}
-				else{
+				} else {
 					this.getComprobante().setProveedor(proveedor);
 					break;
 				}
 			}
 		}
 	}
-	
-	public void defineSalida(){
+
+	public void defineSalida() {
 		this.setBusquedaProveedor(true);
 	}
-	
+
 	public void registrarPagoComprobante() {
 		try {
-			if (validarRegistroPago()){
-				this.getPagoComprobante().setIdObligacion(getComprobante().getCodigoEntero());
-				
+			if (validarRegistroPago()) {
+				this.getPagoComprobante().setIdObligacion(
+						getComprobante().getCodigoEntero());
+
 				HttpSession session = obtenerSession(false);
 				Usuario usuario = (Usuario) session
 						.getAttribute("usuarioSession");
@@ -215,16 +229,19 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 						usuario.getUsuario());
 				this.getPagoComprobante().setIpModificacion(
 						obtenerRequest().getRemoteAddr());
-				
-				this.negocioServicio.registrarPagoObligacion(getPagoComprobante());
+
+				this.negocioServicio
+						.registrarPagoObligacion(getPagoComprobante());
 
 				this.setShowModal(true);
 				this.setMensajeModal("Pago Registrado Satisfactoriamente");
 				this.setTipoModal(TIPO_MODAL_EXITO);
-				
-				this.setComprobante(this.negocioServicio.consultarComprobanteObligacion(getPagoComprobante().getIdObligacion()));
+
+				this.setComprobante(this.negocioServicio
+						.consultarComprobanteObligacion(getPagoComprobante()
+								.getIdObligacion()));
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			this.setShowModal(true);
@@ -237,49 +254,49 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 			this.setTipoModal(TIPO_MODAL_ERROR);
 		}
 	}
-	
+
 	private boolean validarRegistroPago() {
 		boolean resultado = true;
 		String idFormulario = "idFrRegiPagoComp";
-		if (this.getPagoComprobante().getMontoPago() == null || BigDecimal.ZERO.equals(this.getPagoComprobante().getMontoPago())){
+		if (this.getPagoComprobante().getMontoPago() == null
+				|| BigDecimal.ZERO.equals(this.getPagoComprobante()
+						.getMontoPago())) {
 			this.agregarMensaje(idFormulario + ":idMontoPago",
-					"Ingrese el monto a pagar", "",
-					FacesMessage.SEVERITY_ERROR);
+					"Ingrese el monto a pagar", "", FacesMessage.SEVERITY_ERROR);
 			resultado = false;
 		}
-		if (this.getPagoComprobante().getFechaPago() == null){
+		if (this.getPagoComprobante().getFechaPago() == null) {
 			this.agregarMensaje(idFormulario + ":idSelFecSer",
-					"Ingrese la fecha de pago", "",
-					FacesMessage.SEVERITY_ERROR);
+					"Ingrese la fecha de pago", "", FacesMessage.SEVERITY_ERROR);
 			resultado = false;
 		}
-		if (StringUtils.length(this.getPagoComprobante().getComentario()) > 300){
+		if (StringUtils.length(this.getPagoComprobante().getComentario()) > 300) {
 			this.agregarMensaje(idFormulario + ":idTxtComentario",
 					"El comentario no debe ser mayor a 300 caracteres", "",
 					FacesMessage.SEVERITY_ERROR);
 			resultado = false;
 		}
-		
+
 		return resultado;
 	}
-	
-	public void verPagos(Comprobante comprobante){
+
+	public void verPagos(Comprobante comprobante) {
 		this.setComprobante(comprobante);
 	}
-	
-	public void registrarNuevoPago(){
+
+	public void registrarNuevoPago() {
 		this.setPagoComprobante(null);
 		this.setMostrarTarjeta(false);
 		this.setMostrarCuenta(false);
 	}
-	
+
 	public void listener(FileUploadEvent event) throws Exception {
 		UploadedFile item = event.getUploadedFile();
 
 		String nombre = item.getName();
-		StringTokenizer stk = new StringTokenizer(nombre,".");
+		StringTokenizer stk = new StringTokenizer(nombre, ".");
 		String archivoNombre = stk.nextToken();
-		if (stk.hasMoreTokens()){
+		if (stk.hasMoreTokens()) {
 			archivoNombre = stk.nextToken();
 		}
 		byte[] arregloDatos = IOUtils.toByteArray(item.getInputStream());
@@ -288,64 +305,81 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 		this.getPagoComprobante().setSustentoPagoByte(arregloDatos);
 		this.getPagoComprobante().setTipoContenido(item.getContentType());
 	}
-	
-	public void verArchivo(Integer codigoPago){
-		for (PagoServicio pago : this.listaPagos ){
-			if (pago.getCodigoEntero().intValue() == codigoPago.intValue()){
+
+	public void verArchivo(Integer codigoPago) {
+		for (PagoServicio pago : this.listaPagos) {
+			if (pago.getCodigoEntero().intValue() == codigoPago.intValue()) {
 				this.setPagoComprobante(pago);
 				break;
 			}
 		}
 	}
-	
-	public void exportarArchivo(){
+
+	public void exportarArchivo() {
 		try {
 			HttpServletResponse response = obtenerResponse();
 			response.setContentType(pagoComprobante.getTipoContenido());
-			response.setHeader("Content-disposition",
-					"attachment;filename="+this.getPagoComprobante().getNombreArchivo());
+			response.setHeader("Content-disposition", "attachment;filename="
+					+ this.getPagoComprobante().getNombreArchivo());
 			response.setHeader("Content-Transfer-Encoding", "binary");
-			
+
 			FacesContext facesContext = obtenerContexto();
-			
+
 			ServletOutputStream respuesta = response.getOutputStream();
-			if (this.getPagoComprobante()!=null && this.getPagoComprobante().getSustentoPagoByte()!=null){
-				respuesta.write(this.getPagoComprobante().getSustentoPagoByte());
+			if (this.getPagoComprobante() != null
+					&& this.getPagoComprobante().getSustentoPagoByte() != null) {
+				respuesta
+						.write(this.getPagoComprobante().getSustentoPagoByte());
 			}
-			
+
 			respuesta.close();
 			respuesta.flush();
-			
+
 			facesContext.responseComplete();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public void cambiarFormaPago(ValueChangeEvent e){
+
+	public void cambiarFormaPago(ValueChangeEvent e) {
 		Object oe = e.getNewValue();
 		this.setMostrarCuenta(false);
 		this.setMostrarTarjeta(false);
-		
+
 		try {
 			this.setListadoCuentasBancarias(null);
-			if (oe != null){
+			this.setListadoCuentasBancariasDestino(null);
+			if (oe != null) {
 				String formaPago = oe.toString();
-				
-				if ("2".equals(formaPago) || "3".equals(formaPago)){
-					List<CuentaBancaria> lista = this.negocioServicio.listarCuentasBancariasCombo();
+
+				if ("2".equals(formaPago) || "3".equals(formaPago)) {
+					List<CuentaBancaria> lista = this.negocioServicio
+							.listarCuentasBancariasCombo();
 					SelectItem si = null;
 					for (CuentaBancaria cuentaBancaria : lista) {
 						si = new SelectItem();
-						
+
 						si.setValue(cuentaBancaria.getCodigoEntero());
 						si.setLabel(cuentaBancaria.getNombreCuenta());
 						this.getListadoCuentasBancarias().add(si);
 					}
 					this.setMostrarCuenta(true);
-				}
-				else if ("4".equals(formaPago)){
+				} else if ("4".equals(formaPago)) {
 					this.setMostrarTarjeta(true);
+				}
+				
+				List<CuentaBancaria> listaCuentasProveedor = this.negocioServicio
+						.listarCuentasBancariasProveedor(this.getComprobante()
+								.getProveedor().getCodigoEntero());
+				
+				SelectItem si = null;
+				if (listaCuentasProveedor != null && !listaCuentasProveedor.isEmpty()){
+					for (CuentaBancaria cuentaBancaria : listaCuentasProveedor) {
+						si = new SelectItem();
+						si.setValue(cuentaBancaria.getCodigoEntero());
+						si.setLabel(cuentaBancaria.getNombreCuenta());
+						this.getListadoCuentasBancariasDestino().add(si);
+					}
 				}
 				
 			}
@@ -355,20 +389,22 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	}
 
 	/**
-	 * ==================================================================================================
+	 * ========================================================================
+	 * ==========================
 	 */
 	/**
 	 * @return the comprobante
 	 */
 	public Comprobante getComprobante() {
-		if (comprobante == null){
+		if (comprobante == null) {
 			comprobante = new Comprobante();
 		}
 		return comprobante;
 	}
 
 	/**
-	 * @param comprobante the comprobante to set
+	 * @param comprobante
+	 *            the comprobante to set
 	 */
 	public void setComprobante(Comprobante comprobante) {
 		this.comprobante = comprobante;
@@ -378,14 +414,15 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	 * @return the comprobanteBusqueda
 	 */
 	public Comprobante getComprobanteBusqueda() {
-		if (comprobanteBusqueda == null){
+		if (comprobanteBusqueda == null) {
 			comprobanteBusqueda = new Comprobante();
 		}
 		return comprobanteBusqueda;
 	}
 
 	/**
-	 * @param comprobanteBusqueda the comprobanteBusqueda to set
+	 * @param comprobanteBusqueda
+	 *            the comprobanteBusqueda to set
 	 */
 	public void setComprobanteBusqueda(Comprobante comprobanteBusqueda) {
 		this.comprobanteBusqueda = comprobanteBusqueda;
@@ -396,12 +433,13 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	 */
 	public List<Comprobante> getListaComprobantes() {
 		this.setShowModal(false);
-		if (listaComprobantes == null || !this.isBuscoObligaciones()){
+		if (listaComprobantes == null || !this.isBuscoObligaciones()) {
 			try {
-				this.setListaComprobantes(this.negocioServicio.listarObligacionXPagar(getComprobanteBusqueda()));
-				
+				this.setListaComprobantes(this.negocioServicio
+						.listarObligacionXPagar(getComprobanteBusqueda()));
+
 				this.setBuscoObligaciones(true);
-				
+
 			} catch (SQLException e) {
 				this.setShowModal(true);
 				this.setMensajeModal(e.getMessage());
@@ -418,7 +456,8 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param listaComprobantes the listaComprobantes to set
+	 * @param listaComprobantes
+	 *            the listaComprobantes to set
 	 */
 	public void setListaComprobantes(List<Comprobante> listaComprobantes) {
 		this.listaComprobantes = listaComprobantes;
@@ -432,7 +471,8 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param nuevaObligacion the nuevaObligacion to set
+	 * @param nuevaObligacion
+	 *            the nuevaObligacion to set
 	 */
 	public void setNuevaObligacion(boolean nuevaObligacion) {
 		this.nuevaObligacion = nuevaObligacion;
@@ -446,7 +486,8 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param editarObligacion the editarObligacion to set
+	 * @param editarObligacion
+	 *            the editarObligacion to set
 	 */
 	public void setEditarObligacion(boolean editarObligacion) {
 		this.editarObligacion = editarObligacion;
@@ -456,14 +497,15 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	 * @return the proveedorBusqueda
 	 */
 	public Proveedor getProveedorBusqueda() {
-		if (proveedorBusqueda == null){
+		if (proveedorBusqueda == null) {
 			proveedorBusqueda = new Proveedor();
 		}
 		return proveedorBusqueda;
 	}
 
 	/**
-	 * @param proveedorBusqueda the proveedorBusqueda to set
+	 * @param proveedorBusqueda
+	 *            the proveedorBusqueda to set
 	 */
 	public void setProveedorBusqueda(Proveedor proveedorBusqueda) {
 		this.proveedorBusqueda = proveedorBusqueda;
@@ -474,11 +516,11 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	 */
 	public List<Proveedor> getListadoProveedores() {
 		try {
-			//if (!this.isConsultoProveedor()){
-				listadoProveedores = this.negocioServicio
-						.buscarProveedor(getProveedorBusqueda());
-			//}
-			
+			// if (!this.isConsultoProveedor()){
+			listadoProveedores = this.negocioServicio
+					.buscarProveedor(getProveedorBusqueda());
+			// }
+
 		} catch (SQLException e) {
 			logger.error(e.getMessage(), e);
 		} catch (Exception e) {
@@ -488,7 +530,8 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param listadoProveedores the listadoProveedores to set
+	 * @param listadoProveedores
+	 *            the listadoProveedores to set
 	 */
 	public void setListadoProveedores(List<Proveedor> listadoProveedores) {
 		this.listadoProveedores = listadoProveedores;
@@ -502,7 +545,8 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param consultoProveedor the consultoProveedor to set
+	 * @param consultoProveedor
+	 *            the consultoProveedor to set
 	 */
 	public void setConsultoProveedor(boolean consultoProveedor) {
 		this.consultoProveedor = consultoProveedor;
@@ -516,7 +560,8 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param buscoObligaciones the buscoObligaciones to set
+	 * @param buscoObligaciones
+	 *            the buscoObligaciones to set
 	 */
 	public void setBuscoObligaciones(boolean buscoObligaciones) {
 		this.buscoObligaciones = buscoObligaciones;
@@ -530,7 +575,8 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param busquedaProveedor the busquedaProveedor to set
+	 * @param busquedaProveedor
+	 *            the busquedaProveedor to set
 	 */
 	public void setBusquedaProveedor(boolean busquedaProveedor) {
 		this.busquedaProveedor = busquedaProveedor;
@@ -540,14 +586,15 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	 * @return the pagoComprobante
 	 */
 	public PagoServicio getPagoComprobante() {
-		if (pagoComprobante == null){
+		if (pagoComprobante == null) {
 			pagoComprobante = new PagoServicio();
 		}
 		return pagoComprobante;
 	}
 
 	/**
-	 * @param pagoComprobante the pagoComprobante to set
+	 * @param pagoComprobante
+	 *            the pagoComprobante to set
 	 */
 	public void setPagoComprobante(PagoServicio pagoComprobante) {
 		this.pagoComprobante = pagoComprobante;
@@ -558,7 +605,8 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	 */
 	public List<PagoServicio> getListaPagos() {
 		try {
-			listaPagos = this.negocioServicio.listarPagosObligacion(this.getComprobante().getCodigoEntero());
+			listaPagos = this.negocioServicio.listarPagosObligacion(this
+					.getComprobante().getCodigoEntero());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -568,7 +616,8 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param listaPagos the listaPagos to set
+	 * @param listaPagos
+	 *            the listaPagos to set
 	 */
 	public void setListaPagos(List<PagoServicio> listaPagos) {
 		this.listaPagos = listaPagos;
@@ -582,7 +631,8 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param mostrarCuenta the mostrarCuenta to set
+	 * @param mostrarCuenta
+	 *            the mostrarCuenta to set
 	 */
 	public void setMostrarCuenta(boolean mostrarCuenta) {
 		this.mostrarCuenta = mostrarCuenta;
@@ -596,7 +646,8 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param mostrarTarjeta the mostrarTarjeta to set
+	 * @param mostrarTarjeta
+	 *            the mostrarTarjeta to set
 	 */
 	public void setMostrarTarjeta(boolean mostrarTarjeta) {
 		this.mostrarTarjeta = mostrarTarjeta;
@@ -606,16 +657,18 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	 * @return the listadoCuentasBancarias
 	 */
 	public List<SelectItem> getListadoCuentasBancarias() {
-		if (listadoCuentasBancarias == null){
+		if (listadoCuentasBancarias == null) {
 			listadoCuentasBancarias = new ArrayList<SelectItem>();
 		}
 		return listadoCuentasBancarias;
 	}
 
 	/**
-	 * @param listadoCuentasBancarias the listadoCuentasBancarias to set
+	 * @param listadoCuentasBancarias
+	 *            the listadoCuentasBancarias to set
 	 */
-	public void setListadoCuentasBancarias(List<SelectItem> listadoCuentasBancarias) {
+	public void setListadoCuentasBancarias(
+			List<SelectItem> listadoCuentasBancarias) {
 		this.listadoCuentasBancarias = listadoCuentasBancarias;
 	}
 
@@ -623,14 +676,15 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	 * @return the listadoCuentasBancariasDestino
 	 */
 	public List<SelectItem> getListadoCuentasBancariasDestino() {
-		if (listadoCuentasBancariasDestino == null){
+		if (listadoCuentasBancariasDestino == null) {
 			listadoCuentasBancariasDestino = new ArrayList<SelectItem>();
 		}
 		return listadoCuentasBancariasDestino;
 	}
 
 	/**
-	 * @param listadoCuentasBancariasDestino the listadoCuentasBancariasDestino to set
+	 * @param listadoCuentasBancariasDestino
+	 *            the listadoCuentasBancariasDestino to set
 	 */
 	public void setListadoCuentasBancariasDestino(
 			List<SelectItem> listadoCuentasBancariasDestino) {

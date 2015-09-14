@@ -57,4 +57,16 @@ public interface ProveedorDao {
 
 	boolean ingresarCuentaBancaria(Integer idProveedor, CuentaBancaria cuenta,
 			Connection conexion) throws SQLException;
+
+	boolean validarEliminarCuentaBancaria(Integer idCuenta,
+			Integer idProveedor, Connection conn) throws SQLException;
+
+	boolean eliminarCuentasBancarias(Proveedor proveedor, Connection conn)
+			throws SQLException;
+
+	boolean actualizarCuentaBancaria(Integer idProveedor,
+			CuentaBancaria cuenta, Connection conn) throws SQLException;
+	
+	
+	List<CuentaBancaria> listarCuentasBancarias(Integer idProveedor) throws SQLException;
 }

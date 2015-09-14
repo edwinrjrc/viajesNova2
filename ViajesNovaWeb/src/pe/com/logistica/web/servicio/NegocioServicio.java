@@ -256,4 +256,7 @@ public interface NegocioServicio {
 
 	Comprobante consultarComprobanteObligacion(Integer idObligacion)
 			throws ErrorConsultaDataException, SQLException;
+
+	List<CuentaBancaria> listarCuentasBancariasProveedor(Integer idProveedor)
+			throws SQLException;
 }

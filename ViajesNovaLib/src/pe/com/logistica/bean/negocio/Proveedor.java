@@ -23,6 +23,8 @@ public class Proveedor extends Persona {
 	private BaseVO tipoProveedor;
 	
 	private Integer codigoSeleccionado;
+	
+	private String cuentasEliminadas;
 
 	public Proveedor() {
 
@@ -114,6 +116,20 @@ public class Proveedor extends Persona {
 	 */
 	public void setCodigoSeleccionado(Integer codigoSeleccionado) {
 		this.codigoSeleccionado = codigoSeleccionado;
+	}
+
+	/**
+	 * @return the cuentasEliminadas
+	 */
+	public String getCuentasEliminadas() {
+		return cuentasEliminadas;
+	}
+
+	/**
+	 * @param cuentasEliminadas the cuentasEliminadas to set
+	 */
+	public void setCuentasEliminadas(String cuentasEliminadas) {
+		this.cuentasEliminadas = cuentasEliminadas;
 	}
 
 }

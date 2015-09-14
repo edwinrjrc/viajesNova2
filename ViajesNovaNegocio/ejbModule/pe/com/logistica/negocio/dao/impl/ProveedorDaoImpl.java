@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 
 import pe.com.logistica.bean.base.BaseVO;
 import pe.com.logistica.bean.negocio.Contacto;
@@ -31,6 +32,7 @@ import pe.com.logistica.negocio.util.UtilJdbc;
  */
 public class ProveedorDaoImpl implements ProveedorDao {
 
+	private final static Logger logger = Logger.getLogger(ProveedorDaoImpl.class);
 	/**
 	 * 
 	 */
@@ -666,7 +668,6 @@ public class ProveedorDaoImpl implements ProveedorDao {
 			cs.setInt(i++, cuenta.getTipoCuenta().getCodigoEntero().intValue());
 			cs.setInt(i++, cuenta.getBanco().getCodigoEntero().intValue());
 			cs.setInt(i++, cuenta.getMoneda().getCodigoEntero().intValue());
-			cs.setInt(i++, cuenta.getMoneda().getCodigoEntero().intValue());
 			cs.setInt(i++, idProveedor.intValue());
 			cs.setString(i++, cuenta.getUsuarioCreacion());
 			cs.setString(i++, cuenta.getIpCreacion());
@@ -685,5 +686,138 @@ public class ProveedorDaoImpl implements ProveedorDao {
 				throw new SQLException(e);
 			}
 		}
+	}
+	
+	@Override
+	public boolean validarEliminarCuentaBancaria(Integer idCuenta, Integer idProveedor, Connection conn) throws SQLException{
+		CallableStatement cs = null;
+		String sql = "";
+		
+		try {
+			sql = "{ ? = call negocio.fn_validareliminarcuentasproveedor(?,?) }";
+			int i=1;
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(i++, Types.BOOLEAN);
+			cs.setInt(i++, idCuenta.intValue());
+			cs.setInt(i++, idProveedor.intValue());
+			cs.execute();
+			
+			return cs.getBoolean(1);
+		} catch (SQLException e) {
+			logger.error(e.getMessage(), e);
+			throw new SQLException(e);
+		} finally{
+			if (cs != null){
+				cs.close();
+			}
+		}
+	}
+	
+	@Override
+	public boolean eliminarCuentasBancarias(Proveedor proveedor, Connection conn) throws SQLException{
+		CallableStatement cs = null;
+		String sql = "";
+		
+		try {
+			sql = "{ ? = call negocio.fn_eliminarcuentasproveedor(?,?,?) }";
+			int i=1;
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(i++, Types.BOOLEAN);
+			cs.setInt(i++, proveedor.getCodigoEntero().intValue());
+			cs.setString(i++, proveedor.getUsuarioCreacion());
+			cs.setString(i++, proveedor.getIpCreacion());
+			cs.execute();
+			
+			return cs.getBoolean(1);
+		} catch (SQLException e) {
+			logger.error(e.getMessage(), e);
+			throw new SQLException(e);
+		} finally{
+			if (cs != null){
+				cs.close();
+			}
+		}
+	}
+	
+	@Override
+	public boolean actualizarCuentaBancaria(Integer idProveedor, CuentaBancaria cuenta, Connection conn) throws SQLException{
+		CallableStatement cs = null;
+		String sql = "";
+		
+		try {
+			sql = "{ ? = call negocio.fn_actualizarproveedorcuentabancaria(?,?,?,?,?,?,?,?) }";
+			int i=1;
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(i++, Types.BOOLEAN);
+			cs.setInt(i++, cuenta.getCodigoEntero().intValue());
+			cs.setInt(i++, idProveedor.intValue());
+			cs.setString(i++, cuenta.getNombreCuenta());
+			cs.setString(i++, cuenta.getNumeroCuenta());
+			cs.setInt(i++, cuenta.getTipoCuenta().getCodigoEntero().intValue());
+			cs.setInt(i++, cuenta.getBanco().getCodigoEntero().intValue());
+			cs.setString(i++, cuenta.getUsuarioCreacion());
+			cs.setString(i++, cuenta.getIpCreacion());
+			cs.execute();
+			
+			return cs.getBoolean(1);
+		} catch (SQLException e) {
+			logger.error(e.getMessage(), e);
+			throw new SQLException(e);
+		} finally{
+			if (cs != null){
+				cs.close();
+			}
+		}
+	}
+
+	@Override
+	public List<CuentaBancaria> listarCuentasBancarias(Integer idProveedor)
+			throws SQLException {
+		List<CuentaBancaria> resultado = null;
+		Connection conn = null;
+		CallableStatement cs = null;
+		ResultSet rs = null;
+		String sql = "{ ? = call negocio.fn_listarcuentasbancariasproveedor(?) }";
+
+		try {
+			conn = UtilConexion.obtenerConexion();
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(1, Types.OTHER);
+			cs.setInt(2, idProveedor.intValue());
+			cs.execute();
+			rs = (ResultSet)cs.getObject(1);
+			
+			resultado = new ArrayList<CuentaBancaria>();
+			CuentaBancaria cuentaBancaria = null;
+			while (rs.next()){
+				cuentaBancaria = new CuentaBancaria();
+				cuentaBancaria.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
+				cuentaBancaria.setNombreCuenta(UtilJdbc.obtenerCadena(rs, "nombrecuenta"));
+				cuentaBancaria.setNumeroCuenta(UtilJdbc.obtenerCadena(rs, "numerocuenta"));
+				cuentaBancaria.getTipoCuenta().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idtipocuenta"));
+				cuentaBancaria.getBanco().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idbanco"));
+				cuentaBancaria.getMoneda().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idmoneda"));
+				resultado.add(cuentaBancaria);
+			}
+		} catch (SQLException e) {
+			resultado = null;
+			throw new SQLException(e);
+		} finally{
+			try {
+				if (rs != null){
+					rs.close();
+				}
+				if (cs != null){
+					cs.close();
+				}
+				if (conn != null){
+					conn.close();
+				}
+			} catch (SQLException e) {
+				throw new SQLException(e);
+			}
+		}
+		
+		return resultado;
 	}
 }
