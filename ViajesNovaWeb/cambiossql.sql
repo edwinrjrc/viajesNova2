@@ -154,3 +154,163 @@ end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
+  
+CREATE TABLE negocio."TipoCambio"
+(
+  id integer NOT NULL,
+  fechatipocambio date,
+  idmonedaorigen integer not null,
+  idmonedadestino integer not null,
+  montocambio decimal (9,6) not null,
+  usuariocreacion character varying(20) NOT NULL,
+  fechacreacion timestamp with time zone NOT NULL,
+  ipcreacion character(15) NOT NULL,
+  usuariomodificacion character varying(15) NOT NULL,
+  fechamodificacion timestamp with time zone NOT NULL,
+  ipmodificacion character(15) NOT NULL,
+  idestadoregistro integer NOT NULL DEFAULT 1,
+  CONSTRAINT pk_tipocambio PRIMARY KEY (id, fechatipocambio)
+)
+WITH (
+  OIDS=FALSE
+);
+
+
+-- Function: negocio.fn_listarpagos(integer)
+
+-- DROP FUNCTION negocio.fn_listarpagos(integer);
+
+CREATE OR REPLACE FUNCTION negocio.fn_listartipocambio(p_fecha date)
+  RETURNS refcursor AS
+$BODY$
+
+declare micursor refcursor;
+
+begin
+
+open micursor for
+SELECT id, fechatipocambio, idmonedaorigen, idmonedadestino, montocambio, 
+       usuariocreacion, fechacreacion, ipcreacion, usuariomodificacion, 
+       fechamodificacion, ipmodificacion, idestadoregistro
+  FROM negocio."TipoCambio"
+ WHERE fechatipocambio = p_fecha;
+
+return micursor;
+
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+CREATE SEQUENCE negocio.seq_tipocambio
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 1
+  CACHE 1;
+  
+-- Function: negocio.fn_listarpagos(integer)
+
+-- DROP FUNCTION negocio.fn_listarpagos(integer);
+
+CREATE OR REPLACE FUNCTION negocio.fn_ingresartipocambio(p_fecha date, p_idmonedaorigen integer, p_idmonedadestino integer, p_montocambio decimal, p_usuariocreacion character varying, p_ipcrecion character varying)
+  RETURNS boolean AS
+$BODY$
+
+declare maxid integer;
+declare fechahoy timestamp with time zone;
+
+begin
+
+maxid = nextval('negocio.seq_salsoservicio');
+select current_timestamp AT TIME ZONE 'PET' into fechahoy;
+
+INSERT INTO negocio."TipoCambio"(
+            id, fechatipocambio, idmonedaorigen, idmonedadestino, montocambio, 
+            usuariocreacion, fechacreacion, ipcreacion, usuariomodificacion, 
+            fechamodificacion, ipmodificacion)
+    VALUES (maxid, p_fecha, p_idmonedaorigen, p_idmonedadestino, p_montocambio, 
+            p_usuariocreacion, fechahoy, p_ipcrecion, p_usuariocreacion, fechahoy, p_ipcrecion);
+
+return true;
+
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+-- Function: negocio.fn_listarpagos(integer)
+
+-- DROP FUNCTION negocio.fn_listarpagos(integer);
+
+CREATE OR REPLACE FUNCTION negocio.fn_consultartipocambio(p_idmonedaorigen integer, p_idmonedadestino integer)
+  RETURNS decimal AS
+$BODY$
+
+declare fechahoy date;
+declare v_cantidad date;
+declare v_idultimo date;
+declare v_tipocambio decimal(9,6);
+declare v_mensaje character varying(15);
+
+begin
+
+select current_date into fechahoy;
+
+select count(1)
+  into v_cantidad
+  from negocio."TipoCambio"
+ where fechatipocambio = fechahoy
+   and idmonedaorigen  = p_idmonedaorigen
+   and idmonedadestino = p_idmonedadestino;
+
+if v_cantidad = 1 then
+    select montocambio
+      into v_tipocambio
+      from negocio."TipoCambio"
+     where fechatipocambio = fechahoy
+       and idmonedaorigen  = p_idmonedaorigen
+       and idmonedadestino = p_idmonedadestino;
+elsif v_cantidad > 1 then
+    select montocambio
+      into v_tipocambio
+      from negocio."TipoCambio"
+     where id = (select max(id)
+	           from negocio."TipoCambio"
+	          where fechatipocambio = fechahoy
+	            and idmonedaorigen  = p_idmonedaorigen
+	            and idmonedadestino = p_idmonedadestino);
+else
+    select count(1)
+      into v_cantidad
+      from negocio."TipoCambio"
+     where idmonedaorigen  = p_idmonedaorigen
+       and idmonedadestino = p_idmonedadestino;
+
+    if v_cantidad >= 1 then
+        select montocambio
+          into v_tipocambio
+          from negocio."TipoCambio"
+         where id = (select max(id)
+	               from negocio."TipoCambio"
+	              where idmonedaorigen  = p_idmonedaorigen
+	                and idmonedadestino = p_idmonedadestino);
+    else
+        v_mensaje = 'Tipo de cambio de '+(select nombre
+                                            from soporte."Tablamaestra" 
+                                           where idmaestro = 20
+                                             and id        = p_idmonedaorigen);
+        v_mensaje = v_mensaje + ' a ' + (select nombre
+                                           from soporte."Tablamaestra" 
+                                          where idmaestro = 20
+                                            and id        = p_idmonedadestino);
+        RAISE USING MESSAGE = v_mensaje;
+    end if;
+end if;
+
+return v_tipocambio;
+
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
