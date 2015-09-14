@@ -23,6 +23,8 @@ public class CuentaBancaria extends BaseNegocio {
 	private String nombreCuenta;
 	private BaseVO moneda;
 	private BigDecimal saldo;
+	private boolean editable;
+	private int numeroMovimientos;
 	
 
 	public CuentaBancaria() {
@@ -137,6 +139,34 @@ public class CuentaBancaria extends BaseNegocio {
 	 */
 	public void setMoneda(BaseVO moneda) {
 		this.moneda = moneda;
+	}
+
+	/**
+	 * @return the editable
+	 */
+	public boolean isEditable() {
+		return editable;
+	}
+
+	/**
+	 * @param editable the editable to set
+	 */
+	public void setEditable(boolean editable) {
+		this.editable = editable;
+	}
+
+	/**
+	 * @return the numeroMovimientos
+	 */
+	public int getNumeroMovimientos() {
+		return numeroMovimientos;
+	}
+
+	/**
+	 * @param numeroMovimientos the numeroMovimientos to set
+	 */
+	public void setNumeroMovimientos(int numeroMovimientos) {
+		this.numeroMovimientos = numeroMovimientos;
 	}
 
 }

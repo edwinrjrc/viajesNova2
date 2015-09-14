@@ -24,6 +24,7 @@ import pe.com.logistica.bean.negocio.Direccion;
 import pe.com.logistica.bean.negocio.DocumentoAdicional;
 import pe.com.logistica.bean.negocio.EventoObsAnu;
 import pe.com.logistica.bean.negocio.MaestroServicio;
+import pe.com.logistica.bean.negocio.MovimientoCuenta;
 import pe.com.logistica.bean.negocio.PagoServicio;
 import pe.com.logistica.bean.negocio.ProgramaNovios;
 import pe.com.logistica.bean.negocio.Proveedor;
@@ -241,4 +242,6 @@ public interface NegocioSessionLocal {
 	public Comprobante consultarComprobanteObligacion(Integer idObligacion) throws SQLException;
 	
 	public List<CuentaBancaria> listarCuentasBancariasProveedor(Integer idProveedor) throws SQLException;
+	
+	public List<MovimientoCuenta> listarMovimientosXCuenta(Integer idCuenta) throws SQLException;
 }

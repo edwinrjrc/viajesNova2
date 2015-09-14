@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pe.com.logistica.bean.negocio.CuentaBancaria;
+import pe.com.logistica.bean.negocio.MovimientoCuenta;
 import pe.com.logistica.negocio.dao.CuentaBancariaDao;
 import pe.com.logistica.negocio.util.UtilConexion;
 import pe.com.logistica.negocio.util.UtilJdbc;
@@ -57,6 +58,8 @@ public class CuentaBancariaDaoImpl implements CuentaBancariaDao {
 				cuentaBancaria.getMoneda().setNombre(UtilJdbc.obtenerCadena(rs, "nombremoneda"));
 				cuentaBancaria.getMoneda().setAbreviatura(UtilJdbc.obtenerCadena(rs, "abreviatura"));
 				cuentaBancaria.setSaldo(UtilJdbc.obtenerBigDecimal(rs, "saldocuenta"));
+				cuentaBancaria.setNumeroMovimientos(UtilJdbc.obtenerNumero(rs, "numeroMovimientos"));
+				cuentaBancaria.setEditable((cuentaBancaria.getNumeroMovimientos() > 0));
 				resultado.add(cuentaBancaria);
 			}
 		}
@@ -252,5 +255,57 @@ public class CuentaBancariaDaoImpl implements CuentaBancariaDao {
 		
 		return resultado;
 	}
+	
+	
 
+	@Override
+	public List<MovimientoCuenta> listarMovimientoCuentaBancaria(Integer idCuenta)
+			throws SQLException {
+		List<MovimientoCuenta> resultado = null;
+		Connection conn = null;
+		CallableStatement cs = null;
+		ResultSet rs = null;
+		String sql = "";
+		
+		try{
+			sql = "{ ? = call negocio.fn_listarmovimientosxcuenta(?) }";
+			conn = UtilConexion.obtenerConexion();
+			cs = conn.prepareCall(sql);
+			cs.registerOutParameter(1, Types.OTHER);
+			cs.setInt(2, idCuenta.intValue());
+			cs.execute();
+			
+			rs = (ResultSet)cs.getObject(1);
+			MovimientoCuenta movimientoCuenta = null;
+			resultado = new ArrayList<MovimientoCuenta>();
+			while (rs.next()){
+				movimientoCuenta = new MovimientoCuenta();
+				movimientoCuenta.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
+				movimientoCuenta.setIdCuenta(UtilJdbc.obtenerNumero(rs, "idcuenta"));
+				movimientoCuenta.getTipoMovimiento().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idtipomovimiento"));
+				movimientoCuenta.getTipoMovimiento().setNombre(UtilJdbc.obtenerCadena(rs, "desTipoMovimiento"));
+				movimientoCuenta.getTransaccion().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idtransaccion"));
+				movimientoCuenta.getTransaccion().setNombre(UtilJdbc.obtenerCadena(rs, "nombreTransaccion"));
+				movimientoCuenta.setDescripcionMovimiento(UtilJdbc.obtenerCadena(rs, "descripcionnovimiento"));
+				movimientoCuenta.setImporteMovimiento(UtilJdbc.obtenerBigDecimal(rs, "importemovimiento"));
+				resultado.add(movimientoCuenta);
+			}
+		}
+		catch (SQLException e){
+			throw new SQLException(e);
+		}
+		finally{
+			if (rs != null){
+				rs.close();
+			}
+			if (cs != null){
+				cs.close();
+			}
+			if (conn != null){
+				conn.close();
+			}
+		}
+		
+		return resultado;
+	}
 }

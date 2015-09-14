@@ -138,7 +138,7 @@ public class UtilEjb {
 		return false;
 	}
 
-	public static Comprobante obtenerNumeroComprobante(Comprobante comp,
+	public static Comprobante obtenerDetalleComprobante(Comprobante comp,
 			ServicioAgencia servicioAgencia) {
 		try {
 			BigDecimal total = BigDecimal.ZERO;
@@ -159,14 +159,18 @@ public class UtilEjb {
 						detalle = new DetalleComprobante();
 						if (bean.isAgrupado()){
 							for (Integer id : bean.getCodigoEnteroAgrupados()){
+								DetalleServicioAgencia beanAgrupado = obtenerDetalleIdAgrupado(id, servicioAgencia.getListaDetalleServicio());
+								if (beanAgrupado == null){
+									continue;
+								}
 								total = total.add(bean.getTotalServicio());
 								tipoComprobante = bean.getTipoComprobante();
 								detalle = null;
 								detalle = new DetalleComprobante();
 								detalle.setIdServicioDetalle(id);
-								detalle.setCantidad(bean.getCantidad());
-								detalle.setPrecioUnitario(bean.getPrecioUnitario());
-								detalle.setTotalDetalle(bean.getTotalServicio());
+								detalle.setCantidad(beanAgrupado.getCantidad());
+								detalle.setPrecioUnitario(beanAgrupado.getPrecioUnitario());
+								detalle.setTotalDetalle(beanAgrupado.getTotalServicio());
 								detalle.setConcepto(obtenerDescripcionServicio(id, servicioAgencia.getListaDetalleServicio()));
 								detalle.setUsuarioCreacion(servicioAgencia
 										.getUsuarioCreacion());
@@ -215,6 +219,21 @@ public class UtilEjb {
 			e.printStackTrace();
 		}
 		return comp;
+	}
+	
+	private static DetalleServicioAgencia obtenerDetalleIdAgrupado(Integer idAgrupado,  List<DetalleServicioAgencia> listaDetalleTotal){
+		if (listaDetalleTotal != null && !listaDetalleTotal.isEmpty()){
+			for (DetalleServicioAgencia detalleServicioAgencia : listaDetalleTotal) {
+				if (detalleServicioAgencia.getServiciosHijos() != null && !detalleServicioAgencia.getServiciosHijos().isEmpty()){
+					for(DetalleServicioAgencia detalleServicioHijo : detalleServicioAgencia.getServiciosHijos()){
+						if (detalleServicioHijo.getCodigoEntero().intValue() == idAgrupado.intValue()){
+							return detalleServicioHijo;
+						}
+					}
+				}
+			}
+		}
+		return null;
 	}
 	
 	private static String obtenerDescripcionServicio(Integer id, List<DetalleServicioAgencia> lista){

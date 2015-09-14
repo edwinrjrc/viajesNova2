@@ -36,6 +36,7 @@ import pe.com.logistica.bean.negocio.DocumentoAdicional;
 import pe.com.logistica.bean.negocio.EventoObsAnu;
 import pe.com.logistica.bean.negocio.Maestro;
 import pe.com.logistica.bean.negocio.MaestroServicio;
+import pe.com.logistica.bean.negocio.MovimientoCuenta;
 import pe.com.logistica.bean.negocio.PagoServicio;
 import pe.com.logistica.bean.negocio.ProgramaNovios;
 import pe.com.logistica.bean.negocio.Proveedor;
@@ -1823,7 +1824,7 @@ public class NegocioSession implements NegocioSessionRemote,
 
 			List<Comprobante> listaComprobantes2 = new ArrayList<Comprobante>();
 			for (Comprobante comprobante : listaComprobantes) {
-				comprobante = UtilEjb.obtenerNumeroComprobante(comprobante,
+				comprobante = UtilEjb.obtenerDetalleComprobante(comprobante,
 						servicioAgencia);
 				listaComprobantes2.add(comprobante);
 			}
@@ -2225,6 +2226,13 @@ public class NegocioSession implements NegocioSessionRemote,
 		ProveedorDao proveedorDao = new ProveedorDaoImpl();
 		
 		return proveedorDao.listarCuentasBancarias(idProveedor);
+	}
+	
+	@Override
+	public List<MovimientoCuenta> listarMovimientosXCuenta(Integer idCuenta) throws SQLException{
+		CuentaBancariaDao cuentaBancariaDao = new CuentaBancariaDaoImpl();
+		
+		return cuentaBancariaDao.listarMovimientoCuentaBancaria(idCuenta);
 	}
 }
 	

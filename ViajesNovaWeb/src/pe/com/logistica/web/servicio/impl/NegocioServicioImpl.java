@@ -31,6 +31,7 @@ import pe.com.logistica.bean.negocio.Direccion;
 import pe.com.logistica.bean.negocio.DocumentoAdicional;
 import pe.com.logistica.bean.negocio.EventoObsAnu;
 import pe.com.logistica.bean.negocio.MaestroServicio;
+import pe.com.logistica.bean.negocio.MovimientoCuenta;
 import pe.com.logistica.bean.negocio.PagoServicio;
 import pe.com.logistica.bean.negocio.ProgramaNovios;
 import pe.com.logistica.bean.negocio.Proveedor;
@@ -492,6 +493,11 @@ public class NegocioServicioImpl implements NegocioServicio {
 	@Override
 	public List<CuentaBancaria> listarCuentasBancariasProveedor(Integer idProveedor) throws SQLException{
 		return ejbSession.listarCuentasBancariasProveedor(idProveedor);
+	}
+	
+	@Override
+	public List<MovimientoCuenta> listarMovimientosXCuenta(Integer idCuenta) throws SQLException{
+		return ejbSession.listarMovimientosXCuenta(idCuenta);
 	}
 }
 	

@@ -88,7 +88,7 @@
 									</f:facet>
 									<h:panelGrid cellpadding="0" cellspacing="0" border="0"
 										style="width:100%;text-align:center;">
-										<a4j:commandLink render="idGrFrCuentaBancaria, idNomModal"
+										<a4j:commandLink render="idGrFrCuentaBancaria, idNomModal" rendered="#{row.editable}"
 											action="#{cuentaBancariaMBean.consultarCuenta(row.codigoEntero)}"
 											oncomplete="#{rich:component('idModalCuentaBancaria')}.show()">
 											<h:graphicImage height="25" width="20"

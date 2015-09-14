@@ -1557,8 +1557,8 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			cs.registerOutParameter(i++, Types.INTEGER);
 			cs.setInt(i++, pago.getServicio().getCodigoEntero());
 			cs.setInt(i++, pago.getFormaPago().getCodigoEntero().intValue());
-			if (pago.getCuentaBancariaOrigen().getCodigoEntero() != null && pago.getCuentaBancariaOrigen().getCodigoEntero().intValue() != 0){
-				cs.setInt(i++, pago.getCuentaBancariaOrigen().getCodigoEntero().intValue());
+			if (pago.getCuentaBancariaDestino().getCodigoEntero() != null && pago.getCuentaBancariaDestino().getCodigoEntero().intValue() != 0){
+				cs.setInt(i++, pago.getCuentaBancariaDestino().getCodigoEntero().intValue());
 			}
 			else{
 				cs.setNull(i++, Types.INTEGER);

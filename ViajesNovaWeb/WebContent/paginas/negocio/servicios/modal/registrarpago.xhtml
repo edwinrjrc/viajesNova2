@@ -77,7 +77,7 @@
 						rendered="#{servicioAgenteMBean.mostrarCuenta}" />
 					<h:selectOneMenu rendered="#{servicioAgenteMBean.mostrarCuenta}"
 						id="idSelCuentaBancaria"
-						value="#{servicioAgenteMBean.pagoServicio.cuentaBancaria.codigoEntero}">
+						value="#{servicioAgenteMBean.pagoServicio.cuentaBancariaDestino.codigoEntero}">
 						<f:selectItem itemLabel="-Seleccione-" />
 						<f:selectItems
 							value="#{servicioAgenteMBean.listadoCuentasBancarias}" />

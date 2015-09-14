@@ -1336,6 +1336,9 @@ public class ServicioAgenteMBean extends BaseMBean {
 						obtenerRequest().getRemoteAddr());
 
 				this.negocioServicio.registrarPago(getPagoServicio());
+				
+				this.setListaPagosServicios(this.negocioServicio.listarPagosServicio(this.getServicioAgencia().getCodigoEntero()));
+				
 				this.mostrarMensajeExito("Pago Registrado Satisfactoriamente");
 			}
 
@@ -1929,6 +1932,9 @@ public class ServicioAgenteMBean extends BaseMBean {
 	
 	public void cambiarFormaPago(ValueChangeEvent e){
 		Object oe = e.getNewValue();
+		this.setListadoCuentasBancarias(null);
+		this.setMostrarCuenta(false);
+		this.setMostrarTarjeta(false);
 		
 		try {
 			if (oe != null){
