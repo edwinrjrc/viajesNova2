@@ -9,11 +9,7 @@ package pe.com.logistica.bean.base;
  */
 public class BaseVO extends Base {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = 6210620262453450979L;
 	private String nombre;
 	private String abreviatura;
 

@@ -168,6 +168,16 @@
 				</rich:menuGroup>
 			</rich:dropDownMenu>
 			<rich:dropDownMenu mode="ajax" style="width:50px;text-align:center;"
+				rendered="#{sessionScope.usuarioSession.rol.codigoEntero == 3}">
+				<f:facet name="label">
+					<h:outputText value="Recursos Humanos" style="width:50px;" />
+				</f:facet>
+				<rich:menuGroup label="Control Asistencia" style="text-align:left">
+					<rich:menuItem action="irConsultaAsistencia"
+						label="Consulta Asistencia" style="text-align:left" />
+				</rich:menuGroup>
+			</rich:dropDownMenu>
+			<rich:dropDownMenu mode="ajax" style="width:50px;text-align:center;"
 				rendered="#{sessionScope.usuarioSession.rol.codigoEntero == 4}">
 				<rich:menuItem action="irInicio2Sistema" label="Inicio Sistema"
 					style="text-align:left" />
