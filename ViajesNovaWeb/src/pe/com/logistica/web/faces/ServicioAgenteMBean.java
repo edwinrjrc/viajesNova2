@@ -1361,6 +1361,11 @@ public class ServicioAgenteMBean extends BaseMBean {
 					"Ingrese el monto a pagar", "", FacesMessage.SEVERITY_ERROR);
 			resultado = false;
 		}
+		if (this.getPagoServicio().getMoneda().getCodigoEntero() == null){
+			this.agregarMensaje(idFormulario + ":idSelMonedapago",
+					"Seleccione la moneda", "", FacesMessage.SEVERITY_ERROR);
+			resultado = false;
+		}
 		if (this.getPagoServicio().getFechaPago() == null) {
 			this.agregarMensaje(idFormulario + ":idSelFecSer",
 					"Ingrese la fecha de pago", "", FacesMessage.SEVERITY_ERROR);

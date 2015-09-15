@@ -25,6 +25,7 @@ public class PagoServicio extends BaseNegocio {
 	private BaseVO servicio;
 	private Date fechaPago;
 	private BigDecimal montoPago;
+	private BaseVO moneda;
 	private InputStream sustentoPago;
 	private OutputStream sustentoPagoSalida;
 	private byte[] sustentoPagoByte;
@@ -336,6 +337,23 @@ public class PagoServicio extends BaseNegocio {
 	 */
 	public void setCuentaBancariaDestino(BaseVO cuentaBancariaDestino) {
 		this.cuentaBancariaDestino = cuentaBancariaDestino;
+	}
+
+	/**
+	 * @return the moneda
+	 */
+	public BaseVO getMoneda() {
+		if (moneda == null){
+			moneda = new BaseVO();
+		}
+		return moneda;
+	}
+
+	/**
+	 * @param moneda the moneda to set
+	 */
+	public void setMoneda(BaseVO moneda) {
+		this.moneda = moneda;
 	}
 
 }
