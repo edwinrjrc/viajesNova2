@@ -61,7 +61,13 @@
 							style="text-align:right;"
 							value="#{obligacionPorPagarMBean.pagoComprobante.montoPago}"
 							size="10" maxlength="8" />
+						<h:selectOneMenu id="idSelMonedapago" value="#{obligacionPorPagarMBean.pagoComprobante.moneda.codigoEntero}">
+							<f:selectItem itemLabel="-Seleccione-"/>
+							<f:selectItems value="#{catalogoMBean.catalogoMoneda}" />
+						</h:selectOneMenu>
 						<rich:message for="idMontoPago" ajaxRendered="true"
+							showSummary="true" showDetail="false" />
+						<rich:message for="idSelMonedapago" ajaxRendered="true"
 							showSummary="true" showDetail="false" />
 					</h:panelGrid>
 					<h:outputText value="Tipo Pago" />
