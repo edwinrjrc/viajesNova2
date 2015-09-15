@@ -45,6 +45,7 @@ import pe.com.logistica.bean.negocio.ServicioAgenciaBusqueda;
 import pe.com.logistica.bean.negocio.ServicioNovios;
 import pe.com.logistica.bean.negocio.ServicioProveedor;
 import pe.com.logistica.bean.negocio.Telefono;
+import pe.com.logistica.bean.negocio.TipoCambio;
 import pe.com.logistica.bean.negocio.Tramo;
 import pe.com.logistica.bean.negocio.Ubigeo;
 import pe.com.logistica.negocio.dao.ArchivoReporteDao;
@@ -64,6 +65,7 @@ import pe.com.logistica.negocio.dao.ServicioNegocioDao;
 import pe.com.logistica.negocio.dao.ServicioNovaViajesDao;
 import pe.com.logistica.negocio.dao.ServicioNoviosDao;
 import pe.com.logistica.negocio.dao.TelefonoDao;
+import pe.com.logistica.negocio.dao.TipoCambioDao;
 import pe.com.logistica.negocio.dao.UbigeoDao;
 import pe.com.logistica.negocio.dao.impl.ArchivoReporteDaoImpl;
 import pe.com.logistica.negocio.dao.impl.ClienteDaoImpl;
@@ -82,6 +84,7 @@ import pe.com.logistica.negocio.dao.impl.ServicioNegocioDaoImpl;
 import pe.com.logistica.negocio.dao.impl.ServicioNovaViajesDaoImpl;
 import pe.com.logistica.negocio.dao.impl.ServicioNoviosDaoImpl;
 import pe.com.logistica.negocio.dao.impl.TelefonoDaoImpl;
+import pe.com.logistica.negocio.dao.impl.TipoCambioDaoImpl;
 import pe.com.logistica.negocio.dao.impl.UbigeoDaoImpl;
 import pe.com.logistica.negocio.exception.EnvioCorreoException;
 import pe.com.logistica.negocio.exception.ErrorConsultaDataException;
@@ -2233,6 +2236,24 @@ public class NegocioSession implements NegocioSessionRemote,
 		CuentaBancariaDao cuentaBancariaDao = new CuentaBancariaDaoImpl();
 		
 		return cuentaBancariaDao.listarMovimientoCuentaBancaria(idCuenta);
+	}
+	@Override
+	public List<TipoCambio> listarTipoCambio(Date fecha) throws SQLException{
+		TipoCambioDao tipoCambioDao = new TipoCambioDaoImpl();
+		
+		return tipoCambioDao.listarTipoCambio(fecha);
+	}
+	@Override
+	public TipoCambio consultarTipoCambio(Integer idMonedaOrigen, Integer idMonedaDestino) throws SQLException{
+		TipoCambioDao tipoCambioDao = new TipoCambioDaoImpl();
+		
+		return tipoCambioDao.consultarTipoCambio(idMonedaOrigen, idMonedaDestino);
+	}
+	@Override
+	public boolean registrarTipoCambio(TipoCambio tipoCambio) throws SQLException{
+		TipoCambioDao tipoCambioDao = new TipoCambioDaoImpl();
+		
+		return tipoCambioDao.registrarTipoCambio(tipoCambio);
 	}
 }
 	

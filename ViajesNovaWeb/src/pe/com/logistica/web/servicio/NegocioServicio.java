@@ -5,6 +5,7 @@ package pe.com.logistica.web.servicio;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import pe.com.logistica.bean.base.BaseVO;
@@ -33,6 +34,7 @@ import pe.com.logistica.bean.negocio.ServicioAgencia;
 import pe.com.logistica.bean.negocio.ServicioAgenciaBusqueda;
 import pe.com.logistica.bean.negocio.ServicioNovios;
 import pe.com.logistica.bean.negocio.ServicioProveedor;
+import pe.com.logistica.bean.negocio.TipoCambio;
 import pe.com.logistica.negocio.exception.EnvioCorreoException;
 import pe.com.logistica.negocio.exception.ErrorConsultaDataException;
 import pe.com.logistica.negocio.exception.ErrorRegistroDataException;
@@ -263,4 +265,11 @@ public interface NegocioServicio {
 
 	List<MovimientoCuenta> listarMovimientosXCuenta(Integer idCuenta)
 			throws SQLException;
+
+	List<TipoCambio> listarTipoCambio(Date fecha) throws SQLException;
+
+	TipoCambio consultarTipoCambio(Integer idMonedaOrigen,
+			Integer idMonedaDestino) throws SQLException;
+
+	boolean registrarTipoCambio(TipoCambio tipoCambio) throws SQLException;
 }

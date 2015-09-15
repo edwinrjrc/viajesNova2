@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -107,7 +109,7 @@ public class TipoCambioDaoImpl implements TipoCambioDao {
 	}
 
 	@Override
-	public List<TipoCambio> listarTipoCambio() throws SQLException {
+	public List<TipoCambio> listarTipoCambio(Date fecha) throws SQLException {
 		List<TipoCambio> resultado = null;
 		Connection conn = null;
 		CallableStatement cs = null;
@@ -115,22 +117,32 @@ public class TipoCambioDaoImpl implements TipoCambioDao {
 		String sql = "";
 		
 		try{
-			sql = "{ ? = call negocio.fn_consultartipocambio(?,?) }";
+			sql = "{ ? = call negocio.fn_listartipocambio(?) }";
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
 			cs.registerOutParameter(1, Types.OTHER);
+			if (fecha != null){
+				cs.setDate(2, UtilJdbc.convertirUtilDateSQLDate(fecha));
+			}
+			else{
+				cs.setNull(2, Types.DATE);
+			}
 			cs.execute();
 			
 			rs = (ResultSet)cs.getObject(1);
-			
-			if (rs.next()){
-				resultado = new TipoCambio();
-				resultado.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
-				resultado.getMonedaOrigen().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idmonedaorigen"));
-				resultado.getMonedaOrigen().setNombre(UtilJdbc.obtenerCadena(rs, "nombreMonOrigen"));
-				resultado.getMonedaDestino().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idmonedadestino"));
-				resultado.getMonedaDestino().setNombre(UtilJdbc.obtenerCadena(rs, "nombreMonDestino"));
-				resultado.setMontoCambio(UtilJdbc.obtenerBigDecimal(rs, "montocambio"));
+			resultado = new ArrayList<TipoCambio>();
+			TipoCambio tipoCambio = null;
+			while (rs.next()){
+				tipoCambio = new TipoCambio();
+				tipoCambio.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
+				tipoCambio.setFechaTipoCambio(UtilJdbc.obtenerFecha(rs, "fechatipocambio"));
+				tipoCambio.getMonedaOrigen().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idmonedaorigen"));
+				tipoCambio.getMonedaOrigen().setNombre(UtilJdbc.obtenerCadena(rs, "nombreMonOrigen"));
+				tipoCambio.getMonedaDestino().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idmonedadestino"));
+				tipoCambio.getMonedaDestino().setNombre(UtilJdbc.obtenerCadena(rs, "nombreMonDestino"));
+				tipoCambio.setMontoCambio(UtilJdbc.obtenerBigDecimal(rs, "montocambio"));
+				
+				resultado.add(tipoCambio);
 			}
 			
 			return resultado;

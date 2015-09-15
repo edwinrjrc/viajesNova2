@@ -5,6 +5,7 @@ package pe.com.logistica.web.servicio.impl;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -39,6 +40,7 @@ import pe.com.logistica.bean.negocio.ServicioAgencia;
 import pe.com.logistica.bean.negocio.ServicioAgenciaBusqueda;
 import pe.com.logistica.bean.negocio.ServicioNovios;
 import pe.com.logistica.bean.negocio.ServicioProveedor;
+import pe.com.logistica.bean.negocio.TipoCambio;
 import pe.com.logistica.negocio.ejb.NegocioSessionRemote;
 import pe.com.logistica.negocio.exception.EnvioCorreoException;
 import pe.com.logistica.negocio.exception.ErrorConsultaDataException;
@@ -498,6 +500,18 @@ public class NegocioServicioImpl implements NegocioServicio {
 	@Override
 	public List<MovimientoCuenta> listarMovimientosXCuenta(Integer idCuenta) throws SQLException{
 		return ejbSession.listarMovimientosXCuenta(idCuenta);
+	}
+	@Override
+	public List<TipoCambio> listarTipoCambio(Date fecha) throws SQLException{
+		return ejbSession.listarTipoCambio(fecha);
+	}
+	@Override
+	public TipoCambio consultarTipoCambio(Integer idMonedaOrigen, Integer idMonedaDestino) throws SQLException{
+		return ejbSession.consultarTipoCambio(idMonedaOrigen, idMonedaDestino);
+	}
+	@Override
+	public boolean registrarTipoCambio(TipoCambio tipoCambio) throws SQLException{
+		return ejbSession.registrarTipoCambio(tipoCambio);
 	}
 }
 	

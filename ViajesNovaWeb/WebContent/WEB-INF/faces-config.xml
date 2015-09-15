@@ -129,6 +129,11 @@
    <to-view-id>/paginas/negocio/cuentabancaria/administrar.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
+  <navigation-case>
+   <from-outcome>irAdmTipoCambio</from-outcome>
+   <to-view-id>/paginas/negocio/tipocambio/administrar.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
  </navigation-rule>
  <navigation-rule>
   <from-view-id>/paginas/soporte/maestro/administrar.xhtml</from-view-id>

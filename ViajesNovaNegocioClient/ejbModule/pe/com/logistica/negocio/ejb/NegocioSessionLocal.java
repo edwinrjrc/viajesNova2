@@ -2,6 +2,7 @@ package pe.com.logistica.negocio.ejb;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -32,6 +33,7 @@ import pe.com.logistica.bean.negocio.ServicioAgencia;
 import pe.com.logistica.bean.negocio.ServicioAgenciaBusqueda;
 import pe.com.logistica.bean.negocio.ServicioNovios;
 import pe.com.logistica.bean.negocio.ServicioProveedor;
+import pe.com.logistica.bean.negocio.TipoCambio;
 import pe.com.logistica.negocio.exception.EnvioCorreoException;
 import pe.com.logistica.negocio.exception.ErrorConsultaDataException;
 import pe.com.logistica.negocio.exception.ErrorRegistroDataException;
@@ -244,4 +246,11 @@ public interface NegocioSessionLocal {
 	public List<CuentaBancaria> listarCuentasBancariasProveedor(Integer idProveedor) throws SQLException;
 	
 	public List<MovimientoCuenta> listarMovimientosXCuenta(Integer idCuenta) throws SQLException;
+	
+	public List<TipoCambio> listarTipoCambio(Date fecha) throws SQLException;
+	
+	public TipoCambio consultarTipoCambio(Integer idMonedaOrigen, Integer idMonedaDestino) throws SQLException;
+	
+	public boolean registrarTipoCambio(TipoCambio tipoCambio) throws SQLException;
+	
 }

@@ -131,6 +131,11 @@
     PATH="/paginas/negocio/cuentabancaria/administrar.xhtml"
     TARGET="rules:#paginas#negocio#cuentabancaria#administrar.xhtml"
     TITLE="irAdministrarCuentaBancaria" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="irAdmTipoCambio::#paginas#negocio#tipocambio#administrar.xhtml"
+    NAME="output23" PATH="/paginas/negocio/tipocambio/administrar.xhtml"
+    TARGET="rules:#paginas#negocio#tipocambio#administrar.xhtml"
+    TITLE="irAdmTipoCambio" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#paginas#seguridad#usuario#administrar.xhtml"
@@ -261,4 +266,8 @@
   NAME="rules:#paginas#negocio#cuentabancaria#administrar.xhtml"
   PATH="/paginas/negocio/cuentabancaria/administrar.xhtml"
   SHAPE="304,849,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#paginas#negocio#tipocambio#administrar.xhtml"
+  PATH="/paginas/negocio/tipocambio/administrar.xhtml"
+  SHAPE="304,881,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

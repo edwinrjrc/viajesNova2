@@ -27,6 +27,9 @@ public class TipoCambio extends BaseNegocio {
 	 * @return the monedaOrigen
 	 */
 	public BaseVO getMonedaOrigen() {
+		if (monedaOrigen == null){
+			monedaOrigen = new BaseVO();
+		}
 		return monedaOrigen;
 	}
 	/**
@@ -39,6 +42,9 @@ public class TipoCambio extends BaseNegocio {
 	 * @return the monedaDestino
 	 */
 	public BaseVO getMonedaDestino() {
+		if (monedaDestino == null){
+			monedaDestino = new BaseVO();
+		}
 		return monedaDestino;
 	}
 	/**
