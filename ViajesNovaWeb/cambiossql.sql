@@ -8,7 +8,6 @@ $BODY$
 declare micursor refcursor;
 
 begin
-
 open micursor for
 SELECT oxp.id, idtipocomprobante, tmtd.nombre, numerocomprobante, idproveedor as idtitular, tit.nombres, tit.apellidopaterno, tit.apellidomaterno, fechacomprobante, 
        fechapago, detallecomprobante, totaligv, totalcomprobante, saldocomprobante, tienedetraccion, 
