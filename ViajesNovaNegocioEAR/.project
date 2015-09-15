@@ -4,8 +4,8 @@
 	<comment></comment>
 	<projects>
 		<project>ViajesNovaNegocio</project>
-		<project>ViajesNovaLib</project>
 		<project>ViajesNovaNegocioClient</project>
+		<project>ViajesNovaLib</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

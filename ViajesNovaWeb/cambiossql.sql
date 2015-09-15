@@ -180,6 +180,10 @@ WITH (
 
 -- DROP FUNCTION negocio.fn_listarpagos(integer);
 
+-- Function: negocio.fn_listartipocambio(date)
+
+-- DROP FUNCTION negocio.fn_listartipocambio(date);
+
 CREATE OR REPLACE FUNCTION negocio.fn_listartipocambio(p_fecha date)
   RETURNS refcursor AS
 $BODY$
@@ -193,7 +197,7 @@ SELECT id, fechatipocambio, idmonedaorigen, idmonedadestino, montocambio,
        usuariocreacion, fechacreacion, ipcreacion, usuariomodificacion, 
        fechamodificacion, ipmodificacion, idestadoregistro
   FROM negocio."TipoCambio"
- WHERE fechatipocambio = p_fecha;
+ WHERE fechatipocambio = COALESCE(p_fecha,fechatipocambio);
 
 return micursor;
 
@@ -201,6 +205,7 @@ end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
+
 
 CREATE SEQUENCE negocio.seq_tipocambio
   INCREMENT 1
@@ -243,15 +248,27 @@ $BODY$
 
 -- DROP FUNCTION negocio.fn_listarpagos(integer);
 
+-- Function: negocio.fn_consultartipocambio(integer, integer)
+
+
+-- Function: negocio.fn_consultartipocambio(integer, integer)
+
+-- DROP FUNCTION negocio.fn_consultartipocambio(integer, integer);
+
+-- Function: negocio.fn_consultartipocambio(integer, integer)
+
+-- DROP FUNCTION negocio.fn_consultartipocambio(integer, integer);
+
 CREATE OR REPLACE FUNCTION negocio.fn_consultartipocambio(p_idmonedaorigen integer, p_idmonedadestino integer)
-  RETURNS decimal AS
+  RETURNS refcursor AS
 $BODY$
 
 declare fechahoy date;
 declare v_cantidad date;
 declare v_idultimo date;
-declare v_tipocambio decimal(9,6);
+declare v_idtipocambio integer;
 declare v_mensaje character varying(15);
+declare micursor refcursor;
 
 begin
 
@@ -265,21 +282,19 @@ select count(1)
    and idmonedadestino = p_idmonedadestino;
 
 if v_cantidad = 1 then
-    select montocambio
-      into v_tipocambio
+    select id
+      into v_idtipocambio
       from negocio."TipoCambio"
      where fechatipocambio = fechahoy
        and idmonedaorigen  = p_idmonedaorigen
        and idmonedadestino = p_idmonedadestino;
 elsif v_cantidad > 1 then
-    select montocambio
-      into v_tipocambio
+    select max(id)
+      into v_idtipocambio
       from negocio."TipoCambio"
-     where id = (select max(id)
-	           from negocio."TipoCambio"
-	          where fechatipocambio = fechahoy
-	            and idmonedaorigen  = p_idmonedaorigen
-	            and idmonedadestino = p_idmonedadestino);
+     where fechatipocambio = fechahoy
+       and idmonedaorigen  = p_idmonedaorigen
+       and idmonedadestino = p_idmonedadestino;
 else
     select count(1)
       into v_cantidad
@@ -288,13 +303,11 @@ else
        and idmonedadestino = p_idmonedadestino;
 
     if v_cantidad >= 1 then
-        select montocambio
-          into v_tipocambio
-          from negocio."TipoCambio"
-         where id = (select max(id)
-	               from negocio."TipoCambio"
-	              where idmonedaorigen  = p_idmonedaorigen
-	                and idmonedadestino = p_idmonedadestino);
+        select max(id)
+          into v_idtipocambio
+	  from negocio."TipoCambio"
+	 where idmonedaorigen  = p_idmonedaorigen
+	   and idmonedadestino = p_idmonedadestino;
     else
         v_mensaje = 'Tipo de cambio de '+(select nombre
                                             from soporte."Tablamaestra" 
@@ -304,11 +317,22 @@ else
                                            from soporte."Tablamaestra" 
                                           where idmaestro = 20
                                             and id        = p_idmonedadestino);
+
+        v_mensaje = v_mensaje + ' no fue registrado';
+        
         RAISE USING MESSAGE = v_mensaje;
     end if;
 end if;
 
-return v_tipocambio;
+open micursor for
+SELECT id, fechatipocambio, 
+       idmonedaorigen, tmmo.nombre as nombreMonOrigen, 
+       idmonedadestino, tmmd.nombre as nombreMonDestino, 
+       montocambio
+  FROM negocio."TipoCambio" tc
+ INNER JOIN soporte."Tablamaestra" tmmo ON tmmo.idmaestro = 20 AND tmmo.id = idmonedaorigen
+ INNER JOIN soporte."Tablamaestra" tmmd ON tmmd.idmaestro = 20 AND tmmd.id = idmonedadestino
+ WHERE id = v_idtipocambio;
 
 end;
 $BODY$

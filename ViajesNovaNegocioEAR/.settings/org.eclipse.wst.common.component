@@ -5,10 +5,10 @@
             <dependent-object/>
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="ViajesNovaLib.jar" deploy-path="/lib" handle="module:/resource/ViajesNovaLib/ViajesNovaLib">
+        <dependent-module archiveName="ViajesNovaNegocioClient.jar" deploy-path="/" handle="module:/resource/ViajesNovaNegocioClient/ViajesNovaNegocioClient">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="ViajesNovaNegocioClient.jar" deploy-path="/" handle="module:/resource/ViajesNovaNegocioClient/ViajesNovaNegocioClient">
+        <dependent-module archiveName="ViajesNovaLib.jar" deploy-path="/lib" handle="module:/resource/ViajesNovaLib/ViajesNovaLib">
             <dependency-type>uses</dependency-type>
         </dependent-module>
     </wb-module>
