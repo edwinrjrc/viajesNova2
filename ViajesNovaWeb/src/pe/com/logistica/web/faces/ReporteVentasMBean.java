@@ -26,8 +26,8 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.util.CellRangeAddress;
 
 import pe.com.logistica.bean.negocio.DetalleServicioAgencia;
@@ -89,10 +89,10 @@ public class ReporteVentasMBean extends BaseMBean {
 		HSSFWorkbook xls = new HSSFWorkbook();
 		HSSFSheet hoja = xls.createSheet("Reporte");
 		
-		hoja.setColumnWidth(0, 17*256);
-		hoja.setColumnWidth(1, 17*256);
-		hoja.setColumnWidth(2, 17*256);
-		hoja.setColumnWidth(3, 17*256);
+		hoja.setColumnWidth(0, 20*256);
+		hoja.setColumnWidth(1, 20*256);
+		hoja.setColumnWidth(2, 20*256);
+		hoja.setColumnWidth(3, 20*256);
 		CellRangeAddress region = new CellRangeAddress(0,0,0,3);
 		hoja.addMergedRegion(region);
 		
@@ -155,6 +155,8 @@ public class ReporteVentasMBean extends BaseMBean {
 		celda.setCellStyle(estiloTituloTabla);
 		
 		HSSFCellStyle estiloDataTabla = xls.createCellStyle();
+		HSSFCellStyle estiloDataTablaSimple = xls.createCellStyle();
+		DataFormat format = xls.createDataFormat();
 		if (reporteGeneralVentas != null){
 			for (int i=0; i<reporteGeneralVentas.size(); i++ ) {
 				DetalleServicioAgencia detalle = reporteGeneralVentas.get(i);
@@ -162,15 +164,17 @@ public class ReporteVentasMBean extends BaseMBean {
 				fila = hoja.createRow(4+i);
 				celda = fila.createCell(0);
 				celda.setCellValue(detalle.getTipoServicio().getNombre());
-				celda.setCellStyle(estiloDataTabla);
+				celda.setCellStyle(estiloDataTablaSimple);
 				celda = fila.createCell(1);
 				celda.setCellValue(detalle.getCantidad());
-				celda.setCellStyle(estiloDataTabla);
+				celda.setCellStyle(estiloDataTablaSimple);
 				celda = fila.createCell(2);
 				celda.setCellValue(detalle.getTotalAgrupados().doubleValue());
+				estiloDataTabla.setDataFormat(format.getFormat("###,##0.00"));
 				celda.setCellStyle(estiloDataTabla);
 				celda = fila.createCell(3);
 				celda.setCellValue(detalle.getMontoComision().doubleValue());
+				estiloDataTabla.setDataFormat(format.getFormat("###,##0.00"));
 				celda.setCellStyle(estiloDataTabla);
 			}
 		}
