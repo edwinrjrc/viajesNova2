@@ -242,10 +242,11 @@ public class NegocioSession implements NegocioSessionRemote,
 					}
 				}
 			}
-			
-			if (proveedor.getListaCuentas() != null){
+
+			if (proveedor.getListaCuentas() != null) {
 				for (CuentaBancaria cuenta : proveedor.getListaCuentas()) {
-					if(!proveedorDao.ingresarCuentaBancaria(idPersona, cuenta, conexion)){
+					if (!proveedorDao.ingresarCuentaBancaria(idPersona, cuenta,
+							conexion)) {
 						throw new ResultadoCeroDaoException(
 								"No se pudo completar el registro del proveedor");
 					}
@@ -371,30 +372,36 @@ public class NegocioSession implements NegocioSessionRemote,
 			proveedorDao.actualizarProveedor(proveedor, conexion);
 
 			proveedorDao.actualizarProveedorTipo(proveedor, conexion);
-			
-			if (proveedor.getListaCuentas() != null && !proveedor.getListaCuentas().isEmpty()){
-				if (StringUtils.isNotBlank(proveedor.getCuentasEliminadas())){
-					for (int i=0; i<proveedor.getCuentasEliminadas().split(",").length; i++){
-						Integer idCuenta = UtilEjb.convertirCadenaEntero(proveedor.getCuentasEliminadas().split(",")[i]);
-						proveedorDao.validarEliminarCuentaBancaria(idCuenta, idPersona, conexion);
+
+			if (proveedor.getListaCuentas() != null
+					&& !proveedor.getListaCuentas().isEmpty()) {
+				if (StringUtils.isNotBlank(proveedor.getCuentasEliminadas())) {
+					for (int i = 0; i < proveedor.getCuentasEliminadas().split(
+							",").length; i++) {
+						Integer idCuenta = UtilEjb
+								.convertirCadenaEntero(proveedor
+										.getCuentasEliminadas().split(",")[i]);
+						proveedorDao.validarEliminarCuentaBancaria(idCuenta,
+								idPersona, conexion);
 					}
 				}
-				if (proveedorDao.eliminarCuentasBancarias(proveedor, conexion)){
-					for (CuentaBancaria cuentaBancaria : proveedor.getListaCuentas()) {
-						if (!proveedorDao.ingresarCuentaBancaria(idPersona, cuentaBancaria, conexion)){
+				if (proveedorDao.eliminarCuentasBancarias(proveedor, conexion)) {
+					for (CuentaBancaria cuentaBancaria : proveedor
+							.getListaCuentas()) {
+						if (!proveedorDao.ingresarCuentaBancaria(idPersona,
+								cuentaBancaria, conexion)) {
 							throw new ResultadoCeroDaoException(
 									"No se pudo completar el registro de cuentas bancarias");
 						}
 					}
-				}
-				else {
+				} else {
 					throw new ResultadoCeroDaoException(
 							"No se pudo completar la actualizacion de cuentas bancarias");
 				}
 			}
 
 			return true;
-			
+
 		} catch (ResultadoCeroDaoException e) {
 			throw new ResultadoCeroDaoException(e.getMensajeError(), e);
 		} catch (SQLException e) {
@@ -1059,28 +1066,33 @@ public class NegocioSession implements NegocioSessionRemote,
 			}
 			if (servicioAgencia.getListaDetalleServicio() != null
 					&& !servicioAgencia.getListaDetalleServicio().isEmpty()) {
-				
+
 				for (DetalleServicioAgencia detalleServicio : servicioAgencia
 						.getListaDetalleServicio()) {
 					if (detalleServicio.getTipoServicio().isServicioPadre()) {
 						Integer idRuta = null;
-						for (Tramo tramo : detalleServicio.getRuta().getTramos()){
-							tramo = servicioNovaViajesDao.registrarTramo(tramo, conexion);
-							if (tramo.getCodigoEntero()== null || tramo.getCodigoEntero().intValue()==0){
+						for (Tramo tramo : detalleServicio.getRuta()
+								.getTramos()) {
+							tramo = servicioNovaViajesDao.registrarTramo(tramo,
+									conexion);
+							if (tramo.getCodigoEntero() == null
+									|| tramo.getCodigoEntero().intValue() == 0) {
 								throw new ErrorRegistroDataException(
 										"No se pudo registrar los servicios de la venta");
 							}
 							detalleServicio.getRuta().setTramo(tramo);
-							if (idRuta == null){
-								idRuta = servicioNovaViajesDao.obtenerSiguienteRuta(conexion);
+							if (idRuta == null) {
+								idRuta = servicioNovaViajesDao
+										.obtenerSiguienteRuta(conexion);
 							}
 							detalleServicio.getRuta().setCodigoEntero(idRuta);
-							if (!servicioNovaViajesDao.registrarRuta(detalleServicio.getRuta(), conexion)){
+							if (!servicioNovaViajesDao.registrarRuta(
+									detalleServicio.getRuta(), conexion)) {
 								throw new ErrorRegistroDataException(
 										"No se pudo registrar los servicios de la venta");
 							}
 						}
-						
+
 						Integer idSerDetaPadre = servicioNovaViajesDao
 								.ingresarDetalleServicio(detalleServicio,
 										idServicio, conexion);
@@ -1123,6 +1135,8 @@ public class NegocioSession implements NegocioSessionRemote,
 					conexion);
 
 			return idServicio;
+		} catch (SQLException e) {
+			throw new ErrorRegistroDataException(e.getMessage(), e);
 		} catch (ErrorRegistroDataException e) {
 			throw new ErrorRegistroDataException(e.getMensajeError(), e);
 		} finally {
@@ -1257,7 +1271,7 @@ public class NegocioSession implements NegocioSessionRemote,
 						.get(i);
 				detalleServicioAgencia
 						.setDescripcionServicio(detalleServicioAgencia
-										.getDescripcionServicio());
+								.getDescripcionServicio());
 				listaHijos = new ArrayList<DetalleServicioAgencia>();
 				listaHijos.add(detalleServicioAgencia);
 				listaHijos
@@ -1272,7 +1286,9 @@ public class NegocioSession implements NegocioSessionRemote,
 			}
 			servicioAgencia.setListaDetalleServicio(listaServiciosPadreNueva);
 
-			if (servicioAgencia.getFormaPago().getCodigoEntero() != null && servicioAgencia.getFormaPago().getCodigoEntero().intValue() == 2) {
+			if (servicioAgencia.getFormaPago().getCodigoEntero() != null
+					&& servicioAgencia.getFormaPago().getCodigoEntero()
+							.intValue() == 2) {
 				servicioAgencia.setCronogramaPago(servicioNovaViajesDao
 						.consultarCronogramaPago(servicioAgencia));
 			}
@@ -1886,27 +1902,33 @@ public class NegocioSession implements NegocioSessionRemote,
 
 	@Override
 	public List<DetalleServicioAgencia> consultarDetServComprobanteObligacion(
-			Integer idServicio) throws ErrorConsultaDataException, SQLException, Exception {
+			Integer idServicio) throws ErrorConsultaDataException,
+			SQLException, Exception {
 		ServicioNovaViajesDao servicioNovaViajesDao = new ServicioNovaViajesDaoImpl();
 		List<DetalleServicioAgencia> lista = null;
 		Connection conn = null;
-		
+
 		try {
 			conn = UtilConexion.obtenerConexion();
-			lista = servicioNovaViajesDao
-					.consultaServDetComprobanteObligacion(idServicio, conn);
+			lista = servicioNovaViajesDao.consultaServDetComprobanteObligacion(
+					idServicio, conn);
 			for (DetalleServicioAgencia detalleServicioAgencia : lista) {
-				detalleServicioAgencia.getServiciosHijos().add(detalleServicioAgencia);
-				detalleServicioAgencia.getServiciosHijos().addAll(servicioNovaViajesDao.consultaServDetComprobanteObligacionHijo(idServicio, detalleServicioAgencia.getCodigoEntero(), conn));
+				detalleServicioAgencia.getServiciosHijos().add(
+						detalleServicioAgencia);
+				detalleServicioAgencia.getServiciosHijos().addAll(
+						servicioNovaViajesDao
+								.consultaServDetComprobanteObligacionHijo(
+										idServicio, detalleServicioAgencia
+												.getCodigoEntero(), conn));
 			}
-			
+
 			return lista;
 		} catch (SQLException e) {
 			throw new ErrorConsultaDataException(e);
 		} catch (Exception e) {
 			throw new ErrorConsultaDataException(e);
-		} finally{
-			if (conn != null){
+		} finally {
+			if (conn != null) {
 				conn.close();
 			}
 		}
@@ -1944,26 +1966,28 @@ public class NegocioSession implements NegocioSessionRemote,
 			conn = UtilConexion.obtenerConexion();
 			for (DetalleServicioAgencia detalleServicioAgencia : servicioAgencia
 					.getListaDetalleServicioAgrupado()) {
-				for(DetalleServicioAgencia detalleHijo : detalleServicioAgencia.getServiciosHijos()){
+				for (DetalleServicioAgencia detalleHijo : detalleServicioAgencia
+						.getServiciosHijos()) {
 					if (detalleHijo.getIdComprobanteGenerado() != null
 							&& detalleHijo.getComprobanteAsociado()
 									.getCodigoEntero() != null
 							&& detalleHijo.getCodigoEntero() != null
-							&& detalleHijo.getServicioPadre()
-									.getCodigoEntero() != null) {
-						
-						if (detalleHijo.isAgrupado()){
-							for (Integer id : detalleHijo.getCodigoEnteroAgrupados()){
+							&& detalleHijo.getServicioPadre().getCodigoEntero() != null) {
+
+						if (detalleHijo.isAgrupado()) {
+							for (Integer id : detalleHijo
+									.getCodigoEnteroAgrupados()) {
 								detalleHijo.setCodigoEntero(id);
-								servicioNovaViajesDao.guardarRelacionComproObligacion(
-										detalleHijo, conn);
+								servicioNovaViajesDao
+										.guardarRelacionComproObligacion(
+												detalleHijo, conn);
 							}
+						} else {
+							servicioNovaViajesDao
+									.guardarRelacionComproObligacion(
+											detalleHijo, conn);
 						}
-						else{
-							servicioNovaViajesDao.guardarRelacionComproObligacion(
-									detalleHijo, conn);
-						}
-						
+
 					}
 				}
 			}
@@ -2063,15 +2087,18 @@ public class NegocioSession implements NegocioSessionRemote,
 			}
 		}
 	}
-	
+
 	@Override
-	public List<Comprobante> consultarComprobantesGenerados(ComprobanteBusqueda comprobanteBusqueda) throws ErrorConsultaDataException{
+	public List<Comprobante> consultarComprobantesGenerados(
+			ComprobanteBusqueda comprobanteBusqueda)
+			throws ErrorConsultaDataException {
 		try {
 			ComprobanteNovaViajesDao comprobanteNovaViajesDao = new ComprobanteNovaViajesDaoImpl();
-			return comprobanteNovaViajesDao.consultarComprobantes(comprobanteBusqueda);
+			return comprobanteNovaViajesDao
+					.consultarComprobantes(comprobanteBusqueda);
 		} catch (SQLException e) {
 			throw new ErrorConsultaDataException(e);
-		} catch (Exception e){
+		} catch (Exception e) {
 			throw new ErrorConsultaDataException(e);
 		}
 	}
@@ -2081,173 +2108,224 @@ public class NegocioSession implements NegocioSessionRemote,
 			throws ErrorConsultaDataException {
 		try {
 			ComprobanteNovaViajesDao comprobanteNovaViajesDao = new ComprobanteNovaViajesDaoImpl();
-			
+
 			ComprobanteBusqueda comprobanteBusqueda = new ComprobanteBusqueda();
 			comprobanteBusqueda.setCodigoEntero(idComprobante);
-			
-			List<Comprobante> comprobantes = comprobanteNovaViajesDao.consultarComprobantes(comprobanteBusqueda);
-			
+
+			List<Comprobante> comprobantes = comprobanteNovaViajesDao
+					.consultarComprobantes(comprobanteBusqueda);
+
 			Comprobante comprobante = comprobantes.get(0);
-			comprobante.setDetalleComprobante(comprobanteNovaViajesDao.consultarDetalleComprobante(idComprobante));
-			
+			comprobante.setDetalleComprobante(comprobanteNovaViajesDao
+					.consultarDetalleComprobante(idComprobante));
+
 			return comprobante;
-		} catch (SQLException e) {
-			throw new ErrorConsultaDataException(e);
-		} catch (Exception e){
-			throw new ErrorConsultaDataException(e);
-		}
-	}
-	
-	@Override
-	public boolean grabarComprobantesReporte(ReporteArchivo reporteArchivo, ColumnasExcel columnasExcel, List<ColumnasExcel> dataExcel) throws ErrorRegistroDataException, SQLException{
-		ArchivoReporteDao archivoReporteDao = new ArchivoReporteDaoImpl();
-		Connection conn = null;
-		
-		try {
-			conn = UtilConexion.obtenerConexion();
-			int idArchivo = archivoReporteDao.registrarArchivoReporteCabecera(reporteArchivo, conn);
-			columnasExcel.setIdArchivo(idArchivo);
-			columnasExcel.setUsuarioCreacion(reporteArchivo.getUsuarioCreacion());
-			columnasExcel.setIpCreacion(reporteArchivo.getIpCreacion());
-			columnasExcel.getColumna1().setValorCadena(columnasExcel.getColumna1().getNombreColumna());
-			columnasExcel.getColumna2().setValorCadena(columnasExcel.getColumna2().getNombreColumna());
-			columnasExcel.getColumna3().setValorCadena(columnasExcel.getColumna3().getNombreColumna());
-			columnasExcel.getColumna4().setValorCadena(columnasExcel.getColumna4().getNombreColumna());
-			columnasExcel.getColumna5().setValorCadena(columnasExcel.getColumna5().getNombreColumna());
-			columnasExcel.getColumna6().setValorCadena(columnasExcel.getColumna6().getNombreColumna());
-			columnasExcel.getColumna7().setValorCadena(columnasExcel.getColumna7().getNombreColumna());
-			columnasExcel.getColumna8().setValorCadena(columnasExcel.getColumna8().getNombreColumna());
-			columnasExcel.getColumna9().setValorCadena(columnasExcel.getColumna9().getNombreColumna());
-			columnasExcel.getColumna10().setValorCadena(columnasExcel.getColumna10().getNombreColumna());
-			columnasExcel.getColumna11().setValorCadena(columnasExcel.getColumna11().getNombreColumna());
-			columnasExcel.getColumna12().setValorCadena(columnasExcel.getColumna12().getNombreColumna());
-			columnasExcel.getColumna13().setValorCadena(columnasExcel.getColumna13().getNombreColumna());
-			columnasExcel.getColumna14().setValorCadena(columnasExcel.getColumna14().getNombreColumna());
-			columnasExcel.getColumna15().setValorCadena(columnasExcel.getColumna15().getNombreColumna());
-			columnasExcel.getColumna16().setValorCadena(columnasExcel.getColumna16().getNombreColumna());
-			columnasExcel.getColumna17().setValorCadena(columnasExcel.getColumna17().getNombreColumna());
-			columnasExcel.getColumna18().setValorCadena(columnasExcel.getColumna18().getNombreColumna());
-			columnasExcel.getColumna19().setValorCadena(columnasExcel.getColumna19().getNombreColumna());
-			columnasExcel.getColumna20().setValorCadena(columnasExcel.getColumna20().getNombreColumna());
-			
-			
-			archivoReporteDao.registrarDetalleArchivoReporte(columnasExcel, conn);
-			
-			for (ColumnasExcel columnasExcel2 : dataExcel) {
-				columnasExcel2.setIdArchivo(idArchivo);
-				columnasExcel2.setUsuarioCreacion(reporteArchivo.getUsuarioCreacion());
-				columnasExcel2.setIpCreacion(reporteArchivo.getIpCreacion());
-				archivoReporteDao.registrarDetalleArchivoReporte(columnasExcel2, conn);
-			}
-			
-			return true;
-		} catch (SQLException e) {
-			throw new ErrorRegistroDataException(e);
-		} catch (Exception e){
-			throw new ErrorRegistroDataException(e);
-		} finally{
-			if (conn != null){
-				conn.close();
-			}
-		}
-	}
-	
-	@Override
-	public List<ReporteArchivoBusqueda> consultarArchivosCargados(ReporteArchivoBusqueda reporteArchivoBusqueda) throws ErrorConsultaDataException{
-		try {
-			ArchivoReporteDao archivoReporteDao = new ArchivoReporteDaoImpl();
-			return archivoReporteDao.consultarArchivosCargados(reporteArchivoBusqueda);
 		} catch (SQLException e) {
 			throw new ErrorConsultaDataException(e);
 		} catch (Exception e) {
 			throw new ErrorConsultaDataException(e);
 		}
 	}
-	
+
 	@Override
-	public DetalleServicioAgencia consultaDetalleServicioDetalle(int idServicio, int idDetServicio) throws SQLException{
-		
+	public boolean grabarComprobantesReporte(ReporteArchivo reporteArchivo,
+			ColumnasExcel columnasExcel, List<ColumnasExcel> dataExcel)
+			throws ErrorRegistroDataException, SQLException {
+		ArchivoReporteDao archivoReporteDao = new ArchivoReporteDaoImpl();
+		Connection conn = null;
+
+		try {
+			conn = UtilConexion.obtenerConexion();
+			int idArchivo = archivoReporteDao.registrarArchivoReporteCabecera(
+					reporteArchivo, conn);
+			columnasExcel.setIdArchivo(idArchivo);
+			columnasExcel.setUsuarioCreacion(reporteArchivo
+					.getUsuarioCreacion());
+			columnasExcel.setIpCreacion(reporteArchivo.getIpCreacion());
+			columnasExcel.getColumna1().setValorCadena(
+					columnasExcel.getColumna1().getNombreColumna());
+			columnasExcel.getColumna2().setValorCadena(
+					columnasExcel.getColumna2().getNombreColumna());
+			columnasExcel.getColumna3().setValorCadena(
+					columnasExcel.getColumna3().getNombreColumna());
+			columnasExcel.getColumna4().setValorCadena(
+					columnasExcel.getColumna4().getNombreColumna());
+			columnasExcel.getColumna5().setValorCadena(
+					columnasExcel.getColumna5().getNombreColumna());
+			columnasExcel.getColumna6().setValorCadena(
+					columnasExcel.getColumna6().getNombreColumna());
+			columnasExcel.getColumna7().setValorCadena(
+					columnasExcel.getColumna7().getNombreColumna());
+			columnasExcel.getColumna8().setValorCadena(
+					columnasExcel.getColumna8().getNombreColumna());
+			columnasExcel.getColumna9().setValorCadena(
+					columnasExcel.getColumna9().getNombreColumna());
+			columnasExcel.getColumna10().setValorCadena(
+					columnasExcel.getColumna10().getNombreColumna());
+			columnasExcel.getColumna11().setValorCadena(
+					columnasExcel.getColumna11().getNombreColumna());
+			columnasExcel.getColumna12().setValorCadena(
+					columnasExcel.getColumna12().getNombreColumna());
+			columnasExcel.getColumna13().setValorCadena(
+					columnasExcel.getColumna13().getNombreColumna());
+			columnasExcel.getColumna14().setValorCadena(
+					columnasExcel.getColumna14().getNombreColumna());
+			columnasExcel.getColumna15().setValorCadena(
+					columnasExcel.getColumna15().getNombreColumna());
+			columnasExcel.getColumna16().setValorCadena(
+					columnasExcel.getColumna16().getNombreColumna());
+			columnasExcel.getColumna17().setValorCadena(
+					columnasExcel.getColumna17().getNombreColumna());
+			columnasExcel.getColumna18().setValorCadena(
+					columnasExcel.getColumna18().getNombreColumna());
+			columnasExcel.getColumna19().setValorCadena(
+					columnasExcel.getColumna19().getNombreColumna());
+			columnasExcel.getColumna20().setValorCadena(
+					columnasExcel.getColumna20().getNombreColumna());
+
+			archivoReporteDao.registrarDetalleArchivoReporte(columnasExcel,
+					conn);
+
+			for (ColumnasExcel columnasExcel2 : dataExcel) {
+				columnasExcel2.setIdArchivo(idArchivo);
+				columnasExcel2.setUsuarioCreacion(reporteArchivo
+						.getUsuarioCreacion());
+				columnasExcel2.setIpCreacion(reporteArchivo.getIpCreacion());
+				archivoReporteDao.registrarDetalleArchivoReporte(
+						columnasExcel2, conn);
+			}
+
+			return true;
+		} catch (SQLException e) {
+			throw new ErrorRegistroDataException(e);
+		} catch (Exception e) {
+			throw new ErrorRegistroDataException(e);
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
+
+	@Override
+	public List<ReporteArchivoBusqueda> consultarArchivosCargados(
+			ReporteArchivoBusqueda reporteArchivoBusqueda)
+			throws ErrorConsultaDataException {
+		try {
+			ArchivoReporteDao archivoReporteDao = new ArchivoReporteDaoImpl();
+			return archivoReporteDao
+					.consultarArchivosCargados(reporteArchivoBusqueda);
+		} catch (SQLException e) {
+			throw new ErrorConsultaDataException(e);
+		} catch (Exception e) {
+			throw new ErrorConsultaDataException(e);
+		}
+	}
+
+	@Override
+	public DetalleServicioAgencia consultaDetalleServicioDetalle(
+			int idServicio, int idDetServicio) throws SQLException {
+
 		ServicioNovaViajesDao servicioNovaViajesDao = new ServicioNovaViajesDaoImpl();
-		
-		DetalleServicioAgencia detalle = servicioNovaViajesDao.consultaDetalleServicioDetalle(idServicio, idDetServicio);
-		
+
+		DetalleServicioAgencia detalle = servicioNovaViajesDao
+				.consultaDetalleServicioDetalle(idServicio, idDetServicio);
+
 		switch (detalle.getTipoServicio().getCodigoEntero().intValue()) {
 		case 11:// BOLETO DE VIAJE
-			detalle.getRuta().setTramos(servicioNovaViajesDao.consultarTramos(detalle.getRuta().getCodigoEntero()));
+			detalle.getRuta().setTramos(
+					servicioNovaViajesDao.consultarTramos(detalle.getRuta()
+							.getCodigoEntero()));
 			break;
-		};
-		
-		
+		}
+		;
+
 		return detalle;
 	}
+
 	@Override
-	public List<CuentaBancaria> listarCuentasBancarias() throws SQLException{
+	public List<CuentaBancaria> listarCuentasBancarias() throws SQLException {
 		CuentaBancariaDao cuentaBancariaDao = new CuentaBancariaDaoImpl();
-		
+
 		return cuentaBancariaDao.listarCuentasBancarias();
 	}
+
 	@Override
-	public boolean registrarCuentaBancaria(CuentaBancaria cuentaBancaria) throws ErrorRegistroDataException{
+	public boolean registrarCuentaBancaria(CuentaBancaria cuentaBancaria)
+			throws ErrorRegistroDataException {
 		try {
 			CuentaBancariaDao cuentaBancariaDao = new CuentaBancariaDaoImpl();
-			
+
 			return cuentaBancariaDao.registrarCuentaBancaria(cuentaBancaria);
 		} catch (Exception e) {
 			throw new ErrorRegistroDataException(e);
 		}
 	}
+
 	@Override
-	public boolean actualizarCuentaBancaria(CuentaBancaria cuentaBancaria) throws ErrorRegistroDataException{
+	public boolean actualizarCuentaBancaria(CuentaBancaria cuentaBancaria)
+			throws ErrorRegistroDataException {
 		try {
 			CuentaBancariaDao cuentaBancariaDao = new CuentaBancariaDaoImpl();
-			
+
 			return cuentaBancariaDao.actualizarCuentaBancaria(cuentaBancaria);
 		} catch (SQLException e) {
 			throw new ErrorRegistroDataException(e);
 		}
 	}
+
 	@Override
-	public CuentaBancaria consultaCuentaBancaria(Integer idCuenta) throws SQLException{
+	public CuentaBancaria consultaCuentaBancaria(Integer idCuenta)
+			throws SQLException {
 		CuentaBancariaDao cuentaBancariaDao = new CuentaBancariaDaoImpl();
-		
+
 		return cuentaBancariaDao.consultaCuentaBancaria(idCuenta);
 	}
+
 	@Override
-	public List<CuentaBancaria> listarCuentasBancariasCombo() throws SQLException{
+	public List<CuentaBancaria> listarCuentasBancariasCombo()
+			throws SQLException {
 		CuentaBancariaDao cuentaBancariaDao = new CuentaBancariaDaoImpl();
-		
+
 		return cuentaBancariaDao.listarCuentasBancariasCombo();
 	}
+
 	@Override
-	public Comprobante consultarComprobanteObligacion(Integer idObligacion) throws SQLException{
+	public Comprobante consultarComprobanteObligacion(Integer idObligacion)
+			throws SQLException {
 		ComprobanteNovaViajesDao comprobanteDao = new ComprobanteNovaViajesDaoImpl();
-		
+
 		return comprobanteDao.consultarObligacion(idObligacion);
 	}
+
 	@Override
-	public List<CuentaBancaria> listarCuentasBancariasProveedor(Integer idProveedor) throws SQLException{
+	public List<CuentaBancaria> listarCuentasBancariasProveedor(
+			Integer idProveedor) throws SQLException {
 		ProveedorDao proveedorDao = new ProveedorDaoImpl();
-		
+
 		return proveedorDao.listarCuentasBancarias(idProveedor);
 	}
-	
+
 	@Override
-	public List<MovimientoCuenta> listarMovimientosXCuenta(Integer idCuenta) throws SQLException{
+	public List<MovimientoCuenta> listarMovimientosXCuenta(Integer idCuenta)
+			throws SQLException {
 		CuentaBancariaDao cuentaBancariaDao = new CuentaBancariaDaoImpl();
-		
+
 		return cuentaBancariaDao.listarMovimientoCuentaBancaria(idCuenta);
 	}
+
 	@Override
-	public List<TipoCambio> listarTipoCambio(Date fecha) throws SQLException{
+	public List<TipoCambio> listarTipoCambio(Date fecha) throws SQLException {
 		TipoCambioDao tipoCambioDao = new TipoCambioDaoImpl();
-		
+
 		return tipoCambioDao.listarTipoCambio(fecha);
 	}
+
 	@Override
-	public boolean registrarTipoCambio(TipoCambio tipoCambio) throws SQLException{
+	public boolean registrarTipoCambio(TipoCambio tipoCambio)
+			throws SQLException {
 		TipoCambioDao tipoCambioDao = new TipoCambioDaoImpl();
-		
+
 		return tipoCambioDao.registrarTipoCambio(tipoCambio);
 	}
 }
-	

@@ -1522,7 +1522,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 	public void registrarSaldosServicio(ServicioAgencia servicioAgencia,
 			Connection conn) throws SQLException {
 		CallableStatement cs = null;
-		String sql = "{ ? = call negocio.fn_registrarsaldoservicio(?,?,?,?,?,?)}";
+		String sql = "{ ? = call negocio.fn_registrarsaldoservicio(?,?,?,?,?,?,?)}";
 		
 		try {
 			cs = conn.prepareCall(sql);
@@ -1532,6 +1532,12 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			cs.setInt(i++, 0);
 			cs.setDate(i++, UtilJdbc.convertirUtilDateSQLDate(servicioAgencia.getFechaServicio()));
 			cs.setBigDecimal(i++, servicioAgencia.getMontoTotal());
+			if (servicioAgencia.getIdReferencia() != null){
+				cs.setInt(i++, servicioAgencia.getIdReferencia());
+			}
+			else{
+				cs.setNull(i++, Types.INTEGER);
+			}
 			cs.setString(i++, servicioAgencia.getUsuarioCreacion());
 			cs.setString(i++, servicioAgencia.getIpCreacion());
 			cs.execute();

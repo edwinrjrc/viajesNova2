@@ -99,6 +99,13 @@
 
 					<h:panelGrid columns="1" border="0" style="width:100%;"
 						id="idGrTabVenServicios">
+						<f:facet name="header">
+							<h:panelGrid columns="1" border="0" cellpadding="0"
+								cellspacing="0" style="width:100%;text-align:left;">
+								<h:outputText value="Resultado de Busqueda" style="Color:#5885BE;" />
+								<hr style="width: 100%;" />
+							</h:panelGrid>
+						</f:facet>
 						<rich:dataTable var="row" id="idTabla" rows="5"
 							value="#{servicioAgenteMBean.listadoServicioAgencia}"
 							style="width:100%;">
