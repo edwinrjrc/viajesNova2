@@ -72,7 +72,7 @@
 									<rich:message for="idSelFecSer" showDetail="false"
 										showSummary="true" ajaxRendered="true" />
 								</h:panelGrid>
-								
+
 								<h:outputText value="" />
 								<h:outputText value="" />
 
@@ -96,8 +96,12 @@
 										value="#{servicioAgenteMBean.servicioAgencia.vendedor.nombre}" />
 								</h:panelGrid>
 
-								<h:outputText value="" />
-								<h:outputText value="" />
+								<h:outputText value="Moneda Facturacion" />
+								<h:selectOneMenu id="idSelMonedaFactura"
+									value="#{servicioAgenteMBean.servicioAgencia.moneda.codigoEntero}">
+									<f:selectItem itemLabel="-Seleccione-" />
+									<f:selectItems value="#{catalogoMBean.catalogoMoneda}" />
+								</h:selectOneMenu>
 
 							</h:panelGrid>
 
@@ -219,7 +223,8 @@
 								</h:panelGrid>
 
 								<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
-									border="0" style="width:100%;text_align:center;" id="idPnRutaServicioTexto"
+									border="0" style="width:100%;text_align:center;"
+									id="idPnRutaServicioTexto"
 									columnClasses="col1fil2formulario,col2fil2formulario"
 									rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraRuta}">
 
@@ -227,9 +232,11 @@
 
 									<h:panelGrid columns="1" cellpadding="0" cellspacing="0"
 										border="0" style="width:100%;text_align:center;">
-										<h:outputText value="#{servicioAgenteMBean.detalleServicio.ruta.descripcionRuta}" />
+										<h:outputText
+											value="#{servicioAgenteMBean.detalleServicio.ruta.descripcionRuta}" />
 										<a4j:commandButton value="Ingresar Ruta"
-										oncomplete="mostrarModal3('idModalrutaservicio')" render="idPnRutaServicio"></a4j:commandButton>
+											oncomplete="mostrarModal3('idModalrutaservicio')"
+											render="idPnRutaServicio"></a4j:commandButton>
 									</h:panelGrid>
 
 								</h:panelGrid>
@@ -343,14 +350,19 @@
 
 									<h:outputText value="Precio Base"
 										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraPrecioBase}" />
-									<h:panelGrid columns="3" cellpadding="0" cellspacing="0"
+									<h:panelGrid columns="4" cellpadding="0" cellspacing="0"
 										border="0"
 										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraPrecioBase}">
 										<h:inputText id="idPrecUnitario"
 											onkeypress="return js_soloDecimal(event)"
 											style="text-align:right;"
-											value="#{servicioAgenteMBean.detalleServicio.precioUnitario}"
+											value="#{servicioAgenteMBean.detalleServicio.precioUnitarioAnterior}"
 											size="10" maxlength="8" />
+										<h:selectOneMenu id="idSelMonedaServicio"
+											value="#{servicioAgenteMBean.detalleServicio.moneda.codigoEntero}">
+											<f:selectItem itemLabel="-Seleccione-" />
+											<f:selectItems value="#{catalogoMBean.catalogoMoneda}" />
+										</h:selectOneMenu>
 										<h:selectBooleanCheckbox
 											rendered="#{servicioAgenteMBean.calculadorIGV}"
 											value="#{servicioAgenteMBean.detalleServicio.conIGV}" />

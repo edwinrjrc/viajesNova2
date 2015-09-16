@@ -33,6 +33,9 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	private Date fechaIda;
 	private Date fechaRegreso;
 	private int cantidad;
+	private BaseVO moneda;
+	private BigDecimal tipoCambio;
+	private BigDecimal precioUnitarioAnterior;
 	private BigDecimal precioUnitario;
 	private BigDecimal precioUnitarioConIgv;
 	private BigDecimal montoComision;
@@ -650,6 +653,51 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	 */
 	public void setRuta(Ruta ruta) {
 		this.ruta = ruta;
+	}
+
+	/**
+	 * @return the moneda
+	 */
+	public BaseVO getMoneda() {
+		if (moneda == null){
+			moneda = new BaseVO();
+		}
+		return moneda;
+	}
+
+	/**
+	 * @param moneda the moneda to set
+	 */
+	public void setMoneda(BaseVO moneda) {
+		this.moneda = moneda;
+	}
+
+	/**
+	 * @return the tipoCambio
+	 */
+	public BigDecimal getTipoCambio() {
+		return tipoCambio;
+	}
+
+	/**
+	 * @param tipoCambio the tipoCambio to set
+	 */
+	public void setTipoCambio(BigDecimal tipoCambio) {
+		this.tipoCambio = tipoCambio;
+	}
+
+	/**
+	 * @return the precioUnitarioAnterior
+	 */
+	public BigDecimal getPrecioUnitarioAnterior() {
+		return precioUnitarioAnterior;
+	}
+
+	/**
+	 * @param precioUnitarioAnterior the precioUnitarioAnterior to set
+	 */
+	public void setPrecioUnitarioAnterior(BigDecimal precioUnitarioAnterior) {
+		this.precioUnitarioAnterior = precioUnitarioAnterior;
 	}
 
 }

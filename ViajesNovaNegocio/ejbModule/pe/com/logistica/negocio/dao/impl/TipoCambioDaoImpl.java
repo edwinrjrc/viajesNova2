@@ -64,20 +64,18 @@ public class TipoCambioDaoImpl implements TipoCambioDao {
 	}
 
 	@Override
-	public TipoCambio consultarTipoCambio(Integer idMonedaOrigen, Integer idMonedaDestino) throws SQLException {
+	public TipoCambio consultarTipoCambio(Integer idMonedaOrigen, Integer idMonedaDestino, Connection conn) throws SQLException {
 		TipoCambio resultado = null;
-		Connection conn = null;
 		CallableStatement cs = null;
 		ResultSet rs = null;
 		String sql = "";
 		
 		try{
 			sql = "{ ? = call negocio.fn_consultartipocambio(?,?) }";
-			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
 			cs.registerOutParameter(1, Types.OTHER);
 			cs.setInt(2, idMonedaOrigen.intValue());
-			cs.setInt(3, idMonedaOrigen.intValue());
+			cs.setInt(3, idMonedaDestino.intValue());
 			cs.execute();
 			
 			rs = (ResultSet)cs.getObject(1);
@@ -99,11 +97,11 @@ public class TipoCambioDaoImpl implements TipoCambioDao {
 			throw new SQLException(e);
 		}
 		finally{
+			if (rs != null){
+				rs.close();
+			}
 			if (cs != null){
 				cs.close();
-			}
-			if (conn != null){
-				conn.close();
 			}
 		}
 	}

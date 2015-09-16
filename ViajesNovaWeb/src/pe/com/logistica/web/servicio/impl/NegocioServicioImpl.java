@@ -506,10 +506,6 @@ public class NegocioServicioImpl implements NegocioServicio {
 		return ejbSession.listarTipoCambio(fecha);
 	}
 	@Override
-	public TipoCambio consultarTipoCambio(Integer idMonedaOrigen, Integer idMonedaDestino) throws SQLException{
-		return ejbSession.consultarTipoCambio(idMonedaOrigen, idMonedaDestino);
-	}
-	@Override
 	public boolean registrarTipoCambio(TipoCambio tipoCambio) throws SQLException{
 		return ejbSession.registrarTipoCambio(tipoCambio);
 	}

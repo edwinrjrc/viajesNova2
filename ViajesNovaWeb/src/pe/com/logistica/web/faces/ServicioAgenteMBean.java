@@ -304,7 +304,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 			logger.error(e.getMessage(), e);
 		}
 	}
-	
+
 	public void consultarServicioRegistradoPagos(int idServicio) {
 		this.consultarServicioRegistrado(idServicio);
 		this.listarPagosServicio();
@@ -358,7 +358,9 @@ public class ServicioAgenteMBean extends BaseMBean {
 						this.isEditarComision());
 
 				this.setListadoDetalleServicio(this.utilNegocioServicio
-						.agregarServicioVenta(this.getListadoDetalleServicio(),
+						.agregarServicioVenta(this.getServicioAgencia()
+								.getMoneda().getCodigoEntero(),
+								this.getListadoDetalleServicio(),
 								getDetalleServicio()));
 
 				this.setDetalleServicio(null);
@@ -382,48 +384,43 @@ public class ServicioAgenteMBean extends BaseMBean {
 		}
 
 	}
-	
-	/*
-	private void seleccionarOrigenDestino() {
-		String origen = "";
-		String destino = "";
-		
-		try {
-			origen = StringUtils.trim(this.getDetalleServicio().getOrigen().getCodigoCadena());
-			origen = StringUtils.substring(origen, StringUtils.indexOf(origen,"(")+1, StringUtils.indexOf(origen,")"));
-			
-			this.getDetalleServicio().setOrigen(this.soporteServicio.consultaDestinoIATA(origen));
-			this.soporteServicio.consultarDestino(descripcion)
-			
-			for(Destino destinoBean : this.getListaOrigenesBusqueda()){
-				if (StringUtils.equals(destinoBean.getCodigoIATA(), origen)){
-					this.getDetalleServicio().setOrigen(destinoBean);
-					break;
-				}
-			}
-			
-			destino = StringUtils.trim(this.getDetalleServicio().getDestino().getCodigoCadena());
-			destino = StringUtils.substring(destino, StringUtils.indexOf(destino,"(")+1, StringUtils.indexOf(destino,")"));
-			
-			for(Destino destinoBean : this.getListaOrigenesBusqueda()){
-				if (StringUtils.equals(destinoBean.getCodigoIATA(), destino)){
-					this.getDetalleServicio().setDestino(destinoBean);
-					break;
-				}
-			}
-		} catch (SQLException e) {
-			logger.error(e.getMessage(), e);
-		}
-	}*/
 
-	public void actualizarServicio(){
+	/*
+	 * private void seleccionarOrigenDestino() { String origen = ""; String
+	 * destino = "";
+	 * 
+	 * try { origen =
+	 * StringUtils.trim(this.getDetalleServicio().getOrigen().getCodigoCadena
+	 * ()); origen = StringUtils.substring(origen,
+	 * StringUtils.indexOf(origen,"(")+1, StringUtils.indexOf(origen,")"));
+	 * 
+	 * this.getDetalleServicio().setOrigen(this.soporteServicio.consultaDestinoIATA
+	 * (origen)); this.soporteServicio.consultarDestino(descripcion)
+	 * 
+	 * for(Destino destinoBean : this.getListaOrigenesBusqueda()){ if
+	 * (StringUtils.equals(destinoBean.getCodigoIATA(), origen)){
+	 * this.getDetalleServicio().setOrigen(destinoBean); break; } }
+	 * 
+	 * destino =
+	 * StringUtils.trim(this.getDetalleServicio().getDestino().getCodigoCadena
+	 * ()); destino = StringUtils.substring(destino,
+	 * StringUtils.indexOf(destino,"(")+1, StringUtils.indexOf(destino,")"));
+	 * 
+	 * for(Destino destinoBean : this.getListaOrigenesBusqueda()){ if
+	 * (StringUtils.equals(destinoBean.getCodigoIATA(), destino)){
+	 * this.getDetalleServicio().setDestino(destinoBean); break; } } } catch
+	 * (SQLException e) { logger.error(e.getMessage(), e); } }
+	 */
+
+	public void actualizarServicio() {
 		try {
 			if (validarServicioVenta()) {
 				getDetalleServicio().getServicioProveedor().setEditoComision(
 						this.isEditarComision());
 
 				this.setListadoDetalleServicio(this.utilNegocioServicio
-						.actualizarServicioVenta(this.getListadoDetalleServicio(),
+						.actualizarServicioVenta(this.getServicioAgencia().getMoneda().getCodigoEntero(),
+								this.getListadoDetalleServicio(),
 								getDetalleServicio()));
 
 				this.setDetalleServicio(null);
@@ -442,8 +439,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 			this.mostrarMensajeError(e.getMessage());
 		}
 	}
-	
-	public void cancelarEdicionServicio(){
+
+	public void cancelarEdicionServicio() {
 		this.setServicioFee(false);
 		this.setListadoEmpresas(null);
 		this.setEditaServicioAgregado(false);
@@ -462,19 +459,18 @@ public class ServicioAgenteMBean extends BaseMBean {
 				String etiqueta = "" + detalle.getTipoServicio().getNombre();
 
 				/*
-				if (StringUtils.isNotBlank(detalle.getOrigen().getCodigoIATA())
-						&& StringUtils.isNotBlank(detalle.getDestino()
-								.getCodigoIATA())) {
-					etiqueta = etiqueta + " "
-							+ detalle.getOrigen().getCodigoIATA() + " --> "
-							+ detalle.getDestino().getCodigoIATA();
-				}
-				else {
-					if (StringUtils.length(detalle.getDescripcionServicio()) >= 15){
-						etiqueta = etiqueta + detalle.getDescripcionServicio().substring(0, 15);
-					}
-					
-				}*/
+				 * if
+				 * (StringUtils.isNotBlank(detalle.getOrigen().getCodigoIATA())
+				 * && StringUtils.isNotBlank(detalle.getDestino()
+				 * .getCodigoIATA())) { etiqueta = etiqueta + " " +
+				 * detalle.getOrigen().getCodigoIATA() + " --> " +
+				 * detalle.getDestino().getCodigoIATA(); } else { if
+				 * (StringUtils.length(detalle.getDescripcionServicio()) >= 15){
+				 * etiqueta = etiqueta +
+				 * detalle.getDescripcionServicio().substring(0, 15); }
+				 * 
+				 * }
+				 */
 
 				si.setLabel(etiqueta);
 				this.getListadoServiciosPadre().add(si);
@@ -535,7 +531,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 							.getCodigoEntero());
 
 			for (BaseVO baseVO : listaDependientes) {
-				if (!estaEnListaServicios(baseVO) && 13 != baseVO.getCodigoEntero().intValue()) {
+				if (!estaEnListaServicios(baseVO)
+						&& 13 != baseVO.getCodigoEntero().intValue()) {
 					throw new ErrorRegistroDataException("No se agrego "
 							+ baseVO.getNombre());
 				}
@@ -592,7 +589,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 			ConfiguracionTipoServicio configuracionTipoServicio = this
 					.getDetalleServicio().getConfiguracionTipoServicio();
 
-			if (false && configuracionTipoServicio.isMuestraDescServicio()
+			if (false
+					&& configuracionTipoServicio.isMuestraDescServicio()
 					&& StringUtils.isBlank(this.getDetalleServicio()
 							.getDescripcionServicio())) {
 				this.agregarMensaje(idFormulario + ":idDescServicio",
@@ -607,8 +605,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 				resultado = false;
 			}
 			if (configuracionTipoServicio.isMuestraPrecioBase()
-					&& (this.getDetalleServicio().getPrecioUnitario() == null || this
-							.getDetalleServicio().getPrecioUnitario()
+					&& (this.getDetalleServicio().getPrecioUnitarioAnterior() == null || this
+							.getDetalleServicio().getPrecioUnitarioAnterior()
 							.doubleValue() == 0.0)) {
 				this.agregarMensaje(idFormulario + ":idPrecUnitario",
 						"Ingrese el precio base del servicio", "",
@@ -700,7 +698,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 		this.getServicioAgencia().setMontoTotalFee(montoFee);
 		this.getServicioAgencia().setMontoTotalIGV(montoIgv);
 	}
-	
+
 	private void calcularTotalesConsulta() {
 		BigDecimal montoTotal = BigDecimal.ZERO;
 		BigDecimal montoComision = BigDecimal.ZERO;
@@ -712,7 +710,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 							"aplicacionDatos"));
 
 			for (DetalleServicioAgencia ds : this.getListadoDetalleServicio()) {
-				for (DetalleServicioAgencia dsh : ds.getServiciosHijos()){
+				for (DetalleServicioAgencia dsh : ds.getServiciosHijos()) {
 					montoTotal = montoTotal.add(dsh.getTotalServicio());
 					montoComision = montoComision.add(dsh.getMontoComision());
 					if (dsh.getTipoServicio().getCodigoEntero().toString()
@@ -752,9 +750,11 @@ public class ServicioAgenteMBean extends BaseMBean {
 							usuario.getUsuario());
 					getServicioAgencia().setIpCreacion(
 							obtenerRequest().getRemoteAddr());
-					
-					getDetalleServicio().getRuta().setUsuarioCreacion(usuario.getUsuario());
-					getDetalleServicio().getRuta().setIpCreacion(obtenerRequest().getRemoteAddr());
+
+					getDetalleServicio().getRuta().setUsuarioCreacion(
+							usuario.getUsuario());
+					getDetalleServicio().getRuta().setIpCreacion(
+							obtenerRequest().getRemoteAddr());
 
 					for (DetalleServicioAgencia detalleServicio : getListadoDetalleServicio()) {
 						detalleServicio
@@ -1032,7 +1032,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 		try {
 			setListadoEmpresas(null);
 			this.getDetalleServicio().getServicioProveedor().setProveedor(null);
-			
+
 			this.getDetalleServicio().setConfiguracionTipoServicio(null);
 			this.setCargoConfiguracionTipoServicio(false);
 			if (oe != null) {
@@ -1047,14 +1047,16 @@ public class ServicioAgenteMBean extends BaseMBean {
 				MaestroServicio maestroServicio = this.negocioServicio
 						.consultarMaestroServicio(UtilWeb
 								.convertirCadenaEntero(valor));
-				
+
 				this.getDetalleServicio().setTipoServicio(maestroServicio);
 				this.getDetalleServicio().setConfiguracionTipoServicio(
 						this.soporteServicio
 								.consultarConfiguracionServicio(UtilWeb
 										.convertirCadenaEntero(valor)));
-				
-				this.setCargoConfiguracionTipoServicio(StringUtils.equals(this.getDetalleServicio().getConfiguracionTipoServicio().getCodigoCadena(),"A"));
+
+				this.setCargoConfiguracionTipoServicio(StringUtils.equals(this
+						.getDetalleServicio().getConfiguracionTipoServicio()
+						.getCodigoCadena(), "A"));
 
 				List<BaseVO> listaServicios = this.negocioServicio
 						.consultaServiciosDependientes(UtilWeb
@@ -1073,23 +1075,21 @@ public class ServicioAgenteMBean extends BaseMBean {
 						|| maestroServicio.isEsImpuesto());
 
 				if (!this.isServicioFee()) {
-					cargarEmpresas(UtilWeb
-							.convertirCadenaEntero(valor));
+					cargarEmpresas(UtilWeb.convertirCadenaEntero(valor));
 				}
-				
+
 				this.consultarDestinos();
 			}
-			
+
 		} catch (SQLException ex) {
 			logger.error(ex.getMessage(), ex);
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 		}
 	}
-	
-	private void cargarEmpresas(Integer valor) throws SQLException, Exception{
-		listaProveedores = this.negocioServicio
-				.proveedoresXServicio(valor);
+
+	private void cargarEmpresas(Integer valor) throws SQLException, Exception {
+		listaProveedores = this.negocioServicio.proveedoresXServicio(valor);
 		setListadoEmpresas(null);
 
 		SelectItem si = null;
@@ -1100,36 +1100,44 @@ public class ServicioAgenteMBean extends BaseMBean {
 			getListadoEmpresas().add(si);
 		}
 	}
-	
-	public void editarServicioAgregado(DetalleServicioAgencia detalleServicio){
+
+	public void editarServicioAgregado(DetalleServicioAgencia detalleServicio) {
 		try {
-			
-			/*Destino destino = detalleServicio.getDestino();
-			destino.setCodigoCadena(destino.getDescripcion()+"("+destino.getCodigoIATA()+")");
-			Destino origen = detalleServicio.getOrigen();
-			origen.setCodigoCadena(origen.getDescripcion()+"("+origen.getCodigoIATA()+")");
-			
-			detalleServicio.setOrigen(origen);
-			detalleServicio.setDestino(destino);
-			*/
-			if (detalleServicio.isConIGV()){
-				detalleServicio.setPrecioUnitario(detalleServicio.getPrecioUnitarioConIgv());
+
+			/*
+			 * Destino destino = detalleServicio.getDestino();
+			 * destino.setCodigoCadena
+			 * (destino.getDescripcion()+"("+destino.getCodigoIATA()+")");
+			 * Destino origen = detalleServicio.getOrigen();
+			 * origen.setCodigoCadena
+			 * (origen.getDescripcion()+"("+origen.getCodigoIATA()+")");
+			 * 
+			 * detalleServicio.setOrigen(origen);
+			 * detalleServicio.setDestino(destino);
+			 */
+			if (detalleServicio.isConIGV()) {
+				detalleServicio.setPrecioUnitario(detalleServicio
+						.getPrecioUnitarioConIgv());
 			}
-			
+
 			this.setDetalleServicio(detalleServicio);
-			
-			this.cargarEmpresas(detalleServicio.getTipoServicio().getCodigoEntero());
-			
+
+			this.cargarEmpresas(detalleServicio.getTipoServicio()
+					.getCodigoEntero());
+
 			MaestroServicio maestroServicio = this.negocioServicio
-					.consultarMaestroServicio(detalleServicio.getTipoServicio().getCodigoEntero());
+					.consultarMaestroServicio(detalleServicio.getTipoServicio()
+							.getCodigoEntero());
 
 			this.getDetalleServicio().setTipoServicio(maestroServicio);
 			this.getDetalleServicio().setConfiguracionTipoServicio(
 					this.soporteServicio
-							.consultarConfiguracionServicio(detalleServicio.getTipoServicio().getCodigoEntero()));
-			
+							.consultarConfiguracionServicio(detalleServicio
+									.getTipoServicio().getCodigoEntero()));
+
 			this.setEditaServicioAgregado(true);
-			this.setCargoConfiguracionTipoServicio(this.getDetalleServicio().getConfiguracionTipoServicio() != null);
+			this.setCargoConfiguracionTipoServicio(this.getDetalleServicio()
+					.getConfiguracionTipoServicio() != null);
 		} catch (SQLException e) {
 			this.setEditaServicioAgregado(false);
 			logger.error(e.getMessage(), e);
@@ -1138,35 +1146,47 @@ public class ServicioAgenteMBean extends BaseMBean {
 			logger.error(e.getMessage(), e);
 		}
 	}
-	
-	public void verDetalleServicio(DetalleServicioAgencia detalleServicio){
+
+	public void verDetalleServicio(DetalleServicioAgencia detalleServicio) {
 		try {
 			this.setVerDetalleServicio(false);
-			/*Destino destino = detalleServicio.getDestino();
-			destino.setCodigoCadena(destino.getDescripcion()+"("+destino.getCodigoIATA()+")");
-			Destino origen = detalleServicio.getOrigen();
-			origen.setCodigoCadena(origen.getDescripcion()+"("+origen.getCodigoIATA()+")");
-			
-			detalleServicio.setOrigen(origen);
-			detalleServicio.setDestino(destino);*/
-			
-			if (detalleServicio.isConIGV()){
-				detalleServicio.setPrecioUnitario(detalleServicio.getPrecioUnitarioConIgv());
+			/*
+			 * Destino destino = detalleServicio.getDestino();
+			 * destino.setCodigoCadena
+			 * (destino.getDescripcion()+"("+destino.getCodigoIATA()+")");
+			 * Destino origen = detalleServicio.getOrigen();
+			 * origen.setCodigoCadena
+			 * (origen.getDescripcion()+"("+origen.getCodigoIATA()+")");
+			 * 
+			 * detalleServicio.setOrigen(origen);
+			 * detalleServicio.setDestino(destino);
+			 */
+
+			if (detalleServicio.isConIGV()) {
+				detalleServicio.setPrecioUnitario(detalleServicio
+						.getPrecioUnitarioConIgv());
 			}
-			
-			this.setDetalleServicio(this.negocioServicio.consultarDetalleServicioDetalle(servicioAgencia.getCodigoEntero(), detalleServicio.getCodigoEntero()));
-			
-			this.cargarEmpresas(detalleServicio.getTipoServicio().getCodigoEntero());
-			
+
+			this.setDetalleServicio(this.negocioServicio
+					.consultarDetalleServicioDetalle(
+							servicioAgencia.getCodigoEntero(),
+							detalleServicio.getCodigoEntero()));
+
+			this.cargarEmpresas(detalleServicio.getTipoServicio()
+					.getCodigoEntero());
+
 			MaestroServicio maestroServicio = this.negocioServicio
-					.consultarMaestroServicio(detalleServicio.getTipoServicio().getCodigoEntero());
+					.consultarMaestroServicio(detalleServicio.getTipoServicio()
+							.getCodigoEntero());
 
 			this.getDetalleServicio().setTipoServicio(maestroServicio);
 			this.getDetalleServicio().setConfiguracionTipoServicio(
 					this.soporteServicio
-							.consultarConfiguracionServicio(detalleServicio.getTipoServicio().getCodigoEntero()));
-			
-			this.setCargoConfiguracionTipoServicio(this.getDetalleServicio().getConfiguracionTipoServicio() != null);
+							.consultarConfiguracionServicio(detalleServicio
+									.getTipoServicio().getCodigoEntero()));
+
+			this.setCargoConfiguracionTipoServicio(this.getDetalleServicio()
+					.getConfiguracionTipoServicio() != null);
 
 			this.setVerDetalleServicio(true);
 		} catch (SQLException e) {
@@ -1189,7 +1209,9 @@ public class ServicioAgenteMBean extends BaseMBean {
 
 				this.getDetalleServicio()
 						.getServicioProveedor()
-						.setPorcentajeComision(this.utilNegocioServicio.calcularPorcentajeComision(getDetalleServicio()));
+						.setPorcentajeComision(
+								this.utilNegocioServicio
+										.calcularPorcentajeComision(getDetalleServicio()));
 
 			}
 		} catch (Exception ex) {
@@ -1207,12 +1229,14 @@ public class ServicioAgenteMBean extends BaseMBean {
 
 				this.getDetalleServicio().getAerolinea()
 						.setCodigoEntero(UtilWeb.convertirCadenaEntero(valor));
-				
-				//seleccionarOrigenDestino();
+
+				// seleccionarOrigenDestino();
 
 				this.getDetalleServicio()
 						.getServicioProveedor()
-						.setPorcentajeComision(this.utilNegocioServicio.calcularPorcentajeComision(getDetalleServicio()));
+						.setPorcentajeComision(
+								this.utilNegocioServicio
+										.calcularPorcentajeComision(getDetalleServicio()));
 
 			}
 		} catch (Exception ex) {
@@ -1221,14 +1245,16 @@ public class ServicioAgenteMBean extends BaseMBean {
 			logger.error(ex.getMessage(), ex);
 		}
 	}
-	
-	public void calcularComision(){
+
+	public void calcularComision() {
 		try {
-			//seleccionarOrigenDestino();
+			// seleccionarOrigenDestino();
 
 			this.getDetalleServicio()
 					.getServicioProveedor()
-					.setPorcentajeComision(this.utilNegocioServicio.calcularPorcentajeComision(getDetalleServicio()));
+					.setPorcentajeComision(
+							this.utilNegocioServicio
+									.calcularPorcentajeComision(getDetalleServicio()));
 
 		} catch (Exception ex) {
 			this.getDetalleServicio().getServicioProveedor()
@@ -1249,26 +1275,27 @@ public class ServicioAgenteMBean extends BaseMBean {
 				}
 			}
 		}
-		
+
 		this.setDetalleServicio(null);
 		this.setCargoConfiguracionTipoServicio(false);
 		this.setEditaServicioAgregado(false);
 
 		calcularTotales();
 	}
-	
-	private void eliminarServicioEHijos(Integer codigoDetalleServicio){
+
+	private void eliminarServicioEHijos(Integer codigoDetalleServicio) {
 		boolean entro = false;
 		if (listadoDetalleServicio != null) {
-			for (int i = 0; i < listadoDetalleServicio.size(); i++){
+			for (int i = 0; i < listadoDetalleServicio.size(); i++) {
 				DetalleServicioAgencia detalle = listadoDetalleServicio.get(i);
-				if (codigoDetalleServicio.equals(detalle.getServicioPadre().getCodigoEntero())) {
+				if (codigoDetalleServicio.equals(detalle.getServicioPadre()
+						.getCodigoEntero())) {
 					this.listadoDetalleServicio.remove(i);
 					entro = true;
 				}
 			}
 		}
-		if (entro){
+		if (entro) {
 			eliminarServicioEHijos(codigoDetalleServicio);
 		}
 	}
@@ -1296,7 +1323,9 @@ public class ServicioAgenteMBean extends BaseMBean {
 
 				this.getDetalleServicio()
 						.getServicioProveedor()
-						.setPorcentajeComision(this.utilNegocioServicio.calcularPorcentajeComision(getDetalleServicio()));
+						.setPorcentajeComision(
+								this.utilNegocioServicio
+										.calcularPorcentajeComision(getDetalleServicio()));
 
 			}
 		} catch (Exception ex) {
@@ -1336,9 +1365,11 @@ public class ServicioAgenteMBean extends BaseMBean {
 						obtenerRequest().getRemoteAddr());
 
 				this.negocioServicio.registrarPago(getPagoServicio());
-				
-				this.setListaPagosServicios(this.negocioServicio.listarPagosServicio(this.getServicioAgencia().getCodigoEntero()));
-				
+
+				this.setListaPagosServicios(this.negocioServicio
+						.listarPagosServicio(this.getServicioAgencia()
+								.getCodigoEntero()));
+
 				this.mostrarMensajeExito("Pago Registrado Satisfactoriamente");
 			}
 
@@ -1356,12 +1387,12 @@ public class ServicioAgenteMBean extends BaseMBean {
 		String idFormulario = "idFormRegisPago";
 		if (this.getPagoServicio().getMontoPago() == null
 				|| BigDecimal.ZERO
-						.equals(this.getPagoServicio().getMontoPago())) {	
+						.equals(this.getPagoServicio().getMontoPago())) {
 			this.agregarMensaje(idFormulario + ":idMontoPago",
 					"Ingrese el monto a pagar", "", FacesMessage.SEVERITY_ERROR);
 			resultado = false;
 		}
-		if (this.getPagoServicio().getMoneda().getCodigoEntero() == null){
+		if (this.getPagoServicio().getMoneda().getCodigoEntero() == null) {
 			this.agregarMensaje(idFormulario + ":idSelMonedapago",
 					"Seleccione la moneda", "", FacesMessage.SEVERITY_ERROR);
 			resultado = false;
@@ -1797,10 +1828,10 @@ public class ServicioAgenteMBean extends BaseMBean {
 			logger.error(e.getMessage(), e);
 		}
 	}
-	
-	public void imprimirVenta(){
+
+	public void imprimirVenta() {
 		String rutaCarpeta = "/../resources/jasper/";
-		String[] rutaJasper = { "ventaservicio.jasper"};
+		String[] rutaJasper = { "ventaservicio.jasper" };
 
 		try {
 			HttpServletResponse response = obtenerResponse();
@@ -1818,7 +1849,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 				jasperStream[i] = facesContext.getExternalContext()
 						.getResourceAsStream(rutaJasper[i]);
 			}
-			//imprimirPDF(enviarParametros(), stream, jasperStream);
+			// imprimirPDF(enviarParametros(), stream, jasperStream);
 
 			facesContext.responseComplete();
 
@@ -1827,13 +1858,12 @@ public class ServicioAgenteMBean extends BaseMBean {
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
-		
-		
-		
+
 	}
 
-	private void imprimirPDF(Map<String, Object> map, OutputStream outputStream,
-			InputStream[] jasperStream) throws JRException {
+	private void imprimirPDF(Map<String, Object> map,
+			OutputStream outputStream, InputStream[] jasperStream)
+			throws JRException {
 		List<JasperPrint> printList = new ArrayList<JasperPrint>();
 
 		for (int i = 0; i < jasperStream.length; i++) {
@@ -1848,7 +1878,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 		configuration.setCreatingBatchModeBookmarks(true);
 		exporter.exportReport();
 	}
-	
+
 	private boolean validarComprobantesAdicionales() throws ValidacionException {
 
 		for (Comprobante comprobante : listaComprobantesAdicionales) {
@@ -1878,99 +1908,112 @@ public class ServicioAgenteMBean extends BaseMBean {
 
 		return true;
 	}
-	
-	public void agregarTramo(){
+
+	public void agregarTramo() {
 		Tramo tramo = new Tramo();
 		HttpSession session = obtenerSession(false);
-		Usuario usuario = (Usuario) session
-				.getAttribute("usuarioSession");
-		tramo.setUsuarioCreacion(
-				usuario.getUsuario());
-		tramo.setIpCreacion(
-				obtenerRequest().getRemoteAddr()); 
-		
+		Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
+		tramo.setUsuarioCreacion(usuario.getUsuario());
+		tramo.setIpCreacion(obtenerRequest().getRemoteAddr());
+
 		this.getListaTramos().add(tramo);
 	}
-	
-	public void eliminarTramo(Tramo tramo){
+
+	public void eliminarTramo(Tramo tramo) {
 		this.getListaTramos().remove(tramo);
 	}
-	
-	public void aceptarRuta(){
+
+	public void aceptarRuta() {
 		String descripcion = "";
 		try {
 			BigDecimal precioRuta = BigDecimal.ZERO;
-			for (Tramo tramo : this.getListaTramos()){
-				
-				String origen = StringUtils.trim(tramo.getOrigen().getCodigoCadena());
-				origen = StringUtils.substring(origen, StringUtils.indexOf(origen,"(")+1, StringUtils.indexOf(origen,")"));
-				tramo.setOrigen(this.soporteServicio.consultaDestinoIATA(origen));
-				tramo.getOrigen().setCodigoCadena(tramo.getOrigen().getDescripcion()+"("+tramo.getOrigen().getCodigoIATA()+")");
-				
-				String destino = StringUtils.trim(tramo.getDestino().getCodigoCadena());
-				destino = StringUtils.substring(destino, StringUtils.indexOf(destino,"(")+1, StringUtils.indexOf(destino,")"));
-				tramo.setDestino(this.soporteServicio.consultaDestinoIATA(destino));
-				tramo.getDestino().setCodigoCadena(tramo.getDestino().getDescripcion()+"("+tramo.getDestino().getCodigoIATA()+")");
-				
-				descripcion = descripcion + tramo.getOrigen().getDescripcion()+" >> "+tramo.getDestino().getDescripcion() + " / ";
-				
+			for (Tramo tramo : this.getListaTramos()) {
+
+				String origen = StringUtils.trim(tramo.getOrigen()
+						.getCodigoCadena());
+				origen = StringUtils.substring(origen,
+						StringUtils.indexOf(origen, "(") + 1,
+						StringUtils.indexOf(origen, ")"));
+				tramo.setOrigen(this.soporteServicio
+						.consultaDestinoIATA(origen));
+				tramo.getOrigen().setCodigoCadena(
+						tramo.getOrigen().getDescripcion() + "("
+								+ tramo.getOrigen().getCodigoIATA() + ")");
+
+				String destino = StringUtils.trim(tramo.getDestino()
+						.getCodigoCadena());
+				destino = StringUtils.substring(destino,
+						StringUtils.indexOf(destino, "(") + 1,
+						StringUtils.indexOf(destino, ")"));
+				tramo.setDestino(this.soporteServicio
+						.consultaDestinoIATA(destino));
+				tramo.getDestino().setCodigoCadena(
+						tramo.getDestino().getDescripcion() + "("
+								+ tramo.getDestino().getCodigoIATA() + ")");
+
+				descripcion = descripcion + tramo.getOrigen().getDescripcion()
+						+ " >> " + tramo.getDestino().getDescripcion() + " / ";
+
 				precioRuta = precioRuta.add(tramo.getPrecio());
 			}
-			
-			this.getDetalleServicio().setFechaIda(getListaTramos().get(0).getFechaSalida());
+
+			this.getDetalleServicio().setFechaIda(
+					getListaTramos().get(0).getFechaSalida());
 			getDetalleServicio().getRuta().setTramos(getListaTramos());
 			HttpSession session = obtenerSession(false);
-			Usuario usuario = (Usuario) session
-					.getAttribute("usuarioSession");
-			getDetalleServicio().getRuta().setUsuarioCreacion(usuario.getUsuario());
-			getDetalleServicio().getRuta().setIpCreacion(obtenerRequest().getRemoteAddr());
-			
-			getDetalleServicio().setPrecioUnitario(precioRuta);
+			Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
+			getDetalleServicio().getRuta().setUsuarioCreacion(
+					usuario.getUsuario());
+			getDetalleServicio().getRuta().setIpCreacion(
+					obtenerRequest().getRemoteAddr());
+
+			getDetalleServicio().setPrecioUnitarioAnterior(precioRuta);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		descripcion = descripcion.substring(0, (descripcion.length()-2));
-		
+
+		descripcion = descripcion.substring(0, (descripcion.length() - 2));
+
 		this.getDetalleServicio().getRuta().setDescripcionRuta(descripcion);
 	}
-	
-	public void cambiarFormaPago(ValueChangeEvent e){
+
+	public void cambiarFormaPago(ValueChangeEvent e) {
 		Object oe = e.getNewValue();
 		this.setListadoCuentasBancarias(null);
 		this.setMostrarCuenta(false);
 		this.setMostrarTarjeta(false);
-		
+
 		try {
-			if (oe != null){
+			if (oe != null) {
 				String formaPago = oe.toString();
-				
-				if ("2".equals(formaPago) || "3".equals(formaPago)){
-					List<CuentaBancaria> lista = this.negocioServicio.listarCuentasBancariasCombo();
+
+				if ("2".equals(formaPago) || "3".equals(formaPago)) {
+					List<CuentaBancaria> lista = this.negocioServicio
+							.listarCuentasBancariasCombo();
 					SelectItem si = null;
 					for (CuentaBancaria cuentaBancaria : lista) {
 						si = new SelectItem();
-						
+
 						si.setValue(cuentaBancaria.getCodigoEntero());
 						si.setLabel(cuentaBancaria.getNombreCuenta());
 						this.getListadoCuentasBancarias().add(si);
 					}
 					this.setMostrarCuenta(true);
-				}
-				else if ("4".equals(formaPago)){
+				} else if ("4".equals(formaPago)) {
 					this.setMostrarTarjeta(true);
 				}
-				
+
 			}
 		} catch (SQLException e1) {
 			logger.error(e1.getMessage(), e1);
 		}
 	}
-	
-	public void listarPagosServicio(){
+
+	public void listarPagosServicio() {
 		try {
-			this.setListaPagosServicios(this.negocioServicio.listarPagosServicio(this
-					.getServicioAgencia().getCodigoEntero()));
+			this.setListaPagosServicios(this.negocioServicio
+					.listarPagosServicio(this.getServicioAgencia()
+							.getCodigoEntero()));
 		} catch (SQLException e) {
 			logger.error(e.getMessage(), e);
 		} catch (Exception e) {
@@ -2256,7 +2299,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 	 * @return the listaPagosServicios
 	 */
 	public List<PagoServicio> getListaPagosServicios() {
-		if (listaPagosServicios == null){
+		if (listaPagosServicios == null) {
 			listaPagosServicios = new ArrayList<PagoServicio>();
 		}
 		return listaPagosServicios;
@@ -2741,7 +2784,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param editaServicioAgregado the editaServicioAgregado to set
+	 * @param editaServicioAgregado
+	 *            the editaServicioAgregado to set
 	 */
 	public void setEditaServicioAgregado(boolean editaServicioAgregado) {
 		this.editaServicioAgregado = editaServicioAgregado;
@@ -2755,7 +2799,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param cargoConfiguracionTipoServicio the cargoConfiguracionTipoServicio to set
+	 * @param cargoConfiguracionTipoServicio
+	 *            the cargoConfiguracionTipoServicio to set
 	 */
 	public void setCargoConfiguracionTipoServicio(
 			boolean cargoConfiguracionTipoServicio) {
@@ -2770,7 +2815,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param verDetalleServicio the verDetalleServicio to set
+	 * @param verDetalleServicio
+	 *            the verDetalleServicio to set
 	 */
 	public void setVerDetalleServicio(boolean verDetalleServicio) {
 		this.verDetalleServicio = verDetalleServicio;
@@ -2784,7 +2830,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param listaDestinosBusqueda the listaDestinosBusqueda to set
+	 * @param listaDestinosBusqueda
+	 *            the listaDestinosBusqueda to set
 	 */
 	public void setListaDestinosBusqueda(List<Destino> listaDestinosBusqueda) {
 		this.listaDestinosBusqueda = listaDestinosBusqueda;
@@ -2794,14 +2841,15 @@ public class ServicioAgenteMBean extends BaseMBean {
 	 * @return the listaTramos
 	 */
 	public List<Tramo> getListaTramos() {
-		if (listaTramos == null){
+		if (listaTramos == null) {
 			listaTramos = new ArrayList<Tramo>();
 		}
 		return listaTramos;
 	}
 
 	/**
-	 * @param listaTramos the listaTramos to set
+	 * @param listaTramos
+	 *            the listaTramos to set
 	 */
 	public void setListaTramos(List<Tramo> listaTramos) {
 		this.listaTramos = listaTramos;
@@ -2811,16 +2859,18 @@ public class ServicioAgenteMBean extends BaseMBean {
 	 * @return the listadoCuentasBancarias
 	 */
 	public List<SelectItem> getListadoCuentasBancarias() {
-		if (listadoCuentasBancarias == null){
+		if (listadoCuentasBancarias == null) {
 			listadoCuentasBancarias = new ArrayList<SelectItem>();
 		}
 		return listadoCuentasBancarias;
 	}
 
 	/**
-	 * @param listadoCuentasBancarias the listadoCuentasBancarias to set
+	 * @param listadoCuentasBancarias
+	 *            the listadoCuentasBancarias to set
 	 */
-	public void setListadoCuentasBancarias(List<SelectItem> listadoCuentasBancarias) {
+	public void setListadoCuentasBancarias(
+			List<SelectItem> listadoCuentasBancarias) {
 		this.listadoCuentasBancarias = listadoCuentasBancarias;
 	}
 
@@ -2832,7 +2882,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param mostrarCuenta the mostrarCuenta to set
+	 * @param mostrarCuenta
+	 *            the mostrarCuenta to set
 	 */
 	public void setMostrarCuenta(boolean mostrarCuenta) {
 		this.mostrarCuenta = mostrarCuenta;
@@ -2846,7 +2897,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param mostrarTarjeta the mostrarTarjeta to set
+	 * @param mostrarTarjeta
+	 *            the mostrarTarjeta to set
 	 */
 	public void setMostrarTarjeta(boolean mostrarTarjeta) {
 		this.mostrarTarjeta = mostrarTarjeta;

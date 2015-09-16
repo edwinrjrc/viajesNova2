@@ -268,8 +268,5 @@ public interface NegocioServicio {
 
 	List<TipoCambio> listarTipoCambio(Date fecha) throws SQLException;
 
-	TipoCambio consultarTipoCambio(Integer idMonedaOrigen,
-			Integer idMonedaDestino) throws SQLException;
-
 	boolean registrarTipoCambio(TipoCambio tipoCambio) throws SQLException;
 }

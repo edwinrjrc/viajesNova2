@@ -181,7 +181,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			throws SQLException {
 		Integer idservicio = 0;
 		CallableStatement cs = null;
-		String sql = "{ ? = call negocio.fn_ingresarserviciocabecera(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+		String sql = "{ ? = call negocio.fn_ingresarserviciocabecera(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 		
 		try {
 			cs = conn.prepareCall(sql);
@@ -231,7 +231,8 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			else{
 				cs.setNull(i++, Types.DATE);
 			}
-			cs.setInt(i++, servicioAgencia.getVendedor().getCodigoEntero());
+			cs.setInt(i++, servicioAgencia.getMoneda().getCodigoEntero().intValue());
+			cs.setInt(i++, servicioAgencia.getVendedor().getCodigoEntero().intValue());
 			if (StringUtils.isNotBlank(servicioAgencia.getObservaciones())){
 				cs.setString(i++, servicioAgencia.getObservaciones());
 			}
@@ -265,7 +266,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 		Integer resultado = 0;
 		CallableStatement cs = null;
 
-		String sql = "{ ? = call negocio.fn_ingresarserviciodetalle(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+		String sql = "{ ? = call negocio.fn_ingresarserviciodetalle(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 		
 		try {
 			cs = conn.prepareCall(sql);
@@ -348,6 +349,9 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			else{
 				cs.setNull(i++, Types.INTEGER);
 			}
+			cs.setInt(i++, detalleServicio.getMoneda().getCodigoEntero().intValue());
+			cs.setBigDecimal(i++, detalleServicio.getPrecioUnitarioAnterior());
+			cs.setBigDecimal(i++, detalleServicio.getTipoCambio());
 			cs.setBigDecimal(i++, detalleServicio.getPrecioUnitario());
 			cs.setBoolean(i++, detalleServicio.getServicioProveedor().isEditoComision());
 			cs.setBoolean(i++, detalleServicio.isTarifaNegociada());

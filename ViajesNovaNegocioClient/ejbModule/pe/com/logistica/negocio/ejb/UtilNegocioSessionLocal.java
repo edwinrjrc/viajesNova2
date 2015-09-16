@@ -15,12 +15,12 @@ public interface UtilNegocioSessionLocal {
 	List<DetalleServicioAgencia> agruparServiciosHijos(
 			List<DetalleServicioAgencia> listaServicios);
 	
-	public List<DetalleServicioAgencia> agregarServicioVenta(
+	public List<DetalleServicioAgencia> agregarServicioVenta(Integer idMonedaServicio,
 			List<DetalleServicioAgencia> listaServiciosVenta,
 			DetalleServicioAgencia detalleServicio)
 			throws ErrorRegistroDataException, SQLException, Exception;
 	
-	public List<DetalleServicioAgencia> actualizarServicioVenta(
+	public List<DetalleServicioAgencia> actualizarServicioVenta(Integer idMonedaServicio,
 			List<DetalleServicioAgencia> listaServiciosVenta,
 			DetalleServicioAgencia detalleServicio)
 			throws ErrorRegistroDataException, SQLException, Exception;

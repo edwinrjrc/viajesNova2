@@ -15,20 +15,22 @@ import pe.com.logistica.negocio.exception.ErrorRegistroDataException;
  *
  */
 public interface UtilNegocioServicio {
-	
-	public List<DetalleServicioAgencia> agruparServicios(List<DetalleServicioAgencia> listaServicios);
 
-	List<DetalleServicioAgencia> agregarServicioVenta(
+	public List<DetalleServicioAgencia> agruparServicios(
+			List<DetalleServicioAgencia> listaServicios);
+
+	BigDecimal calcularPorcentajeComision(DetalleServicioAgencia detalleServicio)
+			throws SQLException, Exception;
+
+	List<DetalleServicioAgencia> agregarServicioVenta(Integer idMonedaServicio,
 			List<DetalleServicioAgencia> listaServiciosVenta,
 			DetalleServicioAgencia detalleServicio)
 			throws ErrorRegistroDataException, SQLException, Exception;
 
 	List<DetalleServicioAgencia> actualizarServicioVenta(
+			Integer idMonedaServicio,
 			List<DetalleServicioAgencia> listaServiciosVenta,
 			DetalleServicioAgencia detalleServicio)
 			throws ErrorRegistroDataException, SQLException, Exception;
 
-	BigDecimal calcularPorcentajeComision(DetalleServicioAgencia detalleServicio)
-			throws SQLException, Exception;
-	
 }

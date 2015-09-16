@@ -58,19 +58,19 @@ public class UtilNegocioServicioImpl implements UtilNegocioServicio {
 	}
 	
 	@Override
-	public List<DetalleServicioAgencia> agregarServicioVenta(
+	public List<DetalleServicioAgencia> agregarServicioVenta(Integer idMonedaServicio,
 			List<DetalleServicioAgencia> listaServiciosVenta,
 			DetalleServicioAgencia detalleServicio)
 			throws ErrorRegistroDataException, SQLException, Exception{
-		return ejbSession.agregarServicioVenta(listaServiciosVenta, detalleServicio);
+		return ejbSession.agregarServicioVenta(idMonedaServicio, listaServiciosVenta, detalleServicio);
 	}
 	
 	@Override
-	public List<DetalleServicioAgencia> actualizarServicioVenta(
+	public List<DetalleServicioAgencia> actualizarServicioVenta(Integer idMonedaServicio,
 			List<DetalleServicioAgencia> listaServiciosVenta,
 			DetalleServicioAgencia detalleServicio)
 			throws ErrorRegistroDataException, SQLException, Exception{
-		return ejbSession.actualizarServicioVenta(listaServiciosVenta, detalleServicio);
+		return ejbSession.actualizarServicioVenta(idMonedaServicio, listaServiciosVenta, detalleServicio);
 	}
 	
 	@Override

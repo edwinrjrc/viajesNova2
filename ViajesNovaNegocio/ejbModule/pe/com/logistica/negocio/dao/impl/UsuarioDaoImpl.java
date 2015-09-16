@@ -294,15 +294,16 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		Connection conn = null;
 		CallableStatement cs = null;
 		ResultSet rs = null;
-		String sql = "select id, usuario, credencial, id_rol, nombre, nombres, apepaterno, apematerno, cambiarclave, feccaducacredencial" +
-				" from seguridad.vw_listarusuarios where upper(usuario) = ?";
+		String sql = "{ ? = call seguridad.fn_consultarusuarios(?) }";
 
 		try {
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
-			cs.setString(1, UtilJdbc.convertirMayuscula(usuario.getUsuario()));
-			//cs.setString(2, UtilEncripta.encriptaCadena(usuario.getCredencial()));
-			rs = cs.executeQuery();
+			cs.registerOutParameter(1, Types.OTHER);
+			cs.setString(2, UtilJdbc.convertirMayuscula(usuario.getUsuario()));
+			cs.execute();
+			
+			rs = (ResultSet)cs.getObject(1);
 			
 			resultado = new Usuario();
 			if (rs.next()){

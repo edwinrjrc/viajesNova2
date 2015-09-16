@@ -22,17 +22,20 @@ import pe.com.logistica.bean.negocio.DetalleServicioAgencia;
 import pe.com.logistica.bean.negocio.MaestroServicio;
 import pe.com.logistica.bean.negocio.Parametro;
 import pe.com.logistica.bean.negocio.ServicioProveedor;
+import pe.com.logistica.bean.negocio.TipoCambio;
 import pe.com.logistica.bean.negocio.Tramo;
 import pe.com.logistica.negocio.dao.ComunDao;
 import pe.com.logistica.negocio.dao.DestinoDao;
 import pe.com.logistica.negocio.dao.MaestroServicioDao;
 import pe.com.logistica.negocio.dao.ParametroDao;
 import pe.com.logistica.negocio.dao.ProveedorDao;
+import pe.com.logistica.negocio.dao.TipoCambioDao;
 import pe.com.logistica.negocio.dao.impl.ComunDaoImpl;
 import pe.com.logistica.negocio.dao.impl.DestinoDaoImpl;
 import pe.com.logistica.negocio.dao.impl.MaestroServicioDaoImpl;
 import pe.com.logistica.negocio.dao.impl.ParametroDaoImpl;
 import pe.com.logistica.negocio.dao.impl.ProveedorDaoImpl;
+import pe.com.logistica.negocio.dao.impl.TipoCambioDaoImpl;
 import pe.com.logistica.negocio.exception.ErrorConsultaDataException;
 import pe.com.logistica.negocio.exception.ErrorRegistroDataException;
 import pe.com.logistica.negocio.util.UtilConexion;
@@ -160,6 +163,7 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 
 	@Override
 	public List<DetalleServicioAgencia> agregarServicioVenta(
+			Integer idMonedaServicio,
 			List<DetalleServicioAgencia> listaServiciosVenta,
 			DetalleServicioAgencia detalleServicio)
 			throws ErrorRegistroDataException, SQLException, Exception {
@@ -173,6 +177,18 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 			DestinoDao destinoDao = new DestinoDaoImpl();
 			ProveedorDao proveedorDao = new ProveedorDaoImpl();
 			ComunDao comunDao = new ComunDaoImpl();
+			TipoCambioDao tipoCambioDao = new TipoCambioDaoImpl();
+
+			TipoCambio tipoCambio;
+			try {
+				tipoCambio = tipoCambioDao.consultarTipoCambio(detalleServicio
+						.getMoneda().getCodigoEntero(), idMonedaServicio, conn);
+			} catch (Exception e) {
+				e.printStackTrace();
+				tipoCambio = new TipoCambio();
+				tipoCambio.setMontoCambio(BigDecimal.ONE);
+			}
+			detalleServicio.setTipoCambio(tipoCambio.getMontoCambio());
 
 			MaestroServicio tipoServicio = maestroServicioDao
 					.consultarMaestroServicio(detalleServicio.getTipoServicio()
@@ -247,7 +263,8 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 			}
 
 			if (StringUtils.isBlank(detalleServicio.getDescripcionServicio())) {
-				detalleServicio.setDescripcionServicio(this.generarDescripcionServicio(detalleServicio));
+				detalleServicio.setDescripcionServicio(this
+						.generarDescripcionServicio(detalleServicio));
 
 			}
 
@@ -272,26 +289,29 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 			}
 
 			if (detalleServicio.getRuta() != null) {
-				for (Tramo tramo : detalleServicio.getRuta().getTramos()){
-					tramo.setOrigen(destinoDao.consultarDestino(
-							tramo.getOrigen().getCodigoEntero(), conn));
-					tramo.setDestino(destinoDao.consultarDestino(
-							tramo.getDestino().getCodigoEntero(), conn));
+				for (Tramo tramo : detalleServicio.getRuta().getTramos()) {
+					tramo.setOrigen(destinoDao.consultarDestino(tramo
+							.getOrigen().getCodigoEntero(), conn));
+					tramo.setDestino(destinoDao.consultarDestino(tramo
+							.getDestino().getCodigoEntero(), conn));
 				}
 			}
 
 			boolean calcularIGV = false;
-			for (Tramo tramo : detalleServicio.getRuta().getTramos()){
+			for (Tramo tramo : detalleServicio.getRuta().getTramos()) {
 				calcularIGV = ("PE".equalsIgnoreCase(tramo.getOrigen()
 						.getPais().getAbreviado()) || "PE"
 						.equalsIgnoreCase(tramo.getDestino().getPais()
 								.getAbreviado()));
-				if (calcularIGV){
-					break;	
+				if (calcularIGV) {
+					break;
 				}
 			}
 
-			if (detalleServicio.getPrecioUnitario() != null) {
+			if (detalleServicio.getPrecioUnitarioAnterior() != null) {
+				detalleServicio.setPrecioUnitario(detalleServicio
+						.getPrecioUnitarioAnterior().multiply(
+								tipoCambio.getMontoCambio()));
 				BigDecimal total = detalleServicio.getPrecioUnitario()
 						.multiply(
 								UtilParse.parseIntABigDecimal(detalleServicio
@@ -396,8 +416,10 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 			String descripcion = "";
 			descripcion = detalle.getTipoServicio().getNombre() + " ";
 			if (configuracion.isMuestraRuta()) {
-				for (Tramo tramo : detalle.getRuta().getTramos()){
-					descripcion = descripcion + tramo.getOrigen().getDescripcion() + " - " + tramo.getDestino().getDescripcion() + " / ";
+				for (Tramo tramo : detalle.getRuta().getTramos()) {
+					descripcion = descripcion
+							+ tramo.getOrigen().getDescripcion() + " - "
+							+ tramo.getDestino().getDescripcion() + " / ";
 				}
 			}
 			if (configuracion.isMuestraAerolinea()) {
@@ -406,24 +428,27 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 			}
 			if (configuracion.isMuestraFechaServicio()) {
 				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-				descripcion =  descripcion +" desde " + sdf.format(detalle.getFechaIda());
+				descripcion = descripcion + " desde "
+						+ sdf.format(detalle.getFechaIda());
 			}
 			if (configuracion.isMuestraFechaRegreso()) {
 				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-				descripcion = descripcion +" hasta " + sdf.format(detalle.getFechaRegreso());
+				descripcion = descripcion + " hasta "
+						+ sdf.format(detalle.getFechaRegreso());
 			}
 			if (configuracion.isMuestraHotel()) {
-				descripcion = descripcion +" en hotel " + detalle.getHotel().getNombre();
+				descripcion = descripcion + " en hotel "
+						+ detalle.getHotel().getNombre();
 			}
 			if (configuracion.isMuestraCodigoReserva()) {
-				descripcion = descripcion +" con codigo de reserva: "
+				descripcion = descripcion + " con codigo de reserva: "
 						+ detalle.getCodigoReserva();
 			}
 			if (configuracion.isMuestraNumeroBoleto()) {
-				descripcion = descripcion+" numero de boleto: " + detalle.getNumeroBoleto();
+				descripcion = descripcion + " numero de boleto: "
+						+ detalle.getNumeroBoleto();
 			}
-			return StringUtils
-					.normalizeSpace(descripcion);
+			return StringUtils.normalizeSpace(descripcion);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -434,6 +459,7 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 
 	@Override
 	public List<DetalleServicioAgencia> actualizarServicioVenta(
+			Integer idMonedaServicio,
 			List<DetalleServicioAgencia> listaServiciosVenta,
 			DetalleServicioAgencia detalleServicio)
 			throws ErrorRegistroDataException, SQLException, Exception {
@@ -458,6 +484,18 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 			MaestroServicioDao maestroServicioDao = new MaestroServicioDaoImpl();
 			DestinoDao destinoDao = new DestinoDaoImpl();
 			ProveedorDao proveedorDao = new ProveedorDaoImpl();
+			TipoCambioDao tipoCambioDao = new TipoCambioDaoImpl();
+
+			TipoCambio tipoCambio;
+			try {
+				tipoCambio = tipoCambioDao.consultarTipoCambio(detalleServicio
+						.getMoneda().getCodigoEntero(), idMonedaServicio, conn);
+			} catch (Exception e) {
+				e.printStackTrace();
+				tipoCambio = new TipoCambio();
+				tipoCambio.setMontoCambio(BigDecimal.ONE);
+			}
+			detalleServicio.setTipoCambio(tipoCambio.getMontoCambio());
 
 			detalleServicioAgencia.setTipoServicio(maestroServicioDao
 					.consultarMaestroServicio(detalleServicio.getTipoServicio()
@@ -534,30 +572,34 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 			}
 
 			if (detalleServicio.getRuta() != null) {
-				for (Tramo tramo : detalleServicio.getRuta().getTramos()){
-					tramo.setOrigen(destinoDao.consultarDestino(
-							tramo.getOrigen().getCodigoEntero(), conn));
-					tramo.setDestino(destinoDao.consultarDestino(
-							tramo.getDestino().getCodigoEntero(), conn));
+				for (Tramo tramo : detalleServicio.getRuta().getTramos()) {
+					tramo.setOrigen(destinoDao.consultarDestino(tramo
+							.getOrigen().getCodigoEntero(), conn));
+					tramo.setDestino(destinoDao.consultarDestino(tramo
+							.getDestino().getCodigoEntero(), conn));
 				}
 			}
 
 			boolean calcularIGV = false;
-			for (Tramo tramo : detalleServicio.getRuta().getTramos()){
+			for (Tramo tramo : detalleServicio.getRuta().getTramos()) {
 				calcularIGV = ("PE".equalsIgnoreCase(tramo.getOrigen()
 						.getPais().getAbreviado()) || "PE"
 						.equalsIgnoreCase(tramo.getDestino().getPais()
 								.getAbreviado()));
-				if (calcularIGV){
-					break;	
+				if (calcularIGV) {
+					break;
 				}
 			}
 
-			if (detalleServicio.getPrecioUnitario() != null) {
+			if (detalleServicio.getPrecioUnitarioAnterior() != null) {
+				detalleServicio.setPrecioUnitario(detalleServicio
+						.getPrecioUnitarioAnterior().multiply(
+								tipoCambio.getMontoCambio()));
 				BigDecimal total = detalleServicio.getPrecioUnitario()
 						.multiply(
 								UtilParse.parseIntABigDecimal(detalleServicio
 										.getCantidad()));
+				
 				if (calcularIGV) {
 					if (detalleServicio.isConIGV()) {
 						ParametroDao parametroDao = new ParametroDaoImpl();
@@ -726,7 +768,7 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 		}
 
 	}
-	
+
 	@Override
 	public BigDecimal calculaPorcentajeComision(
 			DetalleServicioAgencia detalleServicio) throws SQLException,
@@ -739,50 +781,48 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 			int nacionales = 0;
 			int internacionales = 0;
 			Locale localidad = Locale.getDefault();
-			if (!detalleServicio.getRuta().getTramos().isEmpty()){
-				for (Tramo tramo : detalleServicio.getRuta().getTramos()){
+			if (!detalleServicio.getRuta().getTramos().isEmpty()) {
+				for (Tramo tramo : detalleServicio.getRuta().getTramos()) {
 					Destino destinoConsultado = destinoDao
 							.consultarDestino(tramo.getDestino()
 									.getCodigoEntero());
-					if (localidad.getCountry().equals(destinoConsultado.getPais().getAbreviado())){
+					if (localidad.getCountry().equals(
+							destinoConsultado.getPais().getAbreviado())) {
 						nacionales++;
 					}
 					Destino origenConsultado = destinoDao
 							.consultarDestino(tramo.getOrigen()
 									.getCodigoEntero());
-					if (!localidad.getCountry().equals(origenConsultado.getPais().getAbreviado())){
+					if (!localidad.getCountry().equals(
+							origenConsultado.getPais().getAbreviado())) {
 						internacionales++;
 					}
-					if (nacionales>0 && internacionales>0){
+					if (nacionales > 0 && internacionales > 0) {
 						break;
 					}
 				}
 			}
-			
+
 			List<ServicioProveedor> lista = proveedorDao
 					.consultarServicioProveedor(detalleServicio
 							.getServicioProveedor().getProveedor()
 							.getCodigoEntero());
-			
+
 			for (ServicioProveedor servicioProveedor : lista) {
-				if ((servicioProveedor.getProveedorServicio()
-						.getCodigoEntero() != null && detalleServicio
-								.getAerolinea().getCodigoEntero() != null)
-						&&
-						servicioProveedor.getProveedorServicio()
-						.getCodigoEntero().intValue() == detalleServicio
-						.getAerolinea().getCodigoEntero().intValue()) {
-					
-					if (nacionales>0 && internacionales>0){
-						return servicioProveedor
-								.getPorcenComInternacional();
-					}
-					else{
+				if ((servicioProveedor.getProveedorServicio().getCodigoEntero() != null && detalleServicio
+						.getAerolinea().getCodigoEntero() != null)
+						&& servicioProveedor.getProveedorServicio()
+								.getCodigoEntero().intValue() == detalleServicio
+								.getAerolinea().getCodigoEntero().intValue()) {
+
+					if (nacionales > 0 && internacionales > 0) {
+						return servicioProveedor.getPorcenComInternacional();
+					} else {
 						return servicioProveedor.getPorcentajeComision();
 					}
 				}
 			}
-			
+
 			break;
 		case 12:// FEE
 			break;
@@ -798,10 +838,9 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 			if (detalleServicio.getServicioProveedor().getProveedor()
 					.getCodigoEntero() != null
 					&& detalleServicio.getHotel().getCodigoEntero() != null) {
-				lista = proveedorDao
-						.consultarServicioProveedor(detalleServicio
-								.getServicioProveedor().getProveedor()
-								.getCodigoEntero());
+				lista = proveedorDao.consultarServicioProveedor(detalleServicio
+						.getServicioProveedor().getProveedor()
+						.getCodigoEntero());
 				for (ServicioProveedor servicioProveedor : lista) {
 					if (servicioProveedor.getProveedorServicio()
 							.getCodigoEntero().intValue() == detalleServicio

@@ -251,7 +251,5 @@ public interface NegocioSessionRemote {
 	
 	public List<TipoCambio> listarTipoCambio(Date fecha) throws SQLException;
 	
-	public TipoCambio consultarTipoCambio(Integer idMonedaOrigen, Integer idMonedaDestino) throws SQLException;
-	
 	public boolean registrarTipoCambio(TipoCambio tipoCambio) throws SQLException;
 }

@@ -34,7 +34,7 @@ public class ServicioAgencia extends BaseNegocio{
 	private BigDecimal valorCuota;
 	private Date fechaPrimerCuota;
 	private Date fechaUltimaCuota;
-	
+	private BaseVO moneda;
 	private BigDecimal montoTotalServicios;
 	private BigDecimal montoTotalFee;
 	private BigDecimal montoTotalComision;
@@ -659,5 +659,26 @@ public class ServicioAgencia extends BaseNegocio{
 	public void setListaDetalleServicioAgrupado(
 			List<DetalleServicioAgencia> listaDetalleServicioAgrupado) {
 		this.listaDetalleServicioAgrupado = listaDetalleServicioAgrupado;
+	}
+
+
+
+	/**
+	 * @return the moneda
+	 */
+	public BaseVO getMoneda() {
+		if (moneda == null){
+			moneda = new BaseVO();
+		}
+		return moneda;
+	}
+
+
+
+	/**
+	 * @param moneda the moneda to set
+	 */
+	public void setMoneda(BaseVO moneda) {
+		this.moneda = moneda;
 	}
 }
