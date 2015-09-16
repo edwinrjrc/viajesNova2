@@ -349,6 +349,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 
 		this.getServicioAgencia().setFechaServicio(new Date());
 		this.setListaDocumentosAdicionales(null);
+		this.getServicioAgencia().getMoneda().setCodigoEntero(2);
 	}
 
 	public void agregarServicio() {
@@ -1077,6 +1078,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 				if (!this.isServicioFee()) {
 					cargarEmpresas(UtilWeb.convertirCadenaEntero(valor));
 				}
+				
+				this.getDetalleServicio().getMoneda().setCodigoEntero(2);
 
 				this.consultarDestinos();
 			}

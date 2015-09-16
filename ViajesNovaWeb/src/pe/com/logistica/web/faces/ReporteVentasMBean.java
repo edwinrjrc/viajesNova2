@@ -19,9 +19,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFPalette;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.util.CellRangeAddress;
 
 import pe.com.logistica.bean.negocio.DetalleServicioAgencia;
 import pe.com.logistica.bean.reportes.ReporteVentas;
@@ -76,15 +83,98 @@ public class ReporteVentasMBean extends BaseMBean {
 			e.printStackTrace();
 		}
 	}
-	
-	public void exportarReporte(){
-		
+
+	public void exportarReporte() {
+
 		HSSFWorkbook xls = new HSSFWorkbook();
 		HSSFSheet hoja = xls.createSheet("Reporte");
-		HSSFRow fila = hoja.createRow(1);
-		HSSFCell celda = fila.createCell(1);
-		celda.setCellValue("Hola mi nuevo excel");
 		
+		hoja.setColumnWidth(0, 17*256);
+		hoja.setColumnWidth(1, 17*256);
+		hoja.setColumnWidth(2, 17*256);
+		hoja.setColumnWidth(3, 17*256);
+		CellRangeAddress region = new CellRangeAddress(0,0,0,3);
+		hoja.addMergedRegion(region);
+		
+		HSSFRow fila = hoja.createRow(0);
+		HSSFCell celda = fila.createCell(0);
+		celda.setCellValue("Reporte General de Ventas");
+		HSSFCellStyle estiloTitulo = xls.createCellStyle();
+		HSSFFont fuenteNegrita = xls.createFont();
+		fuenteNegrita.setBold(true);
+		fuenteNegrita.setFontHeightInPoints((short)15);
+		fuenteNegrita.setFontName("Calibri");
+		estiloTitulo.setFont(fuenteNegrita);
+		estiloTitulo.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+		celda.setCellStyle(estiloTitulo);
+		
+		fila = hoja.createRow(1);
+		celda = fila.createCell(0);
+		celda.setCellValue("Desde");
+		celda = fila.createCell(1);
+		celda.setCellValue(reporteVentas.getFechaDesde());
+		HSSFCellStyle estiloCelda = celda.getCellStyle();
+		CreationHelper createHelper = xls.getCreationHelper();
+		estiloCelda.setDataFormat(createHelper.createDataFormat().getFormat(
+				"dd/MM/yyyy"));
+		celda.setCellStyle(estiloCelda);
+		celda = fila.createCell(2);
+		celda.setCellValue("Hasta");
+		celda = fila.createCell(3);
+		celda.setCellValue(reporteVentas.getFechaHasta());
+		celda.setCellStyle(estiloCelda);
+		
+		HSSFCellStyle estiloTituloTabla = xls.createCellStyle();
+		estiloTituloTabla.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		HSSFPalette palette = xls.getCustomPalette();
+		short miIndice = HSSFColor.BLUE.index;
+		byte b_rojo  = (byte)79;
+		byte b_verde = (byte)129;
+		byte b_azul  = (byte)189;
+		palette.setColorAtIndex(miIndice, b_rojo, b_verde, b_azul); 
+		estiloTituloTabla.setFillBackgroundColor(HSSFColor.BLUE.index);
+		estiloTituloTabla.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+		estiloTituloTabla.setFillForegroundColor(HSSFColor.BLUE.index);
+		HSSFFont fuenteTituloTabla = xls.createFont();
+		fuenteTituloTabla.setBold(true);
+		fuenteTituloTabla.setColor(HSSFColor.WHITE.index);
+		estiloTituloTabla.setFont(fuenteTituloTabla);
+		
+		fila = hoja.createRow(3);
+		celda = fila.createCell(0);
+		celda.setCellValue("Tipo Servicio");
+		celda.setCellStyle(estiloTituloTabla);
+		celda = fila.createCell(1);
+		celda.setCellValue("Cantidad");
+		celda.setCellStyle(estiloTituloTabla);
+		celda = fila.createCell(2);
+		celda.setCellValue("Total Facturado");
+		celda.setCellStyle(estiloTituloTabla);
+		celda = fila.createCell(3);
+		celda.setCellValue("Total Comision");
+		celda.setCellStyle(estiloTituloTabla);
+		
+		HSSFCellStyle estiloDataTabla = xls.createCellStyle();
+		if (reporteGeneralVentas != null){
+			for (int i=0; i<reporteGeneralVentas.size(); i++ ) {
+				DetalleServicioAgencia detalle = reporteGeneralVentas.get(i);
+				
+				fila = hoja.createRow(4+i);
+				celda = fila.createCell(0);
+				celda.setCellValue(detalle.getTipoServicio().getNombre());
+				celda.setCellStyle(estiloDataTabla);
+				celda = fila.createCell(1);
+				celda.setCellValue(detalle.getCantidad());
+				celda.setCellStyle(estiloDataTabla);
+				celda = fila.createCell(2);
+				celda.setCellValue(detalle.getTotalAgrupados().doubleValue());
+				celda.setCellStyle(estiloDataTabla);
+				celda = fila.createCell(3);
+				celda.setCellValue(detalle.getMontoComision().doubleValue());
+				celda.setCellStyle(estiloDataTabla);
+			}
+		}
+
 		try {
 			HttpServletResponse response = obtenerResponse();
 			response.setContentType("application/vnd.ms-excel");
@@ -95,8 +185,9 @@ public class ReporteVentasMBean extends BaseMBean {
 			FacesContext facesContext = obtenerContexto();
 
 			ServletOutputStream respuesta = response.getOutputStream();
-			//respuesta.write(xls.getBytes());
+			// respuesta.write(xls.getBytes());
 			xls.write(respuesta);
+			xls.close();
 
 			respuesta.close();
 			respuesta.flush();

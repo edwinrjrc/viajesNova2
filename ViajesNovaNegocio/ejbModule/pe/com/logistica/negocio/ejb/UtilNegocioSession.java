@@ -179,15 +179,8 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 			ComunDao comunDao = new ComunDaoImpl();
 			TipoCambioDao tipoCambioDao = new TipoCambioDaoImpl();
 
-			TipoCambio tipoCambio;
-			try {
-				tipoCambio = tipoCambioDao.consultarTipoCambio(detalleServicio
+			TipoCambio tipoCambio = tipoCambioDao.consultarTipoCambio(detalleServicio
 						.getMoneda().getCodigoEntero(), idMonedaServicio, conn);
-			} catch (Exception e) {
-				e.printStackTrace();
-				tipoCambio = new TipoCambio();
-				tipoCambio.setMontoCambio(BigDecimal.ONE);
-			}
 			detalleServicio.setTipoCambio(tipoCambio.getMontoCambio());
 
 			MaestroServicio tipoServicio = maestroServicioDao
@@ -396,9 +389,14 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 					.ordenarServiciosVenta(listaServiciosVenta);
 
 			return listaServiciosVenta;
+		} catch (SQLException e){
+			throw new ErrorRegistroDataException(
+					e.getMessage(), e);
+			
 		} catch (Exception e) {
 			throw new ErrorRegistroDataException(
 					"No se pudo agregar el servicio al listado", e);
+		
 		} finally {
 			if (conn != null) {
 				conn.close();
@@ -731,13 +729,17 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 							maestroServicio.getNombre());
 					detalle.setFechaIda(new Date());
 					detalle.getServicioPadre().setCodigoEntero(idServicioPadre);
+					detalle.setMoneda(detalleServicio2.getMoneda());
+					detalle.setTipoCambio(detalleServicio2.getTipoCambio());
+					detalle.setPrecioUnitarioAnterior(detalleServicio2.getPrecioUnitarioAnterior());
 
 					try {
 						BigDecimal cantidad = BigDecimal.valueOf(Double
 								.valueOf(String.valueOf(detalleServicio2
 										.getCantidad())));
 						BigDecimal precioBase = detalleServicio2
-								.getPrecioUnitario();
+								.getPrecioUnitarioAnterior();
+						precioBase = precioBase.multiply(detalleServicio2.getTipoCambio());
 						BigDecimal porcenIGV = BigDecimal.valueOf(Double
 								.valueOf(maestroServicio.getValorParametro()));
 						BigDecimal totalServicioPrecede = precioBase

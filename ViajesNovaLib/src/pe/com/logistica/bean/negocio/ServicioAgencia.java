@@ -58,6 +58,8 @@ public class ServicioAgencia extends BaseNegocio{
 	
 	private int tienePagos;
 	
+	private Integer idReferencia;
+	
 	public static final Integer ESTADO_PENDIENTE_CIERRE = 1;
 	public static final Integer ESTADO_CERRADO          = 2;
 	public static final Integer ESTADO_ANULADO          = 3;
@@ -680,5 +682,23 @@ public class ServicioAgencia extends BaseNegocio{
 	 */
 	public void setMoneda(BaseVO moneda) {
 		this.moneda = moneda;
+	}
+
+
+
+	/**
+	 * @return the idReferencia
+	 */
+	public Integer getIdReferencia() {
+		return idReferencia;
+	}
+
+
+
+	/**
+	 * @param idReferencia the idReferencia to set
+	 */
+	public void setIdReferencia(Integer idReferencia) {
+		this.idReferencia = idReferencia;
 	}
 }
