@@ -77,5 +77,10 @@ public class UtilNegocioServicioImpl implements UtilNegocioServicio {
 	public BigDecimal calcularPorcentajeComision(DetalleServicioAgencia detalleServicio) throws SQLException, Exception{
 		return ejbSession.calculaPorcentajeComision(detalleServicio);
 	}
+	
+	@Override
+	public List<DetalleServicioAgencia> consultarServiciosVenta(Integer idServicio) throws SQLException{
+		return ejbSession.consultarServiciosVentaJR(idServicio);
+	}
 
 }

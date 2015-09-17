@@ -101,8 +101,10 @@
 							<h:panelGrid columns="2" border="0" cellpadding="0"
 								cellspacing="0" style="width:100%;"
 								columnClasses="col1form,col3form">
-								<h:outputText value="Observaciones" rendered="#{servicioAgenteMBean.servicioAgencia.observaciones != null}" />
-								<h:outputText rendered="#{servicioAgenteMBean.servicioAgencia.observaciones != null}"
+								<h:outputText value="Observaciones"
+									rendered="#{servicioAgenteMBean.servicioAgencia.observaciones != null}" />
+								<h:outputText
+									rendered="#{servicioAgenteMBean.servicioAgencia.observaciones != null}"
 									value="#{servicioAgenteMBean.servicioAgencia.observaciones}" />
 
 							</h:panelGrid>
@@ -162,8 +164,7 @@
 											</h:outputText>
 										</rich:column>
 										<rich:column style="text-align:left;width: 40%;">
-											<h:outputText
-												value="#{filaDetalle.descripcionServicio}" />
+											<h:outputText value="#{filaDetalle.descripcionServicio}" />
 										</rich:column>
 										<rich:column style="text-align:left;width: 20%;">
 											<h:outputText
@@ -180,7 +181,10 @@
 											</h:outputText>
 										</rich:column>
 										<rich:column>
-											<a4j:commandLink oncomplete="mostrarModal3('idModalverdetalle')" action="#{servicioAgenteMBean.verDetalleServicio(filaDetalle)}" render="idPnDetalle">
+											<a4j:commandLink
+												oncomplete="mostrarModal3('idModalverdetalle')"
+												action="#{servicioAgenteMBean.verDetalleServicio(filaDetalle)}"
+												render="idPnDetalle">
 												<h:graphicImage url="/resources/img/vericono.gif"
 													style="border:0; height:15px;width:15px;" />
 											</a4j:commandLink>
@@ -274,8 +278,7 @@
 											</h:outputText>
 										</rich:column>
 										<rich:column style="text-align:left;width: 40%;">
-											<h:outputText
-												value="#{filaDetalle.descripcionServicio}" />
+											<h:outputText value="#{filaDetalle.descripcionServicio}" />
 										</rich:column>
 										<rich:column style="text-align:left;width: 20%;">
 											<h:outputText
@@ -599,7 +602,6 @@
 								oncomplete="mostrarModal('idformadmservicios')"
 								action="#{servicioAgenteMBean.registrarComprobante()}"
 								render="idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError,idGrVentaServicio,idServVentaVista2" />
-
 						</h:panelGrid>
 						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
 							rendered="#{!servicioAgenteMBean.guardoRelacionComprobantes  and servicioAgenteMBean.guardoComprobantes}">
@@ -613,6 +615,8 @@
 								action="#{servicioAgenteMBean.guardarRelacionComprobanteObligacion()}"
 								render="idFormHidden,idPanelHidden,idPanelBotones,idModalcorrecto,idModalError,idGrVentaServicio"></a4j:commandButton>
 						</h:panelGrid>
+						<a4j:commandButton value="Imprimir Venta"
+								oncomplete="clicBoton('idformadmservicios:idbtnImprimirVenta')"></a4j:commandButton>
 					</h:panelGrid>
 				</f:facet>
 			</h:panelGrid>

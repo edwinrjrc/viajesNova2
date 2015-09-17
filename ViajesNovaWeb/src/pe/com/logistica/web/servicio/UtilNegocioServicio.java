@@ -33,4 +33,7 @@ public interface UtilNegocioServicio {
 			DetalleServicioAgencia detalleServicio)
 			throws ErrorRegistroDataException, SQLException, Exception;
 
+	List<DetalleServicioAgencia> consultarServiciosVenta(Integer idServicio)
+			throws SQLException;
+
 }

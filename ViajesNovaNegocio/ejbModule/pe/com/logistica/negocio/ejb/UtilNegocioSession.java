@@ -29,12 +29,14 @@ import pe.com.logistica.negocio.dao.DestinoDao;
 import pe.com.logistica.negocio.dao.MaestroServicioDao;
 import pe.com.logistica.negocio.dao.ParametroDao;
 import pe.com.logistica.negocio.dao.ProveedorDao;
+import pe.com.logistica.negocio.dao.ServicioNegocioDao;
 import pe.com.logistica.negocio.dao.TipoCambioDao;
 import pe.com.logistica.negocio.dao.impl.ComunDaoImpl;
 import pe.com.logistica.negocio.dao.impl.DestinoDaoImpl;
 import pe.com.logistica.negocio.dao.impl.MaestroServicioDaoImpl;
 import pe.com.logistica.negocio.dao.impl.ParametroDaoImpl;
 import pe.com.logistica.negocio.dao.impl.ProveedorDaoImpl;
+import pe.com.logistica.negocio.dao.impl.ServicioNegocioDaoImpl;
 import pe.com.logistica.negocio.dao.impl.TipoCambioDaoImpl;
 import pe.com.logistica.negocio.exception.ErrorConsultaDataException;
 import pe.com.logistica.negocio.exception.ErrorRegistroDataException;
@@ -856,5 +858,12 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 		}
 
 		return BigDecimal.ZERO;
+	}
+	
+	@Override
+	public List<DetalleServicioAgencia> consultarServiciosVentaJR(Integer idServicio) throws SQLException{
+		ServicioNegocioDao servicioNegocioDao = new ServicioNegocioDaoImpl();
+		
+		return servicioNegocioDao.consultarServicioVentaJR(idServicio);
 	}
 }

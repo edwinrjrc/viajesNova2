@@ -8,9 +8,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -27,9 +29,12 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
@@ -420,7 +425,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 						this.isEditarComision());
 
 				this.setListadoDetalleServicio(this.utilNegocioServicio
-						.actualizarServicioVenta(this.getServicioAgencia().getMoneda().getCodigoEntero(),
+						.actualizarServicioVenta(this.getServicioAgencia()
+								.getMoneda().getCodigoEntero(),
 								this.getListadoDetalleServicio(),
 								getDetalleServicio()));
 
@@ -1078,7 +1084,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 				if (!this.isServicioFee()) {
 					cargarEmpresas(UtilWeb.convertirCadenaEntero(valor));
 				}
-				
+
 				this.getDetalleServicio().getMoneda().setCodigoEntero(2);
 
 				this.consultarDestinos();
@@ -1844,7 +1850,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 			response.setHeader("Content-Transfer-Encoding", "binary");
 
 			FacesContext facesContext = obtenerContexto();
-			InputStream[] jasperStream = new InputStream[4];
+			InputStream[] jasperStream = new InputStream[1];
 			OutputStream stream = response.getOutputStream();
 			for (int i = 0; i < rutaJasper.length; i++) {
 				rutaJasper[i] = obtenerRequest().getContextPath() + rutaCarpeta
@@ -1852,7 +1858,10 @@ public class ServicioAgenteMBean extends BaseMBean {
 				jasperStream[i] = facesContext.getExternalContext()
 						.getResourceAsStream(rutaJasper[i]);
 			}
-			// imprimirPDF(enviarParametros(), stream, jasperStream);
+			imprimirPDF(enviarParametros(), stream, jasperStream);
+
+			stream.flush();
+			stream.close();
 
 			facesContext.responseComplete();
 
@@ -1864,22 +1873,51 @@ public class ServicioAgenteMBean extends BaseMBean {
 
 	}
 
+	private Map<String, Object> enviarParametros() {
+		Map<String, Object> parametros = new HashMap<String, Object>();
+		parametros.put("p_nom_cliente", this.getServicioAgencia().getCliente()
+				.getNombreCompleto());
+		parametros.put("p_documento_cliente", this.getServicioAgencia()
+				.getCliente().getDocumentoIdentidad().getTipoDocumento()
+				.getNombre()
+				+ "-"
+				+ this.getServicioAgencia().getCliente()
+						.getDocumentoIdentidad().getNumeroDocumento());
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		parametros.put("p_fecha_emision",
+				sdf.format(this.getServicioAgencia().getFechaServicio()));
+		parametros.put("p_idservicio", this.getServicioAgencia()
+				.getCodigoEntero());
+
+		return parametros;
+	}
+
 	private void imprimirPDF(Map<String, Object> map,
 			OutputStream outputStream, InputStream[] jasperStream)
 			throws JRException {
-		List<JasperPrint> printList = new ArrayList<JasperPrint>();
+		try {
+			List<JasperPrint> printList = new ArrayList<JasperPrint>();
 
-		for (int i = 0; i < jasperStream.length; i++) {
-			printList.add(JasperFillManager.fillReport(jasperStream[i], map));
+			for (int i = 0; i < jasperStream.length; i++) {
+				printList.add(JasperFillManager.fillReport(
+						jasperStream[i],
+						map,
+						new JRBeanCollectionDataSource(this.utilNegocioServicio
+								.consultarServiciosVenta(this.getServicioAgencia()
+										.getCodigoEntero()))));
+			}
+
+			JRPdfExporter exporter = new JRPdfExporter();
+			exporter.setExporterInput(SimpleExporterInput.getInstance(printList));
+			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(
+					outputStream));
+			SimplePdfExporterConfiguration configuration = new SimplePdfExporterConfiguration();
+			configuration.setCreatingBatchModeBookmarks(true);
+			// exporter.setConfiguration(configuration);
+			exporter.exportReport();
+		} catch (SQLException e) {
+			logger.error(e.getMessage(), e);
 		}
-
-		JRPdfExporter exporter = new JRPdfExporter();
-		exporter.setExporterInput(SimpleExporterInput.getInstance(printList));
-		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(
-				outputStream));
-		SimplePdfExporterConfiguration configuration = new SimplePdfExporterConfiguration();
-		configuration.setCreatingBatchModeBookmarks(true);
-		exporter.exportReport();
 	}
 
 	private boolean validarComprobantesAdicionales() throws ValidacionException {

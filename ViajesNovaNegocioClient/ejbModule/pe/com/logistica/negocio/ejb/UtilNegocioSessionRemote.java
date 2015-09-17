@@ -14,18 +14,23 @@ public interface UtilNegocioSessionRemote {
 
 	List<DetalleServicioAgencia> agruparServiciosHijos(
 			List<DetalleServicioAgencia> listaServicios);
-	
-	public List<DetalleServicioAgencia> agregarServicioVenta(Integer idMonedaServicio,
+
+	public List<DetalleServicioAgencia> agregarServicioVenta(
+			Integer idMonedaServicio,
 			List<DetalleServicioAgencia> listaServiciosVenta,
 			DetalleServicioAgencia detalleServicio)
 			throws ErrorRegistroDataException, SQLException, Exception;
 
-	public List<DetalleServicioAgencia> actualizarServicioVenta(Integer idMonedaServicio,
+	public List<DetalleServicioAgencia> actualizarServicioVenta(
+			Integer idMonedaServicio,
 			List<DetalleServicioAgencia> listaServiciosVenta,
 			DetalleServicioAgencia detalleServicio)
 			throws ErrorRegistroDataException, SQLException, Exception;
-	
+
 	public BigDecimal calculaPorcentajeComision(
 			DetalleServicioAgencia detalleServicio) throws SQLException,
 			Exception;
+
+	public List<DetalleServicioAgencia> consultarServiciosVentaJR(
+			Integer idServicio) throws SQLException;
 }
