@@ -16,7 +16,6 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
-import pe.com.logistica.bean.Util.UtilParse;
 import pe.com.logistica.bean.base.BaseVO;
 import pe.com.logistica.bean.negocio.Comprobante;
 import pe.com.logistica.bean.negocio.CuotaPago;
@@ -29,6 +28,7 @@ import pe.com.logistica.bean.negocio.Ruta;
 import pe.com.logistica.bean.negocio.ServicioAgencia;
 import pe.com.logistica.bean.negocio.ServicioAgenciaBusqueda;
 import pe.com.logistica.bean.negocio.Tramo;
+import pe.com.logistica.bean.util.UtilParse;
 import pe.com.logistica.negocio.dao.ServicioNovaViajesDao;
 import pe.com.logistica.negocio.util.UtilConexion;
 import pe.com.logistica.negocio.util.UtilEjb;
@@ -2883,7 +2883,7 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 			cs.setTimestamp(i++, UtilJdbc.convertirUtilDateTimeStamp(tramo.getFechaSalida()));
 			cs.setInt(i++, tramo.getDestino().getCodigoEntero().intValue());
 			cs.setString(i++, tramo.getDestino().getDescripcion());
-			cs.setTimestamp(i++, UtilJdbc.convertirUtilDateTimeStamp(tramo.getFechaSalida()));
+			cs.setTimestamp(i++, UtilJdbc.convertirUtilDateTimeStamp(tramo.getFechaLlegada()));
 			cs.setBigDecimal(i++, tramo.getPrecio());
 			cs.setInt(i++, tramo.getAerolinea().getCodigoEntero().intValue());
 			cs.setString(i++, tramo.getUsuarioCreacion());
@@ -2982,9 +2982,9 @@ public class ServicioNovaViajesDaoImpl implements ServicioNovaViajesDao {
 				tramo = new Tramo();
 
 				tramo.getOrigen().setDescripcion(UtilJdbc.obtenerCadena(rs, "descripcionorigen"));
-				tramo.setFechaSalida(UtilJdbc.obtenerFecha(rs, "fechasalida"));
+				tramo.setFechaSalida(UtilJdbc.obtenerFechaTimestamp(rs, "fechasalida"));
 				tramo.getDestino().setDescripcion(UtilJdbc.obtenerCadena(rs, "descripciondestino"));
-				tramo.setFechaLlegada(UtilJdbc.obtenerFecha(rs, "fechallegada"));
+				tramo.setFechaLlegada(UtilJdbc.obtenerFechaTimestamp(rs, "fechallegada"));
 				tramo.setPrecio(UtilJdbc.obtenerBigDecimal(rs, "preciobase"));
 				tramo.getAerolinea().setNombre(UtilJdbc.obtenerCadena(rs, "nombres"));
 				tramos.add(tramo);

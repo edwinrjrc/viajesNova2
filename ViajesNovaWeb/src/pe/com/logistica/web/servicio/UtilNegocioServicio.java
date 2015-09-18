@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
 
+import pe.com.logistica.bean.jasper.DetalleServicio;
 import pe.com.logistica.bean.negocio.DetalleServicioAgencia;
 import pe.com.logistica.negocio.exception.ErrorRegistroDataException;
 
@@ -33,7 +34,7 @@ public interface UtilNegocioServicio {
 			DetalleServicioAgencia detalleServicio)
 			throws ErrorRegistroDataException, SQLException, Exception;
 
-	List<DetalleServicioAgencia> consultarServiciosVenta(Integer idServicio)
+	List<DetalleServicio> consultarServiciosVenta(Integer idServicio)
 			throws SQLException;
 
 }

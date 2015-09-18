@@ -7,7 +7,9 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -34,6 +36,13 @@ public class UtilJdbc {
 	public static Date obtenerFecha(ResultSet rs, String campo) throws SQLException {
 		if (rs != null && StringUtils.isNotBlank(campo)) {
 			return rs.getDate(campo);
+		}
+		return null;
+	}
+	public static Date obtenerFechaTimestamp(ResultSet rs, String campo) throws SQLException {
+		if (rs != null && StringUtils.isNotBlank(campo)) {
+			Timestamp fechaTimeStamp = rs.getTimestamp(campo);
+			return new Date(fechaTimeStamp.getTime());
 		}
 		return null;
 	}

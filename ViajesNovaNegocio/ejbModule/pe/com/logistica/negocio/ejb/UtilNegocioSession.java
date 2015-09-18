@@ -15,7 +15,7 @@ import javax.ejb.Stateless;
 
 import org.apache.commons.lang3.StringUtils;
 
-import pe.com.logistica.bean.Util.UtilParse;
+import pe.com.logistica.bean.jasper.DetalleServicio;
 import pe.com.logistica.bean.negocio.ConfiguracionTipoServicio;
 import pe.com.logistica.bean.negocio.Destino;
 import pe.com.logistica.bean.negocio.DetalleServicioAgencia;
@@ -24,6 +24,7 @@ import pe.com.logistica.bean.negocio.Parametro;
 import pe.com.logistica.bean.negocio.ServicioProveedor;
 import pe.com.logistica.bean.negocio.TipoCambio;
 import pe.com.logistica.bean.negocio.Tramo;
+import pe.com.logistica.bean.util.UtilParse;
 import pe.com.logistica.negocio.dao.ComunDao;
 import pe.com.logistica.negocio.dao.DestinoDao;
 import pe.com.logistica.negocio.dao.MaestroServicioDao;
@@ -861,7 +862,7 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 	}
 	
 	@Override
-	public List<DetalleServicioAgencia> consultarServiciosVentaJR(Integer idServicio) throws SQLException{
+	public List<DetalleServicio> consultarServiciosVentaJR(Integer idServicio) throws SQLException{
 		ServicioNegocioDao servicioNegocioDao = new ServicioNegocioDaoImpl();
 		
 		return servicioNegocioDao.consultarServicioVentaJR(idServicio);

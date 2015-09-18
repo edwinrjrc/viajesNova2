@@ -9,14 +9,21 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Currency;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
-import pe.com.logistica.bean.Util.UtilParse;
 import pe.com.logistica.bean.base.BaseVO;
+import pe.com.logistica.bean.jasper.DetalleServicio;
 import pe.com.logistica.bean.negocio.DetalleServicioAgencia;
 import pe.com.logistica.bean.negocio.ServicioAgencia;
 import pe.com.logistica.bean.negocio.ServicioProveedor;
+import pe.com.logistica.bean.util.UtilParse;
 import pe.com.logistica.negocio.dao.ServicioNegocioDao;
 import pe.com.logistica.negocio.util.UtilConexion;
 import pe.com.logistica.negocio.util.UtilJdbc;
@@ -114,8 +121,8 @@ public class ServicioNegocioDaoImpl implements ServicioNegocioDao {
 	}
 
 	@Override
-	public List<DetalleServicioAgencia> consultarServicioVentaJR(Integer idServicio) throws SQLException {
-		List<DetalleServicioAgencia> resultado = null;
+	public List<DetalleServicio> consultarServicioVentaJR(Integer idServicio) throws SQLException {
+		List<DetalleServicio> resultado = null;
 		Connection conn = null;
 		CallableStatement cs = null;
 		ResultSet rs = null;
@@ -129,16 +136,30 @@ public class ServicioNegocioDaoImpl implements ServicioNegocioDao {
 			cs.execute();
 			
 			rs = (ResultSet)cs.getObject(1);
-			DetalleServicioAgencia detalle = null;
-			resultado = new ArrayList<DetalleServicioAgencia>();
+			DetalleServicio detalle = null;
+			resultado = new ArrayList<DetalleServicio>();
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			DecimalFormatSymbols decimalSymbols = null;
+			DecimalFormat df = null;
+			Date fechaIda = null;
+			BigDecimal precio = null;
+			BigDecimal total = null;
 			while (rs.next()){
-				detalle = new DetalleServicioAgencia();
-				detalle.setCantidad(UtilJdbc.obtenerNumero(rs, "cantidad"));
+				detalle = new DetalleServicio();
+				detalle.setCantidad(UtilJdbc.obtenerCadena(rs, "cantidad"));
 				detalle.setDescripcionServicio(UtilJdbc.obtenerCadena(rs, "descripcionservicio"));
-				detalle.setFechaIda(UtilJdbc.obtenerFecha(rs, "fechaida"));
-				detalle.setFechaRegreso(UtilJdbc.obtenerFecha(rs, "fecharegreso"));
-				detalle.setPrecioUnitario(UtilJdbc.obtenerBigDecimal(rs, "preciobase"));
-				detalle.setTotal(UtilJdbc.obtenerBigDecimal(rs, "montototal"));
+				fechaIda = UtilJdbc.obtenerFecha(rs, "fechaida");
+				detalle.setFechaIda(sdf.format(fechaIda));
+				
+				decimalSymbols = new DecimalFormatSymbols(Locale.US);
+				String pattern = "###,##0.00";
+				String simboloMoneda = UtilJdbc.obtenerCadena(rs, "abreviatura");
+				pattern = simboloMoneda + " " + pattern;
+				df = new DecimalFormat(pattern, decimalSymbols);
+				precio = UtilJdbc.obtenerBigDecimal(rs, "preciobase");
+				detalle.setPrecioUnitario(df.format(precio.doubleValue()));
+				total = UtilJdbc.obtenerBigDecimal(rs, "montototal");
+				detalle.setTotal(df.format(total.doubleValue()));
 				resultado.add(detalle);
 			}
 			

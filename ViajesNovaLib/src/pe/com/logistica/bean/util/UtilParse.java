@@ -1,7 +1,7 @@
 /**
  * 
  */
-package pe.com.logistica.bean.Util;
+package pe.com.logistica.bean.util;
 
 import java.math.BigDecimal;
 

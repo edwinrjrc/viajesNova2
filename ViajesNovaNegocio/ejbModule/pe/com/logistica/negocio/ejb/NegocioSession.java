@@ -16,7 +16,6 @@ import javax.mail.internet.AddressException;
 
 import org.apache.commons.lang3.StringUtils;
 
-import pe.com.logistica.bean.Util.UtilParse;
 import pe.com.logistica.bean.base.BaseVO;
 import pe.com.logistica.bean.cargaexcel.ColumnasExcel;
 import pe.com.logistica.bean.cargaexcel.ReporteArchivo;
@@ -48,6 +47,7 @@ import pe.com.logistica.bean.negocio.Telefono;
 import pe.com.logistica.bean.negocio.TipoCambio;
 import pe.com.logistica.bean.negocio.Tramo;
 import pe.com.logistica.bean.negocio.Ubigeo;
+import pe.com.logistica.bean.util.UtilParse;
 import pe.com.logistica.negocio.dao.ArchivoReporteDao;
 import pe.com.logistica.negocio.dao.ClienteDao;
 import pe.com.logistica.negocio.dao.ComprobanteNovaViajesDao;

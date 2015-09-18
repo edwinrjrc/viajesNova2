@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.ejb.Remote;
 
+import pe.com.logistica.bean.jasper.DetalleServicio;
 import pe.com.logistica.bean.negocio.DetalleServicioAgencia;
 import pe.com.logistica.negocio.exception.ErrorRegistroDataException;
 
@@ -31,6 +32,6 @@ public interface UtilNegocioSessionRemote {
 			DetalleServicioAgencia detalleServicio) throws SQLException,
 			Exception;
 
-	public List<DetalleServicioAgencia> consultarServiciosVentaJR(
+	public List<DetalleServicio> consultarServiciosVentaJR(
 			Integer idServicio) throws SQLException;
 }

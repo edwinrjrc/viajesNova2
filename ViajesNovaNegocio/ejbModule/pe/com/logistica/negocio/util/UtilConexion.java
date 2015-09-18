@@ -18,7 +18,7 @@ import javax.sql.DataSource;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
-import pe.com.logistica.bean.Util.UtilProperties;
+import pe.com.logistica.bean.util.UtilProperties;
 import pe.com.logistica.negocio.exception.ConnectionException;
 
 /**

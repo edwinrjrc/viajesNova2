@@ -13,6 +13,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 
+import pe.com.logistica.bean.jasper.DetalleServicio;
 import pe.com.logistica.bean.negocio.DetalleServicioAgencia;
 import pe.com.logistica.bean.negocio.ServicioAgencia;
 import pe.com.logistica.negocio.ejb.UtilNegocioSessionRemote;
@@ -79,7 +80,7 @@ public class UtilNegocioServicioImpl implements UtilNegocioServicio {
 	}
 	
 	@Override
-	public List<DetalleServicioAgencia> consultarServiciosVenta(Integer idServicio) throws SQLException{
+	public List<DetalleServicio> consultarServiciosVenta(Integer idServicio) throws SQLException{
 		return ejbSession.consultarServiciosVentaJR(idServicio);
 	}
 

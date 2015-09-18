@@ -29,9 +29,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -46,7 +44,6 @@ import org.apache.log4j.Logger;
 import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
 
-import pe.com.logistica.bean.Util.UtilParse;
 import pe.com.logistica.bean.base.BaseVO;
 import pe.com.logistica.bean.negocio.Cliente;
 import pe.com.logistica.bean.negocio.Comprobante;
@@ -65,6 +62,7 @@ import pe.com.logistica.bean.negocio.ServicioAgenciaBusqueda;
 import pe.com.logistica.bean.negocio.ServicioProveedor;
 import pe.com.logistica.bean.negocio.Tramo;
 import pe.com.logistica.bean.negocio.Usuario;
+import pe.com.logistica.bean.util.UtilParse;
 import pe.com.logistica.negocio.exception.ErrorRegistroDataException;
 import pe.com.logistica.negocio.exception.ValidacionException;
 import pe.com.logistica.web.servicio.NegocioServicio;
@@ -1850,7 +1848,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 			response.setHeader("Content-Transfer-Encoding", "binary");
 
 			FacesContext facesContext = obtenerContexto();
-			InputStream[] jasperStream = new InputStream[1];
+			InputStream[] jasperStream = new InputStream[rutaJasper.length];
 			OutputStream stream = response.getOutputStream();
 			for (int i = 0; i < rutaJasper.length; i++) {
 				rutaJasper[i] = obtenerRequest().getContextPath() + rutaCarpeta

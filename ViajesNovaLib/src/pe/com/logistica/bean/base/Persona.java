@@ -6,10 +6,10 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import pe.com.logistica.bean.Util.UtilParse;
 import pe.com.logistica.bean.negocio.Direccion;
 import pe.com.logistica.bean.negocio.DocumentoIdentidad;
 import pe.com.logistica.bean.negocio.Telefono;
+import pe.com.logistica.bean.util.UtilParse;
 
 /**
  * @author Edwin

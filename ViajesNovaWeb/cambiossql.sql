@@ -1,6 +1,6 @@
--- Function: negocio.fn_consultarservicioventa(integer)
+-- Function: negocio.fn_consultarservicioventajr(integer)
 
--- DROP FUNCTION negocio.fn_consultarservicioventa(integer);
+-- DROP FUNCTION negocio.fn_consultarservicioventajr(integer);
 
 CREATE OR REPLACE FUNCTION negocio.fn_consultarservicioventajr(p_idservicio integer)
   RETURNS refcursor AS
@@ -11,7 +11,7 @@ begin
 
 open micursor for
 select cantidad, descripcionservicio, fechaida, 
-       fecharegreso, preciobase, montototal, 
+       fecharegreso, idmoneda, abreviatura, preciobase, montototal, 
        codigoreserva, numeroboleto, idservicio 
   from negocio.vw_servicio_detalle 
  where idservicio = p_idservicio;
@@ -23,3 +23,15 @@ end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
+
+  
+-- View: negocio.vw_servicio_detalle
+
+-- DROP VIEW negocio.vw_servicio_detalle;
+
+CREATE OR REPLACE VIEW negocio.vw_servicio_detalle AS 
+ SELECT serdet.cantidad, serdet.descripcionservicio, serdet.fechaida, 
+    serdet.fecharegreso, serdet.idmoneda, tmmo.abreviatura, serdet.preciobase, serdet.montototal, 
+    serdet.codigoreserva, serdet.numeroboleto, serdet.idservicio
+   FROM negocio."ServicioDetalle" serdet
+  INNER JOIN soporte."Tablamaestra" tmmo ON tmmo.idmaestro = 20 AND serdet.idmoneda = tmmo.id;

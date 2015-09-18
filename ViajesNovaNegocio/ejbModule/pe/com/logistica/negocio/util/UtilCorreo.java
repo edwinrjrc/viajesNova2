@@ -25,8 +25,8 @@ import javax.mail.internet.MimeMultipart;
 
 import org.apache.commons.io.IOUtils;
 
-import pe.com.logistica.bean.Util.UtilProperties;
 import pe.com.logistica.bean.negocio.ArchivoAdjunto;
+import pe.com.logistica.bean.util.UtilProperties;
 import pe.com.logistica.negocio.exception.ErrorEncriptacionException;
 
 /**
