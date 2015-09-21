@@ -17,8 +17,8 @@ import java.util.Properties;
 public class UtilProperties {
 	
 	public static Properties cargaArchivo(String archivoProperties) throws FileNotFoundException, IOException{
-		String c = "C:\\aplicacion\\"+archivoProperties;
-		String d = "D:\\aplicacion\\"+archivoProperties;
+		String c = "/var/lib/openshift/55fcc5c37628e1e6b2000124/jbossas/aplicacion/"+archivoProperties;
+		String d = "/var/lib/openshift/55fcc5c37628e1e6b2000124/jbossas/aplicacion/"+archivoProperties;
 		File fc = new File(c);
 		
 		Properties prop = new Properties();

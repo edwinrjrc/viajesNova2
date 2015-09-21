@@ -626,7 +626,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 				resultado = false;
 			}
 			if (configuracionTipoServicio.isMuestraFechaServicio()
-					&& (this.getDetalleServicio().getFechaIda() != null && UtilWeb
+					&& (this.getDetalleServicio().getFechaIda() != null && !UtilWeb
 							.fecha1EsMayorIgualFecha2(this.getDetalleServicio()
 									.getFechaIda(), new Date()))) {
 				this.agregarMensaje(
@@ -1081,6 +1081,9 @@ public class ServicioAgenteMBean extends BaseMBean {
 
 				if (!this.isServicioFee()) {
 					cargarEmpresas(UtilWeb.convertirCadenaEntero(valor));
+				}
+				else{
+					this.getDetalleServicio().setFechaIda(this.getServicioAgencia().getFechaServicio());
 				}
 
 				this.getDetalleServicio().getMoneda().setCodigoEntero(2);

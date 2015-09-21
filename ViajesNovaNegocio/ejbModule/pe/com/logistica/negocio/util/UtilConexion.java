@@ -29,7 +29,7 @@ public class UtilConexion {
 	
 	private final static Logger logger = Logger.getLogger(UtilConexion.class);
 
-	private static String JNDI = "java:/jboss/jdbc/novaviajesDS";
+	private static String JNDI = "java:jboss/datasources/PostgreSQLDS";
 	
 	/**
 	 * 
@@ -43,6 +43,7 @@ public class UtilConexion {
 			DataSource dataSource = null;
 			
 			String jndiProperties = getJndiProperties();
+			JNDI = "java:/jboss/jdbc/novaviajesDS";
 			if (StringUtils.isNotBlank(jndiProperties)){
 				dataSource = (DataSource) ic.lookup(jndiProperties);
 			}
