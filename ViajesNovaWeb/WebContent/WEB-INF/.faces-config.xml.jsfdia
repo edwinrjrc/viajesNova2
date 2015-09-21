@@ -136,6 +136,12 @@
     NAME="output23" PATH="/paginas/negocio/tipocambio/administrar.xhtml"
     TARGET="rules:#paginas#negocio#tipocambio#administrar.xhtml"
     TITLE="irAdmTipoCambio" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="irConsultaAsistencia::#paginas#recursoshumanos#controlasistencia#consultaasistencia.xhtml"
+    NAME="output24"
+    PATH="/paginas/recursoshumanos/controlasistencia/consultaasistencia.xhtml"
+    TARGET="rules:#paginas#recursoshumanos#controlasistencia#consultaasistencia.xhtml"
+    TITLE="irConsultaAsistencia" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#paginas#seguridad#usuario#administrar.xhtml"
@@ -270,4 +276,8 @@
   NAME="rules:#paginas#negocio#tipocambio#administrar.xhtml"
   PATH="/paginas/negocio/tipocambio/administrar.xhtml"
   SHAPE="304,881,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#paginas#recursoshumanos#controlasistencia#consultaasistencia.xhtml"
+  PATH="/paginas/recursoshumanos/controlasistencia/consultaasistencia.xhtml"
+  SHAPE="304,913,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

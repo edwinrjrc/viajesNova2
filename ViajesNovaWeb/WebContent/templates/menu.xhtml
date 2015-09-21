@@ -173,7 +173,7 @@
 					<h:outputText value="Recursos Humanos" style="width:50px;" />
 				</f:facet>
 				<rich:menuGroup label="Control Asistencia" style="text-align:left">
-					<rich:menuItem action="irConsultaAsistencia"
+					<rich:menuItem action="#{usuarioMBean.consultarAsistencia()}" 
 						label="Consulta Asistencia" style="text-align:left" />
 				</rich:menuGroup>
 			</rich:dropDownMenu>

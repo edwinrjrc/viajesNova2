@@ -36,6 +36,9 @@ public class UsuarioAsistencia extends Base {
 	 * @return the usuario
 	 */
 	public BaseVO getUsuario() {
+		if (usuario == null){
+			usuario = new BaseVO();
+		}
 		return usuario;
 	}
 	/**

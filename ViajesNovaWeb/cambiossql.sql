@@ -1,37 +1,21 @@
--- Function: negocio.fn_consultarservicioventajr(integer)
 
--- DROP FUNCTION negocio.fn_consultarservicioventajr(integer);
-
-CREATE OR REPLACE FUNCTION negocio.fn_consultarservicioventajr(p_idservicio integer)
+CREATE OR REPLACE FUNCTION auditoria.fn_consultaasistencia(p_fecha date)
   RETURNS refcursor AS
 $BODY$
 declare micursor refcursor;
 
 begin
-
 open micursor for
-select cantidad, descripcionservicio, fechaida, 
-       fecharegreso, idmoneda, abreviatura, preciobase, montototal, 
-       codigoreserva, numeroboleto, idservicio 
-  from negocio.vw_servicio_detalle 
- where idservicio = p_idservicio;
-
+select u.usuario, u.nombres, u.apepaterno, u.apematerno, 
+       (select max(e.fecharegistro) 
+          from auditoria.eventosesionsistema e
+         where e.idusuario = u.id
+           and date(e.fecharegistro) = p_fecha) as horaInicio
+  from seguridad.usuario u
+ where u.id_rol <> 1;
 
 return micursor;
 
-end;
-$BODY$
+end;$BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-
-  
--- View: negocio.vw_servicio_detalle
-
--- DROP VIEW negocio.vw_servicio_detalle;
-
-CREATE OR REPLACE VIEW negocio.vw_servicio_detalle AS 
- SELECT serdet.cantidad, serdet.descripcionservicio, serdet.fechaida, 
-    serdet.fecharegreso, serdet.idmoneda, tmmo.abreviatura, serdet.preciobase, serdet.montototal, 
-    serdet.codigoreserva, serdet.numeroboleto, serdet.idservicio
-   FROM negocio."ServicioDetalle" serdet
-  INNER JOIN soporte."Tablamaestra" tmmo ON tmmo.idmaestro = 20 AND serdet.idmoneda = tmmo.id;

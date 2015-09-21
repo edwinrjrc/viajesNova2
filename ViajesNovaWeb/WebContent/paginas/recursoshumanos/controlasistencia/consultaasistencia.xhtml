@@ -17,54 +17,55 @@
 				<f:facet name="header">
 					<h:panelGrid width="100%" border="0" cellpadding="0"
 						cellspacing="0" style="text-align: left;vertical-align: top; ">
-						<h:outputText value="Consulta General de Asistencia"
+						<h:outputText value="Consulta de Asistencia por Dia"
 							style="height: 100px" styleClass="subtitulo" />
 						<hr width="100%" />
 					</h:panelGrid>
 				</f:facet>
 
 				<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+					style="width:100%;" columns="3" id="idFrAsistencia">
+
+					<h:outputText value="Fecha Consulta" />
+					<rich:calendar value="#{usuarioMBean.fechaAsistencia}"
+						datePattern="dd/MM/yyyy" showApplyButton="false" ></rich:calendar>
+					<a4j:commandButton value="Consultar" action="#{usuarioMBean.consultaAsistenciaXDia()}" render="idPgTable"></a4j:commandButton>
+
+				</h:panelGrid>
+
+				<h:panelGrid cellpadding="0" cellspacing="0" border="0"
 					style="width:100%;" columns="3" id="idPgTable"
 					columnClasses="col1TablaCentro,col2TablaCentro,col3TablaCentro">
-					
+
 					<h:outputText value="" />
-					<rich:dataTable value="#{reporteVentasMBean.reporteGeneralVentas}"
+					<rich:dataTable value="#{usuarioMBean.listaAsistenciaUsuario}"
 						var="fila" rows="10" style="width:100%;">
 						<rich:column>
 							<f:facet name="header">
-								<h:outputText value="Tipo Servicio" />
+								<h:outputText value="Usuario" />
 							</f:facet>
-							<h:outputText value="#{fila.tipoServicio.nombre}" />
+							<h:outputText value="#{fila.usuario.nombre}" />
 						</rich:column>
 						<rich:column style="text-align:right;">
 							<f:facet name="header">
-								<h:outputText value="Cantidad" />
+								<h:outputText value="Fecha" />
 							</f:facet>
-							<h:outputText value="#{fila.cantidad}" />
-						</rich:column>
-						<rich:column style="text-align:right;">
-							<f:facet name="header">
-								<h:outputText value="Total Facturado" />
-							</f:facet>
-							<h:outputText value="#{fila.totalAgrupados}">
-								<f:convertNumber pattern="#,###,##0.00" locale="en_US" />
+							<h:outputText value="#{fila.fechaIngreso}" >
+								<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-05"/>
 							</h:outputText>
 						</rich:column>
 						<rich:column style="text-align:right;">
 							<f:facet name="header">
-								<h:outputText value="Monto Comision" />
+								<h:outputText value="Hora Entrada" />
 							</f:facet>
-							<h:outputText value="#{fila.montoComision}">
-								<f:convertNumber pattern="#,###,##0.00" locale="en_US" />
+							<h:outputText value="#{fila.fechaIngreso}" >
+								<f:convertDateTime pattern="hh:mm" timeZone="GMT-05"/>
 							</h:outputText>
 						</rich:column>
+						
 					</rich:dataTable>
 					<h:outputText value="" />
-					<f:facet name="footer">
-					<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1" style="width:100%;text-align:center;">
-					<h:commandButton value="Exportar Reporte" action="#{reporteVentasMBean.exportarReporte()}" />
-					</h:panelGrid>
-					</f:facet>
+					
 				</h:panelGrid>
 			</h:panelGrid>
 		</h:form>

@@ -4,6 +4,8 @@
 package pe.com.logistica.web.faces;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -19,9 +21,13 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 import pe.com.logistica.bean.negocio.Usuario;
+import pe.com.logistica.bean.recursoshumanos.UsuarioAsistencia;
+import pe.com.logistica.negocio.exception.ErrorConsultaDataException;
 import pe.com.logistica.negocio.exception.InicioSesionException;
 import pe.com.logistica.negocio.exception.ValidacionException;
+import pe.com.logistica.web.servicio.AuditoriaServicio;
 import pe.com.logistica.web.servicio.SeguridadServicio;
+import pe.com.logistica.web.servicio.impl.AuditoriaServicioImpl;
 import pe.com.logistica.web.servicio.impl.SeguridadServicioImpl;
 
 /**
@@ -48,11 +54,15 @@ public class UsuarioMBean extends BaseMBean {
 	private String idModalPopup;
 
 	private String modalNombre;
+	private Date fechaAsistencia;
+	
+	private List<UsuarioAsistencia> listaAsistenciaUsuario;
 
 	private boolean nuevoUsuario;
 	private boolean editarUsuario;
 
 	private SeguridadServicio seguridadServicio;
+	private AuditoriaServicio auditoriaServicio;
 
 	/**
 	 * 
@@ -62,8 +72,7 @@ public class UsuarioMBean extends BaseMBean {
 			ServletContext servletContext = (ServletContext) FacesContext
 					.getCurrentInstance().getExternalContext().getContext();
 			seguridadServicio = new SeguridadServicioImpl(servletContext);
-			
-			logger.info("Inicio UsuarioMBEan");
+			auditoriaServicio = new AuditoriaServicioImpl(servletContext);
 		} catch (NamingException e) {
 			logger.error(e.getMessage(), e);
 		}
@@ -275,6 +284,28 @@ public class UsuarioMBean extends BaseMBean {
 			e.printStackTrace();
 		}
 	}
+	
+	public void consultaAsistenciaXDia(){
+		try {
+			this.setListaAsistenciaUsuario(this.auditoriaServicio.consultarHorarioAsistenciaXDia(getFechaAsistencia()));
+			
+			
+		} catch (ErrorConsultaDataException e) {
+			logger.error(e.getMessage(), e);
+			this.mostrarMensajeError(e.getMessage());
+		}
+	}
+	
+	public String consultarAsistencia(){
+		this.setFechaAsistencia(new Date());
+		this.consultaAsistenciaXDia();
+		
+		return "irConsultaAsistencia";
+	}
+	
+	/**
+	 * =========================================================================================================
+	 */
 
 	/**
 	 * @return the listaUsuarios
@@ -434,6 +465,37 @@ public class UsuarioMBean extends BaseMBean {
 	 */
 	public void setIdModalPopup(String idModalPopup) {
 		this.idModalPopup = idModalPopup;
+	}
+
+	/**
+	 * @return the fechaAsistencia
+	 */
+	public Date getFechaAsistencia() {
+		return fechaAsistencia;
+	}
+
+	/**
+	 * @param fechaAsistencia the fechaAsistencia to set
+	 */
+	public void setFechaAsistencia(Date fechaAsistencia) {
+		this.fechaAsistencia = fechaAsistencia;
+	}
+
+	/**
+	 * @return the listaAsistenciaUsuario
+	 */
+	public List<UsuarioAsistencia> getListaAsistenciaUsuario() {
+		if (listaAsistenciaUsuario == null){
+			listaAsistenciaUsuario = new ArrayList<UsuarioAsistencia>();
+		}
+		return listaAsistenciaUsuario;
+	}
+
+	/**
+	 * @param listaAsistenciaUsuario the listaAsistenciaUsuario to set
+	 */
+	public void setListaAsistenciaUsuario(List<UsuarioAsistencia> listaAsistenciaUsuario) {
+		this.listaAsistenciaUsuario = listaAsistenciaUsuario;
 	}
 
 }

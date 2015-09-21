@@ -134,6 +134,11 @@
    <to-view-id>/paginas/negocio/tipocambio/administrar.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
+  <navigation-case>
+   <from-outcome>irConsultaAsistencia</from-outcome>
+   <to-view-id>/paginas/recursoshumanos/controlasistencia/consultaasistencia.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
  </navigation-rule>
  <navigation-rule>
   <from-view-id>/paginas/soporte/maestro/administrar.xhtml</from-view-id>
