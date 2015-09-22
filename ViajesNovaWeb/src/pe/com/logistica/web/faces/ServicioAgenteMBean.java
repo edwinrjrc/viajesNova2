@@ -331,6 +331,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 		this.setEditaServicioAgregado(false);
 		this.setVerDetalleServicio(false);
 		this.setCargoConfiguracionTipoServicio(false);
+		this.setEditarComision(false);
 
 		consultarTasaPredeterminada();
 		this.setListadoEmpresas(null);
@@ -375,6 +376,21 @@ public class ServicioAgenteMBean extends BaseMBean {
 				this.setServicioFee(false);
 				this.setListadoEmpresas(null);
 				this.setCargoConfiguracionTipoServicio(false);
+				
+				if (StringUtils.isBlank(this.getServicioAgencia().getMoneda().getNombre())){
+					int idmaestro = UtilWeb.obtenerEnteroPropertieMaestro(
+							"maestroMonedas", "aplicacionDatos");
+					List<BaseVO> lista = soporteServicio
+							.listarCatalogoMaestro(idmaestro);
+					if (lista != null){
+						for (BaseVO base : lista){
+							if (base.getCodigoEntero().intValue() == this.getServicioAgencia().getMoneda().getCodigoEntero().intValue()){
+								this.getServicioAgencia().getMoneda().setNombre(base.getNombre());
+							}
+						}
+					}
+					
+				}
 			}
 		} catch (ErrorRegistroDataException e) {
 			logger.error(e.getMessage(), e);
@@ -388,33 +404,6 @@ public class ServicioAgenteMBean extends BaseMBean {
 		}
 
 	}
-
-	/*
-	 * private void seleccionarOrigenDestino() { String origen = ""; String
-	 * destino = "";
-	 * 
-	 * try { origen =
-	 * StringUtils.trim(this.getDetalleServicio().getOrigen().getCodigoCadena
-	 * ()); origen = StringUtils.substring(origen,
-	 * StringUtils.indexOf(origen,"(")+1, StringUtils.indexOf(origen,")"));
-	 * 
-	 * this.getDetalleServicio().setOrigen(this.soporteServicio.consultaDestinoIATA
-	 * (origen)); this.soporteServicio.consultarDestino(descripcion)
-	 * 
-	 * for(Destino destinoBean : this.getListaOrigenesBusqueda()){ if
-	 * (StringUtils.equals(destinoBean.getCodigoIATA(), origen)){
-	 * this.getDetalleServicio().setOrigen(destinoBean); break; } }
-	 * 
-	 * destino =
-	 * StringUtils.trim(this.getDetalleServicio().getDestino().getCodigoCadena
-	 * ()); destino = StringUtils.substring(destino,
-	 * StringUtils.indexOf(destino,"(")+1, StringUtils.indexOf(destino,")"));
-	 * 
-	 * for(Destino destinoBean : this.getListaOrigenesBusqueda()){ if
-	 * (StringUtils.equals(destinoBean.getCodigoIATA(), destino)){
-	 * this.getDetalleServicio().setDestino(destinoBean); break; } } } catch
-	 * (SQLException e) { logger.error(e.getMessage(), e); } }
-	 */
 
 	public void actualizarServicio() {
 		try {
@@ -462,20 +451,6 @@ public class ServicioAgenteMBean extends BaseMBean {
 				si.setValue(detalle.getCodigoEntero());
 
 				String etiqueta = "" + detalle.getTipoServicio().getNombre();
-
-				/*
-				 * if
-				 * (StringUtils.isNotBlank(detalle.getOrigen().getCodigoIATA())
-				 * && StringUtils.isNotBlank(detalle.getDestino()
-				 * .getCodigoIATA())) { etiqueta = etiqueta + " " +
-				 * detalle.getOrigen().getCodigoIATA() + " --> " +
-				 * detalle.getDestino().getCodigoIATA(); } else { if
-				 * (StringUtils.length(detalle.getDescripcionServicio()) >= 15){
-				 * etiqueta = etiqueta +
-				 * detalle.getDescripcionServicio().substring(0, 15); }
-				 * 
-				 * }
-				 */
 
 				si.setLabel(etiqueta);
 				this.getListadoServiciosPadre().add(si);
@@ -1031,15 +1006,18 @@ public class ServicioAgenteMBean extends BaseMBean {
 
 	public void cargarDatosValores(ValueChangeEvent e) {
 		Object oe = e.getNewValue();
-		this.setCalculadorIGV(false);
-		this.setEditaServicioAgregado(false);
-		this.setListaTramos(null);
+		
 		try {
+			this.setCalculadorIGV(false);
+			this.setEditaServicioAgregado(false);
+			this.setListaTramos(null);
+			this.setDetalleServicio(null);
+			this.setEditarComision(false);
 			setListadoEmpresas(null);
 			this.getDetalleServicio().getServicioProveedor().setProveedor(null);
-
 			this.getDetalleServicio().setConfiguracionTipoServicio(null);
 			this.setCargoConfiguracionTipoServicio(false);
+			
 			if (oe != null) {
 				String valor = oe.toString();
 
@@ -1114,17 +1092,6 @@ public class ServicioAgenteMBean extends BaseMBean {
 	public void editarServicioAgregado(DetalleServicioAgencia detalleServicio) {
 		try {
 
-			/*
-			 * Destino destino = detalleServicio.getDestino();
-			 * destino.setCodigoCadena
-			 * (destino.getDescripcion()+"("+destino.getCodigoIATA()+")");
-			 * Destino origen = detalleServicio.getOrigen();
-			 * origen.setCodigoCadena
-			 * (origen.getDescripcion()+"("+origen.getCodigoIATA()+")");
-			 * 
-			 * detalleServicio.setOrigen(origen);
-			 * detalleServicio.setDestino(destino);
-			 */
 			if (detalleServicio.isConIGV()) {
 				detalleServicio.setPrecioUnitario(detalleServicio
 						.getPrecioUnitarioConIgv());
@@ -1160,18 +1127,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 	public void verDetalleServicio(DetalleServicioAgencia detalleServicio) {
 		try {
 			this.setVerDetalleServicio(false);
-			/*
-			 * Destino destino = detalleServicio.getDestino();
-			 * destino.setCodigoCadena
-			 * (destino.getDescripcion()+"("+destino.getCodigoIATA()+")");
-			 * Destino origen = detalleServicio.getOrigen();
-			 * origen.setCodigoCadena
-			 * (origen.getDescripcion()+"("+origen.getCodigoIATA()+")");
-			 * 
-			 * detalleServicio.setOrigen(origen);
-			 * detalleServicio.setDestino(destino);
-			 */
-
+			
 			if (detalleServicio.isConIGV()) {
 				detalleServicio.setPrecioUnitario(detalleServicio
 						.getPrecioUnitarioConIgv());

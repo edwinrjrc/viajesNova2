@@ -5,7 +5,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:rich="http://richfaces.org/rich">
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
 	<rich:popupPanel id="idModalfrventaservicio" modal="true" width="1100"
 		height="650">
@@ -98,10 +99,14 @@
 
 								<h:outputText value="Moneda Facturacion" />
 								<h:selectOneMenu id="idSelMonedaFactura"
+									rendered="#{fn:length(servicioAgenteMBean.listadoDetalleServicio) == 0}"
 									value="#{servicioAgenteMBean.servicioAgencia.moneda.codigoEntero}">
 									<f:selectItem itemLabel="-Seleccione-" />
 									<f:selectItems value="#{catalogoMBean.catalogoMoneda}" />
 								</h:selectOneMenu>
+								<h:outputText
+									value="#{servicioAgenteMBean.servicioAgencia.moneda.nombre}"
+									rendered="#{fn:length(servicioAgenteMBean.listadoDetalleServicio) > 0}" />
 
 							</h:panelGrid>
 
@@ -251,11 +256,16 @@
 										value="#{servicioAgenteMBean.detalleServicio.codigoReserva}"
 										maxlength="10" size="15"
 										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraCodigoReserva}" />
+									
 									<h:outputText value="Numero Boleto"
 										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraNumeroBoleto}" />
 									<h:inputText maxlength="10" size="15"
 										value="#{servicioAgenteMBean.detalleServicio.numeroBoleto}"
 										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraNumeroBoleto}" />
+									<h:outputText value="" rendered="#{!servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraNumeroBoleto}" />
+									<h:outputText value="" rendered="#{!servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraNumeroBoleto}" />
+									<h:outputText value="" rendered="#{!servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraCodigoReserva}" />
+									<h:outputText value="" rendered="#{!servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraCodigoReserva}" />
 
 								</h:panelGrid>
 
@@ -462,7 +472,7 @@
 												columns="1" style="width:100%;text-align:center;"
 												rendered="#{!servicioAgenteMBean.editaServicioAgregado}">
 												<a4j:commandButton value="Agregar" type="button"
-													render="idBtnsServicio, idGrdTabla, idServVenta, idDetalleTabla, idGrdPanel, idFrNuevServicio, idTotalesServicios, idfrcred, idPanelHidden, idPanelBotones, idModalcorrecto, idModalError"
+													render="idGrAgente, idBtnsServicio, idGrdTabla, idServVenta, idDetalleTabla, idGrdPanel, idFrNuevServicio, idTotalesServicios, idfrcred, idPanelHidden, idPanelBotones, idModalcorrecto, idModalError"
 													action="#{servicioAgenteMBean.agregarServicio()}"
 													oncomplete="mostrarModal('idformadmservicios')">
 												</a4j:commandButton>
@@ -563,7 +573,7 @@
 											columns="2">
 											<a4j:commandLink rendered="#{row.tipoServicio.visible}"
 												action="#{servicioAgenteMBean.eliminarServicio(row)}"
-												render="idServVenta,idFrNuevServicio,idTotalesServicios,idfrcred">
+												render="idGrAgente,idServVenta,idFrNuevServicio,idTotalesServicios,idfrcred">
 												<h:graphicImage style="border:0px;"
 													value="#{facesContext.externalContext.requestContextPath}/../resources/img/tacho.gif" />
 											</a4j:commandLink>
