@@ -115,11 +115,11 @@
 
 .estiloBoton1 {
 	height: 20px;
-	width: 150px";
+	width: 150px;
 }
 .estiloBoton2{
 	height: 20px;
-	width: 100px";
+	width: 100px;
 }
 
 .estilocampo1 {
@@ -204,6 +204,16 @@
 	width: 60%;
 }
 .col3TablaCentro{
+	width: 20%;
+}
+.col1TablaCentroBotones{
+	width: 20%;
+}
+.col2TablaCentroBotones{
+	width: 60%;
+	margin: auto;
+}
+.col3TablaCentroBotones{
 	width: 20%;
 }
 .detaServicio1Col{

@@ -24,13 +24,20 @@
 				</f:facet>
 
 				<h:panelGrid cellpadding="0" cellspacing="0" border="0"
-					style="width:100%;" columns="3" id="idFrAsistencia">
+					style="width:100%;" columns="3" id="idPgTable"
+					columnClasses="col1TablaCentro,col2TablaCentro,col3TablaCentro">
+					<h:outputText value="" />
+					<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+						style="width:100%;" columns="3" id="idFrAsistencia">
 
-					<h:outputText value="Fecha Consulta" />
-					<rich:calendar value="#{usuarioMBean.fechaAsistencia}"
-						datePattern="dd/MM/yyyy" showApplyButton="false" ></rich:calendar>
-					<a4j:commandButton value="Consultar" action="#{usuarioMBean.consultaAsistenciaXDia()}" render="idPgTable"></a4j:commandButton>
-
+						<h:outputText value="Fecha Consulta" />
+						<rich:calendar value="#{usuarioMBean.fechaAsistencia}"
+							datePattern="dd/MM/yyyy" showApplyButton="false"></rich:calendar>
+						<a4j:commandButton value="Consultar"
+							action="#{usuarioMBean.consultaAsistenciaXDia()}"
+							render="idPgTable"></a4j:commandButton>
+					</h:panelGrid>
+					<h:outputText value="" />
 				</h:panelGrid>
 
 				<h:panelGrid cellpadding="0" cellspacing="0" border="0"
@@ -50,22 +57,22 @@
 							<f:facet name="header">
 								<h:outputText value="Fecha" />
 							</f:facet>
-							<h:outputText value="#{fila.fechaIngreso}" >
-								<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-05"/>
+							<h:outputText value="#{fila.fechaIngreso}">
+								<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-05" />
 							</h:outputText>
 						</rich:column>
 						<rich:column style="text-align:right;">
 							<f:facet name="header">
 								<h:outputText value="Hora Entrada" />
 							</f:facet>
-							<h:outputText value="#{fila.fechaIngreso}" >
-								<f:convertDateTime pattern="hh:mm" timeZone="GMT-05"/>
+							<h:outputText value="#{fila.fechaIngreso}">
+								<f:convertDateTime pattern="hh:mm" timeZone="GMT-05" />
 							</h:outputText>
 						</rich:column>
-						
+
 					</rich:dataTable>
 					<h:outputText value="" />
-					
+
 				</h:panelGrid>
 			</h:panelGrid>
 		</h:form>

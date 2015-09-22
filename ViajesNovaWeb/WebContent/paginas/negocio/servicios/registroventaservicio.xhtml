@@ -254,18 +254,23 @@
 										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraCodigoReserva}" />
 									<h:inputText
 										value="#{servicioAgenteMBean.detalleServicio.codigoReserva}"
-										maxlength="10" size="15"
+										maxlength="10" size="15" styleClass="estilocampo1"
 										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraCodigoReserva}" />
-									
+
 									<h:outputText value="Numero Boleto"
 										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraNumeroBoleto}" />
 									<h:inputText maxlength="10" size="15"
+										onkeypress="return js_soloEntero(event)"
 										value="#{servicioAgenteMBean.detalleServicio.numeroBoleto}"
 										rendered="#{servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraNumeroBoleto}" />
-									<h:outputText value="" rendered="#{!servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraNumeroBoleto}" />
-									<h:outputText value="" rendered="#{!servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraNumeroBoleto}" />
-									<h:outputText value="" rendered="#{!servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraCodigoReserva}" />
-									<h:outputText value="" rendered="#{!servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraCodigoReserva}" />
+									<h:outputText value=""
+										rendered="#{!servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraNumeroBoleto}" />
+									<h:outputText value=""
+										rendered="#{!servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraNumeroBoleto}" />
+									<h:outputText value=""
+										rendered="#{!servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraCodigoReserva}" />
+									<h:outputText value=""
+										rendered="#{!servicioAgenteMBean.detalleServicio.configuracionTipoServicio.muestraCodigoReserva}" />
 
 								</h:panelGrid>
 
@@ -464,9 +469,10 @@
 
 								<f:facet name="footer">
 									<h:panelGrid cellpadding="0" cellspacing="0" border="0"
-										columns="1" style="width:100%;">
+										columns="1" style="width:100%;text-align:center;">
 										<h:panelGrid cellpadding="0" cellspacing="0" border="0"
-											columns="1" style="width:100%;" id="idBtnsServicio"
+											columns="1" style="width:100%;text-align:center;"
+											id="idBtnsServicio"
 											rendered="#{servicioAgenteMBean.cargoConfiguracionTipoServicio}">
 											<h:panelGrid cellpadding="0" cellspacing="0" border="0"
 												columns="1" style="width:100%;text-align:center;"
@@ -478,26 +484,35 @@
 												</a4j:commandButton>
 											</h:panelGrid>
 											<h:panelGrid cellpadding="0" cellspacing="0" border="0"
-												columns="2" style="text-align:center;"
-												rendered="#{servicioAgenteMBean.editaServicioAgregado}">
-												<a4j:commandButton value="Actualizar" type="button"
-													render="idBtnsServicio, idGrdTabla, idServVenta, idDetalleTabla, idGrdPanel, idFrNuevServicio, idTotalesServicios, idfrcred, idPanelHidden, idPanelBotones, idModalcorrecto, idModalError"
-													action="#{servicioAgenteMBean.actualizarServicio()}"
-													oncomplete="mostrarModal('idformadmservicios')">
-												</a4j:commandButton>
-												<a4j:commandButton value="Cancelar" type="button"
-													action="#{servicioAgenteMBean.cancelarEdicionServicio()}"
-													render="idBtnsServicio, idGrdTabla, idServVenta, idDetalleTabla, idGrdPanel, idFrNuevServicio, idTotalesServicios, idfrcred, idPanelHidden, idPanelBotones, idModalcorrecto, idModalError">
-												</a4j:commandButton>
+												columns="1" style="text-align:center;width:100%;">
+												<table align="center">
+													<tr>
+														<td><h:panelGrid cellpadding="0" cellspacing="0"
+																border="0" columns="2"
+																rendered="#{servicioAgenteMBean.editaServicioAgregado}">
+																<a4j:commandButton value="Actualizar" type="button"
+																	styleClass="estiloBoton2"
+																	render="idBtnsServicio, idGrdTabla, idServVenta, idDetalleTabla, idGrdPanel, idFrNuevServicio, idTotalesServicios, idfrcred, idPanelHidden, idPanelBotones, idModalcorrecto, idModalError"
+																	action="#{servicioAgenteMBean.actualizarServicio()}"
+																	oncomplete="mostrarModal('idformadmservicios')">
+																</a4j:commandButton>
+																<a4j:commandButton value="Cancelar" type="button"
+																	style="estiloBoton2" styleClass="estiloBoton2"
+																	action="#{servicioAgenteMBean.cancelarEdicionServicio()}"
+																	render="idBtnsServicio, idGrdTabla, idServVenta, idDetalleTabla, idGrdPanel, idFrNuevServicio, idTotalesServicios, idfrcred, idPanelHidden, idPanelBotones, idModalcorrecto, idModalError">
+																</a4j:commandButton>
+															</h:panelGrid></td>
+													</tr>
+												</table>
 											</h:panelGrid>
-										</h:panelGrid>
-										<h:panelGrid cellpadding="0" cellspacing="0" border="0"
-											columns="1" style="height:20px;"
-											rendered="#{!servicioAgenteMBean.cargoConfiguracionTipoServicio}">
 										</h:panelGrid>
 										<a4j:commandButton id="idbtncalculacomision"
 											style="display:none;" render="idGrComiPro"
 											action="#{servicioAgenteMBean.calcularComision()}"></a4j:commandButton>
+										<h:panelGrid cellpadding="0" cellspacing="0" border="0"
+											columns="1" style="height:20px;"
+											rendered="#{!servicioAgenteMBean.cargoConfiguracionTipoServicio}">
+										</h:panelGrid>
 									</h:panelGrid>
 								</f:facet>
 							</h:panelGrid>
