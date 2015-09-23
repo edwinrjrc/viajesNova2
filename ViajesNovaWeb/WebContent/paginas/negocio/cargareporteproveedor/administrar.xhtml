@@ -74,6 +74,7 @@
 							style="width:100%;text-align:center;" columns="1">
 							<a4j:commandButton value="Buscar" render="idTablaCarga"
 								action="#{cargaReporteProveedorMBean.buscarArchivoCargado()}"></a4j:commandButton>
+							<h:commandButton value="Generar Comprobante" action="#{cargaReporteProveedorMBean.generarComprobante(null)}" />
 						</h:panelGrid>
 					</f:facet>
 
@@ -137,6 +138,9 @@
 								<h:outputText value="Número de Seleccionados" />
 							</f:facet>
 							<h:outputText value="#{fila.numeroSeleccionados}" />
+						</rich:column>
+						<rich:column>
+							<h:commandButton value="Generar Comprobante" action="#{cargaReporteProveedorMBean.generarComprobante(fila)}" />
 						</rich:column>
 						<f:facet name="footer">
 							<rich:dataScroller for="idTablaCarga"></rich:dataScroller>

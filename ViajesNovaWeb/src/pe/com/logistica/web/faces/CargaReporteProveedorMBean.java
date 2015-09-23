@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -17,6 +18,8 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +28,7 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.richfaces.event.FileUploadEvent;
 import org.richfaces.model.UploadedFile;
 
@@ -234,6 +238,91 @@ public class CargaReporteProveedorMBean extends BaseMBean {
 		this.setColumnaInicial(null);
 		this.setFilaInicial(null);
 		this.setNroColumnas(null);
+	}
+	
+	public void generarComprobante(ReporteArchivoBusqueda reporteCargado){
+		HSSFWorkbook archivoExcel = new HSSFWorkbook();
+		
+		String nombreHoja = "Costamar";
+		HSSFSheet hoja1 = archivoExcel.createSheet(nombreHoja);
+		
+		hoja1.setColumnWidth(1, 12*256);
+		hoja1.setColumnWidth(2, 13*256);
+		
+		HSSFRow fila = hoja1.createRow(1);
+		fila.setHeight((short)UtilWeb.calculaTamanioExcel(10));
+		fila = hoja1.createRow(4);
+		fila.setHeight((short)UtilWeb.calculaTamanioExcel(11));
+		fila = hoja1.createRow(5);
+		HSSFCell celda = fila.createCell(1);
+		String fecha = "20/10/2015";
+		celda.setCellValue(fecha);
+		fila = hoja1.createRow(6);
+		fila.setHeight((short)UtilWeb.calculaTamanioExcel(34));
+		fila = hoja1.createRow(7);
+		celda = fila.createCell(0);
+		String nombreProveedor = "Costamar Travel Cruise & Tours S.A.C.";
+		celda.setCellValue(nombreProveedor);
+		celda = fila.createCell(6);
+		String rucProveedor = "20126339632";
+		celda.setCellValue(rucProveedor);
+		
+		CellRangeAddress region = new CellRangeAddress(7,7,0,4);
+		hoja1.addMergedRegion(region);
+		CellRangeAddress region2 = new CellRangeAddress(7,7,6,7);
+		hoja1.addMergedRegion(region2);
+		
+		fila = hoja1.createRow(9);
+		CellRangeAddress region3 = new CellRangeAddress(9,9,0,6);
+		hoja1.addMergedRegion(region3);
+		celda = fila.createCell(0);
+		String direccion = "CAL. BERLIN NRO. 364  - MIRAFLORES";
+		celda.setCellValue(direccion);
+		
+		fila = hoja1.createRow(13);
+		celda = fila.createCell(1);
+		CellRangeAddress region4 = new CellRangeAddress(13,13,1,6);
+		hoja1.addMergedRegion(region4);
+		
+		fila = hoja1.createRow(23);
+		fila.setHeight((short)UtilWeb.calculaTamanioExcel(30));
+		fila = hoja1.createRow(24);
+		fila.setHeight((short)UtilWeb.calculaTamanioExcel(42));
+		celda = fila.createCell(0);
+		celda.setCellValue("10");
+		celda = fila.createCell(1);
+		celda.setCellValue("Septiembre");
+		celda = fila.createCell(2);
+		celda.setCellValue("2015");
+		
+		celda = fila.createCell(5);
+		celda.setCellValue("$ 60.69");
+		celda = fila.createCell(6);
+		celda.setCellValue("$ 10.92");
+		celda = fila.createCell(7);
+		celda.setCellValue("$ 71.61");
+		
+		try {
+			HttpServletResponse response = obtenerResponse();
+			response.setContentType("application/vnd.ms-excel");
+			response.setHeader("Content-disposition", "attachment;filename="
+					+ "reporte.xls");
+			response.setHeader("Content-Transfer-Encoding", "binary");
+
+			FacesContext facesContext = obtenerContexto();
+
+			ServletOutputStream respuesta = response.getOutputStream();
+			// respuesta.write(xls.getBytes());
+			archivoExcel.write(respuesta);
+			archivoExcel.close();
+
+			respuesta.close();
+			respuesta.flush();
+			
+			facesContext.responseComplete();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

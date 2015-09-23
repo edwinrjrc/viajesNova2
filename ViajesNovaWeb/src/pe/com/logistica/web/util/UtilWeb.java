@@ -3,6 +3,8 @@
  */
 package pe.com.logistica.web.util;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -228,5 +230,15 @@ public class UtilWeb {
 			return celda.toString();
 		}
 		return "";
+	}
+	
+	public static int calculaTamanioExcel(int pixeles){
+		BigDecimal tamanio = BigDecimal.ZERO;
+		
+		tamanio = BigDecimal.valueOf(pixeles).divide(BigDecimal.valueOf(7.0), 0, RoundingMode.HALF_UP);
+		
+		tamanio = tamanio.multiply(BigDecimal.valueOf(256.0)); 
+		
+		return tamanio.intValue();
 	}
 }
