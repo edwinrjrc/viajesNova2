@@ -25,6 +25,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -246,19 +248,30 @@ public class CargaReporteProveedorMBean extends BaseMBean {
 		String nombreHoja = "Costamar";
 		HSSFSheet hoja1 = archivoExcel.createSheet(nombreHoja);
 		
+		HSSFCellStyle estilo = archivoExcel.createCellStyle();
+		HSSFFont fuente = archivoExcel.createFont();
+		fuente.setFontName("Calibri");
+		fuente.setFontHeightInPoints((short) 11);
+		estilo.setFont(fuente);
+		
+		
 		hoja1.setColumnWidth(1, 12*256);
 		hoja1.setColumnWidth(2, 13*256);
 		
-		HSSFRow fila = hoja1.createRow(1);
-		fila.setHeight((short)UtilWeb.calculaTamanioExcel(10));
+		HSSFRow fila = null;
+		fila = hoja1.createRow(0);
+		fila = hoja1.createRow(1);
+		fila.setHeightInPoints((float)20.25);
 		fila = hoja1.createRow(4);
-		fila.setHeight((short)UtilWeb.calculaTamanioExcel(11));
+		fila.setHeightInPoints((float)20.25);
 		fila = hoja1.createRow(5);
 		HSSFCell celda = fila.createCell(1);
 		String fecha = "20/10/2015";
 		celda.setCellValue(fecha);
+		celda.setCellStyle(estilo);
+		
 		fila = hoja1.createRow(6);
-		fila.setHeight((short)UtilWeb.calculaTamanioExcel(34));
+		fila.setHeightInPoints((float)25.5);
 		fila = hoja1.createRow(7);
 		celda = fila.createCell(0);
 		String nombreProveedor = "Costamar Travel Cruise & Tours S.A.C.";
@@ -273,6 +286,7 @@ public class CargaReporteProveedorMBean extends BaseMBean {
 		hoja1.addMergedRegion(region2);
 		
 		fila = hoja1.createRow(9);
+		fila.setHeightInPoints((float)19.5);
 		CellRangeAddress region3 = new CellRangeAddress(9,9,0,6);
 		hoja1.addMergedRegion(region3);
 		celda = fila.createCell(0);
@@ -285,9 +299,9 @@ public class CargaReporteProveedorMBean extends BaseMBean {
 		hoja1.addMergedRegion(region4);
 		
 		fila = hoja1.createRow(23);
-		fila.setHeight((short)UtilWeb.calculaTamanioExcel(30));
+		fila.setHeightInPoints((float)22.5);
 		fila = hoja1.createRow(24);
-		fila.setHeight((short)UtilWeb.calculaTamanioExcel(42));
+		fila.setHeightInPoints((float)31.5);
 		celda = fila.createCell(0);
 		celda.setCellValue("10");
 		celda = fila.createCell(1);
