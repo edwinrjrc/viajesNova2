@@ -245,40 +245,82 @@ public class CargaReporteProveedorMBean extends BaseMBean {
 	public void generarComprobante(ReporteArchivoBusqueda reporteCargado){
 		HSSFWorkbook archivoExcel = new HSSFWorkbook();
 		
+		HSSFFont fuenteDefecto = archivoExcel.createFont();
+		fuenteDefecto.setFontName("Calibri");
+		fuenteDefecto.setFontHeightInPoints((short) 11);
+
 		String nombreHoja = "Costamar";
 		HSSFSheet hoja1 = archivoExcel.createSheet(nombreHoja);
-		
-		HSSFCellStyle estilo = archivoExcel.createCellStyle();
+				
+		HSSFCellStyle estiloCalibri = archivoExcel.createCellStyle();
 		HSSFFont fuente = archivoExcel.createFont();
 		fuente.setFontName("Calibri");
 		fuente.setFontHeightInPoints((short) 11);
-		estilo.setFont(fuente);
+		estiloCalibri.setFont(fuente);
 		
+		HSSFCellStyle estiloCalibriNegrita = archivoExcel.createCellStyle();
+		fuente = archivoExcel.createFont();
+		fuente.setFontName("Calibri");
+		fuente.setFontHeightInPoints((short) 11);
+		fuente.setBold(true);
+		estiloCalibriNegrita.setFont(fuente);
 		
-		hoja1.setColumnWidth(1, 12*256);
-		hoja1.setColumnWidth(2, 13*256);
+		HSSFCellStyle estiloCalibriCentro = archivoExcel.createCellStyle();
+		fuente = archivoExcel.createFont();
+		fuente.setFontName("Calibri");
+		fuente.setFontHeightInPoints((short) 11);
+		estiloCalibriCentro.setFont(fuente);
+		estiloCalibriCentro.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		
+		HSSFCellStyle estiloCalibriDerecha = archivoExcel.createCellStyle();
+		fuente = archivoExcel.createFont();
+		fuente.setFontName("Calibri");
+		fuente.setFontHeightInPoints((short) 11);
+		estiloCalibriDerecha.setFont(fuente);
+		estiloCalibriDerecha.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
 		
 		HSSFRow fila = null;
-		fila = hoja1.createRow(0);
-		fila = hoja1.createRow(1);
+		HSSFCell celda = null;
+		for (int i=0; i<30; i++){
+			fila = hoja1.createRow(i);
+			celda = fila.createCell(0);
+			if (i == 0){
+				for (int j=0;j<10; j++){
+					celda = fila.createCell(j);
+					celda.setCellStyle(estiloCalibri);
+				}
+			}
+			
+			celda.setCellStyle(estiloCalibri);
+		}
+		
+		hoja1.setColumnWidth(0, 11*256);
+		hoja1.setColumnWidth(1, 12*256);
+		hoja1.setColumnWidth(2, 13*256);
+		hoja1.setColumnWidth(3, (int)11.9*256);
+		
+		fila = hoja1.getRow(1);
 		fila.setHeightInPoints((float)20.25);
-		fila = hoja1.createRow(4);
+		fila = hoja1.getRow(4);
 		fila.setHeightInPoints((float)20.25);
-		fila = hoja1.createRow(5);
-		HSSFCell celda = fila.createCell(1);
+		fila = hoja1.getRow(5);
+		celda = fila.createCell(1);
 		String fecha = "20/10/2015";
 		celda.setCellValue(fecha);
-		celda.setCellStyle(estilo);
+		celda.setCellStyle(estiloCalibri);
 		
-		fila = hoja1.createRow(6);
+		fila = hoja1.getRow(6);
 		fila.setHeightInPoints((float)25.5);
-		fila = hoja1.createRow(7);
-		celda = fila.createCell(0);
+		fila = hoja1.getRow(7);
+		celda = fila.getCell(0);
 		String nombreProveedor = "Costamar Travel Cruise & Tours S.A.C.";
 		celda.setCellValue(nombreProveedor);
+		celda.setCellStyle(estiloCalibriCentro);
+		
 		celda = fila.createCell(6);
 		String rucProveedor = "20126339632";
 		celda.setCellValue(rucProveedor);
+		celda.setCellStyle(estiloCalibriCentro);
 		
 		CellRangeAddress region = new CellRangeAddress(7,7,0,4);
 		hoja1.addMergedRegion(region);
@@ -292,29 +334,37 @@ public class CargaReporteProveedorMBean extends BaseMBean {
 		celda = fila.createCell(0);
 		String direccion = "CAL. BERLIN NRO. 364  - MIRAFLORES";
 		celda.setCellValue(direccion);
+		celda.setCellStyle(estiloCalibriCentro);
 		
-		fila = hoja1.createRow(13);
+		fila = hoja1.getRow(13);
 		celda = fila.createCell(1);
 		CellRangeAddress region4 = new CellRangeAddress(13,13,1,6);
 		hoja1.addMergedRegion(region4);
 		
-		fila = hoja1.createRow(23);
+		fila = hoja1.getRow(23);
 		fila.setHeightInPoints((float)22.5);
-		fila = hoja1.createRow(24);
+		fila = hoja1.getRow(24);
 		fila.setHeightInPoints((float)31.5);
-		celda = fila.createCell(0);
+		celda = fila.getCell(0);
 		celda.setCellValue("10");
+		celda.setCellStyle(estiloCalibriDerecha);
 		celda = fila.createCell(1);
 		celda.setCellValue("Septiembre");
+		celda.setCellStyle(estiloCalibri);
 		celda = fila.createCell(2);
+		celda.setCellStyle(estiloCalibriDerecha);
 		celda.setCellValue("2015");
 		
 		celda = fila.createCell(5);
+		celda.setCellStyle(estiloCalibriNegrita);
 		celda.setCellValue("$ 60.69");
 		celda = fila.createCell(6);
+		celda.setCellStyle(estiloCalibriNegrita);
 		celda.setCellValue("$ 10.92");
+		celda.setCellStyle(estiloCalibriNegrita);
 		celda = fila.createCell(7);
 		celda.setCellValue("$ 71.61");
+		celda.setCellStyle(estiloCalibriNegrita);
 		
 		try {
 			HttpServletResponse response = obtenerResponse();
