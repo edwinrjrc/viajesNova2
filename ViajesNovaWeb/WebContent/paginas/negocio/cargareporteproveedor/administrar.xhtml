@@ -72,16 +72,14 @@
 					<f:facet name="footer">
 						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
 							style="width:100%;text-align:center;" columns="1">
-							<a4j:commandButton value="Buscar" render="idTablaCarga"
+							<a4j:commandButton value="Buscar" render="idTablaCarga" styleClass="estiloBoton1"
 								action="#{cargaReporteProveedorMBean.buscarArchivoCargado()}"></a4j:commandButton>
-							<h:commandButton value="Generar Comprobante" action="#{cargaReporteProveedorMBean.generarComprobante(null)}" />
 						</h:panelGrid>
 					</f:facet>
 
 				</h:panelGrid>
 				<h:panelGrid cellpadding="0" cellspacing="0" border="0"
-					style="width:100%;" columns="3"
-					columnClasses="col1TablaCentro,col2TablaCentro,col3TablaCentro">
+					style="width:100%;" columns="1">
 					<f:facet name="header">
 						<h:panelGrid cellpadding="0" cellspacing="0" border="0"
 							style="width:100%;text-align:left;" columns="1">
@@ -151,9 +149,10 @@
 
 				<f:facet name="footer">
 					<h:panelGrid cellpadding="0" cellspacing="0" border="0"
-						style="width:100%;text-align:center;">
+						style="width:100%;text-align:center;" columns="1">
+						<br />
 						<a4j:commandButton value="Cargar Archivo"
-							render="idPgrCargaDeudas"
+							render="idPgrCargaDeudas" styleClass="estiloBoton1"
 							action="#{cargaReporteProveedorMBean.iniciarCargaArchivo()}"
 							oncomplete="#{rich:component('idModalCargaDeuda')}.show();"></a4j:commandButton>
 						<a4j:commandButton id="idBotonModalCorrecto" style="display:none;"

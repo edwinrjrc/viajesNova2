@@ -3,6 +3,7 @@
  */
 package pe.com.logistica.web.faces;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -12,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
+import java.util.ResourceBundle;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -136,7 +139,7 @@ public class CargaReporteProveedorMBean extends BaseMBean {
 					fila = hojaInicial.getRow(i);
 					iCelda = this.getColumnaInicial();
 					celda = null;
-					while (!registroCabecera && iCelda < (this.getNroColumnas()-1)){
+					while (!registroCabecera && iCelda < (this.getNroColumnas())){
 						celda = fila.getCell(iCelda);
 						String dato = UtilWeb.obtenerDato(celda);
 						cabecera.add(dato);
@@ -148,7 +151,7 @@ public class CargaReporteProveedorMBean extends BaseMBean {
 					}
 					if (i > this.getFilaInicial()){
 						int j=1;
-						while (iCelda < this.getNroColumnas()){
+						while (iCelda <= this.getNroColumnas()){
 							celda = fila.getCell(iCelda);
 							String dato = UtilWeb.obtenerDato(celda);
 							
@@ -243,130 +246,208 @@ public class CargaReporteProveedorMBean extends BaseMBean {
 	}
 	
 	public void generarComprobante(ReporteArchivoBusqueda reporteCargado){
-		HSSFWorkbook archivoExcel = new HSSFWorkbook();
-		
-		HSSFFont fuenteDefecto = archivoExcel.createFont();
-		fuenteDefecto.setFontName("Calibri");
-		fuenteDefecto.setFontHeightInPoints((short) 11);
+		try {
+			HSSFWorkbook archivoExcel = new HSSFWorkbook();
+			
+			HSSFFont fuenteDefecto = archivoExcel.createFont();
+			fuenteDefecto.setFontName("Calibri");
+			fuenteDefecto.setFontHeightInPoints((short) 11);
 
-		String nombreHoja = "Costamar";
-		HSSFSheet hoja1 = archivoExcel.createSheet(nombreHoja);
-				
-		HSSFCellStyle estiloCalibri = archivoExcel.createCellStyle();
-		HSSFFont fuente = archivoExcel.createFont();
-		fuente.setFontName("Calibri");
-		fuente.setFontHeightInPoints((short) 11);
-		estiloCalibri.setFont(fuente);
-		
-		HSSFCellStyle estiloCalibriNegrita = archivoExcel.createCellStyle();
-		fuente = archivoExcel.createFont();
-		fuente.setFontName("Calibri");
-		fuente.setFontHeightInPoints((short) 11);
-		fuente.setBold(true);
-		estiloCalibriNegrita.setFont(fuente);
-		
-		HSSFCellStyle estiloCalibriCentro = archivoExcel.createCellStyle();
-		fuente = archivoExcel.createFont();
-		fuente.setFontName("Calibri");
-		fuente.setFontHeightInPoints((short) 11);
-		estiloCalibriCentro.setFont(fuente);
-		estiloCalibriCentro.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-		
-		HSSFCellStyle estiloCalibriDerecha = archivoExcel.createCellStyle();
-		fuente = archivoExcel.createFont();
-		fuente.setFontName("Calibri");
-		fuente.setFontHeightInPoints((short) 11);
-		estiloCalibriDerecha.setFont(fuente);
-		estiloCalibriDerecha.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
-		
-		HSSFRow fila = null;
-		HSSFCell celda = null;
-		for (int i=0; i<30; i++){
-			fila = hoja1.createRow(i);
-			celda = fila.createCell(0);
-			if (i == 0){
-				for (int j=0;j<10; j++){
-					celda = fila.createCell(j);
-					celda.setCellStyle(estiloCalibri);
+			String nombreHoja = "Costamar";
+			HSSFSheet hoja1 = archivoExcel.createSheet(nombreHoja);
+					
+			HSSFCellStyle estiloCalibri = archivoExcel.createCellStyle();
+			HSSFFont fuente = archivoExcel.createFont();
+			fuente.setFontName("Calibri");
+			fuente.setFontHeightInPoints((short) 11);
+			estiloCalibri.setFont(fuente);
+			
+			HSSFCellStyle estiloCalibriNegrita = archivoExcel.createCellStyle();
+			fuente = archivoExcel.createFont();
+			fuente.setFontName("Calibri");
+			fuente.setFontHeightInPoints((short) 11);
+			fuente.setBold(true);
+			estiloCalibriNegrita.setFont(fuente);
+			
+			HSSFCellStyle sCalibriNegrita12 = archivoExcel.createCellStyle();
+			fuente = archivoExcel.createFont();
+			fuente.setFontName("Calibri");
+			fuente.setFontHeightInPoints((short) 12);
+			fuente.setBold(true);
+			sCalibriNegrita12.setFont(fuente);
+			
+			HSSFCellStyle estiloCalibriCentro = archivoExcel.createCellStyle();
+			fuente = archivoExcel.createFont();
+			fuente.setFontName("Calibri");
+			fuente.setFontHeightInPoints((short) 11);
+			estiloCalibriCentro.setFont(fuente);
+			estiloCalibriCentro.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+			
+			HSSFCellStyle estiloCalibriDerecha = archivoExcel.createCellStyle();
+			fuente = archivoExcel.createFont();
+			fuente.setFontName("Calibri");
+			fuente.setFontHeightInPoints((short) 11);
+			estiloCalibriDerecha.setFont(fuente);
+			estiloCalibriDerecha.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+			
+			HSSFRow fila = null;
+			HSSFCell celda = null;
+			for (int i=0; i<30; i++){
+				fila = hoja1.createRow(i);
+				celda = fila.createCell(0);
+				if (i == 0){
+					for (int j=0;j<10; j++){
+						celda = fila.createCell(j);
+						celda.setCellStyle(estiloCalibri);
+					}
 				}
+				
+				celda.setCellStyle(estiloCalibri);
 			}
 			
+			Properties prop = new Properties();
+			
+			String propFileName = "D:\\Edwin\\excel.properties";
+			InputStream inputStream = new FileInputStream(propFileName);
+			prop.load(inputStream);
+			
+			hoja1.setColumnWidth(0, 11*256);
+			hoja1.setColumnWidth(1, 12*256);
+			hoja1.setColumnWidth(2, 13*256);
+			hoja1.setColumnWidth(3, 2940);
+			hoja1.setColumnWidth(4, 2940);
+			hoja1.setColumnWidth(5, 2940);
+			hoja1.setColumnWidth(6, 2940);
+			hoja1.setColumnWidth(7, 2940);
+			hoja1.setColumnWidth(8, 2940);
+			hoja1.setColumnWidth(9, 2940);
+			hoja1.setColumnWidth(10, 2940);
+			hoja1.setColumnWidth(11, 2940);
+			
+			
+			fila = hoja1.getRow(1);
+			fila.setHeightInPoints((float)20.25);
+			fila = hoja1.getRow(4);
+			fila.setHeightInPoints((float)20.25);
+			fila = hoja1.getRow(5);
+			celda = fila.createCell(1);
+			String fecha = "20/10/2015";
+			celda.setCellValue(fecha);
 			celda.setCellStyle(estiloCalibri);
-		}
-		
-		hoja1.setColumnWidth(0, 11*256);
-		hoja1.setColumnWidth(1, 12*256);
-		hoja1.setColumnWidth(2, 13*256);
-		hoja1.setColumnWidth(3, (int)11.9*256);
-		
-		fila = hoja1.getRow(1);
-		fila.setHeightInPoints((float)20.25);
-		fila = hoja1.getRow(4);
-		fila.setHeightInPoints((float)20.25);
-		fila = hoja1.getRow(5);
-		celda = fila.createCell(1);
-		String fecha = "20/10/2015";
-		celda.setCellValue(fecha);
-		celda.setCellStyle(estiloCalibri);
-		
-		fila = hoja1.getRow(6);
-		fila.setHeightInPoints((float)25.5);
-		fila = hoja1.getRow(7);
-		celda = fila.getCell(0);
-		String nombreProveedor = "Costamar Travel Cruise & Tours S.A.C.";
-		celda.setCellValue(nombreProveedor);
-		celda.setCellStyle(estiloCalibriCentro);
-		
-		celda = fila.createCell(6);
-		String rucProveedor = "20126339632";
-		celda.setCellValue(rucProveedor);
-		celda.setCellStyle(estiloCalibriCentro);
-		
-		CellRangeAddress region = new CellRangeAddress(7,7,0,4);
-		hoja1.addMergedRegion(region);
-		CellRangeAddress region2 = new CellRangeAddress(7,7,6,7);
-		hoja1.addMergedRegion(region2);
-		
-		fila = hoja1.createRow(9);
-		fila.setHeightInPoints((float)19.5);
-		CellRangeAddress region3 = new CellRangeAddress(9,9,0,6);
-		hoja1.addMergedRegion(region3);
-		celda = fila.createCell(0);
-		String direccion = "CAL. BERLIN NRO. 364  - MIRAFLORES";
-		celda.setCellValue(direccion);
-		celda.setCellStyle(estiloCalibriCentro);
-		
-		fila = hoja1.getRow(13);
-		celda = fila.createCell(1);
-		CellRangeAddress region4 = new CellRangeAddress(13,13,1,6);
-		hoja1.addMergedRegion(region4);
-		
-		fila = hoja1.getRow(23);
-		fila.setHeightInPoints((float)22.5);
-		fila = hoja1.getRow(24);
-		fila.setHeightInPoints((float)31.5);
-		celda = fila.getCell(0);
-		celda.setCellValue("10");
-		celda.setCellStyle(estiloCalibriDerecha);
-		celda = fila.createCell(1);
-		celda.setCellValue("Septiembre");
-		celda.setCellStyle(estiloCalibri);
-		celda = fila.createCell(2);
-		celda.setCellStyle(estiloCalibriDerecha);
-		celda.setCellValue("2015");
-		
-		celda = fila.createCell(5);
-		celda.setCellStyle(estiloCalibriNegrita);
-		celda.setCellValue("$ 60.69");
-		celda = fila.createCell(6);
-		celda.setCellStyle(estiloCalibriNegrita);
-		celda.setCellValue("$ 10.92");
-		celda.setCellStyle(estiloCalibriNegrita);
-		celda = fila.createCell(7);
-		celda.setCellValue("$ 71.61");
-		celda.setCellStyle(estiloCalibriNegrita);
-		
-		try {
+			
+			fila = hoja1.getRow(6);
+			fila.setHeightInPoints((float)25.5);
+			fila = hoja1.getRow(7);
+			celda = fila.getCell(0);
+			String nombreProveedor = "Costamar Travel Cruise & Tours S.A.C.";
+			celda.setCellValue(nombreProveedor);
+			celda.setCellStyle(estiloCalibriCentro);
+			
+			celda = fila.createCell(6);
+			String rucProveedor = "20126339632";
+			celda.setCellValue(rucProveedor);
+			celda.setCellStyle(estiloCalibriCentro);
+			
+			CellRangeAddress region = new CellRangeAddress(7,7,0,4);
+			hoja1.addMergedRegion(region);
+			CellRangeAddress region2 = new CellRangeAddress(7,7,6,7);
+			hoja1.addMergedRegion(region2);
+			
+			fila = hoja1.createRow(9);
+			fila.setHeightInPoints((float)19.5);
+			CellRangeAddress region3 = new CellRangeAddress(9,9,0,6);
+			hoja1.addMergedRegion(region3);
+			celda = fila.createCell(0);
+			String direccion = "CAL. BERLIN NRO. 364  - MIRAFLORES";
+			celda.setCellValue(direccion);
+			celda.setCellStyle(estiloCalibriCentro);
+			
+			fila = hoja1.getRow(13);
+			celda = fila.createCell(1);
+			CellRangeAddress region4 = new CellRangeAddress(13,13,1,6);
+			hoja1.addMergedRegion(region4);
+			celda.setCellValue("Por la comisión en la venta de tkt aéreo a favor de:");
+			celda.setCellStyle(estiloCalibri);
+			
+			fila = hoja1.getRow(14);
+			celda = fila.createCell(1);
+			CellRangeAddress region5 = new CellRangeAddress(14,14,1,6);
+			hoja1.addMergedRegion(region5);
+			celda.setCellValue("Pax: ARAGONEZ/HENRY - Tkt: 9657981311");
+			celda.setCellStyle(estiloCalibri);
+			
+			fila = hoja1.getRow(15);
+			celda = fila.createCell(1);
+			CellRangeAddress region6 = new CellRangeAddress(15,15,1,6);
+			hoja1.addMergedRegion(region6);
+			celda.setCellValue("Pax: FLORESMACEDO/YNESABE - Tkt: 9232545269");
+			celda.setCellStyle(estiloCalibri);
+			
+			fila = hoja1.getRow(16);
+			celda = fila.createCell(1);
+			CellRangeAddress region7 = new CellRangeAddress(16,16,1,6);
+			hoja1.addMergedRegion(region7);
+			celda.setCellValue("Pax: UBIERNA/BENJAMIN - Tkt: 9657991138");
+			celda.setCellStyle(estiloCalibri);
+			
+			fila = hoja1.getRow(17);
+			celda = fila.createCell(1);
+			CellRangeAddress region8 = new CellRangeAddress(17,17,1,6);
+			hoja1.addMergedRegion(region8);
+			celda.setCellValue("Pax: ASENCIOS ACUNA/MARCO - Tkt: 9658008911");
+			celda.setCellStyle(estiloCalibri);
+			
+			fila = hoja1.getRow(18);
+			celda = fila.createCell(1);
+			CellRangeAddress region9 = new CellRangeAddress(18,18,1,6);
+			hoja1.addMergedRegion(region9);
+			celda.setCellValue("Pax: CABALLERO/LUISA - Tkt: 9658008927");
+			celda.setCellStyle(estiloCalibri);
+			
+			fila = hoja1.getRow(19);
+			celda = fila.createCell(1);
+			CellRangeAddress region10 = new CellRangeAddress(19,19,1,6);
+			hoja1.addMergedRegion(region10);
+			celda.setCellValue("Pax: LOPEZ/VIANEY - Tkt: 9658008961");
+			celda.setCellStyle(estiloCalibri);
+			
+			fila = hoja1.getRow(20);
+			fila.setHeightInPoints((float)10.50);
+			
+			fila = hoja1.getRow(22);
+			fila.setHeightInPoints((float)3.0);
+			
+			fila = hoja1.getRow(23);
+			CellRangeAddress region11 = new CellRangeAddress(23,23,1,6);
+			hoja1.addMergedRegion(region11);
+			fila.setHeightInPoints((float)22.50);
+			celda = fila.createCell(1);
+			celda.setCellValue("Setenta y uno con 61/100 Dólares americanos");
+			celda.setCellStyle(estiloCalibri);
+			
+			fila = hoja1.getRow(24);
+			fila.setHeightInPoints((float)31.5);
+			celda = fila.getCell(0);
+			celda.setCellValue("10");
+			celda.setCellStyle(estiloCalibriDerecha);
+			celda = fila.createCell(1);
+			celda.setCellValue("Septiembre");
+			celda.setCellStyle(estiloCalibri);
+			celda = fila.createCell(2);
+			celda.setCellStyle(estiloCalibriDerecha);
+			celda.setCellValue("2015");
+			
+			celda = fila.createCell(5);
+			celda.setCellStyle(sCalibriNegrita12);
+			celda.setCellValue("$ 60.69");
+			celda = fila.createCell(6);
+			celda.setCellStyle(sCalibriNegrita12);
+			celda.setCellValue("$ 10.92");
+			celda.setCellStyle(sCalibriNegrita12);
+			celda = fila.createCell(7);
+			celda.setCellValue("$ 71.61");
+			celda.setCellStyle(sCalibriNegrita12);
+			
 			HttpServletResponse response = obtenerResponse();
 			response.setContentType("application/vnd.ms-excel");
 			response.setHeader("Content-disposition", "attachment;filename="
@@ -384,8 +465,8 @@ public class CargaReporteProveedorMBean extends BaseMBean {
 			respuesta.flush();
 			
 			facesContext.responseComplete();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
 	}
 

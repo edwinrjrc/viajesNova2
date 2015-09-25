@@ -59,8 +59,7 @@ public class UtilWeb {
 				return Integer.parseInt(cadena);
 			}
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
 		return 0;
 	}
