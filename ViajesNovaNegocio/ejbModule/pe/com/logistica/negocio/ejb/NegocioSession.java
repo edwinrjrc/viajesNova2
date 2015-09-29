@@ -611,7 +611,6 @@ public class NegocioSession implements NegocioSessionRemote,
 		Connection conexion = null;
 		try {
 			conexion = UtilConexion.obtenerConexion();
-
 			cliente.setTipoPersona(1);
 
 			Integer idPersona = personaDao.actualizarPersona(cliente, conexion);
@@ -622,6 +621,10 @@ public class NegocioSession implements NegocioSessionRemote,
 			direccionDao.eliminarDireccionPersona(cliente, conexion);
 			if (cliente.getListaDirecciones() != null) {
 				int idDireccion = 0;
+				if (!direccionDao.eliminarPersonaDirecciones(cliente, conexion)){
+					throw new ResultadoCeroDaoException(
+							"No se pudo completar la actualización de direcciones de la persona");
+				}
 				for (Direccion direccion : cliente.getListaDirecciones()) {
 					idDireccion = direccionDao.actualizarDireccion(direccion,
 							conexion);
@@ -687,7 +690,7 @@ public class NegocioSession implements NegocioSessionRemote,
 			}
 			ClienteDao clienteDao = new ClienteDaoImpl();
 			clienteDao.actualizarPersonaAdicional(cliente, conexion);
-
+			
 			return true;
 		} catch (ResultadoCeroDaoException e) {
 			throw new ResultadoCeroDaoException(e.getMensajeError(), e);

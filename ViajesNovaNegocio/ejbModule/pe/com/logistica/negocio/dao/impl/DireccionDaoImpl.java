@@ -515,4 +515,31 @@ public class DireccionDaoImpl implements DireccionDao {
 		
 		return resultado;
 	}
+
+	@Override
+	public boolean eliminarPersonaDirecciones(Persona persona, Connection conn)
+			throws SQLException {
+		CallableStatement cs = null;
+		String sql = "{ ? = call negocio.fn_eliminarpersonadirecciones(?) }";
+		
+		try {
+			cs = conn.prepareCall(sql);
+			int i=1;
+			cs.registerOutParameter(i++, Types.BOOLEAN);
+			cs.setInt(i++, persona.getCodigoEntero().intValue());
+			
+			cs.execute();
+			return cs.getBoolean(1);
+		} catch (SQLException e) {
+			throw new SQLException(e);
+		} finally{
+			try {
+				if (cs != null){
+					cs.close();
+				}
+			} catch (SQLException e) {
+				throw new SQLException(e);
+			}
+		}
+	}
 }

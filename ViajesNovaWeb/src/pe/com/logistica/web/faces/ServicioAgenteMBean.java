@@ -551,7 +551,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 		}
 
 		if (0 == fees) {
-			throw new ErrorRegistroDataException("Debe agregar El Fee de Venta");
+			//throw new ErrorRegistroDataException("Debe agregar El Fee de Venta");
 		}
 	}
 

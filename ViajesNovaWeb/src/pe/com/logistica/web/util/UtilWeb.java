@@ -189,7 +189,7 @@ public class UtilWeb {
 			return true;
 		}
 		else{
-			if (fecha1.before(fecha2)){
+			if (fecha1.after(fecha2)){
 				return true;
 			}	
 		}

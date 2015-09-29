@@ -307,10 +307,6 @@ public class CargaReporteProveedorMBean extends BaseMBean {
 			
 			Properties prop = new Properties();
 			
-			String propFileName = "D:\\Edwin\\excel.properties";
-			InputStream inputStream = new FileInputStream(propFileName);
-			prop.load(inputStream);
-			
 			hoja1.setColumnWidth(0, 11*256);
 			hoja1.setColumnWidth(1, 12*256);
 			hoja1.setColumnWidth(2, 13*256);

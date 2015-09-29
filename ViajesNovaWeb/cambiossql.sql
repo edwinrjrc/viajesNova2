@@ -39,3 +39,30 @@ end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
+  
+-- Function: negocio.fn_eliminarpersonadirecciones(integer, character varying, character varying)
+
+-- DROP FUNCTION negocio.fn_eliminarpersonadirecciones(integer, character varying, character varying);
+
+CREATE OR REPLACE FUNCTION negocio.fn_eliminarpersonadirecciones(p_idpersona integer)
+  RETURNS boolean AS
+$BODY$
+declare fechahoy timestamp with time zone;
+
+begin
+
+select current_timestamp AT TIME ZONE 'PET' into fechahoy;
+
+UPDATE 
+  negocio."PersonaDireccion"
+SET 
+  idestadoregistro     = 0
+WHERE idestadoregistro = 1
+  AND idpersona        = p_idpersona;
+
+return true;
+
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;

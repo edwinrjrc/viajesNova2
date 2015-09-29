@@ -29,7 +29,7 @@ public class UtilConexion {
 	
 	private final static Logger logger = Logger.getLogger(UtilConexion.class);
 
-	private static String JNDI = "java:jboss/datasources/PostgreSQLDS";
+	private static String JNDI = "java:/jboss/jdbc/novaviajesDS";
 	
 	/**
 	 * 
@@ -43,7 +43,7 @@ public class UtilConexion {
 			DataSource dataSource = null;
 			
 			String jndiProperties = getJndiProperties();
-			JNDI = "java:/jboss/jdbc/novaviajesDS";
+			
 			if (StringUtils.isNotBlank(jndiProperties)){
 				dataSource = (DataSource) ic.lookup(jndiProperties);
 			}
@@ -74,7 +74,7 @@ public class UtilConexion {
 	 * @return Connection
 	 * @throws ConnectionException 
 	 */
-	public static Connection obtenerConexion(String jndi) throws ConnectionException{
+	public static Connection obtenerConexion(String jndi) {
 		try {
 			
 			jndi = (StringUtils.isBlank(jndi)?JNDI:jndi);
@@ -85,12 +85,12 @@ public class UtilConexion {
 			return dataSource.getConnection();
 		} catch (NamingException e) {
 			logger.error(e.getMessage(), e);
-			throw new ConnectionException(e);
+			//throw new ConnectionException(e);
 		} catch (SQLException e) {
 			logger.error(e.getMessage(), e);
-			throw new ConnectionException(e);
+			//throw new ConnectionException(e);
 		}
-		
+		return null;
 	}
 
 
