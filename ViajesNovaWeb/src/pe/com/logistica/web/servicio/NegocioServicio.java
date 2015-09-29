@@ -104,7 +104,7 @@ public interface NegocioServicio {
 
 	public boolean grabarComprobantesReporte(ReporteArchivo reporteArchivo,
 			ColumnasExcel columnasExcel, List<ColumnasExcel> dataExcel)
-			throws ErrorRegistroDataException, SQLException;
+			throws ErrorRegistroDataException, SQLException, Exception;
 
 	boolean registrarCuentaBancaria(CuentaBancaria cuentaBancaria)
 			throws ErrorRegistroDataException;

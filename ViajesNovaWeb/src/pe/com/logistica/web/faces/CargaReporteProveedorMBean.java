@@ -248,6 +248,9 @@ public class CargaReporteProveedorMBean extends BaseMBean {
 		} catch (SQLException e) {
 			this.mostrarMensajeError(e.getMessage());
 			logger.error(e.getMessage(), e);
+		} catch (Exception e) {
+			this.mostrarMensajeError(e.getMessage());
+			logger.error(e.getMessage(), e);
 		}
 	}
 

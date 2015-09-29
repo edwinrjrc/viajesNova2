@@ -222,7 +222,7 @@ public class NegocioServicioImpl implements NegocioServicio {
 	@Override
 	public boolean grabarComprobantesReporte(ReporteArchivo reporteArchivo,
 			ColumnasExcel columnasExcel, List<ColumnasExcel> dataExcel)
-			throws ErrorRegistroDataException, SQLException {
+			throws ErrorRegistroDataException, SQLException, Exception {
 		return ejbSession.grabarComprobantesReporte(reporteArchivo,
 				columnasExcel, dataExcel);
 	}

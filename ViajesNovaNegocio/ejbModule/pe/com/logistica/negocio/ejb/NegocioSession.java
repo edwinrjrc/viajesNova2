@@ -108,6 +108,7 @@ public class NegocioSession implements NegocioSessionRemote,
 		ProveedorDao proveedorDao = new ProveedorDaoImpl();
 		ContactoDao contactoDao = new ContactoDaoImpl();
 
+		userTransaction.begin();
 		Connection conexion = null;
 		try {
 			conexion = UtilConexion.obtenerConexion();
@@ -201,10 +202,13 @@ public class NegocioSession implements NegocioSessionRemote,
 
 			proveedorDao.registroProveedorTipo(proveedor, conexion);
 
+			userTransaction.commit();
 			return true;
 		} catch (ResultadoCeroDaoException e) {
+			userTransaction.rollback();
 			throw new ResultadoCeroDaoException(e.getMensajeError(), e);
 		} catch (SQLException e) {
+			userTransaction.rollback();
 			throw new SQLException(e);
 		} finally {
 			if (conexion != null) {
@@ -222,6 +226,7 @@ public class NegocioSession implements NegocioSessionRemote,
 		ProveedorDao proveedorDao = new ProveedorDaoImpl();
 		ContactoDao contactoDao = new ContactoDaoImpl();
 
+		userTransaction.begin();
 		Connection conexion = null;
 		try {
 			conexion = UtilConexion.obtenerConexion();
@@ -343,12 +348,13 @@ public class NegocioSession implements NegocioSessionRemote,
 							"No se pudo completar la actualizacion de cuentas bancarias");
 				}
 			}
-
+			userTransaction.commit();
 			return true;
-
 		} catch (ResultadoCeroDaoException e) {
+			userTransaction.rollback();
 			throw new ResultadoCeroDaoException(e.getMensajeError(), e);
 		} catch (SQLException e) {
+			userTransaction.rollback();
 			throw new SQLException(e);
 		} finally {
 			if (conexion != null) {
@@ -364,7 +370,7 @@ public class NegocioSession implements NegocioSessionRemote,
 		DireccionDao direccionDao = new DireccionDaoImpl();
 		TelefonoDao telefonoDao = new TelefonoDaoImpl();
 		ContactoDao contactoDao = new ContactoDaoImpl();
-
+		userTransaction.begin();
 		Connection conexion = null;
 		try {
 			conexion = UtilConexion.obtenerConexion();
@@ -434,11 +440,13 @@ public class NegocioSession implements NegocioSessionRemote,
 			}
 			ClienteDao clienteDao = new ClienteDaoImpl();
 			clienteDao.registroCliente(cliente, conexion);
-
+			userTransaction.commit();
 			return true;
 		} catch (ResultadoCeroDaoException e) {
+			userTransaction.rollback();
 			throw new ResultadoCeroDaoException(e.getMensajeError(), e);
 		} catch (SQLException e) {
+			userTransaction.rollback();
 			throw new SQLException(e);
 		} finally {
 			if (conexion != null) {
@@ -457,11 +465,9 @@ public class NegocioSession implements NegocioSessionRemote,
 
 		Connection conexion = null;
 		userTransaction.begin();
-
 		try {
 			conexion = UtilConexion.obtenerConexion();
 			cliente.setTipoPersona(1);
-
 			Integer idPersona = personaDao.actualizarPersona(cliente, conexion);
 			if (idPersona == 0) {
 				throw new ResultadoCeroDaoException(
@@ -560,13 +566,11 @@ public class NegocioSession implements NegocioSessionRemote,
 		ServicioNoviosDao servicioNoviosDao = new ServicioNoviosDaoImpl();
 		ServicioNovaViajesDao servicioNovaViajesDao = new ServicioNovaViajesDaoImpl();
 		DestinoDao destinoDao = new DestinoDaoImpl();
-
+		userTransaction.begin();
 		Connection conexion = null;
 		try {
 			conexion = UtilConexion.obtenerConexion();
-
 			int idServicio = 0;
-
 			ServicioAgencia servicioAgencia = new ServicioAgencia();
 			servicioAgencia.setCliente(programaNovios.getNovia());
 			servicioAgencia.setCliente2(programaNovios.getNovio());
@@ -650,11 +654,13 @@ public class NegocioSession implements NegocioSessionRemote,
 					}
 				}
 			}
-
+			userTransaction.commit();
 			return idnovios;
 		} catch (ErrorRegistroDataException e) {
+			userTransaction.rollback();
 			throw new ErrorRegistroDataException(e.getMensajeError(), e);
 		} catch (SQLException e) {
+			userTransaction.rollback();
 			throw new SQLException(e);
 		} finally {
 			if (conexion != null) {
@@ -667,10 +673,9 @@ public class NegocioSession implements NegocioSessionRemote,
 	public Integer registrarVentaServicio(ServicioAgencia servicioAgencia)
 			throws ErrorRegistroDataException, SQLException, Exception {
 		ServicioNovaViajesDao servicioNovaViajesDao = new ServicioNovaViajesDaoImpl();
-
+		userTransaction.begin();
 		Connection conexion = null;
 		Integer idServicio = 0;
-
 		try {
 			conexion = UtilConexion.obtenerConexion();
 
@@ -765,11 +770,13 @@ public class NegocioSession implements NegocioSessionRemote,
 
 			servicioNovaViajesDao.registrarSaldosServicio(servicioAgencia,
 					conexion);
-
+			userTransaction.commit();
 			return idServicio;
 		} catch (SQLException e) {
+			userTransaction.rollback();
 			throw new ErrorRegistroDataException(e.getMessage(), e);
 		} catch (ErrorRegistroDataException e) {
+			userTransaction.rollback();
 			throw new ErrorRegistroDataException(e.getMensajeError(), e);
 		} finally {
 			if (conexion != null) {
@@ -785,7 +792,7 @@ public class NegocioSession implements NegocioSessionRemote,
 
 		Connection conexion = null;
 		Integer idServicio = 0;
-
+		userTransaction.begin();
 		try {
 			conexion = UtilConexion.obtenerConexion();
 
@@ -859,9 +866,10 @@ public class NegocioSession implements NegocioSessionRemote,
 							"No se pudo generar el cronograma de pagos");
 				}
 			}
-
+			userTransaction.commit();
 			return idServicio;
 		} catch (ErrorRegistroDataException e) {
+			userTransaction.rollback();
 			throw new ErrorRegistroDataException(e.getMensajeError(), e);
 		} finally {
 			if (conexion != null) {
@@ -935,17 +943,24 @@ public class NegocioSession implements NegocioSessionRemote,
 	@Override
 	public boolean ingresarMaestroServicio(MaestroServicio servicio)
 			throws ErrorRegistroDataException, SQLException, Exception {
-		MaestroServicioDao maestroServicioDao = new MaestroServicioDaoImpl();
+		try {
+			MaestroServicioDao maestroServicioDao = new MaestroServicioDaoImpl();
 
-		Integer idMaestroServicio = maestroServicioDao
-				.ingresarMaestroServicio(servicio);
+			userTransaction.begin();
+			
+			Integer idMaestroServicio = maestroServicioDao
+					.ingresarMaestroServicio(servicio);
 
-		if (idMaestroServicio == null || idMaestroServicio.intValue() == 0) {
-			throw new ErrorRegistroDataException(
-					"No se pudo completar el registro de servicio");
+			if (idMaestroServicio == null || idMaestroServicio.intValue() == 0) {
+				throw new ErrorRegistroDataException(
+						"No se pudo completar el registro de servicio");
+			}
+			userTransaction.commit();
+			return true;
+		} catch (Exception e) {
+			userTransaction.rollback();
+			throw new ErrorRegistroDataException(e);
 		}
-
-		return true;
 	}
 
 	@Override
@@ -953,18 +968,25 @@ public class NegocioSession implements NegocioSessionRemote,
 			throws SQLException, Exception {
 		MaestroServicioDao maestroServicioDao = new MaestroServicioDaoImpl();
 
-		if (!maestroServicioDao.actualizarMaestroServicio(servicio)) {
-			throw new ErrorRegistroDataException(
-					"No se pudo completar la actualizacion de servicio");
-		}
+		try {
+			userTransaction.begin();
+			if (!maestroServicioDao.actualizarMaestroServicio(servicio)) {
+				throw new ErrorRegistroDataException(
+						"No se pudo completar la actualizacion de servicio");
+			}
 
-		if (servicio.getListaServicioDepende() != null
-				&& !servicio.getListaServicioDepende().isEmpty()) {
-			maestroServicioDao.ingresarServicioMaestroServicio(
-					servicio.getCodigoEntero(),
-					servicio.getListaServicioDepende());
+			if (servicio.getListaServicioDepende() != null
+					&& !servicio.getListaServicioDepende().isEmpty()) {
+				maestroServicioDao.ingresarServicioMaestroServicio(
+						servicio.getCodigoEntero(),
+						servicio.getListaServicioDepende());
+			}
+			userTransaction.commit();
+			return true;
+		} catch (Exception e) {
+			userTransaction.rollback();
+			throw new ErrorRegistroDataException(e);
 		}
-		return true;
 	}
 
 	@Override
@@ -973,7 +995,7 @@ public class NegocioSession implements NegocioSessionRemote,
 		ServicioNoviosDao servicioNoviosDao = new ServicioNoviosDaoImpl();
 		ServicioNovaViajesDao servicioNovaViajesDao = new ServicioNovaViajesDaoImpl();
 		DestinoDao destinoDao = new DestinoDaoImpl();
-
+		userTransaction.begin();
 		Connection conexion = null;
 		try {
 			conexion = UtilConexion.obtenerConexion();
@@ -1060,10 +1082,13 @@ public class NegocioSession implements NegocioSessionRemote,
 					}
 				}
 			}
+			userTransaction.commit();
 			return idnovios;
 		} catch (ErrorRegistroDataException e) {
+			userTransaction.rollback();
 			throw new ErrorRegistroDataException(e.getMensajeError(), e);
 		} catch (SQLException e) {
+			userTransaction.rollback();
 			throw new SQLException(e);
 		} finally {
 			if (conexion != null) {
@@ -1090,9 +1115,17 @@ public class NegocioSession implements NegocioSessionRemote,
 
 	@Override
 	public void registrarPago(PagoServicio pago) throws SQLException, Exception {
-		ServicioNovaViajesDao servicioNovaViajesDao = new ServicioNovaViajesDaoImpl();
+		try {
+			userTransaction.begin();
+			ServicioNovaViajesDao servicioNovaViajesDao = new ServicioNovaViajesDaoImpl();
 
-		servicioNovaViajesDao.registrarPagoServicio(pago);
+			servicioNovaViajesDao.registrarPagoServicio(pago);
+			
+			userTransaction.commit();
+		} catch (Exception e) {
+			userTransaction.rollback();
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -1109,32 +1142,54 @@ public class NegocioSession implements NegocioSessionRemote,
 	@Override
 	public void anularVenta(ServicioAgencia servicioAgencia)
 			throws SQLException, Exception {
-		ServicioNovaViajesDao servicioNovaViajesDao = new ServicioNovaViajesDaoImpl();
+		try {
+			userTransaction.begin();
+			ServicioNovaViajesDao servicioNovaViajesDao = new ServicioNovaViajesDaoImpl();
 
-		servicioAgencia.getEstadoServicio().setCodigoEntero(
-				ServicioAgencia.ESTADO_ANULADO);
+			servicioAgencia.getEstadoServicio().setCodigoEntero(
+					ServicioAgencia.ESTADO_ANULADO);
 
-		servicioNovaViajesDao.actualizarServicioVenta(servicioAgencia);
+			servicioNovaViajesDao.actualizarServicioVenta(servicioAgencia);
+			
+			userTransaction.commit();
+		} catch (Exception e) {
+			userTransaction.rollback();
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void registrarEventoObservacion(EventoObsAnu evento)
 			throws SQLException, Exception {
-		ServicioNovaViajesDao servicioNovaViajesDao = new ServicioNovaViajesDaoImpl();
+		try {
+			userTransaction.begin();
+			ServicioNovaViajesDao servicioNovaViajesDao = new ServicioNovaViajesDaoImpl();
 
-		evento.getTipoEvento().setCodigoEntero(EventoObsAnu.EVENTO_OBS);
+			evento.getTipoEvento().setCodigoEntero(EventoObsAnu.EVENTO_OBS);
 
-		servicioNovaViajesDao.registrarEventoObsAnu(evento);
+			servicioNovaViajesDao.registrarEventoObsAnu(evento);
+			userTransaction.commit();
+		} catch (Exception e) {
+			userTransaction.rollback();
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void registrarEventoAnulacion(EventoObsAnu evento)
 			throws SQLException, Exception {
-		ServicioNovaViajesDao servicioNovaViajesDao = new ServicioNovaViajesDaoImpl();
+		try {
+			userTransaction.begin();
+			ServicioNovaViajesDao servicioNovaViajesDao = new ServicioNovaViajesDaoImpl();
 
-		evento.getTipoEvento().setCodigoEntero(EventoObsAnu.EVENTO_ANU);
+			evento.getTipoEvento().setCodigoEntero(EventoObsAnu.EVENTO_ANU);
 
-		servicioNovaViajesDao.registrarEventoObsAnu(evento);
+			servicioNovaViajesDao.registrarEventoObsAnu(evento);
+			userTransaction.commit();
+		} catch (Exception e) {
+			userTransaction.rollback();
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -1171,6 +1226,7 @@ public class NegocioSession implements NegocioSessionRemote,
 			Connection conn = null;
 
 			try {
+				userTransaction.begin();
 				conn = UtilConexion.obtenerConexion();
 				for (Comprobante comprobante : listaComprobantes2) {
 					Integer idComprobante = servicioNovaViajesDao
@@ -1182,9 +1238,13 @@ public class NegocioSession implements NegocioSessionRemote,
 
 				servicioNovaViajesDao.actualizarComprobantesServicio(true,
 						servicioAgencia, conn);
+				
+				userTransaction.commit();
 			} catch (SQLException e) {
+				userTransaction.rollback();
 				throw new ValidacionException(e);
 			} catch (Exception e) {
+				userTransaction.rollback();
 				throw new ValidacionException("Excepcion no controlada", e);
 			} finally {
 				if (conn != null) {
@@ -1222,6 +1282,7 @@ public class NegocioSession implements NegocioSessionRemote,
 		ServicioNovaViajesDao servicioNovaViajesDao = new ServicioNovaViajesDaoImpl();
 
 		try {
+			userTransaction.begin();
 			conn = UtilConexion.obtenerConexion();
 			for (DetalleServicioAgencia detalleServicioAgencia : servicioAgencia
 					.getListaDetalleServicioAgrupado()) {
@@ -1252,9 +1313,13 @@ public class NegocioSession implements NegocioSessionRemote,
 			}
 			servicioNovaViajesDao.actualizarRelacionComprobantes(true,
 					servicioAgencia, conn);
+			
+			userTransaction.commit();
 		} catch (SQLException e) {
+			userTransaction.rollback();
 			throw new SQLException(e);
 		} catch (Exception e) {
+			userTransaction.rollback();
 			throw new Exception(e);
 		} finally {
 			if (conn != null) {
@@ -1271,6 +1336,7 @@ public class NegocioSession implements NegocioSessionRemote,
 		Connection conn = null;
 		ServicioNovaViajesDao servicioNovaViajesDao = new ServicioNovaViajesDaoImpl();
 		try {
+			userTransaction.begin();
 			conn = UtilConexion.obtenerConexion();
 
 			if (listaDocumentos != null && !listaDocumentos.isEmpty()) {
@@ -1297,12 +1363,15 @@ public class NegocioSession implements NegocioSessionRemote,
 
 				return true;
 			}
-
+			userTransaction.commit();
 		} catch (ErrorRegistroDataException e) {
+			userTransaction.rollback();
 			throw new ErrorRegistroDataException(e);
 		} catch (SQLException e) {
+			userTransaction.rollback();
 			throw new SQLException(e);
 		} catch (Exception e) {
+			userTransaction.rollback();
 			throw new Exception(e);
 		} finally {
 			if (conn != null) {
@@ -1320,6 +1389,7 @@ public class NegocioSession implements NegocioSessionRemote,
 		Connection conn = null;
 
 		try {
+			userTransaction.begin();
 			conn = UtilConexion.obtenerConexion();
 
 			ComprobanteNovaViajesDao comprobanteNovaViajesDao = new ComprobanteNovaViajesDaoImpl();
@@ -1328,10 +1398,12 @@ public class NegocioSession implements NegocioSessionRemote,
 				comprobanteNovaViajesDao.registrarComprobanteAdicional(
 						comprobante, conn);
 			}
-
+			userTransaction.commit();
 		} catch (SQLException e) {
+			userTransaction.rollback();
 			throw new ErrorRegistroDataException(e);
 		} catch (Exception e) {
+			userTransaction.rollback();
 			throw new ErrorRegistroDataException(e);
 		} finally {
 			if (conn != null) {
@@ -1343,11 +1415,12 @@ public class NegocioSession implements NegocioSessionRemote,
 	@Override
 	public boolean grabarComprobantesReporte(ReporteArchivo reporteArchivo,
 			ColumnasExcel columnasExcel, List<ColumnasExcel> dataExcel)
-			throws ErrorRegistroDataException, SQLException {
+			throws ErrorRegistroDataException, SQLException, Exception {
 		ArchivoReporteDao archivoReporteDao = new ArchivoReporteDaoImpl();
 		Connection conn = null;
 
 		try {
+			userTransaction.begin();
 			conn = UtilConexion.obtenerConexion();
 			int idArchivo = archivoReporteDao.registrarArchivoReporteCabecera(
 					reporteArchivo, conn);
@@ -1407,11 +1480,13 @@ public class NegocioSession implements NegocioSessionRemote,
 				archivoReporteDao.registrarDetalleArchivoReporte(
 						columnasExcel2, conn);
 			}
-
+			userTransaction.commit();
 			return true;
 		} catch (SQLException e) {
+			userTransaction.rollback();
 			throw new ErrorRegistroDataException(e);
 		} catch (Exception e) {
+			userTransaction.rollback();
 			throw new ErrorRegistroDataException(e);
 		} finally {
 			if (conn != null) {
