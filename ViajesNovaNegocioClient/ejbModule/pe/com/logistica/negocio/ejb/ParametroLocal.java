@@ -11,10 +11,10 @@ import pe.com.logistica.bean.negocio.Parametro;
 public interface ParametroLocal {
 
 	List<Parametro> listarParametros() throws SQLException;
-	
+
 	void registrarParametro(Parametro parametro) throws SQLException;
-	
+
 	void actualizarParametro(Parametro parametro) throws SQLException;
-	
+
 	Parametro consultarParametro(int id) throws SQLException;
 }

@@ -25,10 +25,12 @@ import pe.com.logistica.bean.negocio.Parametro;
 import pe.com.logistica.bean.negocio.Proveedor;
 import pe.com.logistica.bean.negocio.Usuario;
 import pe.com.logistica.negocio.exception.ConnectionException;
+import pe.com.logistica.web.servicio.ConsultaNegocioServicio;
 import pe.com.logistica.web.servicio.NegocioServicio;
 import pe.com.logistica.web.servicio.ParametroServicio;
 import pe.com.logistica.web.servicio.SeguridadServicio;
 import pe.com.logistica.web.servicio.SoporteServicio;
+import pe.com.logistica.web.servicio.impl.ConsultaNegocioServicioImpl;
 import pe.com.logistica.web.servicio.impl.NegocioServicioImpl;
 import pe.com.logistica.web.servicio.impl.ParametroServicioImpl;
 import pe.com.logistica.web.servicio.impl.SeguridadServicioImpl;
@@ -41,16 +43,15 @@ import pe.com.logistica.web.util.UtilWeb;
  */
 @ManagedBean(name = "catalogoMBean")
 @SessionScoped()
-public class CatalogoMBean implements Serializable{
-	
+public class CatalogoMBean implements Serializable {
+
 	private final static Logger logger = Logger.getLogger(CatalogoMBean.class);
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -571289965929551249L;
-	
-	
+
 	private List<SelectItem> catalogoRoles;
 	private List<SelectItem> catalogoTipoDocumento;
 	private List<SelectItem> catalogoRubro;
@@ -85,6 +86,7 @@ public class CatalogoMBean implements Serializable{
 	private SeguridadServicio seguridadServicio;
 	private SoporteServicio soporteServicio;
 	private NegocioServicio negocioServicio;
+	private ConsultaNegocioServicio consultaNegocioServicio;
 	private ParametroServicio parametroServicio;
 
 	public CatalogoMBean() {
@@ -95,6 +97,8 @@ public class CatalogoMBean implements Serializable{
 			soporteServicio = new SoporteServicioImpl(servletContext);
 			negocioServicio = new NegocioServicioImpl(servletContext);
 			parametroServicio = new ParametroServicioImpl(servletContext);
+			consultaNegocioServicio = new ConsultaNegocioServicioImpl(
+					servletContext);
 		} catch (NamingException e) {
 			logger.error(e.getMessage(), e);
 		}
@@ -113,7 +117,7 @@ public class CatalogoMBean implements Serializable{
 		} catch (SQLException e) {
 			logger.error(e.getMessage(), e);
 		}
-		
+
 		return catalogoRoles;
 	}
 
@@ -371,7 +375,8 @@ public class CatalogoMBean implements Serializable{
 			for (Destino destino : listaDestino) {
 				si = new SelectItem();
 				si.setValue(destino.getCodigoEntero());
-				String descripcionCompleto = destino.getDescripcion()+"("+destino.getCodigoIATA()+")"; 
+				String descripcionCompleto = destino.getDescripcion() + "("
+						+ destino.getCodigoIATA() + ")";
 				si.setLabel(descripcionCompleto);
 				catalogoDestino.add(si);
 			}
@@ -387,7 +392,8 @@ public class CatalogoMBean implements Serializable{
 	}
 
 	/**
-	 * @param catalogoDestino the catalogoDestino to set
+	 * @param catalogoDestino
+	 *            the catalogoDestino to set
 	 */
 	public void setCatalogoDestino(List<SelectItem> catalogoDestino) {
 		this.catalogoDestino = catalogoDestino;
@@ -398,7 +404,8 @@ public class CatalogoMBean implements Serializable{
 	 */
 	public List<SelectItem> getCatalogoTipoServicio() {
 		try {
-			List<MaestroServicio> lista = negocioServicio.listarMaestroServicio();
+			List<MaestroServicio> lista = consultaNegocioServicio
+					.listarMaestroServicio();
 			SelectItem si = null;
 			catalogoTipoServicio = new ArrayList<SelectItem>();
 			for (MaestroServicio maestroServicio : lista) {
@@ -410,21 +417,21 @@ public class CatalogoMBean implements Serializable{
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
-		/*int idmaestro = UtilWeb.obtenerEnteroPropertieMaestro(
-				"maestroTipoServicios", "aplicacionDatos");
-
-		try {
-			List<BaseVO> lista = soporteServicio
-					.listarCatalogoMaestro(idmaestro);
-			catalogoTipoServicio = UtilWeb.convertirSelectItem(lista);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-		}*/
+		/*
+		 * int idmaestro = UtilWeb.obtenerEnteroPropertieMaestro(
+		 * "maestroTipoServicios", "aplicacionDatos");
+		 * 
+		 * try { List<BaseVO> lista = soporteServicio
+		 * .listarCatalogoMaestro(idmaestro); catalogoTipoServicio =
+		 * UtilWeb.convertirSelectItem(lista); } catch (Exception e) {
+		 * logger.error(e.getMessage(), e); }
+		 */
 		return catalogoTipoServicio;
 	}
 
 	/**
-	 * @param catalogoTipoServicio the catalogoTipoServicio to set
+	 * @param catalogoTipoServicio
+	 *            the catalogoTipoServicio to set
 	 */
 	public void setCatalogoTipoServicio(List<SelectItem> catalogoTipoServicio) {
 		this.catalogoTipoServicio = catalogoTipoServicio;
@@ -448,7 +455,8 @@ public class CatalogoMBean implements Serializable{
 	}
 
 	/**
-	 * @param catalogoFormaPago the catalogoFormaPago to set
+	 * @param catalogoFormaPago
+	 *            the catalogoFormaPago to set
 	 */
 	public void setCatalogoFormaPago(List<SelectItem> catalogoFormaPago) {
 		this.catalogoFormaPago = catalogoFormaPago;
@@ -460,7 +468,8 @@ public class CatalogoMBean implements Serializable{
 	public List<SelectItem> getCatalogoVendedores() {
 		try {
 			catalogoVendedores = new ArrayList<SelectItem>();
-			List<Usuario> listaVendedores = this.seguridadServicio.listarVendedores();
+			List<Usuario> listaVendedores = this.seguridadServicio
+					.listarVendedores();
 			SelectItem si = null;
 			for (Usuario usuario : listaVendedores) {
 				si = new SelectItem();
@@ -481,7 +490,8 @@ public class CatalogoMBean implements Serializable{
 	}
 
 	/**
-	 * @param catalogoVendedores the catalogoVendedores to set
+	 * @param catalogoVendedores
+	 *            the catalogoVendedores to set
 	 */
 	public void setCatalogoVendedores(List<SelectItem> catalogoVendedores) {
 		this.catalogoVendedores = catalogoVendedores;
@@ -492,7 +502,8 @@ public class CatalogoMBean implements Serializable{
 	 */
 	public List<SelectItem> getCatalogoTipoServicioFee() {
 		try {
-			List<MaestroServicio> lista = negocioServicio.listarMaestroServicioFee();
+			List<MaestroServicio> lista = consultaNegocioServicio
+					.listarMaestroServicioFee();
 			SelectItem si = null;
 			catalogoTipoServicioFee = new ArrayList<SelectItem>();
 			for (MaestroServicio maestroServicio : lista) {
@@ -508,9 +519,11 @@ public class CatalogoMBean implements Serializable{
 	}
 
 	/**
-	 * @param catalogoTipoServicioFee the catalogoTipoServicioFee to set
+	 * @param catalogoTipoServicioFee
+	 *            the catalogoTipoServicioFee to set
 	 */
-	public void setCatalogoTipoServicioFee(List<SelectItem> catalogoTipoServicioFee) {
+	public void setCatalogoTipoServicioFee(
+			List<SelectItem> catalogoTipoServicioFee) {
 		this.catalogoTipoServicioFee = catalogoTipoServicioFee;
 	}
 
@@ -519,7 +532,8 @@ public class CatalogoMBean implements Serializable{
 	 */
 	public List<SelectItem> getCatalogoTipoServicioImpto() {
 		try {
-			List<MaestroServicio> lista = negocioServicio.listarMaestroServicioImpto();
+			List<MaestroServicio> lista = consultaNegocioServicio
+					.listarMaestroServicioImpto();
 			SelectItem si = null;
 			catalogoTipoServicioImpto = new ArrayList<SelectItem>();
 			for (MaestroServicio maestroServicio : lista) {
@@ -535,7 +549,8 @@ public class CatalogoMBean implements Serializable{
 	}
 
 	/**
-	 * @param catalogoTipoServicioImpto the catalogoTipoServicioImpto to set
+	 * @param catalogoTipoServicioImpto
+	 *            the catalogoTipoServicioImpto to set
 	 */
 	public void setCatalogoTipoServicioImpto(
 			List<SelectItem> catalogoTipoServicioImpto) {
@@ -547,7 +562,8 @@ public class CatalogoMBean implements Serializable{
 	 */
 	public List<SelectItem> getCatalogoTipoServicioIgv() {
 		try {
-			List<MaestroServicio> lista = negocioServicio.listarMaestroServicioIgv();
+			List<MaestroServicio> lista = consultaNegocioServicio
+					.listarMaestroServicioIgv();
 			SelectItem si = null;
 			catalogoTipoServicioIgv = new ArrayList<SelectItem>();
 			for (MaestroServicio maestroServicio : lista) {
@@ -563,9 +579,11 @@ public class CatalogoMBean implements Serializable{
 	}
 
 	/**
-	 * @param catalogoTipoServicioIgv the catalogoTipoServicioIgv to set
+	 * @param catalogoTipoServicioIgv
+	 *            the catalogoTipoServicioIgv to set
 	 */
-	public void setCatalogoTipoServicioIgv(List<SelectItem> catalogoTipoServicioIgv) {
+	public void setCatalogoTipoServicioIgv(
+			List<SelectItem> catalogoTipoServicioIgv) {
 		this.catalogoTipoServicioIgv = catalogoTipoServicioIgv;
 	}
 
@@ -590,7 +608,8 @@ public class CatalogoMBean implements Serializable{
 	}
 
 	/**
-	 * @param catalogoParametros the catalogoParametros to set
+	 * @param catalogoParametros
+	 *            the catalogoParametros to set
 	 */
 	public void setCatalogoParametros(List<SelectItem> catalogoParametros) {
 		this.catalogoParametros = catalogoParametros;
@@ -601,7 +620,8 @@ public class CatalogoMBean implements Serializable{
 	 */
 	public List<SelectItem> getCatalogoConsolidadores() {
 		try {
-			List<Consolidador> lista = this.negocioServicio.listarConsolidador();
+			List<Consolidador> lista = this.consultaNegocioServicio
+					.listarConsolidador();
 			SelectItem si = null;
 			catalogoConsolidadores = new ArrayList<SelectItem>();
 			for (Consolidador consolidador : lista) {
@@ -617,9 +637,11 @@ public class CatalogoMBean implements Serializable{
 	}
 
 	/**
-	 * @param catalogoConsolidadores the catalogoConsolidadores to set
+	 * @param catalogoConsolidadores
+	 *            the catalogoConsolidadores to set
 	 */
-	public void setCatalogoConsolidadores(List<SelectItem> catalogoConsolidadores) {
+	public void setCatalogoConsolidadores(
+			List<SelectItem> catalogoConsolidadores) {
 		this.catalogoConsolidadores = catalogoConsolidadores;
 	}
 
@@ -641,7 +663,8 @@ public class CatalogoMBean implements Serializable{
 	}
 
 	/**
-	 * @param catalogoTipoProveedor the catalogoTipoProveedor to set
+	 * @param catalogoTipoProveedor
+	 *            the catalogoTipoProveedor to set
 	 */
 	public void setCatalogoTipoProveedor(List<SelectItem> catalogoTipoProveedor) {
 		this.catalogoTipoProveedor = catalogoTipoProveedor;
@@ -652,7 +675,8 @@ public class CatalogoMBean implements Serializable{
 	 */
 	public List<SelectItem> getCatalogoProveedores() {
 		try {
-			List<Proveedor> lista = this.negocioServicio.listarProveedor(new Proveedor());
+			List<Proveedor> lista = this.consultaNegocioServicio
+					.listarProveedor(new Proveedor());
 			SelectItem si = null;
 			catalogoProveedores = new ArrayList<SelectItem>();
 			for (Proveedor proveedor : lista) {
@@ -668,7 +692,8 @@ public class CatalogoMBean implements Serializable{
 	}
 
 	/**
-	 * @param catalogoProveedores the catalogoProveedores to set
+	 * @param catalogoProveedores
+	 *            the catalogoProveedores to set
 	 */
 	public void setCatalogoProveedores(List<SelectItem> catalogoProveedores) {
 		this.catalogoProveedores = catalogoProveedores;
@@ -681,7 +706,8 @@ public class CatalogoMBean implements Serializable{
 		try {
 			BaseVO tipoProveedor = new BaseVO();
 			tipoProveedor.setCodigoEntero(1);
-			List<Proveedor> lista = this.soporteServicio.listarComboProveedorTipo(tipoProveedor);
+			List<Proveedor> lista = this.soporteServicio
+					.listarComboProveedorTipo(tipoProveedor);
 			SelectItem si = null;
 			catalogoAerolineas = new ArrayList<SelectItem>();
 			for (Proveedor proveedor : lista) {
@@ -697,7 +723,8 @@ public class CatalogoMBean implements Serializable{
 	}
 
 	/**
-	 * @param catalogoAerolineas the catalogoAerolineas to set
+	 * @param catalogoAerolineas
+	 *            the catalogoAerolineas to set
 	 */
 	public void setCatalogoAerolineas(List<SelectItem> catalogoAerolineas) {
 		this.catalogoAerolineas = catalogoAerolineas;
@@ -710,7 +737,8 @@ public class CatalogoMBean implements Serializable{
 		try {
 			BaseVO tipoProveedor = new BaseVO();
 			tipoProveedor.setCodigoEntero(6);
-			List<Proveedor> lista = this.soporteServicio.listarComboProveedorTipo(tipoProveedor);
+			List<Proveedor> lista = this.soporteServicio
+					.listarComboProveedorTipo(tipoProveedor);
 			SelectItem si = null;
 			catalogoHoteles = new ArrayList<SelectItem>();
 			for (Proveedor proveedor : lista) {
@@ -726,7 +754,8 @@ public class CatalogoMBean implements Serializable{
 	}
 
 	/**
-	 * @param catalogoHoteles the catalogoHoteles to set
+	 * @param catalogoHoteles
+	 *            the catalogoHoteles to set
 	 */
 	public void setCatalogoHoteles(List<SelectItem> catalogoHoteles) {
 		this.catalogoHoteles = catalogoHoteles;
@@ -739,7 +768,8 @@ public class CatalogoMBean implements Serializable{
 		try {
 			BaseVO tipoProveedor = new BaseVO();
 			tipoProveedor.setCodigoEntero(3);
-			List<Proveedor> lista = this.soporteServicio.listarComboProveedorTipo(tipoProveedor);
+			List<Proveedor> lista = this.soporteServicio
+					.listarComboProveedorTipo(tipoProveedor);
 			SelectItem si = null;
 			catalogoOperador = new ArrayList<SelectItem>();
 			for (Proveedor proveedor : lista) {
@@ -755,7 +785,8 @@ public class CatalogoMBean implements Serializable{
 	}
 
 	/**
-	 * @param catalogoOperador the catalogoOperador to set
+	 * @param catalogoOperador
+	 *            the catalogoOperador to set
 	 */
 	public void setCatalogoOperador(List<SelectItem> catalogoOperador) {
 		this.catalogoOperador = catalogoOperador;
@@ -779,9 +810,11 @@ public class CatalogoMBean implements Serializable{
 	}
 
 	/**
-	 * @param catalogoTipoComprobante the catalogoTipoComprobante to set
+	 * @param catalogoTipoComprobante
+	 *            the catalogoTipoComprobante to set
 	 */
-	public void setCatalogoTipoComprobante(List<SelectItem> catalogoTipoComprobante) {
+	public void setCatalogoTipoComprobante(
+			List<SelectItem> catalogoTipoComprobante) {
 		this.catalogoTipoComprobante = catalogoTipoComprobante;
 	}
 
@@ -803,7 +836,8 @@ public class CatalogoMBean implements Serializable{
 	}
 
 	/**
-	 * @param catalogoDocumentosAdicionales the catalogoDocumentosAdicionales to set
+	 * @param catalogoDocumentosAdicionales
+	 *            the catalogoDocumentosAdicionales to set
 	 */
 	public void setCatalogoDocumentosAdicionales(
 			List<SelectItem> catalogoDocumentosAdicionales) {
@@ -814,8 +848,8 @@ public class CatalogoMBean implements Serializable{
 	 * @return the catalogoBanco
 	 */
 	public List<SelectItem> getCatalogoBanco() {
-		int idmaestro = UtilWeb.obtenerEnteroPropertieMaestro(
-				"maestroBanco", "aplicacionDatos");
+		int idmaestro = UtilWeb.obtenerEnteroPropertieMaestro("maestroBanco",
+				"aplicacionDatos");
 
 		try {
 			List<BaseVO> lista = soporteServicio
@@ -824,12 +858,13 @@ public class CatalogoMBean implements Serializable{
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
-		
+
 		return catalogoBanco;
 	}
 
 	/**
-	 * @param catalogoBanco the catalogoBanco to set
+	 * @param catalogoBanco
+	 *            the catalogoBanco to set
 	 */
 	public void setCatalogoBanco(List<SelectItem> catalogoBanco) {
 		this.catalogoBanco = catalogoBanco;
@@ -849,12 +884,13 @@ public class CatalogoMBean implements Serializable{
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
-		
+
 		return catalogoTipoCuenta;
 	}
 
 	/**
-	 * @param catalogoTipoCuenta the catalogoTipoCuenta to set
+	 * @param catalogoTipoCuenta
+	 *            the catalogoTipoCuenta to set
 	 */
 	public void setCatalogoTipoCuenta(List<SelectItem> catalogoTipoCuenta) {
 		this.catalogoTipoCuenta = catalogoTipoCuenta;
@@ -864,8 +900,8 @@ public class CatalogoMBean implements Serializable{
 	 * @return the catalogoMoneda
 	 */
 	public List<SelectItem> getCatalogoMoneda() {
-		int idmaestro = UtilWeb.obtenerEnteroPropertieMaestro(
-				"maestroMonedas", "aplicacionDatos");
+		int idmaestro = UtilWeb.obtenerEnteroPropertieMaestro("maestroMonedas",
+				"aplicacionDatos");
 
 		try {
 			List<BaseVO> lista = soporteServicio
@@ -878,7 +914,8 @@ public class CatalogoMBean implements Serializable{
 	}
 
 	/**
-	 * @param catalogoMoneda the catalogoMoneda to set
+	 * @param catalogoMoneda
+	 *            the catalogoMoneda to set
 	 */
 	public void setCatalogoMoneda(List<SelectItem> catalogoMoneda) {
 		this.catalogoMoneda = catalogoMoneda;
@@ -902,9 +939,11 @@ public class CatalogoMBean implements Serializable{
 	}
 
 	/**
-	 * @param catalogoProveedorTarjeta the catalogoProveedorTarjeta to set
+	 * @param catalogoProveedorTarjeta
+	 *            the catalogoProveedorTarjeta to set
 	 */
-	public void setCatalogoProveedorTarjeta(List<SelectItem> catalogoProveedorTarjeta) {
+	public void setCatalogoProveedorTarjeta(
+			List<SelectItem> catalogoProveedorTarjeta) {
 		this.catalogoProveedorTarjeta = catalogoProveedorTarjeta;
 	}
 

@@ -19,7 +19,7 @@ public class MaestroServicio extends BaseNegocio {
 	 * 
 	 */
 	private static final long serialVersionUID = 499125844585986995L;
-	
+
 	private String nombre;
 	private String descripcionCorta;
 	private String descripcion;
@@ -38,18 +38,19 @@ public class MaestroServicio extends BaseNegocio {
 	private boolean esFee;
 	private boolean visible;
 	private boolean servicioPadre;
-	
+
 	private List<BaseVO> listaServicioDepende;
 	private BaseVO parametroAsociado;
 	private String valorParametro;
-	
-	public final static Integer SERVICIO_BOLETO     = 11;
-	public final static Integer SERVICIO_FEE        = 12;
-	public final static Integer SERVICIO_IGV        = 13;
-	public final static Integer SERVICIO_PROGRAMA   = 14;
-	public final static Integer SERVICIO_PAQUETE    = 15;
+
+	public final static Integer SERVICIO_BOLETO = 11;
+	public final static Integer SERVICIO_FEE = 12;
+	public final static Integer SERVICIO_IGV = 13;
+	public final static Integer SERVICIO_PROGRAMA = 14;
+	public final static Integer SERVICIO_PAQUETE = 15;
 	public final static Integer SERVICIO_IMPTOAEREO = 16;
-	public final static Integer SERVICIO_HOTEL      = 17;
+	public final static Integer SERVICIO_HOTEL = 17;
+
 	/**
 	 * 
 	 */
@@ -65,7 +66,8 @@ public class MaestroServicio extends BaseNegocio {
 	}
 
 	/**
-	 * @param nombre the nombre to set
+	 * @param nombre
+	 *            the nombre to set
 	 */
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
@@ -79,7 +81,8 @@ public class MaestroServicio extends BaseNegocio {
 	}
 
 	/**
-	 * @param descripcion the descripcion to set
+	 * @param descripcion
+	 *            the descripcion to set
 	 */
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
@@ -93,7 +96,8 @@ public class MaestroServicio extends BaseNegocio {
 	}
 
 	/**
-	 * @param requiereFee the requiereFee to set
+	 * @param requiereFee
+	 *            the requiereFee to set
 	 */
 	public void setRequiereFee(boolean requiereFee) {
 		this.requiereFee = requiereFee;
@@ -107,7 +111,8 @@ public class MaestroServicio extends BaseNegocio {
 	}
 
 	/**
-	 * @param pagaImpto the pagaImpto to set
+	 * @param pagaImpto
+	 *            the pagaImpto to set
 	 */
 	public void setPagaImpto(boolean pagaImpto) {
 		this.pagaImpto = pagaImpto;
@@ -121,7 +126,8 @@ public class MaestroServicio extends BaseNegocio {
 	}
 
 	/**
-	 * @param cargaComision the cargaComision to set
+	 * @param cargaComision
+	 *            the cargaComision to set
 	 */
 	public void setCargaComision(boolean cargaComision) {
 		this.cargaComision = cargaComision;
@@ -135,7 +141,8 @@ public class MaestroServicio extends BaseNegocio {
 	}
 
 	/**
-	 * @param comisionPorcentaje the comisionPorcentaje to set
+	 * @param comisionPorcentaje
+	 *            the comisionPorcentaje to set
 	 */
 	public void setComisionPorcentaje(boolean comisionPorcentaje) {
 		this.comisionPorcentaje = comisionPorcentaje;
@@ -149,7 +156,8 @@ public class MaestroServicio extends BaseNegocio {
 	}
 
 	/**
-	 * @param valorComision the valorComision to set
+	 * @param valorComision
+	 *            the valorComision to set
 	 */
 	public void setValorComision(BigDecimal valorComision) {
 		this.valorComision = valorComision;
@@ -163,7 +171,8 @@ public class MaestroServicio extends BaseNegocio {
 	}
 
 	/**
-	 * @param esImpuesto the esImpuesto to set
+	 * @param esImpuesto
+	 *            the esImpuesto to set
 	 */
 	public void setEsImpuesto(boolean esImpuesto) {
 		this.esImpuesto = esImpuesto;
@@ -177,7 +186,8 @@ public class MaestroServicio extends BaseNegocio {
 	}
 
 	/**
-	 * @param esFee the esFee to set
+	 * @param esFee
+	 *            the esFee to set
 	 */
 	public void setEsFee(boolean esFee) {
 		this.esFee = esFee;
@@ -191,7 +201,8 @@ public class MaestroServicio extends BaseNegocio {
 	}
 
 	/**
-	 * @param descripcionCorta the descripcionCorta to set
+	 * @param descripcionCorta
+	 *            the descripcionCorta to set
 	 */
 	public void setDescripcionCorta(String descripcionCorta) {
 		this.descripcionCorta = descripcionCorta;
@@ -201,14 +212,15 @@ public class MaestroServicio extends BaseNegocio {
 	 * @return the servicioFee
 	 */
 	public BaseVO getServicioFee() {
-		if (servicioFee == null){
+		if (servicioFee == null) {
 			servicioFee = new BaseVO();
 		}
 		return servicioFee;
 	}
 
 	/**
-	 * @param servicioFee the servicioFee to set
+	 * @param servicioFee
+	 *            the servicioFee to set
 	 */
 	public void setServicioFee(BaseVO servicioFee) {
 		this.servicioFee = servicioFee;
@@ -218,14 +230,15 @@ public class MaestroServicio extends BaseNegocio {
 	 * @return the servicioImpto
 	 */
 	public BaseVO getServicioImpto() {
-		if (servicioImpto == null){
+		if (servicioImpto == null) {
 			servicioImpto = new BaseVO();
 		}
 		return servicioImpto;
 	}
 
 	/**
-	 * @param servicioImpto the servicioImpto to set
+	 * @param servicioImpto
+	 *            the servicioImpto to set
 	 */
 	public void setServicioImpto(BaseVO servicioImpto) {
 		this.servicioImpto = servicioImpto;
@@ -239,7 +252,8 @@ public class MaestroServicio extends BaseNegocio {
 	}
 
 	/**
-	 * @param cargaIgv the cargaIgv to set
+	 * @param cargaIgv
+	 *            the cargaIgv to set
 	 */
 	public void setCargaIgv(boolean cargaIgv) {
 		this.cargaIgv = cargaIgv;
@@ -253,7 +267,8 @@ public class MaestroServicio extends BaseNegocio {
 	}
 
 	/**
-	 * @param pagaIgv the pagaIgv to set
+	 * @param pagaIgv
+	 *            the pagaIgv to set
 	 */
 	public void setPagaIgv(boolean pagaIgv) {
 		this.pagaIgv = pagaIgv;
@@ -263,14 +278,15 @@ public class MaestroServicio extends BaseNegocio {
 	 * @return the imptoIgv
 	 */
 	public BaseVO getImptoIgv() {
-		if (imptoIgv == null){
+		if (imptoIgv == null) {
 			imptoIgv = new BaseVO();
 		}
 		return imptoIgv;
 	}
 
 	/**
-	 * @param imptoIgv the imptoIgv to set
+	 * @param imptoIgv
+	 *            the imptoIgv to set
 	 */
 	public void setImptoIgv(BaseVO imptoIgv) {
 		this.imptoIgv = imptoIgv;
@@ -280,14 +296,15 @@ public class MaestroServicio extends BaseNegocio {
 	 * @return the listaServicioDepende
 	 */
 	public List<BaseVO> getListaServicioDepende() {
-		if (listaServicioDepende == null){
+		if (listaServicioDepende == null) {
 			listaServicioDepende = new ArrayList<BaseVO>();
 		}
 		return listaServicioDepende;
 	}
 
 	/**
-	 * @param listaServicioDepende the listaServicioDepende to set
+	 * @param listaServicioDepende
+	 *            the listaServicioDepende to set
 	 */
 	public void setListaServicioDepende(List<BaseVO> listaServicioDepende) {
 		this.listaServicioDepende = listaServicioDepende;
@@ -297,14 +314,15 @@ public class MaestroServicio extends BaseNegocio {
 	 * @return the parametroAsociado
 	 */
 	public BaseVO getParametroAsociado() {
-		if (parametroAsociado == null){
+		if (parametroAsociado == null) {
 			parametroAsociado = new BaseVO();
 		}
 		return parametroAsociado;
 	}
 
 	/**
-	 * @param parametroAsociado the parametroAsociado to set
+	 * @param parametroAsociado
+	 *            the parametroAsociado to set
 	 */
 	public void setParametroAsociado(BaseVO parametroAsociado) {
 		this.parametroAsociado = parametroAsociado;
@@ -318,7 +336,8 @@ public class MaestroServicio extends BaseNegocio {
 	}
 
 	/**
-	 * @param visible the visible to set
+	 * @param visible
+	 *            the visible to set
 	 */
 	public void setVisible(boolean visible) {
 		this.visible = visible;
@@ -332,7 +351,8 @@ public class MaestroServicio extends BaseNegocio {
 	}
 
 	/**
-	 * @param valorParametro the valorParametro to set
+	 * @param valorParametro
+	 *            the valorParametro to set
 	 */
 	public void setValorParametro(String valorParametro) {
 		this.valorParametro = valorParametro;
@@ -346,7 +366,8 @@ public class MaestroServicio extends BaseNegocio {
 	}
 
 	/**
-	 * @param servicioPadre the servicioPadre to set
+	 * @param servicioPadre
+	 *            the servicioPadre to set
 	 */
 	public void setServicioPadre(boolean servicioPadre) {
 		this.servicioPadre = servicioPadre;

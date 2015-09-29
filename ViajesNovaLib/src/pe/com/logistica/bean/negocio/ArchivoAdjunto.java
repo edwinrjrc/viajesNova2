@@ -11,29 +11,28 @@ import pe.com.logistica.bean.base.Base;
  * @author Edwin
  *
  */
-public class ArchivoAdjunto extends Base{
-	
+public class ArchivoAdjunto extends Base {
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6843568135765114678L;
-	
-	
+
 	private InputStream stream;
 	private String nombreArchivo;
 	private String tipoContenido;
 	private String content;
 	private byte[] datos;
 	private String extensionArchivo;
-	
-	
+
 	public ArchivoAdjunto() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public ArchivoAdjunto(String nombre) {
 		this.nombreArchivo = nombre;
 	}
+
 	/**
 	 * @return the stream
 	 */
@@ -42,7 +41,8 @@ public class ArchivoAdjunto extends Base{
 	}
 
 	/**
-	 * @param stream the stream to set
+	 * @param stream
+	 *            the stream to set
 	 */
 	public void setStream(InputStream stream) {
 		this.stream = stream;
@@ -56,7 +56,8 @@ public class ArchivoAdjunto extends Base{
 	}
 
 	/**
-	 * @param nombreArchivo the nombreArchivo to set
+	 * @param nombreArchivo
+	 *            the nombreArchivo to set
 	 */
 	public void setNombreArchivo(String nombreArchivo) {
 		this.nombreArchivo = nombreArchivo;
@@ -70,7 +71,8 @@ public class ArchivoAdjunto extends Base{
 	}
 
 	/**
-	 * @param tipoContenido the tipoContenido to set
+	 * @param tipoContenido
+	 *            the tipoContenido to set
 	 */
 	public void setTipoContenido(String tipoContenido) {
 		this.tipoContenido = tipoContenido;
@@ -84,7 +86,8 @@ public class ArchivoAdjunto extends Base{
 	}
 
 	/**
-	 * @param datos the datos to set
+	 * @param datos
+	 *            the datos to set
 	 */
 	public void setDatos(byte[] datos) {
 		this.datos = datos;
@@ -98,7 +101,8 @@ public class ArchivoAdjunto extends Base{
 	}
 
 	/**
-	 * @param content the content to set
+	 * @param content
+	 *            the content to set
 	 */
 	public void setContent(String content) {
 		this.content = content;
@@ -112,7 +116,8 @@ public class ArchivoAdjunto extends Base{
 	}
 
 	/**
-	 * @param extensionArchivo the extensionArchivo to set
+	 * @param extensionArchivo
+	 *            the extensionArchivo to set
 	 */
 	public void setExtensionArchivo(String extensionArchivo) {
 		this.extensionArchivo = extensionArchivo;

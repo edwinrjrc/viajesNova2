@@ -21,61 +21,71 @@ public class TipoCambio extends BaseNegocio {
 	private BaseVO monedaDestino;
 	private Date fechaTipoCambio;
 	private BigDecimal montoCambio;
-	
-	
+
 	/**
 	 * @return the monedaOrigen
 	 */
 	public BaseVO getMonedaOrigen() {
-		if (monedaOrigen == null){
+		if (monedaOrigen == null) {
 			monedaOrigen = new BaseVO();
 		}
 		return monedaOrigen;
 	}
+
 	/**
-	 * @param monedaOrigen the monedaOrigen to set
+	 * @param monedaOrigen
+	 *            the monedaOrigen to set
 	 */
 	public void setMonedaOrigen(BaseVO monedaOrigen) {
 		this.monedaOrigen = monedaOrigen;
 	}
+
 	/**
 	 * @return the monedaDestino
 	 */
 	public BaseVO getMonedaDestino() {
-		if (monedaDestino == null){
+		if (monedaDestino == null) {
 			monedaDestino = new BaseVO();
 		}
 		return monedaDestino;
 	}
+
 	/**
-	 * @param monedaDestino the monedaDestino to set
+	 * @param monedaDestino
+	 *            the monedaDestino to set
 	 */
 	public void setMonedaDestino(BaseVO monedaDestino) {
 		this.monedaDestino = monedaDestino;
 	}
+
 	/**
 	 * @return the fechaTipoCambio
 	 */
 	public Date getFechaTipoCambio() {
 		return fechaTipoCambio;
 	}
+
 	/**
-	 * @param fechaTipoCambio the fechaTipoCambio to set
+	 * @param fechaTipoCambio
+	 *            the fechaTipoCambio to set
 	 */
 	public void setFechaTipoCambio(Date fechaTipoCambio) {
 		this.fechaTipoCambio = fechaTipoCambio;
 	}
+
 	/**
 	 * @return the montoCambio
 	 */
 	public BigDecimal getMontoCambio() {
 		return montoCambio;
 	}
+
 	/**
-	 * @param montoCambio the montoCambio to set
+	 * @param montoCambio
+	 *            the montoCambio to set
 	 */
 	public void setMontoCambio(BigDecimal montoCambio) {
 		this.montoCambio = montoCambio;
 	}
-	
+
 }

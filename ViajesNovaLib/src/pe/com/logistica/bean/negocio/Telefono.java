@@ -10,13 +10,13 @@ import pe.com.logistica.bean.base.BaseVO;
  * @author Edwin
  *
  */
-public class Telefono extends BaseNegocio{
+public class Telefono extends BaseNegocio {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3012859645915798758L;
-	
+
 	private int id;
 	private String numeroTelefono;
 	private BaseVO empresaOperadora;
@@ -36,7 +36,8 @@ public class Telefono extends BaseNegocio{
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(int id) {
 		this.id = id;
@@ -50,7 +51,8 @@ public class Telefono extends BaseNegocio{
 	}
 
 	/**
-	 * @param numeroTelefono the numeroTelefono to set
+	 * @param numeroTelefono
+	 *            the numeroTelefono to set
 	 */
 	public void setNumeroTelefono(String numeroTelefono) {
 		this.numeroTelefono = numeroTelefono;
@@ -60,14 +62,15 @@ public class Telefono extends BaseNegocio{
 	 * @return the empresaOperadora
 	 */
 	public BaseVO getEmpresaOperadora() {
-		if (empresaOperadora == null){
+		if (empresaOperadora == null) {
 			empresaOperadora = new BaseVO();
 		}
 		return empresaOperadora;
 	}
 
 	/**
-	 * @param empresaOperadora the empresaOperadora to set
+	 * @param empresaOperadora
+	 *            the empresaOperadora to set
 	 */
 	public void setEmpresaOperadora(BaseVO empresaOperadora) {
 		this.empresaOperadora = empresaOperadora;

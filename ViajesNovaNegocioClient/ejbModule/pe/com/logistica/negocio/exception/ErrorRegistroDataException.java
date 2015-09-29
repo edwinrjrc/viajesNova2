@@ -14,7 +14,6 @@ public class ErrorRegistroDataException extends LogisticaNegocioException {
 	 */
 	private static final long serialVersionUID = -1344477507465406243L;
 
-
 	/**
 	 * @param arg0
 	 */

@@ -19,6 +19,6 @@ public interface ParametroServicio {
 	public void registrarParametro(Parametro parametro) throws SQLException;
 
 	public void actualizarParametro(Parametro parametro) throws SQLException;
-	
+
 	public Parametro consultarParametro(int id) throws SQLException;
 }

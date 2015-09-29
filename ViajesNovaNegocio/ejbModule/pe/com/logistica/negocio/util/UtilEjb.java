@@ -30,7 +30,7 @@ import pe.com.logistica.negocio.dao.impl.ParametroDaoImpl;
  *
  */
 public class UtilEjb {
-	
+
 	private final static Logger logger = Logger.getLogger(UtilEjb.class);
 
 	public static String obtenerCadenaPropertieMaestro(String llave,
@@ -104,7 +104,8 @@ public class UtilEjb {
 				for (int r = 0; r < listaDetalle.size(); r++) {
 					for (int j = 0; j < listaDetalle.get(r).getServiciosHijos()
 							.size(); j++) {
-						DetalleServicioAgencia bean2 = listaDetalle.get(r).getServiciosHijos().get(j);
+						DetalleServicioAgencia bean2 = listaDetalle.get(r)
+								.getServiciosHijos().get(j);
 						if (!bean.getNroComprobante().equals(
 								bean2.getNroComprobante())
 								&& !estaEnListado(bean2.getNroComprobante(),
@@ -150,17 +151,23 @@ public class UtilEjb {
 			BaseVO tipoComprobante = null;
 			DetalleComprobante detalle = null;
 			DetalleServicioAgencia bean = null;
-			for (int s=0;s<servicioAgencia.getListaDetalleServicio().size(); s++){
-				for (int i = 0; i < servicioAgencia.getListaDetalleServicioAgrupado().get(s).getServiciosHijos().size(); i++) {
-					bean = servicioAgencia
-							.getListaDetalleServicioAgrupado().get(s).getServiciosHijos().get(i);
-					if (bean.getNroComprobante()
-							.equals(comp.getNumeroComprobante())) {
+			for (int s = 0; s < servicioAgencia.getListaDetalleServicio()
+					.size(); s++) {
+				for (int i = 0; i < servicioAgencia
+						.getListaDetalleServicioAgrupado().get(s)
+						.getServiciosHijos().size(); i++) {
+					bean = servicioAgencia.getListaDetalleServicioAgrupado()
+							.get(s).getServiciosHijos().get(i);
+					if (bean.getNroComprobante().equals(
+							comp.getNumeroComprobante())) {
 						detalle = new DetalleComprobante();
-						if (bean.isAgrupado()){
-							for (Integer id : bean.getCodigoEnteroAgrupados()){
-								DetalleServicioAgencia beanAgrupado = obtenerDetalleIdAgrupado(id, servicioAgencia.getListaDetalleServicio());
-								if (beanAgrupado == null){
+						if (bean.isAgrupado()) {
+							for (Integer id : bean.getCodigoEnteroAgrupados()) {
+								DetalleServicioAgencia beanAgrupado = obtenerDetalleIdAgrupado(
+										id,
+										servicioAgencia
+												.getListaDetalleServicio());
+								if (beanAgrupado == null) {
 									continue;
 								}
 								total = total.add(bean.getTotalServicio());
@@ -169,12 +176,17 @@ public class UtilEjb {
 								detalle = new DetalleComprobante();
 								detalle.setIdServicioDetalle(id);
 								detalle.setCantidad(beanAgrupado.getCantidad());
-								detalle.setPrecioUnitario(beanAgrupado.getPrecioUnitario());
-								detalle.setTotalDetalle(beanAgrupado.getTotalServicio());
-								detalle.setConcepto(obtenerDescripcionServicio(id, servicioAgencia.getListaDetalleServicio()));
+								detalle.setPrecioUnitario(beanAgrupado
+										.getPrecioUnitario());
+								detalle.setTotalDetalle(beanAgrupado
+										.getTotalServicio());
+								detalle.setConcepto(obtenerDescripcionServicio(
+										id, servicioAgencia
+												.getListaDetalleServicio()));
 								detalle.setUsuarioCreacion(servicioAgencia
 										.getUsuarioCreacion());
-								detalle.setIpCreacion(servicioAgencia.getIpCreacion());
+								detalle.setIpCreacion(servicioAgencia
+										.getIpCreacion());
 								comp.getDetalleComprobante().add(detalle);
 							}
 							if (bean.getTipoServicio().getCodigoEntero()
@@ -183,8 +195,7 @@ public class UtilEjb {
 								totalIGV = totalIGV.add(bean
 										.getPrecioUnitario());
 							}
-						}
-						else{
+						} else {
 							total = total.add(bean.getTotalServicio());
 							tipoComprobante = bean.getTipoComprobante();
 							detalle.setIdServicioDetalle(bean.getCodigoEntero());
@@ -194,7 +205,8 @@ public class UtilEjb {
 							detalle.setConcepto(bean.getDescripcionServicio());
 							detalle.setUsuarioCreacion(servicioAgencia
 									.getUsuarioCreacion());
-							detalle.setIpCreacion(servicioAgencia.getIpCreacion());
+							detalle.setIpCreacion(servicioAgencia
+									.getIpCreacion());
 							comp.getDetalleComprobante().add(detalle);
 							if (bean.getTipoServicio().getCodigoEntero()
 									.intValue() == UtilEjb
@@ -206,7 +218,7 @@ public class UtilEjb {
 					}
 				}
 			}
-			
+
 			comp.setTitular(servicioAgencia.getCliente());
 			comp.setFechaComprobante(servicioAgencia.getFechaServicio());
 			comp.setTipoComprobante(tipoComprobante);
@@ -220,13 +232,18 @@ public class UtilEjb {
 		}
 		return comp;
 	}
-	
-	private static DetalleServicioAgencia obtenerDetalleIdAgrupado(Integer idAgrupado,  List<DetalleServicioAgencia> listaDetalleTotal){
-		if (listaDetalleTotal != null && !listaDetalleTotal.isEmpty()){
+
+	private static DetalleServicioAgencia obtenerDetalleIdAgrupado(
+			Integer idAgrupado, List<DetalleServicioAgencia> listaDetalleTotal) {
+		if (listaDetalleTotal != null && !listaDetalleTotal.isEmpty()) {
 			for (DetalleServicioAgencia detalleServicioAgencia : listaDetalleTotal) {
-				if (detalleServicioAgencia.getServiciosHijos() != null && !detalleServicioAgencia.getServiciosHijos().isEmpty()){
-					for(DetalleServicioAgencia detalleServicioHijo : detalleServicioAgencia.getServiciosHijos()){
-						if (detalleServicioHijo.getCodigoEntero().intValue() == idAgrupado.intValue()){
+				if (detalleServicioAgencia.getServiciosHijos() != null
+						&& !detalleServicioAgencia.getServiciosHijos()
+								.isEmpty()) {
+					for (DetalleServicioAgencia detalleServicioHijo : detalleServicioAgencia
+							.getServiciosHijos()) {
+						if (detalleServicioHijo.getCodigoEntero().intValue() == idAgrupado
+								.intValue()) {
 							return detalleServicioHijo;
 						}
 					}
@@ -235,21 +252,26 @@ public class UtilEjb {
 		}
 		return null;
 	}
-	
-	private static String obtenerDescripcionServicio(Integer id, List<DetalleServicioAgencia> lista){
-		
-		if (lista != null && !lista.isEmpty() && id != null){
+
+	private static String obtenerDescripcionServicio(Integer id,
+			List<DetalleServicioAgencia> lista) {
+
+		if (lista != null && !lista.isEmpty() && id != null) {
 			for (DetalleServicioAgencia detalleServicioAgencia : lista) {
-				if (detalleServicioAgencia.getServiciosHijos() != null && !detalleServicioAgencia.getServiciosHijos().isEmpty()){
-					for (DetalleServicioAgencia detalleServicioHijo : detalleServicioAgencia.getServiciosHijos()){
-						if (detalleServicioHijo.getCodigoEntero().intValue() == id.intValue()){
+				if (detalleServicioAgencia.getServiciosHijos() != null
+						&& !detalleServicioAgencia.getServiciosHijos()
+								.isEmpty()) {
+					for (DetalleServicioAgencia detalleServicioHijo : detalleServicioAgencia
+							.getServiciosHijos()) {
+						if (detalleServicioHijo.getCodigoEntero().intValue() == id
+								.intValue()) {
 							return detalleServicioHijo.getDescripcionServicio();
 						}
 					}
 				}
 			}
 		}
-		
+
 		return "";
 	}
 
@@ -291,44 +313,45 @@ public class UtilEjb {
 
 		return listaServicio;
 	}
-	
-	public static String generaSentenciaFuncion(String nombreFuncion, int numeroParametros){
+
+	public static String generaSentenciaFuncion(String nombreFuncion,
+			int numeroParametros) {
 		String sql = "";
-		
+
 		sql = "{ ? = call ";
 		sql = sql + nombreFuncion + "(";
 		sql = sql + completarParametrosSQL(numeroParametros);
 		sql = sql + ")}";
-		
+
 		logger.info(sql);
-		
+
 		return sql;
 	}
-	
-	public static String completarParametrosSQL(int numeroParametros){
+
+	public static String completarParametrosSQL(int numeroParametros) {
 		String parametros = "";
-		
-		parametros = completarCaracter(parametros,"?,",numeroParametros,"D");
-		parametros = parametros.substring(0, (parametros.length()-1));
-		
+
+		parametros = completarCaracter(parametros, "?,", numeroParametros, "D");
+		parametros = parametros.substring(0, (parametros.length() - 1));
+
 		return parametros;
 	}
-	
-	public static String completarCaracter(String cadena, String caracter, int cantidad, String direccion){
-		if ("D".equals(direccion)){
+
+	public static String completarCaracter(String cadena, String caracter,
+			int cantidad, String direccion) {
+		if ("D".equals(direccion)) {
 			String cadenaNueva = cadena;
-			int i=0;
-			while((cadena.length() + i) < cantidad){
+			int i = 0;
+			while ((cadena.length() + i) < cantidad) {
 				cadenaNueva = cadenaNueva + caracter;
 				i++;
 			}
 			return cadenaNueva;
-		}
-		else if("I".equals(direccion)){	
+		} else if ("I".equals(direccion)) {
 			String cadenaNueva = cadena;
-			int i=0;
-			while((cadena.length() + i) < cantidad){
-				cadenaNueva =  caracter + cadenaNueva;
+			int i = 0;
+			while ((cadena.length() + i) < cantidad) {
+				cadenaNueva = caracter + cadenaNueva;
 				i++;
 			}
 			return cadenaNueva;

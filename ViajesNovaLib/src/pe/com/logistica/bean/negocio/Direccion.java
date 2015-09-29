@@ -32,7 +32,7 @@ public class Direccion extends BaseNegocio {
 	private BaseVO zona;
 	private String manzana;
 	private String lote;
-	
+
 	private boolean principal;
 
 	public Direccion() {
@@ -152,7 +152,7 @@ public class Direccion extends BaseNegocio {
 	 * @return the telefonos
 	 */
 	public List<Telefono> getTelefonos() {
-		if (telefonos == null){
+		if (telefonos == null) {
 			telefonos = new ArrayList<Telefono>();
 		}
 		return telefonos;
@@ -170,7 +170,7 @@ public class Direccion extends BaseNegocio {
 	 * @return the tipoDireccion
 	 */
 	public BaseVO getTipoDireccion() {
-		if (tipoDireccion == null){
+		if (tipoDireccion == null) {
 			tipoDireccion = new BaseVO();
 		}
 		return tipoDireccion;
@@ -188,7 +188,7 @@ public class Direccion extends BaseNegocio {
 	 * @return the ubigeo
 	 */
 	public Ubigeo getUbigeo() {
-		if (ubigeo == null){
+		if (ubigeo == null) {
 			ubigeo = new Ubigeo();
 		}
 		return ubigeo;
@@ -206,7 +206,7 @@ public class Direccion extends BaseNegocio {
 	 * @return the via
 	 */
 	public BaseVO getVia() {
-		if (via == null){
+		if (via == null) {
 			via = new BaseVO();
 		}
 		return via;
@@ -224,7 +224,7 @@ public class Direccion extends BaseNegocio {
 	 * @return the zona
 	 */
 	public BaseVO getZona() {
-		if (zona == null){
+		if (zona == null) {
 			zona = new BaseVO();
 		}
 		return zona;
@@ -246,7 +246,8 @@ public class Direccion extends BaseNegocio {
 	}
 
 	/**
-	 * @param manzana the manzana to set
+	 * @param manzana
+	 *            the manzana to set
 	 */
 	public void setManzana(String manzana) {
 		this.manzana = manzana;
@@ -260,7 +261,8 @@ public class Direccion extends BaseNegocio {
 	}
 
 	/**
-	 * @param lote the lote to set
+	 * @param lote
+	 *            the lote to set
 	 */
 	public void setLote(String lote) {
 		this.lote = lote;
@@ -274,7 +276,8 @@ public class Direccion extends BaseNegocio {
 	}
 
 	/**
-	 * @param principal the principal to set
+	 * @param principal
+	 *            the principal to set
 	 */
 	public void setPrincipal(boolean principal) {
 		this.principal = principal;

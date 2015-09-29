@@ -19,11 +19,10 @@ public class Cliente extends Persona {
 	private String correoElectronico;
 	private List<Contacto> listaContactos;
 	private List<CuentaBancaria> listaCuentas;
-	
-	
+
 	private String telefonoInvitadoNovios;
 	private Integer codigoSeleccionado;
-	
+
 	private int infoCliente;
 
 	public Cliente() {
@@ -53,14 +52,15 @@ public class Cliente extends Persona {
 	 * @return the listaContactos
 	 */
 	public List<Contacto> getListaContactos() {
-		if (listaContactos == null){
+		if (listaContactos == null) {
 			listaContactos = new ArrayList<Contacto>();
 		}
 		return listaContactos;
 	}
 
 	/**
-	 * @param listaContactos the listaContactos to set
+	 * @param listaContactos
+	 *            the listaContactos to set
 	 */
 	public void setListaContactos(List<Contacto> listaContactos) {
 		this.listaContactos = listaContactos;
@@ -74,7 +74,8 @@ public class Cliente extends Persona {
 	}
 
 	/**
-	 * @param listaCuentas the listaCuentas to set
+	 * @param listaCuentas
+	 *            the listaCuentas to set
 	 */
 	public void setListaCuentas(List<CuentaBancaria> listaCuentas) {
 		this.listaCuentas = listaCuentas;
@@ -88,7 +89,8 @@ public class Cliente extends Persona {
 	}
 
 	/**
-	 * @param telefonoInvitadoNovios the telefonoInvitadoNovios to set
+	 * @param telefonoInvitadoNovios
+	 *            the telefonoInvitadoNovios to set
 	 */
 	public void setTelefonoInvitadoNovios(String telefonoInvitadoNovios) {
 		this.telefonoInvitadoNovios = telefonoInvitadoNovios;
@@ -102,7 +104,8 @@ public class Cliente extends Persona {
 	}
 
 	/**
-	 * @param codigoSeleccionado the codigoSeleccionado to set
+	 * @param codigoSeleccionado
+	 *            the codigoSeleccionado to set
 	 */
 	public void setCodigoSeleccionado(Integer codigoSeleccionado) {
 		this.codigoSeleccionado = codigoSeleccionado;
@@ -116,7 +119,8 @@ public class Cliente extends Persona {
 	}
 
 	/**
-	 * @param infoCliente the infoCliente to set
+	 * @param infoCliente
+	 *            the infoCliente to set
 	 */
 	public void setInfoCliente(int infoCliente) {
 		this.infoCliente = infoCliente;

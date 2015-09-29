@@ -37,7 +37,7 @@ public class Contacto extends Persona {
 	 * @return the listaCorreos
 	 */
 	public List<CorreoElectronico> getListaCorreos() {
-		if (listaCorreos == null){
+		if (listaCorreos == null) {
 			listaCorreos = new ArrayList<CorreoElectronico>();
 		}
 		return listaCorreos;
@@ -55,7 +55,7 @@ public class Contacto extends Persona {
 	 * @return the listaTelefonos
 	 */
 	public List<Telefono> getListaTelefonos() {
-		if (listaTelefonos == null){
+		if (listaTelefonos == null) {
 			listaTelefonos = new ArrayList<Telefono>();
 		}
 		return listaTelefonos;
@@ -77,7 +77,8 @@ public class Contacto extends Persona {
 	}
 
 	/**
-	 * @param anexo the anexo to set
+	 * @param anexo
+	 *            the anexo to set
 	 */
 	public void setAnexo(String anexo) {
 		this.anexo = anexo;
@@ -87,26 +88,27 @@ public class Contacto extends Persona {
 	 * @return the area
 	 */
 	public BaseVO getArea() {
-		if (area == null){
+		if (area == null) {
 			area = new BaseVO();
 		}
 		return area;
 	}
 
 	/**
-	 * @param area the area to set
+	 * @param area
+	 *            the area to set
 	 */
 	public void setArea(BaseVO area) {
 		this.area = area;
 	}
 
-	
-	public String getNombreCompleto(){
+	public String getNombreCompleto() {
 		String nomCompleto = "";
-		
-		nomCompleto = getNombres()+" "+getApellidoPaterno()+" "+getApellidoMaterno();
+
+		nomCompleto = getNombres() + " " + getApellidoPaterno() + " "
+				+ getApellidoMaterno();
 		nomCompleto = StringUtils.normalizeSpace(nomCompleto);
-		
+
 		return nomCompleto;
 	}
 }

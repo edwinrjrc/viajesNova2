@@ -38,7 +38,7 @@ public class ColumnasExcel extends BaseNegocio {
 	private CeldaExcel columna19;
 	private CeldaExcel columna20;
 	private boolean seleccionar;
-	
+
 	private BaseVO tipoComprobante;
 	private String numeroComprobante;
 
@@ -410,7 +410,8 @@ public class ColumnasExcel extends BaseNegocio {
 	}
 
 	/**
-	 * @param seleccionar the seleccionar to set
+	 * @param seleccionar
+	 *            the seleccionar to set
 	 */
 	public void setSeleccionar(boolean seleccionar) {
 		this.seleccionar = seleccionar;
@@ -424,7 +425,8 @@ public class ColumnasExcel extends BaseNegocio {
 	}
 
 	/**
-	 * @param idArchivo the idArchivo to set
+	 * @param idArchivo
+	 *            the idArchivo to set
 	 */
 	public void setIdArchivo(Integer idArchivo) {
 		this.idArchivo = idArchivo;
@@ -434,14 +436,15 @@ public class ColumnasExcel extends BaseNegocio {
 	 * @return the tipoComprobante
 	 */
 	public BaseVO getTipoComprobante() {
-		if (tipoComprobante == null){
+		if (tipoComprobante == null) {
 			tipoComprobante = new BaseVO();
 		}
 		return tipoComprobante;
 	}
 
 	/**
-	 * @param tipoComprobante the tipoComprobante to set
+	 * @param tipoComprobante
+	 *            the tipoComprobante to set
 	 */
 	public void setTipoComprobante(BaseVO tipoComprobante) {
 		this.tipoComprobante = tipoComprobante;
@@ -455,7 +458,8 @@ public class ColumnasExcel extends BaseNegocio {
 	}
 
 	/**
-	 * @param numeroComprobante the numeroComprobante to set
+	 * @param numeroComprobante
+	 *            the numeroComprobante to set
 	 */
 	public void setNumeroComprobante(String numeroComprobante) {
 		this.numeroComprobante = numeroComprobante;

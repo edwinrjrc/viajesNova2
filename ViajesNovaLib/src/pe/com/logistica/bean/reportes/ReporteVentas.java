@@ -17,7 +17,7 @@ public class ReporteVentas extends Base {
 	private Date fechaDesde;
 	private Date fechaHasta;
 	private BaseVO vendedor;
-	
+
 	/**
 	 * 
 	 */
@@ -31,7 +31,8 @@ public class ReporteVentas extends Base {
 	}
 
 	/**
-	 * @param fechaDesde the fechaDesde to set
+	 * @param fechaDesde
+	 *            the fechaDesde to set
 	 */
 	public void setFechaDesde(Date fechaDesde) {
 		this.fechaDesde = fechaDesde;
@@ -45,7 +46,8 @@ public class ReporteVentas extends Base {
 	}
 
 	/**
-	 * @param fechaHasta the fechaHasta to set
+	 * @param fechaHasta
+	 *            the fechaHasta to set
 	 */
 	public void setFechaHasta(Date fechaHasta) {
 		this.fechaHasta = fechaHasta;
@@ -55,14 +57,15 @@ public class ReporteVentas extends Base {
 	 * @return the vendedor
 	 */
 	public BaseVO getVendedor() {
-		if (vendedor == null){
+		if (vendedor == null) {
 			vendedor = new BaseVO();
 		}
 		return vendedor;
 	}
 
 	/**
-	 * @param vendedor the vendedor to set
+	 * @param vendedor
+	 *            the vendedor to set
 	 */
 	public void setVendedor(BaseVO vendedor) {
 		this.vendedor = vendedor;

@@ -11,5 +11,6 @@ import pe.com.logistica.bean.reportes.ReporteVentas;
 @Local
 public interface ReportesSessionLocal {
 
-	public List<DetalleServicioAgencia> reporteGeneralVentas(ReporteVentas reporteVentas) throws SQLException;
+	public List<DetalleServicioAgencia> reporteGeneralVentas(
+			ReporteVentas reporteVentas) throws SQLException;
 }

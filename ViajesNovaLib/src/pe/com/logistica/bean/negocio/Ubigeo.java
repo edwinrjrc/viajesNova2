@@ -45,7 +45,7 @@ public class Ubigeo extends BaseVO {
 	 * @return the departamento
 	 */
 	public BaseVO getDepartamento() {
-		if (departamento == null){
+		if (departamento == null) {
 			departamento = new BaseVO();
 		}
 		return departamento;
@@ -63,7 +63,7 @@ public class Ubigeo extends BaseVO {
 	 * @return the distrito
 	 */
 	public BaseVO getDistrito() {
-		if (distrito == null){
+		if (distrito == null) {
 			distrito = new BaseVO();
 		}
 		return distrito;
@@ -81,7 +81,7 @@ public class Ubigeo extends BaseVO {
 	 * @return the provincia
 	 */
 	public BaseVO getProvincia() {
-		if (provincia == null){
+		if (provincia == null) {
 			provincia = new BaseVO();
 		}
 		return provincia;

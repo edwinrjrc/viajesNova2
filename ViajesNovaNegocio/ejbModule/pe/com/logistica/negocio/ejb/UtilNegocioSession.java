@@ -17,32 +17,44 @@ import org.apache.commons.lang3.StringUtils;
 
 import pe.com.logistica.bean.jasper.DetalleServicio;
 import pe.com.logistica.bean.negocio.ConfiguracionTipoServicio;
+import pe.com.logistica.bean.negocio.Contacto;
 import pe.com.logistica.bean.negocio.Destino;
 import pe.com.logistica.bean.negocio.DetalleServicioAgencia;
+import pe.com.logistica.bean.negocio.Direccion;
+import pe.com.logistica.bean.negocio.Maestro;
 import pe.com.logistica.bean.negocio.MaestroServicio;
 import pe.com.logistica.bean.negocio.Parametro;
+import pe.com.logistica.bean.negocio.Proveedor;
+import pe.com.logistica.bean.negocio.ServicioAgencia;
+import pe.com.logistica.bean.negocio.ServicioNovios;
 import pe.com.logistica.bean.negocio.ServicioProveedor;
 import pe.com.logistica.bean.negocio.TipoCambio;
 import pe.com.logistica.bean.negocio.Tramo;
+import pe.com.logistica.bean.negocio.Ubigeo;
 import pe.com.logistica.bean.util.UtilParse;
 import pe.com.logistica.negocio.dao.ComunDao;
 import pe.com.logistica.negocio.dao.DestinoDao;
+import pe.com.logistica.negocio.dao.MaestroDao;
 import pe.com.logistica.negocio.dao.MaestroServicioDao;
 import pe.com.logistica.negocio.dao.ParametroDao;
 import pe.com.logistica.negocio.dao.ProveedorDao;
 import pe.com.logistica.negocio.dao.ServicioNegocioDao;
 import pe.com.logistica.negocio.dao.TipoCambioDao;
+import pe.com.logistica.negocio.dao.UbigeoDao;
 import pe.com.logistica.negocio.dao.impl.ComunDaoImpl;
 import pe.com.logistica.negocio.dao.impl.DestinoDaoImpl;
+import pe.com.logistica.negocio.dao.impl.MaestroDaoImpl;
 import pe.com.logistica.negocio.dao.impl.MaestroServicioDaoImpl;
 import pe.com.logistica.negocio.dao.impl.ParametroDaoImpl;
 import pe.com.logistica.negocio.dao.impl.ProveedorDaoImpl;
 import pe.com.logistica.negocio.dao.impl.ServicioNegocioDaoImpl;
 import pe.com.logistica.negocio.dao.impl.TipoCambioDaoImpl;
+import pe.com.logistica.negocio.dao.impl.UbigeoDaoImpl;
 import pe.com.logistica.negocio.exception.ErrorConsultaDataException;
 import pe.com.logistica.negocio.exception.ErrorRegistroDataException;
 import pe.com.logistica.negocio.util.UtilConexion;
 import pe.com.logistica.negocio.util.UtilEjb;
+import pe.com.logistica.negocio.util.UtilJdbc;
 
 /**
  * Session Bean implementation class UtilNegocioSession
@@ -53,6 +65,9 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 
 	@EJB
 	NegocioSessionLocal negocioSessionLocal;
+
+	@EJB
+	ConsultaNegocioSessionLocal consultaNegocioSessionLocal;
 
 	@EJB
 	SoporteLocal soporteSessionLocal;
@@ -182,8 +197,9 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 			ComunDao comunDao = new ComunDaoImpl();
 			TipoCambioDao tipoCambioDao = new TipoCambioDaoImpl();
 
-			TipoCambio tipoCambio = tipoCambioDao.consultarTipoCambio(detalleServicio
-						.getMoneda().getCodigoEntero(), idMonedaServicio, conn);
+			TipoCambio tipoCambio = tipoCambioDao.consultarTipoCambio(
+					detalleServicio.getMoneda().getCodigoEntero(),
+					idMonedaServicio, conn);
 			detalleServicio.setTipoCambio(tipoCambio.getMontoCambio());
 
 			MaestroServicio tipoServicio = maestroServicioDao
@@ -392,14 +408,13 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 					.ordenarServiciosVenta(listaServiciosVenta);
 
 			return listaServiciosVenta;
-		} catch (SQLException e){
-			throw new ErrorRegistroDataException(
-					e.getMessage(), e);
-			
+		} catch (SQLException e) {
+			throw new ErrorRegistroDataException(e.getMessage(), e);
+
 		} catch (Exception e) {
 			throw new ErrorRegistroDataException(
 					"No se pudo agregar el servicio al listado", e);
-		
+
 		} finally {
 			if (conn != null) {
 				conn.close();
@@ -600,7 +615,7 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 						.multiply(
 								UtilParse.parseIntABigDecimal(detalleServicio
 										.getCantidad()));
-				
+
 				if (calcularIGV) {
 					if (detalleServicio.isConIGV()) {
 						ParametroDao parametroDao = new ParametroDaoImpl();
@@ -734,7 +749,8 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 					detalle.getServicioPadre().setCodigoEntero(idServicioPadre);
 					detalle.setMoneda(detalleServicio2.getMoneda());
 					detalle.setTipoCambio(detalleServicio2.getTipoCambio());
-					detalle.setPrecioUnitarioAnterior(detalleServicio2.getPrecioUnitarioAnterior());
+					detalle.setPrecioUnitarioAnterior(detalleServicio2
+							.getPrecioUnitarioAnterior());
 
 					try {
 						BigDecimal cantidad = BigDecimal.valueOf(Double
@@ -742,7 +758,8 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 										.getCantidad())));
 						BigDecimal precioBase = detalleServicio2
 								.getPrecioUnitarioAnterior();
-						precioBase = precioBase.multiply(detalleServicio2.getTipoCambio());
+						precioBase = precioBase.multiply(detalleServicio2
+								.getTipoCambio());
 						BigDecimal porcenIGV = BigDecimal.valueOf(Double
 								.valueOf(maestroServicio.getValorParametro()));
 						BigDecimal totalServicioPrecede = precioBase
@@ -860,11 +877,227 @@ public class UtilNegocioSession implements UtilNegocioSessionRemote,
 
 		return BigDecimal.ZERO;
 	}
-	
+
 	@Override
-	public List<DetalleServicio> consultarServiciosVentaJR(Integer idServicio) throws SQLException{
+	public List<DetalleServicio> consultarServiciosVentaJR(Integer idServicio)
+			throws SQLException {
 		ServicioNegocioDao servicioNegocioDao = new ServicioNegocioDaoImpl();
-		
+
 		return servicioNegocioDao.consultarServicioVentaJR(idServicio);
+	}
+
+	@Override
+	public Direccion agregarDireccion(Direccion direccion) throws SQLException,
+			Exception {
+		String iddepartamento = direccion.getUbigeo().getDepartamento()
+				.getCodigoCadena();
+		String idprovincia = direccion.getUbigeo().getProvincia()
+				.getCodigoCadena();
+		String iddistrito = direccion.getUbigeo().getDistrito()
+				.getCodigoCadena();
+		UbigeoDao ubigeoDao = new UbigeoDaoImpl();
+		Ubigeo resultado = ubigeoDao.consultarUbigeo(iddepartamento + "0000");
+		direccion.getUbigeo().setDepartamento(resultado.getDepartamento());
+		direccion.getUbigeo().getDepartamento()
+				.setNombre(resultado.getNombre());
+
+		resultado = ubigeoDao.consultarUbigeo(iddepartamento + idprovincia
+				+ "00");
+		direccion.getUbigeo().setProvincia(resultado.getProvincia());
+		direccion.getUbigeo().getProvincia().setNombre(resultado.getNombre());
+
+		resultado = ubigeoDao.consultarUbigeo(iddepartamento + idprovincia
+				+ iddistrito);
+		direccion.getUbigeo().setDistrito(resultado.getDistrito());
+		direccion.getUbigeo().getDistrito().setNombre(resultado.getNombre());
+
+		direccion.getUbigeo().setCodigoCadena(
+				iddepartamento + idprovincia + iddistrito);
+
+		direccion.setDireccion(obtenerDireccionCompleta(direccion));
+
+		return direccion;
+	}
+
+	@Override
+	public Contacto agregarContacto(Contacto contacto) throws SQLException,
+			Exception {
+		MaestroDao maestroDao = new MaestroDaoImpl();
+
+		try {
+			Maestro hijoMaestro = new Maestro();
+			hijoMaestro.setCodigoEntero(contacto.getArea().getCodigoEntero());
+			hijoMaestro.setCodigoMaestro(4);
+			hijoMaestro = maestroDao.consultarHijoMaestro(hijoMaestro);
+			contacto.getArea().setNombre(hijoMaestro.getNombre());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return contacto;
+	}
+
+	@Override
+	public String obtenerDireccionCompleta(Direccion direccion)
+			throws SQLException, Exception {
+		MaestroDao maestroDao = new MaestroDaoImpl();
+		Maestro hijoMaestro = new Maestro();
+		hijoMaestro.setCodigoMaestro(2);
+		hijoMaestro.setCodigoEntero(direccion.getVia().getCodigoEntero());
+		hijoMaestro = maestroDao.consultarHijoMaestro(hijoMaestro);
+		String direccionCompleta = "" + hijoMaestro.getAbreviatura() + " "
+				+ direccion.getNombreVia();
+		if (StringUtils.isNotBlank(direccion.getNumero())) {
+			direccionCompleta = direccionCompleta + " Nro "
+					+ direccion.getNumero();
+		} else {
+			direccionCompleta = direccionCompleta + " Mz. "
+					+ direccion.getManzana();
+			direccionCompleta = direccionCompleta + " Lt. "
+					+ direccion.getLote();
+		}
+		if (StringUtils.isNotBlank(direccion.getInterior())) {
+			direccionCompleta = direccionCompleta + " Int "
+					+ direccion.getInterior();
+		}
+
+		return UtilJdbc.convertirMayuscula(direccionCompleta);
+	}
+
+	@Override
+	public ServicioNovios agregarServicio(ServicioNovios detalleServicio)
+			throws SQLException, Exception {
+
+		Connection conn = null;
+
+		try {
+			conn = UtilConexion.obtenerConexion();
+
+			MaestroServicioDao maestroServicioDao = new MaestroServicioDaoImpl();
+
+			ProveedorDao proveedorDao = new ProveedorDaoImpl();
+
+			detalleServicio.setTipoServicio(maestroServicioDao
+					.consultarMaestroServicio(detalleServicio.getTipoServicio()
+							.getCodigoEntero(), conn));
+
+			// obtener nombre empresa proveedor
+			if (detalleServicio.getServicioProveedor().getProveedor()
+					.getCodigoEntero() != null
+					&& detalleServicio.getServicioProveedor().getProveedor()
+							.getCodigoEntero().intValue() != 0) {
+				detalleServicio.getServicioProveedor().setProveedor(
+						proveedorDao.consultarProveedor(detalleServicio
+								.getServicioProveedor().getProveedor()
+								.getCodigoEntero(), conn));
+			}
+
+			// obtener nombre aerolinea
+			if (detalleServicio.getAerolinea().getCodigoEntero() != null
+					&& detalleServicio.getAerolinea().getCodigoEntero()
+							.intValue() != 0) {
+				detalleServicio.getAerolinea().setNombre(
+						proveedorDao.consultarProveedor(
+								detalleServicio.getAerolinea()
+										.getCodigoEntero(), conn)
+								.getNombreCompleto());
+			}
+
+			// obtener nombre empresa transporte
+			if (detalleServicio.getEmpresaTransporte().getCodigoEntero() != null
+					&& detalleServicio.getEmpresaTransporte().getCodigoEntero()
+							.intValue() != 0) {
+				detalleServicio.getEmpresaTransporte().setNombre(
+						proveedorDao.consultarProveedor(
+								detalleServicio.getEmpresaTransporte()
+										.getCodigoEntero(), conn)
+								.getNombreCompleto());
+			}
+
+			// obtener nombre operador
+			if (detalleServicio.getOperadora().getCodigoEntero() != null
+					&& detalleServicio.getOperadora().getCodigoEntero()
+							.intValue() != 0) {
+				detalleServicio.getOperadora().setNombre(
+						proveedorDao.consultarProveedor(
+								detalleServicio.getOperadora()
+										.getCodigoEntero(), conn)
+								.getNombreCompleto());
+			}
+
+			// obtener nombre hotel
+			if (detalleServicio.getHotel().getCodigoEntero() != null
+					&& detalleServicio.getHotel().getCodigoEntero().intValue() != 0) {
+				detalleServicio.getHotel().setNombre(
+						proveedorDao.consultarProveedor(
+								detalleServicio.getHotel().getCodigoEntero(),
+								conn).getNombreCompleto());
+			}
+
+			BigDecimal comision = BigDecimal.ZERO;
+			BigDecimal totalVenta = BigDecimal.ZERO;
+
+			if (StringUtils.isBlank(detalleServicio.getDescripcionServicio())) {
+				detalleServicio.setDescripcionServicio(StringUtils
+						.upperCase(detalleServicio.getTipoServicio()
+								.getNombre()));
+			}
+
+			detalleServicio.setDescripcionServicio(StringUtils
+					.upperCase(detalleServicio.getDescripcionServicio()));
+
+			if (detalleServicio.getCantidad() == 0) {
+				detalleServicio.setCantidad(1);
+			}
+
+			if (detalleServicio.getPrecioUnitario() != null) {
+				BigDecimal total = detalleServicio.getPrecioUnitario()
+						.multiply(
+								UtilParse.parseIntABigDecimal(detalleServicio
+										.getCantidad()));
+				totalVenta = totalVenta.add(total);
+			}
+
+			if (detalleServicio.getServicioProveedor().getPorcentajeComision() != null) {
+				comision = detalleServicio.getServicioProveedor()
+						.getPorcentajeComision().multiply(totalVenta);
+				comision = comision.divide(BigDecimal.valueOf(100.0));
+			}
+
+			if (detalleServicio.getServicioProveedor().getProveedor()
+					.getCodigoEntero() != null) {
+				Proveedor proveedor = consultaNegocioSessionLocal
+						.consultarProveedor(detalleServicio
+								.getServicioProveedor().getProveedor()
+								.getCodigoEntero().intValue());
+				detalleServicio.getServicioProveedor().setProveedor(proveedor);
+			}
+
+			detalleServicio.setMontoComision(comision);
+
+			detalleServicio.setCodigoCadena(String.valueOf(System
+					.currentTimeMillis()));
+
+			return detalleServicio;
+		} catch (Exception e) {
+			throw new ErrorRegistroDataException(
+					"No se pudo agregar el servicio al listado", e);
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
+
+	@Override
+	public BigDecimal calcularValorCuota(ServicioAgencia servicioAgencia)
+			throws SQLException, Exception {
+		BigDecimal valorCuota = BigDecimal.ZERO;
+
+		ServicioNegocioDao servicioNegocioDao = new ServicioNegocioDaoImpl();
+
+		valorCuota = servicioNegocioDao.calcularCuota(servicioAgencia);
+
+		return valorCuota;
 	}
 }

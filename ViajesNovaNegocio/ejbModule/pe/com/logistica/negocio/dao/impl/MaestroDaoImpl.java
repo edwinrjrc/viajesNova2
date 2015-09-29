@@ -70,7 +70,7 @@ public class MaestroDaoImpl implements MaestroDao {
 			throw new SQLException(e);
 		} finally {
 			try {
-				if (rs != null){
+				if (rs != null) {
 					rs.close();
 				}
 				if (cs != null) {
@@ -123,7 +123,7 @@ public class MaestroDaoImpl implements MaestroDao {
 			throw new SQLException(e);
 		} finally {
 			try {
-				if (rs != null){
+				if (rs != null) {
 					rs.close();
 				}
 				if (cs != null) {
@@ -185,7 +185,7 @@ public class MaestroDaoImpl implements MaestroDao {
 			throw new SQLException(e);
 		} finally {
 			try {
-				if (rs != null){
+				if (rs != null) {
 					rs.close();
 				}
 				if (cs != null) {
@@ -229,10 +229,11 @@ public class MaestroDaoImpl implements MaestroDao {
 			int i = 1;
 			cs.registerOutParameter(i++, Types.BOOLEAN);
 			cs.setString(i++, UtilJdbc.convertirMayuscula(maestro.getNombre()));
-			cs.setString(i++, UtilJdbc.convertirMayuscula(maestro.getDescripcion()));
+			cs.setString(i++,
+					UtilJdbc.convertirMayuscula(maestro.getDescripcion()));
 
 			cs.execute();
-			
+
 			resultado = cs.getBoolean(1);
 
 		} catch (SQLException e) {
@@ -281,11 +282,13 @@ public class MaestroDaoImpl implements MaestroDao {
 			cs.registerOutParameter(i++, Types.BOOLEAN);
 			cs.setInt(i++, maestro.getCodigoMaestro());
 			cs.setString(i++, UtilJdbc.convertirMayuscula(maestro.getNombre()));
-			cs.setString(i++, UtilJdbc.convertirMayuscula(maestro.getDescripcion()));
-			cs.setString(i++, UtilJdbc.convertirMayuscula(maestro.getAbreviatura()));
+			cs.setString(i++,
+					UtilJdbc.convertirMayuscula(maestro.getDescripcion()));
+			cs.setString(i++,
+					UtilJdbc.convertirMayuscula(maestro.getAbreviatura()));
 
 			cs.execute();
-			
+
 			resultado = cs.getBoolean(1);
 
 		} catch (SQLException e) {
@@ -339,13 +342,14 @@ public class MaestroDaoImpl implements MaestroDao {
 						UtilJdbc.obtenerCadena(rs, "estado"));
 				maestro.getEstado().setNombre(
 						UtilJdbc.obtenerCadena(rs, "descestado"));
-				maestro.setAbreviatura(UtilJdbc.obtenerCadena(rs, "abreviatura"));
+				maestro.setAbreviatura(UtilJdbc
+						.obtenerCadena(rs, "abreviatura"));
 			}
 		} catch (SQLException e) {
 			throw new SQLException(e);
 		} finally {
 			try {
-				if (rs != null){
+				if (rs != null) {
 					rs.close();
 				}
 				if (cs != null) {
@@ -384,30 +388,30 @@ public class MaestroDaoImpl implements MaestroDao {
 			cs.setInt(i++, maestro.getCodigoEntero());
 			cs.setInt(i++, maestro.getCodigoMaestro());
 			cs.setString(i++, UtilJdbc.convertirMayuscula(maestro.getNombre()));
-			if (StringUtils.isNotBlank(maestro.getDescripcion())){
-				cs.setString(i++, UtilJdbc.convertirMayuscula(maestro.getDescripcion()));
-			}
-			else{
+			if (StringUtils.isNotBlank(maestro.getDescripcion())) {
+				cs.setString(i++,
+						UtilJdbc.convertirMayuscula(maestro.getDescripcion()));
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
-			if (StringUtils.isNotBlank(maestro.getEstado().getCodigoCadena())){
-				cs.setString(i++, UtilJdbc.convertirMayuscula(maestro.getEstado().getCodigoCadena()));
-			}
-			else{
+			if (StringUtils.isNotBlank(maestro.getEstado().getCodigoCadena())) {
+				cs.setString(i++, UtilJdbc.convertirMayuscula(maestro
+						.getEstado().getCodigoCadena()));
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
-			
+
 			cs.setInt(i++, maestro.getOrden());
-			if (StringUtils.isNotBlank(maestro.getAbreviatura())){
-				cs.setString(i++, UtilJdbc.convertirMayuscula(maestro.getAbreviatura()));
-			}
-			else{
+			if (StringUtils.isNotBlank(maestro.getAbreviatura())) {
+				cs.setString(i++,
+						UtilJdbc.convertirMayuscula(maestro.getAbreviatura()));
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
 			cs.execute();
-			
+
 			resultado = cs.getBoolean(1);
-			
+
 		} catch (SQLException e) {
 			resultado = false;
 			throw new SQLException(e);
@@ -442,12 +446,12 @@ public class MaestroDaoImpl implements MaestroDao {
 		List<BaseVO> listaPaises = null;
 		try {
 			conn = UtilConexion.obtenerConexion();
-			
+
 			cs = conn.prepareCall(sql);
 			cs.registerOutParameter(1, Types.OTHER);
 			cs.setInt(2, idcontinente);
 			cs.execute();
-			rs = (ResultSet)cs.getObject(1);
+			rs = (ResultSet) cs.getObject(1);
 
 			listaPaises = new ArrayList<BaseVO>();
 			BaseVO pais = null;
@@ -457,12 +461,12 @@ public class MaestroDaoImpl implements MaestroDao {
 				pais.setNombre(UtilJdbc.obtenerCadena(rs, "descripcion"));
 				listaPaises.add(pais);
 			}
-			
+
 		} catch (SQLException e) {
 			throw new SQLException(e);
 		} finally {
 			try {
-				if (rs != null){
+				if (rs != null) {
 					rs.close();
 				}
 				if (cs != null) {
@@ -485,7 +489,7 @@ public class MaestroDaoImpl implements MaestroDao {
 
 		return listaPaises;
 	}
-	
+
 	@Override
 	public boolean ingresarPais(Pais pais) throws SQLException {
 		boolean resultado = false;
@@ -495,14 +499,16 @@ public class MaestroDaoImpl implements MaestroDao {
 		try {
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
-			int i=1;
+			int i = 1;
 			cs.registerOutParameter(i++, Types.BOOLEAN);
-			cs.setString(i++, UtilJdbc.convertirMayuscula(pais.getDescripcion()));
+			cs.setString(i++,
+					UtilJdbc.convertirMayuscula(pais.getDescripcion()));
 			cs.setInt(i++, pais.getContinente().getCodigoEntero().intValue());
-			cs.setString(i++, UtilJdbc.convertirMayuscula(pais.getUsuarioCreacion()));
+			cs.setString(i++,
+					UtilJdbc.convertirMayuscula(pais.getUsuarioCreacion()));
 			cs.setString(i++, UtilJdbc.convertirMayuscula(pais.getIpCreacion()));
 			cs.execute();
-			
+
 			resultado = cs.getBoolean(1);
 		} catch (SQLException e) {
 			resultado = false;

@@ -9,7 +9,7 @@ import pe.com.logistica.bean.base.Base;
  * @author Edwin
  *
  */
-public class SaldoServicio extends Base{
+public class SaldoServicio extends Base {
 
 	/**
 	 * 

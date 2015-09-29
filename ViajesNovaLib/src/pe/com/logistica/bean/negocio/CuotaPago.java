@@ -41,7 +41,8 @@ public class CuotaPago extends BaseNegocio {
 	}
 
 	/**
-	 * @param nroCuota the nroCuota to set
+	 * @param nroCuota
+	 *            the nroCuota to set
 	 */
 	public void setNroCuota(int nroCuota) {
 		this.nroCuota = nroCuota;
@@ -55,7 +56,8 @@ public class CuotaPago extends BaseNegocio {
 	}
 
 	/**
-	 * @param fechaVencimiento the fechaVencimiento to set
+	 * @param fechaVencimiento
+	 *            the fechaVencimiento to set
 	 */
 	public void setFechaVencimiento(Date fechaVencimiento) {
 		this.fechaVencimiento = fechaVencimiento;
@@ -69,7 +71,8 @@ public class CuotaPago extends BaseNegocio {
 	}
 
 	/**
-	 * @param capital the capital to set
+	 * @param capital
+	 *            the capital to set
 	 */
 	public void setCapital(BigDecimal capital) {
 		this.capital = capital;
@@ -83,7 +86,8 @@ public class CuotaPago extends BaseNegocio {
 	}
 
 	/**
-	 * @param interes the interes to set
+	 * @param interes
+	 *            the interes to set
 	 */
 	public void setInteres(BigDecimal interes) {
 		this.interes = interes;
@@ -97,7 +101,8 @@ public class CuotaPago extends BaseNegocio {
 	}
 
 	/**
-	 * @param totalCuota the totalCuota to set
+	 * @param totalCuota
+	 *            the totalCuota to set
 	 */
 	public void setTotalCuota(BigDecimal totalCuota) {
 		this.totalCuota = totalCuota;
@@ -107,14 +112,15 @@ public class CuotaPago extends BaseNegocio {
 	 * @return the estadoCuota
 	 */
 	public BaseVO getEstadoCuota() {
-		if (estadoCuota == null){
+		if (estadoCuota == null) {
 			estadoCuota = new BaseVO();
 		}
 		return estadoCuota;
 	}
 
 	/**
-	 * @param estadoCuota the estadoCuota to set
+	 * @param estadoCuota
+	 *            the estadoCuota to set
 	 */
 	public void setEstadoCuota(BaseVO estadoCuota) {
 		this.estadoCuota = estadoCuota;

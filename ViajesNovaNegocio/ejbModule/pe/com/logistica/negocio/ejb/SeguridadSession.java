@@ -19,20 +19,21 @@ import pe.com.logistica.negocio.exception.InicioSesionException;
 /**
  * Session Bean implementation class Seguridad
  */
-@Stateless(name="SeguridadSession")
+@Stateless(name = "SeguridadSession")
 public class SeguridadSession implements SeguridadRemote, SeguridadLocal {
 
 	UsuarioDao usuarioDao = null;
 	CatalogoDao catalogoDao = null;
-	
+
 	@EJB
 	AuditoriaSessionLocal auditoriaSessionLocal;
-    
-    @Override
-    public boolean registrarUsuario(Usuario usuario) throws SQLException, ErrorEncriptacionException{
-    	usuarioDao = new UsuarioDaoImpl();
-    	return usuarioDao.registrarUsuario(usuario);
-    }
+
+	@Override
+	public boolean registrarUsuario(Usuario usuario) throws SQLException,
+			ErrorEncriptacionException {
+		usuarioDao = new UsuarioDaoImpl();
+		return usuarioDao.registrarUsuario(usuario);
+	}
 
 	@Override
 	public List<Usuario> listarUsuarios() throws SQLException {
@@ -55,63 +56,68 @@ public class SeguridadSession implements SeguridadRemote, SeguridadLocal {
 	@Override
 	public boolean actualizarUsuario(Usuario usuario) throws SQLException {
 		usuarioDao = new UsuarioDaoImpl();
-    	return usuarioDao.actualizarUsuario(usuario);
+		return usuarioDao.actualizarUsuario(usuario);
 	}
-	
+
 	@Override
-	public Usuario inicioSesion(Usuario usuario) throws InicioSesionException, SQLException, Exception {
+	public Usuario inicioSesion(Usuario usuario) throws InicioSesionException,
+			SQLException, Exception {
 		usuarioDao = new UsuarioDaoImpl();
 		usuario = usuarioDao.inicioSesion2(usuario);
-		
+
 		if (!usuario.isEncontrado()) {
-			throw new InicioSesionException("El usuario y la contraseña son incorrectas");
+			throw new InicioSesionException(
+					"El usuario y la contraseña son incorrectas");
 		}
-		
+
 		try {
 			auditoriaSessionLocal.registrarEventoInicioSession(usuario);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return usuario;
 	}
-	
+
 	@Override
-	public boolean cambiarClaveUsuario(Usuario usuario) throws SQLException, Exception {
+	public boolean cambiarClaveUsuario(Usuario usuario) throws SQLException,
+			Exception {
 		usuarioDao = new UsuarioDaoImpl();
-		
+
 		Usuario usuario2 = usuarioDao.inicioSesion2(usuario);
 		usuario2.setCredencialNueva(usuario.getCredencialNueva());
-		if (!usuario2.isEncontrado()){
+		if (!usuario2.isEncontrado()) {
 			throw new SQLException("Informacion de usuario incorrecta");
 		}
-		
-    	return usuarioDao.actualizarClaveUsuario(usuario2);
+
+		return usuarioDao.actualizarClaveUsuario(usuario2);
 	}
-	
+
 	@Override
-	public boolean actualizarClaveUsuario(Usuario usuario) throws SQLException, Exception {
+	public boolean actualizarClaveUsuario(Usuario usuario) throws SQLException,
+			Exception {
 		usuarioDao = new UsuarioDaoImpl();
-				
-    	return usuarioDao.actualizarClaveUsuario(usuario);
+
+		return usuarioDao.actualizarClaveUsuario(usuario);
 	}
-	
+
 	@Override
 	public List<Usuario> listarVendedores() throws SQLException {
 		usuarioDao = new UsuarioDaoImpl();
 		return usuarioDao.listarVendedores();
 	}
-	
+
 	@Override
-	public boolean actualizarCredencialVencida(Usuario usuario) throws SQLException, Exception {
+	public boolean actualizarCredencialVencida(Usuario usuario)
+			throws SQLException, Exception {
 		usuarioDao = new UsuarioDaoImpl();
-		
+
 		Usuario usuarioLocal = usuarioDao.inicioSesion2(usuario);
-		
-		if (usuarioLocal.isEncontrado()){
-			
+
+		if (usuarioLocal.isEncontrado()) {
+
 		}
-				
-    	return usuarioDao.actualizarCredencialVencida(usuario);
+
+		return usuarioDao.actualizarCredencialVencida(usuario);
 	}
 }

@@ -24,7 +24,7 @@ public class Usuario extends Persona {
 	private boolean encontrado;
 	private boolean vendedor;
 	private boolean credencialVencida;
-	
+
 	/**
 	 * 
 	 */
@@ -88,7 +88,8 @@ public class Usuario extends Persona {
 	}
 
 	/**
-	 * @param encontrado the encontrado to set
+	 * @param encontrado
+	 *            the encontrado to set
 	 */
 	public void setEncontrado(boolean encontrado) {
 		this.encontrado = encontrado;
@@ -102,7 +103,8 @@ public class Usuario extends Persona {
 	}
 
 	/**
-	 * @param credencialNueva the credencialNueva to set
+	 * @param credencialNueva
+	 *            the credencialNueva to set
 	 */
 	public void setCredencialNueva(String credencialNueva) {
 		this.credencialNueva = credencialNueva;
@@ -116,7 +118,8 @@ public class Usuario extends Persona {
 	}
 
 	/**
-	 * @param vendedor the vendedor to set
+	 * @param vendedor
+	 *            the vendedor to set
 	 */
 	public void setVendedor(boolean vendedor) {
 		this.vendedor = vendedor;
@@ -130,7 +133,8 @@ public class Usuario extends Persona {
 	}
 
 	/**
-	 * @param credencialVencida the credencialVencida to set
+	 * @param credencialVencida
+	 *            the credencialVencida to set
 	 */
 	public void setCredencialVencida(boolean credencialVencida) {
 		this.credencialVencida = credencialVencida;

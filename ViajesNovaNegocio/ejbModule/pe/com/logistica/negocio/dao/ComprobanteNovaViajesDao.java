@@ -16,17 +16,22 @@ import pe.com.logistica.bean.negocio.DetalleComprobante;
  *
  */
 public interface ComprobanteNovaViajesDao {
-	
-	public Integer registrarComprobanteAdicional(Comprobante comprobante, Connection conn) throws SQLException;
-	
-	public Integer listarComprobantesAdicionales(Integer idServicio) throws SQLException;
-	
-	public Integer eliminarComprobantesAdicionales(Integer idServicio) throws SQLException;
-	
-	public List<Comprobante> consultarComprobantes(ComprobanteBusqueda comprobanteBusqueda) throws SQLException;
-	
-	public List<DetalleComprobante> consultarDetalleComprobante (Integer idComprobante) throws SQLException;
+
+	public Integer registrarComprobanteAdicional(Comprobante comprobante,
+			Connection conn) throws SQLException;
+
+	public Integer listarComprobantesAdicionales(Integer idServicio)
+			throws SQLException;
+
+	public Integer eliminarComprobantesAdicionales(Integer idServicio)
+			throws SQLException;
+
+	public List<Comprobante> consultarComprobantes(
+			ComprobanteBusqueda comprobanteBusqueda) throws SQLException;
+
+	public List<DetalleComprobante> consultarDetalleComprobante(
+			Integer idComprobante) throws SQLException;
 
 	Comprobante consultarObligacion(Integer idObligacion) throws SQLException;
-	
+
 }

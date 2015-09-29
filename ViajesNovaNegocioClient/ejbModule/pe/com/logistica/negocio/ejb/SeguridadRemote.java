@@ -14,15 +14,27 @@ import pe.com.logistica.negocio.exception.InicioSesionException;
 @Remote
 public interface SeguridadRemote {
 
-	boolean registrarUsuario(Usuario usuario) throws SQLException, ErrorEncriptacionException;
+	boolean registrarUsuario(Usuario usuario) throws SQLException,
+			ErrorEncriptacionException;
+
 	List<Usuario> listarUsuarios() throws SQLException;
+
 	List<BaseVO> listarRoles() throws ConnectionException, SQLException;
+
 	Usuario consultarUsuario(int id) throws SQLException;
+
 	boolean actualizarUsuario(Usuario usuario) throws SQLException;
-	Usuario inicioSesion(Usuario usuario) throws InicioSesionException, SQLException, Exception;
+
+	Usuario inicioSesion(Usuario usuario) throws InicioSesionException,
+			SQLException, Exception;
+
 	boolean cambiarClaveUsuario(Usuario usuario) throws SQLException, Exception;
-	public boolean actualizarClaveUsuario(Usuario usuario) throws SQLException, Exception;
+
+	public boolean actualizarClaveUsuario(Usuario usuario) throws SQLException,
+			Exception;
+
 	public List<Usuario> listarVendedores() throws SQLException;
+
 	boolean actualizarCredencialVencida(Usuario usuario) throws SQLException,
 			Exception;
 }

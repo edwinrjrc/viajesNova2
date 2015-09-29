@@ -14,7 +14,8 @@ import pe.com.logistica.bean.negocio.Maestro;
  */
 public class UtilDatos {
 
-	public static String obtenerDireccionCompleta(Direccion direccion, Maestro hijoMaestro){
+	public static String obtenerDireccionCompleta(Direccion direccion,
+			Maestro hijoMaestro) {
 		String direccionCompleta = "";
 		try {
 			direccionCompleta = "" + hijoMaestro.getAbreviatura() + " "

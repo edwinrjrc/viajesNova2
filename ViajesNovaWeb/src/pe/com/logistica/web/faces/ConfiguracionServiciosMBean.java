@@ -32,7 +32,8 @@ import pe.com.logistica.web.servicio.impl.SoporteServicioImpl;
 @SessionScoped()
 public class ConfiguracionServiciosMBean extends BaseMBean {
 
-	private final static Logger logger = Logger.getLogger(ConfiguracionServiciosMBean.class);
+	private final static Logger logger = Logger
+			.getLogger(ConfiguracionServiciosMBean.class);
 	/**
 	 * 
 	 */
@@ -41,8 +42,9 @@ public class ConfiguracionServiciosMBean extends BaseMBean {
 	private List<SelectItem> listaServicios;
 	private ConfiguracionTipoServicio configuracionTipoServicio;
 	private List<ConfiguracionTipoServicio> listaConfigServicios;
-	
+
 	private SoporteServicio soporteServicio;
+
 	/**
 	 * 
 	 */
@@ -55,24 +57,25 @@ public class ConfiguracionServiciosMBean extends BaseMBean {
 			logger.error(e.getMessage(), e);
 		}
 	}
-	
-	public void ejecutarMetodo(){
+
+	public void ejecutarMetodo() {
 		try {
-			if (validarConfiguracion()){
+			if (validarConfiguracion()) {
 				HttpSession session = obtenerSession(false);
 				Usuario usuario = (Usuario) session
 						.getAttribute("usuarioSession");
-				
-				for(ConfiguracionTipoServicio config : this.listaConfigServicios){
+
+				for (ConfiguracionTipoServicio config : this.listaConfigServicios) {
 					config.setUsuarioCreacion(usuario.getUsuario());
 					config.setIpCreacion(obtenerRequest().getRemoteAddr());
 					config.setUsuarioCreacion(usuario.getUsuario());
 					config.setIpCreacion(obtenerRequest().getRemoteAddr());
 				}
-				
-				this.soporteServicio.guardarConfiguracionServicio(this.listaConfigServicios);
+
+				this.soporteServicio
+						.guardarConfiguracionServicio(this.listaConfigServicios);
 			}
-			
+
 			this.setShowModal(true);
 			this.setTipoModal("1");
 			this.setMensajeModal("Configuracion guardada satisfactoriamente");
@@ -81,35 +84,36 @@ public class ConfiguracionServiciosMBean extends BaseMBean {
 			this.setTipoModal("2");
 			this.setMensajeModal(ex.getMessage());
 			logger.error(ex.getMessage(), ex);
-		} catch (Exception ex){
+		} catch (Exception ex) {
 			this.setShowModal(true);
 			this.setTipoModal("2");
 			this.setMensajeModal(ex.getMessage());
 			logger.error(ex.getMessage(), ex);
 		}
 	}
-	
+
 	private boolean validarConfiguracion() throws ValidacionException {
-		int cantidad =0;
-		for(ConfiguracionTipoServicio configuracion : this.listaConfigServicios){
-			cantidad =0;
-			for(ConfiguracionTipoServicio configuracion2 : this.listaConfigServicios){
-				if (configuracion.getCodigoEntero().intValue() == configuracion2.getCodigoEntero().intValue()){
+		int cantidad = 0;
+		for (ConfiguracionTipoServicio configuracion : this.listaConfigServicios) {
+			cantidad = 0;
+			for (ConfiguracionTipoServicio configuracion2 : this.listaConfigServicios) {
+				if (configuracion.getCodigoEntero().intValue() == configuracion2
+						.getCodigoEntero().intValue()) {
 					cantidad++;
 				}
 			}
-			if (cantidad > 1){
+			if (cantidad > 1) {
 				throw new ValidacionException("Tipo de Servicio Repetido");
 			}
 		}
 		return true;
 	}
 
-	public void agregarTipoServicio(){
+	public void agregarTipoServicio() {
 		getListaConfigServicios().add(new ConfiguracionTipoServicio());
 	}
-	
-	public void eliminar(ConfiguracionTipoServicio configuracion){
+
+	public void eliminar(ConfiguracionTipoServicio configuracion) {
 		getListaConfigServicios().remove(configuracion);
 	}
 
@@ -118,7 +122,8 @@ public class ConfiguracionServiciosMBean extends BaseMBean {
 	 */
 	public List<SelectItem> getListaServicios() {
 		try {
-			List<BaseVO> listaTipoServicios = this.soporteServicio.listarTiposServicios();
+			List<BaseVO> listaTipoServicios = this.soporteServicio
+					.listarTiposServicios();
 			listaServicios = null;
 			listaServicios = new ArrayList<SelectItem>();
 			SelectItem si = null;
@@ -133,12 +138,13 @@ public class ConfiguracionServiciosMBean extends BaseMBean {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return listaServicios;
 	}
 
 	/**
-	 * @param listaServicios the listaServicios to set
+	 * @param listaServicios
+	 *            the listaServicios to set
 	 */
 	public void setListaServicios(List<SelectItem> listaServicios) {
 		this.listaServicios = listaServicios;
@@ -152,38 +158,40 @@ public class ConfiguracionServiciosMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param configuracionTipoServicio the configuracionTipoServicio to set
+	 * @param configuracionTipoServicio
+	 *            the configuracionTipoServicio to set
 	 */
-	public void setConfiguracionTipoServicio(ConfiguracionTipoServicio configuracionTipoServicio) {
+	public void setConfiguracionTipoServicio(
+			ConfiguracionTipoServicio configuracionTipoServicio) {
 		this.configuracionTipoServicio = configuracionTipoServicio;
 	}
-
 
 	/**
 	 * @return the listaConfigServicios
 	 */
 	public List<ConfiguracionTipoServicio> getListaConfigServicios() {
 		try {
-			if (listaConfigServicios == null){
-				listaConfigServicios = this.soporteServicio.listarConfiguracionServicios();
+			if (listaConfigServicios == null) {
+				listaConfigServicios = this.soporteServicio
+						.listarConfiguracionServicios();
 			}
-			
+
 			this.setShowModal(false);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
+
 		return listaConfigServicios;
 	}
 
-
 	/**
-	 * @param listaConfigServicios the listaConfigServicios to set
+	 * @param listaConfigServicios
+	 *            the listaConfigServicios to set
 	 */
-	public void setListaConfigServicios(List<ConfiguracionTipoServicio> listaConfigServicios) {
+	public void setListaConfigServicios(
+			List<ConfiguracionTipoServicio> listaConfigServicios) {
 		this.listaConfigServicios = listaConfigServicios;
 	}
 

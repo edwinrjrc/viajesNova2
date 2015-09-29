@@ -25,8 +25,11 @@ import pe.com.logistica.negocio.util.UtilJdbc;
  */
 public class MaestroServicioDaoImpl implements MaestroServicioDao {
 
-	/* (non-Javadoc)
-	 * @see pe.com.logistica.negocio.dao.MaestroServicioDao#listarMaestroServicios()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * pe.com.logistica.negocio.dao.MaestroServicioDao#listarMaestroServicios()
 	 */
 	@Override
 	public List<MaestroServicio> listarMaestroServicios() throws SQLException {
@@ -50,12 +53,15 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 				bean = new MaestroServicio();
 				bean.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
 				bean.setNombre(UtilJdbc.obtenerCadena(rs, "nombre"));
-				bean.setDescripcionCorta(UtilJdbc.obtenerCadena(rs, "desccorta"));
+				bean.setDescripcionCorta(UtilJdbc
+						.obtenerCadena(rs, "desccorta"));
 				bean.setDescripcion(UtilJdbc.obtenerCadena(rs, "desclarga"));
 				bean.setRequiereFee(UtilJdbc.obtenerBoolean(rs, "requierefee"));
 				bean.setPagaImpto(UtilJdbc.obtenerBoolean(rs, "pagaimpto"));
-				bean.setCargaComision(UtilJdbc.obtenerBoolean(rs, "cargacomision"));
-				bean.setServicioPadre(UtilJdbc.obtenerBoolean(rs, "esserviciopadre"));
+				bean.setCargaComision(UtilJdbc.obtenerBoolean(rs,
+						"cargacomision"));
+				bean.setServicioPadre(UtilJdbc.obtenerBoolean(rs,
+						"esserviciopadre"));
 				resultado.add(bean);
 			}
 		} catch (SQLException e) {
@@ -85,9 +91,10 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 
 		return resultado;
 	}
-	
+
 	@Override
-	public List<MaestroServicio> listarMaestroServiciosAdm() throws SQLException {
+	public List<MaestroServicio> listarMaestroServiciosAdm()
+			throws SQLException {
 		Connection conn = null;
 		CallableStatement cs = null;
 		String sql = "{ ? = call negocio.fn_listarmaestroserviciosadm() }";
@@ -108,11 +115,13 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 				bean = new MaestroServicio();
 				bean.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
 				bean.setNombre(UtilJdbc.obtenerCadena(rs, "nombre"));
-				bean.setDescripcionCorta(UtilJdbc.obtenerCadena(rs, "desccorta"));
+				bean.setDescripcionCorta(UtilJdbc
+						.obtenerCadena(rs, "desccorta"));
 				bean.setDescripcion(UtilJdbc.obtenerCadena(rs, "desclarga"));
 				bean.setRequiereFee(UtilJdbc.obtenerBoolean(rs, "requierefee"));
 				bean.setPagaImpto(UtilJdbc.obtenerBoolean(rs, "pagaimpto"));
-				bean.setCargaComision(UtilJdbc.obtenerBoolean(rs, "cargacomision"));
+				bean.setCargaComision(UtilJdbc.obtenerBoolean(rs,
+						"cargacomision"));
 				resultado.add(bean);
 			}
 		} catch (SQLException e) {
@@ -142,9 +151,10 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 
 		return resultado;
 	}
-	
+
 	@Override
-	public List<MaestroServicio> listarMaestroServiciosFee() throws SQLException {
+	public List<MaestroServicio> listarMaestroServiciosFee()
+			throws SQLException {
 		Connection conn = null;
 		CallableStatement cs = null;
 		String sql = "{ ? = call negocio.fn_listarmaestroserviciosfee() }";
@@ -165,11 +175,13 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 				bean = new MaestroServicio();
 				bean.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
 				bean.setNombre(UtilJdbc.obtenerCadena(rs, "nombre"));
-				bean.setDescripcionCorta(UtilJdbc.obtenerCadena(rs, "desccorta"));
+				bean.setDescripcionCorta(UtilJdbc
+						.obtenerCadena(rs, "desccorta"));
 				bean.setDescripcion(UtilJdbc.obtenerCadena(rs, "desclarga"));
 				bean.setRequiereFee(UtilJdbc.obtenerBoolean(rs, "requierefee"));
 				bean.setPagaImpto(UtilJdbc.obtenerBoolean(rs, "pagaimpto"));
-				bean.setCargaComision(UtilJdbc.obtenerBoolean(rs, "cargacomision"));
+				bean.setCargaComision(UtilJdbc.obtenerBoolean(rs,
+						"cargacomision"));
 				resultado.add(bean);
 			}
 		} catch (SQLException e) {
@@ -199,9 +211,10 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 
 		return resultado;
 	}
-	
+
 	@Override
-	public List<MaestroServicio> listarMaestroServiciosImpto() throws SQLException {
+	public List<MaestroServicio> listarMaestroServiciosImpto()
+			throws SQLException {
 		Connection conn = null;
 		CallableStatement cs = null;
 		String sql = "{ ? = call negocio.fn_listarmaestroserviciosimpto() }";
@@ -222,11 +235,13 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 				bean = new MaestroServicio();
 				bean.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
 				bean.setNombre(UtilJdbc.obtenerCadena(rs, "nombre"));
-				bean.setDescripcionCorta(UtilJdbc.obtenerCadena(rs, "desccorta"));
+				bean.setDescripcionCorta(UtilJdbc
+						.obtenerCadena(rs, "desccorta"));
 				bean.setDescripcion(UtilJdbc.obtenerCadena(rs, "desclarga"));
 				bean.setRequiereFee(UtilJdbc.obtenerBoolean(rs, "requierefee"));
 				bean.setPagaImpto(UtilJdbc.obtenerBoolean(rs, "pagaimpto"));
-				bean.setCargaComision(UtilJdbc.obtenerBoolean(rs, "cargacomision"));
+				bean.setCargaComision(UtilJdbc.obtenerBoolean(rs,
+						"cargacomision"));
 				resultado.add(bean);
 			}
 		} catch (SQLException e) {
@@ -257,8 +272,12 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 		return resultado;
 	}
 
-	/* (non-Javadoc)
-	 * @see pe.com.logistica.negocio.dao.MaestroServicioDao#ingresarMaestroServicio(pe.com.logistica.bean.negocio.MaestroServicio)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * pe.com.logistica.negocio.dao.MaestroServicioDao#ingresarMaestroServicio
+	 * (pe.com.logistica.bean.negocio.MaestroServicio)
 	 */
 	@Override
 	public Integer ingresarMaestroServicio(MaestroServicio servicio)
@@ -274,47 +293,50 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 			int i = 1;
 			cs.registerOutParameter(i++, Types.INTEGER);
 			cs.setString(i++, UtilJdbc.convertirMayuscula(servicio.getNombre()));
-			if (StringUtils.isNotBlank(servicio.getDescripcionCorta())){
-				cs.setString(i++, UtilJdbc.convertirMayuscula(servicio.getDescripcionCorta()));
-			}
-			else{
+			if (StringUtils.isNotBlank(servicio.getDescripcionCorta())) {
+				cs.setString(i++, UtilJdbc.convertirMayuscula(servicio
+						.getDescripcionCorta()));
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
-			if (StringUtils.isNotBlank(servicio.getDescripcion())){
-				cs.setString(i++, UtilJdbc.convertirMayuscula(servicio.getDescripcion()));
-			}
-			else{
+			if (StringUtils.isNotBlank(servicio.getDescripcion())) {
+				cs.setString(i++,
+						UtilJdbc.convertirMayuscula(servicio.getDescripcion()));
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
 			cs.setBoolean(i++, servicio.isRequiereFee());
-			if (servicio.getServicioFee().getCodigoEntero()!= null && servicio.getServicioFee().getCodigoEntero().intValue()!=0){
-				cs.setInt(i++, servicio.getServicioFee().getCodigoEntero().intValue());
-			}
-			else{
+			if (servicio.getServicioFee().getCodigoEntero() != null
+					&& servicio.getServicioFee().getCodigoEntero().intValue() != 0) {
+				cs.setInt(i++, servicio.getServicioFee().getCodigoEntero()
+						.intValue());
+			} else {
 				cs.setNull(i++, Types.INTEGER);
 			}
-			
+
 			cs.setBoolean(i++, servicio.isPagaImpto());
-			if (servicio.getServicioImpto().getCodigoEntero()!= null && servicio.getServicioImpto().getCodigoEntero().intValue()!=0){
-				cs.setInt(i++, servicio.getServicioImpto().getCodigoEntero().intValue());
-			}
-			else{
+			if (servicio.getServicioImpto().getCodigoEntero() != null
+					&& servicio.getServicioImpto().getCodigoEntero().intValue() != 0) {
+				cs.setInt(i++, servicio.getServicioImpto().getCodigoEntero()
+						.intValue());
+			} else {
 				cs.setNull(i++, Types.INTEGER);
 			}
 			cs.setBoolean(i++, servicio.isCargaComision());
 			cs.setBoolean(i++, servicio.isCargaIgv());
-			if (servicio.getValorComision() != null){
+			if (servicio.getValorComision() != null) {
 				cs.setBigDecimal(i++, servicio.getValorComision());
-			}
-			else{
+			} else {
 				cs.setNull(i++, Types.DECIMAL);
 			}
 			cs.setString(i++, servicio.getUsuarioCreacion());
 			cs.setString(i++, servicio.getIpCreacion());
-			if (servicio.getParametroAsociado().getCodigoEntero()!= null && servicio.getParametroAsociado().getCodigoEntero().intValue()!=0){
-				cs.setInt(i++, servicio.getParametroAsociado().getCodigoEntero().intValue());
-			}
-			else{
+			if (servicio.getParametroAsociado().getCodigoEntero() != null
+					&& servicio.getParametroAsociado().getCodigoEntero()
+							.intValue() != 0) {
+				cs.setInt(i++, servicio.getParametroAsociado()
+						.getCodigoEntero().intValue());
+			} else {
 				cs.setNull(i++, Types.INTEGER);
 			}
 			cs.setBoolean(i++, true);
@@ -348,8 +370,12 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 		return resultado;
 	}
 
-	/* (non-Javadoc)
-	 * @see pe.com.logistica.negocio.dao.MaestroServicioDao#actualizarMaestroServicio(pe.com.logistica.bean.negocio.MaestroServicio)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * pe.com.logistica.negocio.dao.MaestroServicioDao#actualizarMaestroServicio
+	 * (pe.com.logistica.bean.negocio.MaestroServicio)
 	 */
 	@Override
 	public boolean actualizarMaestroServicio(MaestroServicio servicio)
@@ -366,30 +392,32 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 			cs.registerOutParameter(i++, Types.BOOLEAN);
 			cs.setInt(i++, servicio.getCodigoEntero().intValue());
 			cs.setString(i++, UtilJdbc.convertirMayuscula(servicio.getNombre()));
-			if (StringUtils.isNotBlank(servicio.getDescripcionCorta())){
-				cs.setString(i++, UtilJdbc.convertirMayuscula(servicio.getDescripcionCorta()));
-			}
-			else{
+			if (StringUtils.isNotBlank(servicio.getDescripcionCorta())) {
+				cs.setString(i++, UtilJdbc.convertirMayuscula(servicio
+						.getDescripcionCorta()));
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
-			if (StringUtils.isNotBlank(servicio.getDescripcion())){
-				cs.setString(i++, UtilJdbc.convertirMayuscula(servicio.getDescripcion()));
-			}
-			else{
+			if (StringUtils.isNotBlank(servicio.getDescripcion())) {
+				cs.setString(i++,
+						UtilJdbc.convertirMayuscula(servicio.getDescripcion()));
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
 			cs.setBoolean(i++, servicio.isRequiereFee());
-			if (servicio.getServicioFee().getCodigoEntero()!= null && servicio.getServicioFee().getCodigoEntero().intValue()!=0){
-				cs.setInt(i++, servicio.getServicioFee().getCodigoEntero().intValue());
-			}
-			else{
+			if (servicio.getServicioFee().getCodigoEntero() != null
+					&& servicio.getServicioFee().getCodigoEntero().intValue() != 0) {
+				cs.setInt(i++, servicio.getServicioFee().getCodigoEntero()
+						.intValue());
+			} else {
 				cs.setNull(i++, Types.INTEGER);
 			}
 			cs.setBoolean(i++, servicio.isPagaImpto());
-			if (servicio.getServicioImpto().getCodigoEntero()!= null && servicio.getServicioImpto().getCodigoEntero().intValue()!=0){
-				cs.setInt(i++, servicio.getServicioImpto().getCodigoEntero().intValue());
-			}
-			else{
+			if (servicio.getServicioImpto().getCodigoEntero() != null
+					&& servicio.getServicioImpto().getCodigoEntero().intValue() != 0) {
+				cs.setInt(i++, servicio.getServicioImpto().getCodigoEntero()
+						.intValue());
+			} else {
 				cs.setNull(i++, Types.INTEGER);
 			}
 			cs.setBoolean(i++, servicio.isCargaComision());
@@ -397,10 +425,12 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 			cs.setBoolean(i++, servicio.isEsFee());
 			cs.setString(i++, servicio.getUsuarioModificacion());
 			cs.setString(i++, servicio.getIpModificacion());
-			if (servicio.getParametroAsociado().getCodigoEntero()!= null && servicio.getParametroAsociado().getCodigoEntero().intValue()!=0){
-				cs.setInt(i++, servicio.getParametroAsociado().getCodigoEntero().intValue());
-			}
-			else{
+			if (servicio.getParametroAsociado().getCodigoEntero() != null
+					&& servicio.getParametroAsociado().getCodigoEntero()
+							.intValue() != 0) {
+				cs.setInt(i++, servicio.getParametroAsociado()
+						.getCodigoEntero().intValue());
+			} else {
 				cs.setNull(i++, Types.INTEGER);
 			}
 			cs.setBoolean(i++, servicio.isVisible());
@@ -433,8 +463,12 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 		return resultado;
 	}
 
-	/* (non-Javadoc)
-	 * @see pe.com.logistica.negocio.dao.MaestroServicioDao#consultarMaestroServicio(int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * pe.com.logistica.negocio.dao.MaestroServicioDao#consultarMaestroServicio
+	 * (int)
 	 */
 	@Override
 	public MaestroServicio consultarMaestroServicio(int idMaestroServicio)
@@ -458,18 +492,28 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 				resultado = new MaestroServicio();
 				resultado.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
 				resultado.setNombre(UtilJdbc.obtenerCadena(rs, "nombre"));
-				resultado.setDescripcionCorta(UtilJdbc.obtenerCadena(rs, "desccorta"));
-				resultado.setDescripcion(UtilJdbc.obtenerCadena(rs, "desclarga"));
-				resultado.setRequiereFee(UtilJdbc.obtenerBoolean(rs, "requierefee"));
-				resultado.getServicioFee().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idmaeserfee"));
-				resultado.setPagaImpto(UtilJdbc.obtenerBoolean(rs, "pagaimpto"));
-				resultado.getServicioImpto().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idmaeserimpto"));
-				resultado.setCargaComision(UtilJdbc.obtenerBoolean(rs, "cargacomision"));
-				resultado.setEsImpuesto(UtilJdbc.obtenerBoolean(rs, "esimpuesto"));
+				resultado.setDescripcionCorta(UtilJdbc.obtenerCadena(rs,
+						"desccorta"));
+				resultado.setDescripcion(UtilJdbc
+						.obtenerCadena(rs, "desclarga"));
+				resultado.setRequiereFee(UtilJdbc.obtenerBoolean(rs,
+						"requierefee"));
+				resultado.getServicioFee().setCodigoEntero(
+						UtilJdbc.obtenerNumero(rs, "idmaeserfee"));
+				resultado
+						.setPagaImpto(UtilJdbc.obtenerBoolean(rs, "pagaimpto"));
+				resultado.getServicioImpto().setCodigoEntero(
+						UtilJdbc.obtenerNumero(rs, "idmaeserimpto"));
+				resultado.setCargaComision(UtilJdbc.obtenerBoolean(rs,
+						"cargacomision"));
+				resultado.setEsImpuesto(UtilJdbc.obtenerBoolean(rs,
+						"esimpuesto"));
 				resultado.setEsFee(UtilJdbc.obtenerBoolean(rs, "esfee"));
-				resultado.getParametroAsociado().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idparametroasociado"));
+				resultado.getParametroAsociado().setCodigoEntero(
+						UtilJdbc.obtenerNumero(rs, "idparametroasociado"));
 				resultado.setVisible(UtilJdbc.obtenerBoolean(rs, "visible"));
-				resultado.setServicioPadre(UtilJdbc.obtenerBoolean(rs, "esserviciopadre"));
+				resultado.setServicioPadre(UtilJdbc.obtenerBoolean(rs,
+						"esserviciopadre"));
 			}
 		} catch (SQLException e) {
 			throw new SQLException(e);
@@ -498,10 +542,10 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 
 		return resultado;
 	}
-	
+
 	@Override
-	public MaestroServicio consultarMaestroServicio(int idMaestroServicio, Connection conn)
-			throws SQLException {
+	public MaestroServicio consultarMaestroServicio(int idMaestroServicio,
+			Connection conn) throws SQLException {
 		CallableStatement cs = null;
 		String sql = "{ ? = call negocio.fn_consultarservicio(?) }";
 		ResultSet rs = null;
@@ -519,18 +563,28 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 				resultado = new MaestroServicio();
 				resultado.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
 				resultado.setNombre(UtilJdbc.obtenerCadena(rs, "nombre"));
-				resultado.setDescripcionCorta(UtilJdbc.obtenerCadena(rs, "desccorta"));
-				resultado.setDescripcion(UtilJdbc.obtenerCadena(rs, "desclarga"));
-				resultado.setRequiereFee(UtilJdbc.obtenerBoolean(rs, "requierefee"));
-				resultado.getServicioFee().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idmaeserfee"));
-				resultado.setPagaImpto(UtilJdbc.obtenerBoolean(rs, "pagaimpto"));
-				resultado.getServicioImpto().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idmaeserimpto"));
-				resultado.setCargaComision(UtilJdbc.obtenerBoolean(rs, "cargacomision"));
-				resultado.setEsImpuesto(UtilJdbc.obtenerBoolean(rs, "esimpuesto"));
+				resultado.setDescripcionCorta(UtilJdbc.obtenerCadena(rs,
+						"desccorta"));
+				resultado.setDescripcion(UtilJdbc
+						.obtenerCadena(rs, "desclarga"));
+				resultado.setRequiereFee(UtilJdbc.obtenerBoolean(rs,
+						"requierefee"));
+				resultado.getServicioFee().setCodigoEntero(
+						UtilJdbc.obtenerNumero(rs, "idmaeserfee"));
+				resultado
+						.setPagaImpto(UtilJdbc.obtenerBoolean(rs, "pagaimpto"));
+				resultado.getServicioImpto().setCodigoEntero(
+						UtilJdbc.obtenerNumero(rs, "idmaeserimpto"));
+				resultado.setCargaComision(UtilJdbc.obtenerBoolean(rs,
+						"cargacomision"));
+				resultado.setEsImpuesto(UtilJdbc.obtenerBoolean(rs,
+						"esimpuesto"));
 				resultado.setEsFee(UtilJdbc.obtenerBoolean(rs, "esfee"));
-				resultado.getParametroAsociado().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idparametroasociado"));
+				resultado.getParametroAsociado().setCodigoEntero(
+						UtilJdbc.obtenerNumero(rs, "idparametroasociado"));
 				resultado.setVisible(UtilJdbc.obtenerBoolean(rs, "visible"));
-				resultado.setServicioPadre(UtilJdbc.obtenerBoolean(rs, "esserviciopadre"));
+				resultado.setServicioPadre(UtilJdbc.obtenerBoolean(rs,
+						"esserviciopadre"));
 			}
 		} catch (SQLException e) {
 			throw new SQLException(e);
@@ -556,9 +610,10 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 
 		return resultado;
 	}
-	
+
 	@Override
-	public List<MaestroServicio> listarMaestroServiciosIgv() throws SQLException {
+	public List<MaestroServicio> listarMaestroServiciosIgv()
+			throws SQLException {
 		Connection conn = null;
 		CallableStatement cs = null;
 		String sql = "{ ? = call negocio.fn_listarmaestroserviciosigv() }";
@@ -579,11 +634,13 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 				bean = new MaestroServicio();
 				bean.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
 				bean.setNombre(UtilJdbc.obtenerCadena(rs, "nombre"));
-				bean.setDescripcionCorta(UtilJdbc.obtenerCadena(rs, "desccorta"));
+				bean.setDescripcionCorta(UtilJdbc
+						.obtenerCadena(rs, "desccorta"));
 				bean.setDescripcion(UtilJdbc.obtenerCadena(rs, "desclarga"));
 				bean.setRequiereFee(UtilJdbc.obtenerBoolean(rs, "requierefee"));
 				bean.setPagaImpto(UtilJdbc.obtenerBoolean(rs, "pagaimpto"));
-				bean.setCargaComision(UtilJdbc.obtenerBoolean(rs, "cargacomision"));
+				bean.setCargaComision(UtilJdbc.obtenerBoolean(rs,
+						"cargacomision"));
 				resultado.add(bean);
 			}
 		} catch (SQLException e) {
@@ -615,27 +672,27 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 	}
 
 	@Override
-	public void ingresarServicioMaestroServicio(Integer idServicio, List<BaseVO> listaMaeServicioImpto) throws SQLException, Exception{
+	public void ingresarServicioMaestroServicio(Integer idServicio,
+			List<BaseVO> listaMaeServicioImpto) throws SQLException, Exception {
 		Connection conn = null;
 		CallableStatement cs = null;
 		String sql = "{ ? = call negocio.fn_ingresarserviciomaestroservicio(?,?) }";
 
 		try {
 			conn = UtilConexion.obtenerConexion();
-			
-			for (BaseVO idServicioDepende : listaMaeServicioImpto){
+
+			for (BaseVO idServicioDepende : listaMaeServicioImpto) {
 				cs = conn.prepareCall(sql);
 				int i = 1;
 				cs.registerOutParameter(i++, Types.BOOLEAN);
 				cs.setInt(i++, idServicio);
 				cs.setInt(i++, idServicioDepende.getCodigoEntero());
-				
+
 				cs.execute();
-				if (cs != null){
+				if (cs != null) {
 					cs.close();
 				}
 			}
-			
 
 		} catch (SQLException e) {
 			throw new SQLException(e);
@@ -660,9 +717,10 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 		}
 
 	}
-	
+
 	@Override
-	public List<BaseVO> consultarServicioDependientes(Integer idServicio) throws SQLException {
+	public List<BaseVO> consultarServicioDependientes(Integer idServicio)
+			throws SQLException {
 		Connection conn = null;
 		CallableStatement cs = null;
 		String sql = "{ ? = call negocio.fn_consultarserviciodependientes(?) }";
@@ -682,9 +740,10 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 			BaseVO bean = null;
 			while (rs.next()) {
 				bean = new BaseVO();
-				bean.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idserviciodepende"));
+				bean.setCodigoEntero(UtilJdbc.obtenerNumero(rs,
+						"idserviciodepende"));
 				bean.setNombre(UtilJdbc.obtenerCadena(rs, "nombre"));
-				
+
 				resultado.add(bean);
 			}
 		} catch (SQLException e) {
@@ -714,9 +773,10 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 
 		return resultado;
 	}
-	
+
 	@Override
-	public List<MaestroServicio> consultarServiciosInvisibles(Integer idServicio) throws SQLException, Exception{
+	public List<MaestroServicio> consultarServiciosInvisibles(Integer idServicio)
+			throws SQLException, Exception {
 		Connection conn = null;
 		CallableStatement cs = null;
 		String sql = "{ ? = call negocio.fn_consultarserviciosinvisibles(?) }";
@@ -736,10 +796,11 @@ public class MaestroServicioDaoImpl implements MaestroServicioDao {
 			MaestroServicio bean = null;
 			while (rs.next()) {
 				bean = new MaestroServicio();
-				bean.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idserviciodepende"));
+				bean.setCodigoEntero(UtilJdbc.obtenerNumero(rs,
+						"idserviciodepende"));
 				bean.setNombre(UtilJdbc.obtenerCadena(rs, "nombre"));
 				bean.setValorParametro(UtilJdbc.obtenerCadena(rs, "valor"));
-				
+
 				resultado.add(bean);
 			}
 		} catch (SQLException e) {

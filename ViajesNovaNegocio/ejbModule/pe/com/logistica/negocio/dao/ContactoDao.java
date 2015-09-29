@@ -40,8 +40,8 @@ public interface ContactoDao {
 
 	boolean eliminarContactoProveedor(Persona proveedor, Connection conexion)
 			throws SQLException;
-	
-	List<Contacto> listarContactosXPersona(int idpersona)throws SQLException;
+
+	List<Contacto> listarContactosXPersona(int idpersona) throws SQLException;
 
 	List<Contacto> listarContactosXPersona(int idpersona, Connection conn)
 			throws SQLException;

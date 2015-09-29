@@ -30,7 +30,7 @@ import pe.com.logistica.web.servicio.impl.SoporteServicioImpl;
 @ManagedBean(name = "paisMBean")
 @SessionScoped()
 public class PaisMBean extends BaseMBean {
-	
+
 	/**
 	 * 
 	 */
@@ -40,68 +40,68 @@ public class PaisMBean extends BaseMBean {
 
 	private BaseVO continente;
 	private Pais pais;
-	
+
 	private List<BaseVO> listaContinente;
 	private List<BaseVO> listaPaisContinente;
-	
+
 	private boolean nuevoPais;
 	private boolean editarPais;
-	
+
 	private SoporteServicio soporteServicio;
+
 	/**
 	 * 
 	 */
 	public PaisMBean() {
 		try {
-			ServletContext servletContext = (ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext();
+			ServletContext servletContext = (ServletContext) FacesContext
+					.getCurrentInstance().getExternalContext().getContext();
 			soporteServicio = new SoporteServicioImpl(servletContext);
 		} catch (NamingException e) {
 			logger.error(e.getMessage(), e);
 		}
 	}
-	
-	public String consultarPaises(int idcontinente){
-		
+
+	public String consultarPaises(int idcontinente) {
+
 		try {
 			Maestro hijo = new Maestro();
 			hijo.setCodigoMaestro(10);
 			hijo.setCodigoEntero(idcontinente);
 			this.setContinente(this.soporteServicio.consultarHijoMaestro(hijo));
-			this.setListaPaisContinente(this.soporteServicio.consultarPaises(idcontinente));
+			this.setListaPaisContinente(this.soporteServicio
+					.consultarPaises(idcontinente));
 		} catch (SQLException e) {
 			logger.error(e.getMessage(), e);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
-		
+
 		return "irPaises";
 	}
-	
-	public void nuevoPais(){
+
+	public void nuevoPais() {
 		this.setNuevoPais(true);
 		this.setEditarPais(false);
 		this.setPais(null);
 		this.setNombreFormulario("Nuevo Pais");
 	}
-	
-	public void ejecutarMetodo(){
+
+	public void ejecutarMetodo() {
 		try {
-			if (this.isNuevoPais()){
+			if (this.isNuevoPais()) {
 				HttpSession session = obtenerSession(false);
 				Usuario usuario = (Usuario) session
 						.getAttribute("usuarioSession");
-				getPais().setUsuarioCreacion(
-						usuario.getUsuario());
-				getPais().setIpCreacion(
-						obtenerRequest().getRemoteAddr());
+				getPais().setUsuarioCreacion(usuario.getUsuario());
+				getPais().setIpCreacion(obtenerRequest().getRemoteAddr());
 				this.getPais().setContinente(getContinente());
 				this.soporteServicio.ingresarPais(getPais());
 				this.setShowModal(true);
 				this.setTipoModal("1");
 				this.setMensajeModal("Pais registrado Satisfactoriamente");
-			}
-			else if (this.isEditarPais()){
-				
+			} else if (this.isEditarPais()) {
+
 			}
 		} catch (SQLException e) {
 			logger.error(e.getMessage(), e);
@@ -109,7 +109,7 @@ public class PaisMBean extends BaseMBean {
 			logger.error(e.getMessage(), e);
 		}
 	}
-	
+
 	/**
 	 * @return the listaContinente
 	 */
@@ -123,8 +123,10 @@ public class PaisMBean extends BaseMBean {
 		}
 		return listaContinente;
 	}
+
 	/**
-	 * @param listaContinente the listaContinente to set
+	 * @param listaContinente
+	 *            the listaContinente to set
 	 */
 	public void setListaContinente(List<BaseVO> listaContinente) {
 		this.listaContinente = listaContinente;
@@ -134,15 +136,16 @@ public class PaisMBean extends BaseMBean {
 	 * @return the listaPaisContinente
 	 */
 	public List<BaseVO> getListaPaisContinente() {
-		
+
 		this.consultarPaises(getContinente().getCodigoEntero());
 		this.setShowModal(false);
-		
+
 		return listaPaisContinente;
 	}
 
 	/**
-	 * @param listaPaisContinente the listaPaisContinente to set
+	 * @param listaPaisContinente
+	 *            the listaPaisContinente to set
 	 */
 	public void setListaPaisContinente(List<BaseVO> listaPaisContinente) {
 		this.listaPaisContinente = listaPaisContinente;
@@ -156,7 +159,8 @@ public class PaisMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param continente the continente to set
+	 * @param continente
+	 *            the continente to set
 	 */
 	public void setContinente(BaseVO continente) {
 		this.continente = continente;
@@ -170,7 +174,8 @@ public class PaisMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param nuevoPais the nuevoPais to set
+	 * @param nuevoPais
+	 *            the nuevoPais to set
 	 */
 	public void setNuevoPais(boolean nuevoPais) {
 		this.nuevoPais = nuevoPais;
@@ -184,7 +189,8 @@ public class PaisMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param editarPais the editarPais to set
+	 * @param editarPais
+	 *            the editarPais to set
 	 */
 	public void setEditarPais(boolean editarPais) {
 		this.editarPais = editarPais;
@@ -194,14 +200,15 @@ public class PaisMBean extends BaseMBean {
 	 * @return the pais
 	 */
 	public Pais getPais() {
-		if (pais == null){
+		if (pais == null) {
 			pais = new Pais();
 		}
 		return pais;
 	}
 
 	/**
-	 * @param pais the pais to set
+	 * @param pais
+	 *            the pais to set
 	 */
 	public void setPais(Pais pais) {
 		this.pais = pais;

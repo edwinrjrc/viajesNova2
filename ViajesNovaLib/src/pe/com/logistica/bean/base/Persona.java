@@ -33,10 +33,10 @@ public abstract class Persona extends BaseNegocio {
 	private String razonSocial;
 	private List<Direccion> listaDirecciones;
 	private Date fechaNacimiento;
-	
+
 	private int tipoPersona;
 	private BaseVO rubro;
-	
+
 	private String nroPasaporte;
 	private Date fechaVctoPasaporte;
 
@@ -82,7 +82,7 @@ public abstract class Persona extends BaseNegocio {
 	 * @return the direccion
 	 */
 	public Direccion getDireccion() {
-		if (direccion == null){
+		if (direccion == null) {
 			direccion = new Direccion();
 		}
 		return direccion;
@@ -100,7 +100,7 @@ public abstract class Persona extends BaseNegocio {
 	 * @return the documentoIdentidad
 	 */
 	public DocumentoIdentidad getDocumentoIdentidad() {
-		if (documentoIdentidad == null){
+		if (documentoIdentidad == null) {
 			documentoIdentidad = new DocumentoIdentidad();
 		}
 		return documentoIdentidad;
@@ -118,7 +118,7 @@ public abstract class Persona extends BaseNegocio {
 	 * @return the estadoCivil
 	 */
 	public BaseVO getEstadoCivil() {
-		if (estadoCivil == null){
+		if (estadoCivil == null) {
 			estadoCivil = new BaseVO();
 		}
 		return estadoCivil;
@@ -136,7 +136,7 @@ public abstract class Persona extends BaseNegocio {
 	 * @return the genero
 	 */
 	public BaseVO getGenero() {
-		if (genero == null){
+		if (genero == null) {
 			genero = new BaseVO();
 		}
 		return genero;
@@ -188,7 +188,8 @@ public abstract class Persona extends BaseNegocio {
 	}
 
 	/**
-	 * @param tipoPersona the tipoPersona to set
+	 * @param tipoPersona
+	 *            the tipoPersona to set
 	 */
 	public void setTipoPersona(int tipoPersona) {
 		this.tipoPersona = tipoPersona;
@@ -198,25 +199,28 @@ public abstract class Persona extends BaseNegocio {
 	 * @return the listaDirecciones
 	 */
 	public List<Direccion> getListaDirecciones() {
-		if (listaDirecciones == null){
+		if (listaDirecciones == null) {
 			listaDirecciones = new ArrayList<Direccion>();
 		}
 		return listaDirecciones;
 	}
 
 	/**
-	 * @param listaDirecciones the listaDirecciones to set
+	 * @param listaDirecciones
+	 *            the listaDirecciones to set
 	 */
 	public void setListaDirecciones(List<Direccion> listaDirecciones) {
 		this.listaDirecciones = listaDirecciones;
 	}
-	
-	public String getNombreCompleto(){
+
+	public String getNombreCompleto() {
 		String nombreCompleto = "";
-		
-		nombreCompleto = UtilParse.parseCadena(getNombres())+" "+ UtilParse.parseCadena(getApellidoPaterno())+ " "+UtilParse.parseCadena(getApellidoMaterno());
+
+		nombreCompleto = UtilParse.parseCadena(getNombres()) + " "
+				+ UtilParse.parseCadena(getApellidoPaterno()) + " "
+				+ UtilParse.parseCadena(getApellidoMaterno());
 		nombreCompleto = StringUtils.normalizeSpace(nombreCompleto);
-		
+
 		return nombreCompleto;
 	}
 
@@ -228,7 +232,8 @@ public abstract class Persona extends BaseNegocio {
 	}
 
 	/**
-	 * @param fechaNacimiento the fechaNacimiento to set
+	 * @param fechaNacimiento
+	 *            the fechaNacimiento to set
 	 */
 	public void setFechaNacimiento(Date fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
@@ -238,14 +243,15 @@ public abstract class Persona extends BaseNegocio {
 	 * @return the rubro
 	 */
 	public BaseVO getRubro() {
-		if (rubro == null){
+		if (rubro == null) {
 			rubro = new BaseVO();
 		}
 		return rubro;
 	}
 
 	/**
-	 * @param rubro the rubro to set
+	 * @param rubro
+	 *            the rubro to set
 	 */
 	public void setRubro(BaseVO rubro) {
 		this.rubro = rubro;
@@ -259,7 +265,8 @@ public abstract class Persona extends BaseNegocio {
 	}
 
 	/**
-	 * @param telefonoMovil the telefonoMovil to set
+	 * @param telefonoMovil
+	 *            the telefonoMovil to set
 	 */
 	public void setTelefonoMovil(Telefono telefonoMovil) {
 		this.telefonoMovil = telefonoMovil;
@@ -273,7 +280,8 @@ public abstract class Persona extends BaseNegocio {
 	}
 
 	/**
-	 * @param nroPasaporte the nroPasaporte to set
+	 * @param nroPasaporte
+	 *            the nroPasaporte to set
 	 */
 	public void setNroPasaporte(String nroPasaporte) {
 		this.nroPasaporte = nroPasaporte;
@@ -287,7 +295,8 @@ public abstract class Persona extends BaseNegocio {
 	}
 
 	/**
-	 * @param fechaVctoPasaporte the fechaVctoPasaporte to set
+	 * @param fechaVctoPasaporte
+	 *            the fechaVctoPasaporte to set
 	 */
 	public void setFechaVctoPasaporte(Date fechaVctoPasaporte) {
 		this.fechaVctoPasaporte = fechaVctoPasaporte;

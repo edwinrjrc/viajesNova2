@@ -55,7 +55,7 @@ public class UsuarioMBean extends BaseMBean {
 
 	private String modalNombre;
 	private Date fechaAsistencia;
-	
+
 	private List<UsuarioAsistencia> listaAsistenciaUsuario;
 
 	private boolean nuevoUsuario;
@@ -151,18 +151,20 @@ public class UsuarioMBean extends BaseMBean {
 			HttpSession session = (HttpSession) obtenerSession(true);
 			session.setAttribute("usuarioSession", usuario);
 			return "irInicio";
-			
-		} catch (InicioSesionException e){
+
+		} catch (InicioSesionException e) {
 			this.mostrarMensajeError(e.getMessage());
 			obtenerRequest().setAttribute("msjeError", e.getMessage());
 			logger.error(e.getMessage(), e);
 		} catch (SQLException e) {
 			this.mostrarMensajeError(e.getMessage());
-			obtenerRequest().setAttribute("msjeError", "No se pudo iniciar sesion");
+			obtenerRequest().setAttribute("msjeError",
+					"No se pudo iniciar sesion");
 			logger.error(e.getMessage(), e);
 		} catch (Exception e) {
 			this.mostrarMensajeError(e.getMessage());
-			obtenerRequest().setAttribute("msjeError", "No se pudo iniciar sesion");
+			obtenerRequest().setAttribute("msjeError",
+					"No se pudo iniciar sesion");
 			logger.error(e.getMessage(), e);
 		}
 
@@ -191,22 +193,25 @@ public class UsuarioMBean extends BaseMBean {
 			logger.error(e.getMessage(), e);
 		}
 	}
-	
+
 	public void cambiarClaveVencida() {
 		try {
 			if (validarClave()) {
-				if (getUsuario().getCredencial().equals(getUsuario().getCredencialNueva())){
-					throw new ValidacionException("La contraseña nueva no puede ser igual a la vencida");
+				if (getUsuario().getCredencial().equals(
+						getUsuario().getCredencialNueva())) {
+					throw new ValidacionException(
+							"La contraseña nueva no puede ser igual a la vencida");
 				}
-				this.seguridadServicio.actualizarCredencialVencida(getUsuario());
-				
+				this.seguridadServicio
+						.actualizarCredencialVencida(getUsuario());
+
 				this.setShowModal(true);
 				this.setTipoModal("1");
 				this.setMensajeModal("Se renovaron las credenciales satisfactoriamente");
-				
+
 				getUsuario().setCredencialVencida(false);
 			}
-		} catch (ValidacionException e){
+		} catch (ValidacionException e) {
 			this.setTipoModal("2");
 			this.setShowModal(true);
 			this.setMensajeModal(e.getMessage());
@@ -284,27 +289,28 @@ public class UsuarioMBean extends BaseMBean {
 			e.printStackTrace();
 		}
 	}
-	
-	public void consultaAsistenciaXDia(){
+
+	public void consultaAsistenciaXDia() {
 		try {
-			this.setListaAsistenciaUsuario(this.auditoriaServicio.consultarHorarioAsistenciaXDia(getFechaAsistencia()));
-			
-			
+			this.setListaAsistenciaUsuario(this.auditoriaServicio
+					.consultarHorarioAsistenciaXDia(getFechaAsistencia()));
+
 		} catch (ErrorConsultaDataException e) {
 			logger.error(e.getMessage(), e);
 			this.mostrarMensajeError(e.getMessage());
 		}
 	}
-	
-	public String consultarAsistencia(){
+
+	public String consultarAsistencia() {
 		this.setFechaAsistencia(new Date());
 		this.consultaAsistenciaXDia();
-		
+
 		return "irConsultaAsistencia";
 	}
-	
+
 	/**
-	 * =========================================================================================================
+	 * ========================================================================
+	 * =================================
 	 */
 
 	/**
@@ -475,7 +481,8 @@ public class UsuarioMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param fechaAsistencia the fechaAsistencia to set
+	 * @param fechaAsistencia
+	 *            the fechaAsistencia to set
 	 */
 	public void setFechaAsistencia(Date fechaAsistencia) {
 		this.fechaAsistencia = fechaAsistencia;
@@ -485,16 +492,18 @@ public class UsuarioMBean extends BaseMBean {
 	 * @return the listaAsistenciaUsuario
 	 */
 	public List<UsuarioAsistencia> getListaAsistenciaUsuario() {
-		if (listaAsistenciaUsuario == null){
+		if (listaAsistenciaUsuario == null) {
 			listaAsistenciaUsuario = new ArrayList<UsuarioAsistencia>();
 		}
 		return listaAsistenciaUsuario;
 	}
 
 	/**
-	 * @param listaAsistenciaUsuario the listaAsistenciaUsuario to set
+	 * @param listaAsistenciaUsuario
+	 *            the listaAsistenciaUsuario to set
 	 */
-	public void setListaAsistenciaUsuario(List<UsuarioAsistencia> listaAsistenciaUsuario) {
+	public void setListaAsistenciaUsuario(
+			List<UsuarioAsistencia> listaAsistenciaUsuario) {
 		this.listaAsistenciaUsuario = listaAsistenciaUsuario;
 	}
 

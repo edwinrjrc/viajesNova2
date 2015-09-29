@@ -20,7 +20,7 @@ public class Comprobante extends BaseNegocio {
 	 * 
 	 */
 	private static final long serialVersionUID = -4234081010839284200L;
-	
+
 	private BaseVO tipoComprobante;
 	private String numeroComprobante;
 	private Cliente titular;
@@ -30,9 +30,9 @@ public class Comprobante extends BaseNegocio {
 	private BigDecimal totalComprobante;
 	private BigDecimal saldoComprobante;
 	private Integer idServicio;
-	
+
 	private Date fechaPago;
-	
+
 	private List<DetalleComprobante> detalleComprobante;
 	private String detalleTextoComprobante;
 	private Integer codigoSeleccionado;
@@ -40,19 +40,19 @@ public class Comprobante extends BaseNegocio {
 	private boolean tieneDetraccion;
 	private boolean tieneRetencion;
 
-
 	/**
 	 * @return the tipoComprobante
 	 */
 	public BaseVO getTipoComprobante() {
-		if (tipoComprobante == null){
+		if (tipoComprobante == null) {
 			tipoComprobante = new BaseVO();
 		}
 		return tipoComprobante;
 	}
 
 	/**
-	 * @param tipoComprobante the tipoComprobante to set
+	 * @param tipoComprobante
+	 *            the tipoComprobante to set
 	 */
 	public void setTipoComprobante(BaseVO tipoComprobante) {
 		this.tipoComprobante = tipoComprobante;
@@ -66,7 +66,8 @@ public class Comprobante extends BaseNegocio {
 	}
 
 	/**
-	 * @param numeroComprobante the numeroComprobante to set
+	 * @param numeroComprobante
+	 *            the numeroComprobante to set
 	 */
 	public void setNumeroComprobante(String numeroComprobante) {
 		this.numeroComprobante = numeroComprobante;
@@ -76,14 +77,15 @@ public class Comprobante extends BaseNegocio {
 	 * @return the titular
 	 */
 	public Cliente getTitular() {
-		if (titular == null){
+		if (titular == null) {
 			titular = new Cliente();
 		}
 		return titular;
 	}
 
 	/**
-	 * @param titular the titular to set
+	 * @param titular
+	 *            the titular to set
 	 */
 	public void setTitular(Cliente titular) {
 		this.titular = titular;
@@ -97,7 +99,8 @@ public class Comprobante extends BaseNegocio {
 	}
 
 	/**
-	 * @param fechaComprobante the fechaComprobante to set
+	 * @param fechaComprobante
+	 *            the fechaComprobante to set
 	 */
 	public void setFechaComprobante(Date fechaComprobante) {
 		this.fechaComprobante = fechaComprobante;
@@ -111,7 +114,8 @@ public class Comprobante extends BaseNegocio {
 	}
 
 	/**
-	 * @param totalIGV the totalIGV to set
+	 * @param totalIGV
+	 *            the totalIGV to set
 	 */
 	public void setTotalIGV(BigDecimal totalIGV) {
 		this.totalIGV = totalIGV;
@@ -125,7 +129,8 @@ public class Comprobante extends BaseNegocio {
 	}
 
 	/**
-	 * @param totalComprobante the totalComprobante to set
+	 * @param totalComprobante
+	 *            the totalComprobante to set
 	 */
 	public void setTotalComprobante(BigDecimal totalComprobante) {
 		this.totalComprobante = totalComprobante;
@@ -135,16 +140,18 @@ public class Comprobante extends BaseNegocio {
 	 * @return the detalleComprobante
 	 */
 	public List<DetalleComprobante> getDetalleComprobante() {
-		if (detalleComprobante == null){
+		if (detalleComprobante == null) {
 			detalleComprobante = new ArrayList<DetalleComprobante>();
 		}
 		return detalleComprobante;
 	}
 
 	/**
-	 * @param detalleComprobante the detalleComprobante to set
+	 * @param detalleComprobante
+	 *            the detalleComprobante to set
 	 */
-	public void setDetalleComprobante(List<DetalleComprobante> detalleComprobante) {
+	public void setDetalleComprobante(
+			List<DetalleComprobante> detalleComprobante) {
 		this.detalleComprobante = detalleComprobante;
 	}
 
@@ -156,7 +163,8 @@ public class Comprobante extends BaseNegocio {
 	}
 
 	/**
-	 * @param idServicio the idServicio to set
+	 * @param idServicio
+	 *            the idServicio to set
 	 */
 	public void setIdServicio(Integer idServicio) {
 		this.idServicio = idServicio;
@@ -166,14 +174,15 @@ public class Comprobante extends BaseNegocio {
 	 * @return the proveedor
 	 */
 	public Proveedor getProveedor() {
-		if (proveedor == null){
+		if (proveedor == null) {
 			proveedor = new Proveedor();
 		}
 		return proveedor;
 	}
 
 	/**
-	 * @param proveedor the proveedor to set
+	 * @param proveedor
+	 *            the proveedor to set
 	 */
 	public void setProveedor(Proveedor proveedor) {
 		this.proveedor = proveedor;
@@ -187,7 +196,8 @@ public class Comprobante extends BaseNegocio {
 	}
 
 	/**
-	 * @param fechaPago the fechaPago to set
+	 * @param fechaPago
+	 *            the fechaPago to set
 	 */
 	public void setFechaPago(Date fechaPago) {
 		this.fechaPago = fechaPago;
@@ -201,7 +211,8 @@ public class Comprobante extends BaseNegocio {
 	}
 
 	/**
-	 * @param detalleTextoComprobante the detalleTextoComprobante to set
+	 * @param detalleTextoComprobante
+	 *            the detalleTextoComprobante to set
 	 */
 	public void setDetalleTextoComprobante(String detalleTextoComprobante) {
 		this.detalleTextoComprobante = detalleTextoComprobante;
@@ -215,7 +226,8 @@ public class Comprobante extends BaseNegocio {
 	}
 
 	/**
-	 * @param codigoSeleccionado the codigoSeleccionado to set
+	 * @param codigoSeleccionado
+	 *            the codigoSeleccionado to set
 	 */
 	public void setCodigoSeleccionado(Integer codigoSeleccionado) {
 		this.codigoSeleccionado = codigoSeleccionado;
@@ -229,7 +241,8 @@ public class Comprobante extends BaseNegocio {
 	}
 
 	/**
-	 * @param tieneDetraccion the tieneDetraccion to set
+	 * @param tieneDetraccion
+	 *            the tieneDetraccion to set
 	 */
 	public void setTieneDetraccion(boolean tieneDetraccion) {
 		this.tieneDetraccion = tieneDetraccion;
@@ -243,7 +256,8 @@ public class Comprobante extends BaseNegocio {
 	}
 
 	/**
-	 * @param tieneRetencion the tieneRetencion to set
+	 * @param tieneRetencion
+	 *            the tieneRetencion to set
 	 */
 	public void setTieneRetencion(boolean tieneRetencion) {
 		this.tieneRetencion = tieneRetencion;
@@ -257,7 +271,8 @@ public class Comprobante extends BaseNegocio {
 	}
 
 	/**
-	 * @param saldoComprobante the saldoComprobante to set
+	 * @param saldoComprobante
+	 *            the saldoComprobante to set
 	 */
 	public void setSaldoComprobante(BigDecimal saldoComprobante) {
 		this.saldoComprobante = saldoComprobante;

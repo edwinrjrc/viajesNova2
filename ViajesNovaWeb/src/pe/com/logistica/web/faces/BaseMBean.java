@@ -19,13 +19,12 @@ import javax.servlet.http.HttpSession;
  */
 
 public class BaseMBean implements Serializable {
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -8144858026084650982L;
-	
-	
+
 	private String nombreFormulario;
 	private String mensajeModal;
 	private String tipoModal;
@@ -33,7 +32,7 @@ public class BaseMBean implements Serializable {
 
 	private boolean showModal;
 	private boolean transaccionExito;
-	
+
 	public static final String TIPO_MODAL_EXITO = "1";
 	public static final String TIPO_MODAL_ERROR = "2";
 	public static final String USUARIO_SESSION = "usuarioSession";
@@ -44,7 +43,6 @@ public class BaseMBean implements Serializable {
 	public BaseMBean() {
 		// TODO Auto-generated constructor stub
 	}
-	
 
 	public void aceptarBoton() {
 		this.setShowModal(false);
@@ -142,13 +140,13 @@ public class BaseMBean implements Serializable {
 		return (HttpServletRequest) obtenerContexto().getExternalContext()
 				.getRequest();
 	}
-	
+
 	public HttpServletResponse obtenerResponse() {
 		return (HttpServletResponse) obtenerContexto().getExternalContext()
 				.getResponse();
 	}
-	
-	public ExternalContext obtenerContextoExterno(){
+
+	public ExternalContext obtenerContextoExterno() {
 		return obtenerContexto().getExternalContext();
 	}
 
@@ -167,19 +165,20 @@ public class BaseMBean implements Serializable {
 	}
 
 	/**
-	 * @param transaccionExito the transaccionExito to set
+	 * @param transaccionExito
+	 *            the transaccionExito to set
 	 */
 	public void setTransaccionExito(boolean transaccionExito) {
 		this.transaccionExito = transaccionExito;
 	}
-	
-	public void mostrarMensajeError(String mensaje){
+
+	public void mostrarMensajeError(String mensaje) {
 		this.setShowModal(true);
 		this.setMensajeModal(mensaje);
 		this.setTipoModal(TIPO_MODAL_ERROR);
 	}
-	
-	public void mostrarMensajeExito(String mensaje){
+
+	public void mostrarMensajeExito(String mensaje) {
 		this.setShowModal(true);
 		this.setMensajeModal(mensaje);
 		this.setTipoModal(TIPO_MODAL_EXITO);

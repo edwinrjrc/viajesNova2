@@ -46,7 +46,7 @@ public class DocumentoIdentidad extends Base {
 	 * @return the tipoDocumento
 	 */
 	public BaseVO getTipoDocumento() {
-		if (tipoDocumento == null){
+		if (tipoDocumento == null) {
 			tipoDocumento = new BaseVO();
 		}
 		return tipoDocumento;

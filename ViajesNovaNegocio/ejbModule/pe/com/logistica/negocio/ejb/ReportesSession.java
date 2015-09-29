@@ -14,10 +14,12 @@ import pe.com.logistica.negocio.dao.impl.ReporteVentasDaoImpl;
  * Session Bean implementation class Reportes
  */
 @Stateless(name = "ReportesSession")
-public class ReportesSession implements ReportesSessionRemote, ReportesSessionLocal {
+public class ReportesSession implements ReportesSessionRemote,
+		ReportesSessionLocal {
 
 	@Override
-	public List<DetalleServicioAgencia> reporteGeneralVentas(ReporteVentas reporteVentas) throws SQLException {
+	public List<DetalleServicioAgencia> reporteGeneralVentas(
+			ReporteVentas reporteVentas) throws SQLException {
 		ReporteVentasDao reporteVentasDao = new ReporteVentasDaoImpl();
 
 		return reporteVentasDao.reporteGeneralVentas(reporteVentas);

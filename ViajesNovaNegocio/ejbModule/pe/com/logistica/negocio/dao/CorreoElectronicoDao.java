@@ -14,8 +14,9 @@ import pe.com.logistica.bean.base.CorreoElectronico;
  *
  */
 public interface CorreoElectronicoDao {
-	
-	public List<CorreoElectronico> consultarCorreosXPersona(int idPersona) throws SQLException;
+
+	public List<CorreoElectronico> consultarCorreosXPersona(int idPersona)
+			throws SQLException;
 
 	List<CorreoElectronico> consultarCorreosXPersona(int idPersona,
 			Connection conn) throws SQLException;

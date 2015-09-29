@@ -29,8 +29,12 @@ public class DestinoDaoImpl implements DestinoDao {
 		// TODO Auto-generated constructor stub
 	}
 
-	/* (non-Javadoc)
-	 * @see pe.com.logistica.negocio.dao.DestinoDao#ingresarDestino(pe.com.logistica.bean.negocio.Destino)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * pe.com.logistica.negocio.dao.DestinoDao#ingresarDestino(pe.com.logistica
+	 * .bean.negocio.Destino)
 	 */
 	@Override
 	public boolean ingresarDestino(Destino destino) throws SQLException {
@@ -41,17 +45,23 @@ public class DestinoDaoImpl implements DestinoDao {
 		try {
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
-			int i=1;
+			int i = 1;
 			cs.registerOutParameter(i++, Types.BOOLEAN);
-			cs.setInt(i++, destino.getPais().getContinente().getCodigoEntero().intValue());
+			cs.setInt(i++, destino.getPais().getContinente().getCodigoEntero()
+					.intValue());
 			cs.setInt(i++, destino.getPais().getCodigoEntero().intValue());
-			cs.setInt(i++, destino.getTipoDestino().getCodigoEntero().intValue());
-			cs.setString(i++, UtilJdbc.convertirMayuscula(destino.getCodigoIATA()));
-			cs.setString(i++, UtilJdbc.convertirMayuscula(destino.getDescripcion()));
-			cs.setString(i++, UtilJdbc.convertirMayuscula(destino.getUsuarioCreacion()));
-			cs.setString(i++, UtilJdbc.convertirMayuscula(destino.getIpCreacion()));
+			cs.setInt(i++, destino.getTipoDestino().getCodigoEntero()
+					.intValue());
+			cs.setString(i++,
+					UtilJdbc.convertirMayuscula(destino.getCodigoIATA()));
+			cs.setString(i++,
+					UtilJdbc.convertirMayuscula(destino.getDescripcion()));
+			cs.setString(i++,
+					UtilJdbc.convertirMayuscula(destino.getUsuarioCreacion()));
+			cs.setString(i++,
+					UtilJdbc.convertirMayuscula(destino.getIpCreacion()));
 			cs.execute();
-			
+
 			resultado = cs.getBoolean(1);
 		} catch (SQLException e) {
 			resultado = false;
@@ -79,8 +89,12 @@ public class DestinoDaoImpl implements DestinoDao {
 		return resultado;
 	}
 
-	/* (non-Javadoc)
-	 * @see pe.com.logistica.negocio.dao.DestinoDao#actualizarDestino(pe.com.logistica.bean.negocio.Destino)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * pe.com.logistica.negocio.dao.DestinoDao#actualizarDestino(pe.com.logistica
+	 * .bean.negocio.Destino)
 	 */
 	@Override
 	public boolean actualizarDestino(Destino destino) throws SQLException {
@@ -91,18 +105,24 @@ public class DestinoDaoImpl implements DestinoDao {
 		try {
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
-			int i=1;
+			int i = 1;
 			cs.registerOutParameter(i++, Types.BOOLEAN);
 			cs.setInt(i++, destino.getCodigoEntero().intValue());
-			cs.setInt(i++, destino.getPais().getContinente().getCodigoEntero().intValue());
+			cs.setInt(i++, destino.getPais().getContinente().getCodigoEntero()
+					.intValue());
 			cs.setInt(i++, destino.getPais().getCodigoEntero().intValue());
-			cs.setInt(i++, destino.getTipoDestino().getCodigoEntero().intValue());
-			cs.setString(i++, UtilJdbc.convertirMayuscula(destino.getCodigoIATA()));
-			cs.setString(i++, UtilJdbc.convertirMayuscula(destino.getDescripcion()));
-			cs.setString(i++, UtilJdbc.convertirMayuscula(destino.getUsuarioModificacion()));
-			cs.setString(i++, UtilJdbc.convertirMayuscula(destino.getIpModificacion()));
+			cs.setInt(i++, destino.getTipoDestino().getCodigoEntero()
+					.intValue());
+			cs.setString(i++,
+					UtilJdbc.convertirMayuscula(destino.getCodigoIATA()));
+			cs.setString(i++,
+					UtilJdbc.convertirMayuscula(destino.getDescripcion()));
+			cs.setString(i++, UtilJdbc.convertirMayuscula(destino
+					.getUsuarioModificacion()));
+			cs.setString(i++,
+					UtilJdbc.convertirMayuscula(destino.getIpModificacion()));
 			cs.execute();
-			
+
 			resultado = cs.getBoolean(1);
 		} catch (SQLException e) {
 			resultado = false;
@@ -129,7 +149,7 @@ public class DestinoDaoImpl implements DestinoDao {
 
 		return resultado;
 	}
-	
+
 	@Override
 	public List<Destino> listarDestinos() throws SQLException {
 		Connection conn = null;
@@ -142,30 +162,42 @@ public class DestinoDaoImpl implements DestinoDao {
 			cs = conn.prepareCall(sql);
 			cs.registerOutParameter(1, Types.OTHER);
 			cs.execute();
-			rs = (ResultSet)cs.getObject(1);
+			rs = (ResultSet) cs.getObject(1);
 
 			listaDestinos = new ArrayList<Destino>();
 			Destino destino = null;
 			while (rs.next()) {
 				destino = new Destino();
 				destino.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
-				destino.getPais().getContinente().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idcontinente"));
-				destino.getPais().getContinente().setNombre(UtilJdbc.obtenerCadena(rs, "nombrecontinente"));
-				destino.getPais().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idpais"));
-				destino.getPais().setDescripcion(UtilJdbc.obtenerCadena(rs, "nombrepais"));
+				destino.getPais()
+						.getContinente()
+						.setCodigoEntero(
+								UtilJdbc.obtenerNumero(rs, "idcontinente"));
+				destino.getPais()
+						.getContinente()
+						.setNombre(
+								UtilJdbc.obtenerCadena(rs, "nombrecontinente"));
+				destino.getPais().setCodigoEntero(
+						UtilJdbc.obtenerNumero(rs, "idpais"));
+				destino.getPais().setDescripcion(
+						UtilJdbc.obtenerCadena(rs, "nombrepais"));
 				destino.setCodigoIATA(UtilJdbc.obtenerCadena(rs, "codigoiata"));
-				destino.getTipoDestino().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idtipodestino"));
-				destino.getTipoDestino().setNombre(UtilJdbc.obtenerCadena(rs, "nombretipdestino"));
-				destino.setDescripcion(UtilJdbc.obtenerCadena(rs, "descripcion"));
-				destino.getPais().setAbreviado(UtilJdbc.obtenerCadena(rs, "abreviado"));
+				destino.getTipoDestino().setCodigoEntero(
+						UtilJdbc.obtenerNumero(rs, "idtipodestino"));
+				destino.getTipoDestino().setNombre(
+						UtilJdbc.obtenerCadena(rs, "nombretipdestino"));
+				destino.setDescripcion(UtilJdbc
+						.obtenerCadena(rs, "descripcion"));
+				destino.getPais().setAbreviado(
+						UtilJdbc.obtenerCadena(rs, "abreviado"));
 				listaDestinos.add(destino);
 			}
-			
+
 		} catch (SQLException e) {
 			throw new SQLException(e);
 		} finally {
 			try {
-				if (rs != null){
+				if (rs != null) {
 					rs.close();
 				}
 				if (cs != null) {
@@ -202,26 +234,30 @@ public class DestinoDaoImpl implements DestinoDao {
 			cs.registerOutParameter(1, Types.OTHER);
 			cs.setInt(2, idDestino);
 			cs.execute();
-			
-			
-			rs = (ResultSet)cs.getObject(1);
+
+			rs = (ResultSet) cs.getObject(1);
 
 			if (rs.next()) {
 				destino = new Destino();
 				destino.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
 				destino.setCodigoIATA(UtilJdbc.obtenerCadena(rs, "codigoiata"));
-				destino.getTipoDestino().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idtipodestino"));
-				destino.setDescripcion(UtilJdbc.obtenerCadena(rs, "descdestino"));
-				destino.getPais().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idpais"));
-				destino.getPais().setDescripcion(UtilJdbc.obtenerCadena(rs, "descpais"));
-				destino.getPais().setAbreviado(UtilJdbc.obtenerCadena(rs, "abreviado"));
+				destino.getTipoDestino().setCodigoEntero(
+						UtilJdbc.obtenerNumero(rs, "idtipodestino"));
+				destino.setDescripcion(UtilJdbc
+						.obtenerCadena(rs, "descdestino"));
+				destino.getPais().setCodigoEntero(
+						UtilJdbc.obtenerNumero(rs, "idpais"));
+				destino.getPais().setDescripcion(
+						UtilJdbc.obtenerCadena(rs, "descpais"));
+				destino.getPais().setAbreviado(
+						UtilJdbc.obtenerCadena(rs, "abreviado"));
 			}
-			
+
 		} catch (SQLException e) {
 			throw new SQLException(e);
 		} finally {
 			try {
-				if (rs != null){
+				if (rs != null) {
 					rs.close();
 				}
 				if (cs != null) {
@@ -246,7 +282,8 @@ public class DestinoDaoImpl implements DestinoDao {
 	}
 
 	@Override
-	public Destino consultarDestino(int idDestino, Connection conn) throws SQLException {
+	public Destino consultarDestino(int idDestino, Connection conn)
+			throws SQLException {
 		CallableStatement cs = null;
 		ResultSet rs = null;
 		String sql = "{ ? = call soporte.fn_consultardestino(?) }";
@@ -256,42 +293,47 @@ public class DestinoDaoImpl implements DestinoDao {
 			cs.registerOutParameter(1, Types.OTHER);
 			cs.setInt(2, idDestino);
 			cs.execute();
-			
-			
-			rs = (ResultSet)cs.getObject(1);
+
+			rs = (ResultSet) cs.getObject(1);
 
 			if (rs.next()) {
 				destino = new Destino();
 				destino.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
 				destino.setCodigoIATA(UtilJdbc.obtenerCadena(rs, "codigoiata"));
-				destino.getTipoDestino().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idtipodestino"));
-				destino.setDescripcion(UtilJdbc.obtenerCadena(rs, "descdestino"));
-				destino.getPais().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idpais"));
-				destino.getPais().setDescripcion(UtilJdbc.obtenerCadena(rs, "descpais"));
-				destino.getPais().setAbreviado(UtilJdbc.obtenerCadena(rs, "abreviado"));
+				destino.getTipoDestino().setCodigoEntero(
+						UtilJdbc.obtenerNumero(rs, "idtipodestino"));
+				destino.setDescripcion(UtilJdbc
+						.obtenerCadena(rs, "descdestino"));
+				destino.getPais().setCodigoEntero(
+						UtilJdbc.obtenerNumero(rs, "idpais"));
+				destino.getPais().setDescripcion(
+						UtilJdbc.obtenerCadena(rs, "descpais"));
+				destino.getPais().setAbreviado(
+						UtilJdbc.obtenerCadena(rs, "abreviado"));
 			}
-			
+
 		} catch (SQLException e) {
 			throw new SQLException(e);
 		} finally {
 			try {
-				if (rs != null){
+				if (rs != null) {
 					rs.close();
 				}
 				if (cs != null) {
 					cs.close();
 				}
-				
+
 			} catch (SQLException e) {
-			    throw new SQLException(e);
+				throw new SQLException(e);
 			}
 		}
 
 		return destino;
 	}
-	
+
 	@Override
-	public List<Destino> buscarDestinos(String nombreDestino) throws SQLException {
+	public List<Destino> buscarDestinos(String nombreDestino)
+			throws SQLException {
 		Connection conn = null;
 		CallableStatement cs = null;
 		ResultSet rs = null;
@@ -303,30 +345,42 @@ public class DestinoDaoImpl implements DestinoDao {
 			cs.registerOutParameter(1, Types.OTHER);
 			cs.setString(2, UtilJdbc.convertirMayuscula(nombreDestino));
 			cs.execute();
-			rs = (ResultSet)cs.getObject(1);
+			rs = (ResultSet) cs.getObject(1);
 
 			listaDestinos = new ArrayList<Destino>();
 			Destino destino = null;
 			while (rs.next()) {
 				destino = new Destino();
 				destino.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
-				destino.getPais().getContinente().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idcontinente"));
-				destino.getPais().getContinente().setNombre(UtilJdbc.obtenerCadena(rs, "nombrecontinente"));
-				destino.getPais().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idpais"));
-				destino.getPais().setDescripcion(UtilJdbc.obtenerCadena(rs, "nombrepais"));
+				destino.getPais()
+						.getContinente()
+						.setCodigoEntero(
+								UtilJdbc.obtenerNumero(rs, "idcontinente"));
+				destino.getPais()
+						.getContinente()
+						.setNombre(
+								UtilJdbc.obtenerCadena(rs, "nombrecontinente"));
+				destino.getPais().setCodigoEntero(
+						UtilJdbc.obtenerNumero(rs, "idpais"));
+				destino.getPais().setDescripcion(
+						UtilJdbc.obtenerCadena(rs, "nombrepais"));
 				destino.setCodigoIATA(UtilJdbc.obtenerCadena(rs, "codigoiata"));
-				destino.getTipoDestino().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idtipodestino"));
-				destino.getTipoDestino().setNombre(UtilJdbc.obtenerCadena(rs, "nombretipdestino"));
-				destino.setDescripcion(UtilJdbc.obtenerCadena(rs, "descripcion"));
-				destino.getPais().setAbreviado(UtilJdbc.obtenerCadena(rs, "abreviado"));
+				destino.getTipoDestino().setCodigoEntero(
+						UtilJdbc.obtenerNumero(rs, "idtipodestino"));
+				destino.getTipoDestino().setNombre(
+						UtilJdbc.obtenerCadena(rs, "nombretipdestino"));
+				destino.setDescripcion(UtilJdbc
+						.obtenerCadena(rs, "descripcion"));
+				destino.getPais().setAbreviado(
+						UtilJdbc.obtenerCadena(rs, "abreviado"));
 				listaDestinos.add(destino);
 			}
-			
+
 		} catch (SQLException e) {
 			throw new SQLException(e);
 		} finally {
 			try {
-				if (rs != null){
+				if (rs != null) {
 					rs.close();
 				}
 				if (cs != null) {
@@ -349,7 +403,7 @@ public class DestinoDaoImpl implements DestinoDao {
 
 		return listaDestinos;
 	}
-	
+
 	@Override
 	public Destino consultarDestinoIATA(String codigoIATA) throws SQLException {
 		Connection conn = null;
@@ -363,25 +417,30 @@ public class DestinoDaoImpl implements DestinoDao {
 			cs.registerOutParameter(1, Types.OTHER);
 			cs.setString(2, codigoIATA);
 			cs.execute();
-			
-			rs = (ResultSet)cs.getObject(1);
+
+			rs = (ResultSet) cs.getObject(1);
 
 			if (rs.next()) {
 				destino = new Destino();
 				destino.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
 				destino.setCodigoIATA(UtilJdbc.obtenerCadena(rs, "codigoiata"));
-				destino.getTipoDestino().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idtipodestino"));
-				destino.setDescripcion(UtilJdbc.obtenerCadena(rs, "descdestino"));
-				destino.getPais().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idpais"));
-				destino.getPais().setDescripcion(UtilJdbc.obtenerCadena(rs, "descpais"));
-				destino.getPais().setAbreviado(UtilJdbc.obtenerCadena(rs, "abreviado"));
+				destino.getTipoDestino().setCodigoEntero(
+						UtilJdbc.obtenerNumero(rs, "idtipodestino"));
+				destino.setDescripcion(UtilJdbc
+						.obtenerCadena(rs, "descdestino"));
+				destino.getPais().setCodigoEntero(
+						UtilJdbc.obtenerNumero(rs, "idpais"));
+				destino.getPais().setDescripcion(
+						UtilJdbc.obtenerCadena(rs, "descpais"));
+				destino.getPais().setAbreviado(
+						UtilJdbc.obtenerCadena(rs, "abreviado"));
 			}
-			
+
 		} catch (SQLException e) {
 			throw new SQLException(e);
 		} finally {
 			try {
-				if (rs != null){
+				if (rs != null) {
 					rs.close();
 				}
 				if (cs != null) {

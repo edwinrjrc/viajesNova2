@@ -2,14 +2,13 @@ package pe.com.logistica.bean.negocio;
 
 import pe.com.logistica.bean.base.BaseNegocio;
 
-public class ConfiguracionTipoServicio extends BaseNegocio{
-	
+public class ConfiguracionTipoServicio extends BaseNegocio {
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -7203147523525517942L;
-	
-	
+
 	private boolean muestraAerolinea;
 	private boolean muestraEmpresaTransporte;
 	private boolean muestraHotel;
@@ -38,7 +37,8 @@ public class ConfiguracionTipoServicio extends BaseNegocio{
 	}
 
 	/**
-	 * @param muestraEmpresaTransporte the muestraEmpresaTransporte to set
+	 * @param muestraEmpresaTransporte
+	 *            the muestraEmpresaTransporte to set
 	 */
 	public void setMuestraEmpresaTransporte(boolean muestraEmpresaTransporte) {
 		this.muestraEmpresaTransporte = muestraEmpresaTransporte;
@@ -52,7 +52,8 @@ public class ConfiguracionTipoServicio extends BaseNegocio{
 	}
 
 	/**
-	 * @param muestraHotel the muestraHotel to set
+	 * @param muestraHotel
+	 *            the muestraHotel to set
 	 */
 	public void setMuestraHotel(boolean muestraHotel) {
 		this.muestraHotel = muestraHotel;
@@ -66,7 +67,8 @@ public class ConfiguracionTipoServicio extends BaseNegocio{
 	}
 
 	/**
-	 * @param muestraProveedor the muestraProveedor to set
+	 * @param muestraProveedor
+	 *            the muestraProveedor to set
 	 */
 	public void setMuestraProveedor(boolean muestraProveedor) {
 		this.muestraProveedor = muestraProveedor;
@@ -80,7 +82,8 @@ public class ConfiguracionTipoServicio extends BaseNegocio{
 	}
 
 	/**
-	 * @param muestraDescServicio the muestraDescServicio to set
+	 * @param muestraDescServicio
+	 *            the muestraDescServicio to set
 	 */
 	public void setMuestraDescServicio(boolean muestraDescServicio) {
 		this.muestraDescServicio = muestraDescServicio;
@@ -94,7 +97,8 @@ public class ConfiguracionTipoServicio extends BaseNegocio{
 	}
 
 	/**
-	 * @param muestraFechaServicio the muestraFechaServicio to set
+	 * @param muestraFechaServicio
+	 *            the muestraFechaServicio to set
 	 */
 	public void setMuestraFechaServicio(boolean muestraFechaServicio) {
 		this.muestraFechaServicio = muestraFechaServicio;
@@ -108,7 +112,8 @@ public class ConfiguracionTipoServicio extends BaseNegocio{
 	}
 
 	/**
-	 * @param muestraFechaRegreso the muestraFechaRegreso to set
+	 * @param muestraFechaRegreso
+	 *            the muestraFechaRegreso to set
 	 */
 	public void setMuestraFechaRegreso(boolean muestraFechaRegreso) {
 		this.muestraFechaRegreso = muestraFechaRegreso;
@@ -122,7 +127,8 @@ public class ConfiguracionTipoServicio extends BaseNegocio{
 	}
 
 	/**
-	 * @param muestraCantidad the muestraCantidad to set
+	 * @param muestraCantidad
+	 *            the muestraCantidad to set
 	 */
 	public void setMuestraCantidad(boolean muestraCantidad) {
 		this.muestraCantidad = muestraCantidad;
@@ -136,7 +142,8 @@ public class ConfiguracionTipoServicio extends BaseNegocio{
 	}
 
 	/**
-	 * @param muestraPrecioBase the muestraPrecioBase to set
+	 * @param muestraPrecioBase
+	 *            the muestraPrecioBase to set
 	 */
 	public void setMuestraPrecioBase(boolean muestraPrecioBase) {
 		this.muestraPrecioBase = muestraPrecioBase;
@@ -150,7 +157,8 @@ public class ConfiguracionTipoServicio extends BaseNegocio{
 	}
 
 	/**
-	 * @param muestraAerolinea the muestraAerolinea to set
+	 * @param muestraAerolinea
+	 *            the muestraAerolinea to set
 	 */
 	public void setMuestraAerolinea(boolean muestraAerolinea) {
 		this.muestraAerolinea = muestraAerolinea;
@@ -164,7 +172,8 @@ public class ConfiguracionTipoServicio extends BaseNegocio{
 	}
 
 	/**
-	 * @param muestraComision the muestraComision to set
+	 * @param muestraComision
+	 *            the muestraComision to set
 	 */
 	public void setMuestraComision(boolean muestraComision) {
 		this.muestraComision = muestraComision;
@@ -178,7 +187,8 @@ public class ConfiguracionTipoServicio extends BaseNegocio{
 	}
 
 	/**
-	 * @param muestraOperadora the muestraOperadora to set
+	 * @param muestraOperadora
+	 *            the muestraOperadora to set
 	 */
 	public void setMuestraOperadora(boolean muestraOperadora) {
 		this.muestraOperadora = muestraOperadora;
@@ -192,7 +202,8 @@ public class ConfiguracionTipoServicio extends BaseNegocio{
 	}
 
 	/**
-	 * @param muestraTarifaNegociada the muestraTarifaNegociada to set
+	 * @param muestraTarifaNegociada
+	 *            the muestraTarifaNegociada to set
 	 */
 	public void setMuestraTarifaNegociada(boolean muestraTarifaNegociada) {
 		this.muestraTarifaNegociada = muestraTarifaNegociada;
@@ -206,7 +217,8 @@ public class ConfiguracionTipoServicio extends BaseNegocio{
 	}
 
 	/**
-	 * @param muestraCodigoReserva the muestraCodigoReserva to set
+	 * @param muestraCodigoReserva
+	 *            the muestraCodigoReserva to set
 	 */
 	public void setMuestraCodigoReserva(boolean muestraCodigoReserva) {
 		this.muestraCodigoReserva = muestraCodigoReserva;
@@ -220,7 +232,8 @@ public class ConfiguracionTipoServicio extends BaseNegocio{
 	}
 
 	/**
-	 * @param muestraNumeroBoleto the muestraNumeroBoleto to set
+	 * @param muestraNumeroBoleto
+	 *            the muestraNumeroBoleto to set
 	 */
 	public void setMuestraNumeroBoleto(boolean muestraNumeroBoleto) {
 		this.muestraNumeroBoleto = muestraNumeroBoleto;
@@ -234,7 +247,8 @@ public class ConfiguracionTipoServicio extends BaseNegocio{
 	}
 
 	/**
-	 * @param muestraRuta the muestraRuta to set
+	 * @param muestraRuta
+	 *            the muestraRuta to set
 	 */
 	public void setMuestraRuta(boolean muestraRuta) {
 		this.muestraRuta = muestraRuta;

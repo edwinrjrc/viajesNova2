@@ -16,12 +16,16 @@ import pe.com.logistica.negocio.exception.ConnectionException;
 public interface CatalogoDao {
 
 	public List<BaseVO> listarRoles() throws ConnectionException, SQLException;
-	
-	public List<BaseVO> listarCatalogoMaestro(int maestro) throws ConnectionException, SQLException;
-	
-	public List<BaseVO> listaDepartamento() throws ConnectionException, SQLException;
-	
-	public List<BaseVO> listaProvincia(String idDepartamento) throws ConnectionException, SQLException;
-	
-	public List<BaseVO> listaDistrito(String idDepartamento, String idProvincia) throws ConnectionException, SQLException;
+
+	public List<BaseVO> listarCatalogoMaestro(int maestro)
+			throws ConnectionException, SQLException;
+
+	public List<BaseVO> listaDepartamento() throws ConnectionException,
+			SQLException;
+
+	public List<BaseVO> listaProvincia(String idDepartamento)
+			throws ConnectionException, SQLException;
+
+	public List<BaseVO> listaDistrito(String idDepartamento, String idProvincia)
+			throws ConnectionException, SQLException;
 }

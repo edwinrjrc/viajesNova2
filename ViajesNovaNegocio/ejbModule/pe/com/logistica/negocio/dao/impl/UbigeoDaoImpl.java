@@ -17,7 +17,7 @@ import pe.com.logistica.negocio.util.UtilJdbc;
  * @author Edwin
  *
  */
-public class UbigeoDaoImpl implements UbigeoDao{
+public class UbigeoDaoImpl implements UbigeoDao {
 
 	/**
 	 * 
@@ -33,38 +33,41 @@ public class UbigeoDaoImpl implements UbigeoDao{
 		CallableStatement cs = null;
 		ResultSet rs = null;
 		String sql = "select * from soporte.vw_ubigeo where id = ?";
-		
+
 		try {
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
 			cs.setString(1, idUbigeo);
 			rs = cs.executeQuery();
-			
-			if(rs.next()){
+
+			if (rs.next()) {
 				resultado = new Ubigeo();
-				resultado.setCodigoCadena(UtilJdbc.obtenerCadena(rs,"id"));
-				resultado.getDepartamento().setCodigoCadena(UtilJdbc.obtenerCadena(rs,"iddepartamento"));
-				resultado.getProvincia().setCodigoCadena(UtilJdbc.obtenerCadena(rs,"idprovincia"));
-				resultado.getDistrito().setCodigoCadena(UtilJdbc.obtenerCadena(rs,"iddistrito"));
-				resultado.setNombre(UtilJdbc.obtenerCadena(rs,"descripcion"));
+				resultado.setCodigoCadena(UtilJdbc.obtenerCadena(rs, "id"));
+				resultado.getDepartamento().setCodigoCadena(
+						UtilJdbc.obtenerCadena(rs, "iddepartamento"));
+				resultado.getProvincia().setCodigoCadena(
+						UtilJdbc.obtenerCadena(rs, "idprovincia"));
+				resultado.getDistrito().setCodigoCadena(
+						UtilJdbc.obtenerCadena(rs, "iddistrito"));
+				resultado.setNombre(UtilJdbc.obtenerCadena(rs, "descripcion"));
 			}
 		} catch (SQLException e) {
 			resultado = null;
 			throw new SQLException(e);
-		} finally{
+		} finally {
 			try {
-				if (rs != null){
+				if (rs != null) {
 					rs.close();
 				}
-				if (cs != null){
+				if (cs != null) {
 					cs.close();
 				}
-				if (conn != null){
+				if (conn != null) {
 					conn.close();
 				}
 			} catch (SQLException e) {
 				try {
-					if (conn != null){
+					if (conn != null) {
 						conn.close();
 					}
 					throw new SQLException(e);
@@ -73,7 +76,7 @@ public class UbigeoDaoImpl implements UbigeoDao{
 				}
 			}
 		}
-		
+
 		return resultado;
 	}
 

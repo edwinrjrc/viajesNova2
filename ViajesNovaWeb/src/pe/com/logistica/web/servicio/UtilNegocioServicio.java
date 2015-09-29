@@ -8,7 +8,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 import pe.com.logistica.bean.jasper.DetalleServicio;
+import pe.com.logistica.bean.negocio.Contacto;
 import pe.com.logistica.bean.negocio.DetalleServicioAgencia;
+import pe.com.logistica.bean.negocio.Direccion;
+import pe.com.logistica.bean.negocio.ServicioAgencia;
+import pe.com.logistica.bean.negocio.ServicioNovios;
 import pe.com.logistica.negocio.exception.ErrorRegistroDataException;
 
 /**
@@ -37,4 +41,15 @@ public interface UtilNegocioServicio {
 	List<DetalleServicio> consultarServiciosVenta(Integer idServicio)
 			throws SQLException;
 
+	public Direccion agregarDireccion(Direccion direccion) throws SQLException,
+			Exception;
+
+	public Contacto agregarContacto(Contacto contacto) throws SQLException,
+			Exception;
+
+	ServicioNovios agregarServicioNovios(ServicioNovios servicioNovios)
+			throws SQLException, Exception;
+
+	BigDecimal calcularValorCuota(ServicioAgencia servicioAgencia)
+			throws SQLException, Exception;
 }

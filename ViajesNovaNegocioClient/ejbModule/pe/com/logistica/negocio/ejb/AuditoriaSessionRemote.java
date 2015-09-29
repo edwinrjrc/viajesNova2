@@ -16,5 +16,6 @@ public interface AuditoriaSessionRemote {
 	void registrarEventoInicioSession(Usuario usuario)
 			throws ErrorRegistroDataException;
 
-	public List<UsuarioAsistencia> consultaHorariosEntrada(Date fecha) throws ErrorConsultaDataException;
+	public List<UsuarioAsistencia> consultaHorariosEntrada(Date fecha)
+			throws ErrorConsultaDataException;
 }

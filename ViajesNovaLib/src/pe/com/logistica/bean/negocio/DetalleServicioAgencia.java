@@ -21,7 +21,7 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	 * 
 	 */
 	private static final long serialVersionUID = 5173839888704484950L;
-	
+
 	private MaestroServicio tipoServicio;
 	private String descripcionServicio;
 	private BaseVO aerolinea;
@@ -46,29 +46,29 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	private Consolidador consolidador;
 	private BaseVO empresaTransporte;
 	private BaseVO hotel;
-	
+
 	private List<DetalleServicioAgencia> serviciosHijos;
-	
+
 	private ConfiguracionTipoServicio configuracionTipoServicio;
-	
+
 	private boolean tarifaNegociada;
 	private boolean conIGV;
-	
+
 	private String nroComprobante;
 	private BaseVO tipoComprobante;
-	
+
 	private boolean tieneDetraccion;
 	private boolean tieneRetencion;
-	
+
 	private Integer idComprobanteGenerado;
-	
+
 	private Comprobante comprobanteAsociado;
-	
+
 	private boolean agrupado;
 	private int cantidadAgrupados;
 	private BigDecimal totalAgrupados;
 	private List<Integer> codigoEnteroAgrupados;
-	
+
 	private String codigoReserva;
 	private String numeroBoleto;
 
@@ -76,14 +76,15 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	 * @return the tipoServicio
 	 */
 	public MaestroServicio getTipoServicio() {
-		if (tipoServicio == null){
+		if (tipoServicio == null) {
 			tipoServicio = new MaestroServicio();
 		}
 		return tipoServicio;
 	}
 
 	/**
-	 * @param tipoServicio the tipoServicio to set
+	 * @param tipoServicio
+	 *            the tipoServicio to set
 	 */
 	public void setTipoServicio(MaestroServicio tipoServicio) {
 		this.tipoServicio = tipoServicio;
@@ -97,7 +98,8 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	}
 
 	/**
-	 * @param descripcionServicio the descripcionServicio to set
+	 * @param descripcionServicio
+	 *            the descripcionServicio to set
 	 */
 	public void setDescripcionServicio(String descripcionServicio) {
 		this.descripcionServicio = descripcionServicio;
@@ -111,7 +113,8 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	}
 
 	/**
-	 * @param dias the dias to set
+	 * @param dias
+	 *            the dias to set
 	 */
 	public void setDias(int dias) {
 		this.dias = dias;
@@ -125,7 +128,8 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	}
 
 	/**
-	 * @param noches the noches to set
+	 * @param noches
+	 *            the noches to set
 	 */
 	public void setNoches(int noches) {
 		this.noches = noches;
@@ -139,7 +143,8 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	}
 
 	/**
-	 * @param fechaIda the fechaIda to set
+	 * @param fechaIda
+	 *            the fechaIda to set
 	 */
 	public void setFechaIda(Date fechaIda) {
 		this.fechaIda = fechaIda;
@@ -153,7 +158,8 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	}
 
 	/**
-	 * @param fechaRegreso the fechaRegreso to set
+	 * @param fechaRegreso
+	 *            the fechaRegreso to set
 	 */
 	public void setFechaRegreso(Date fechaRegreso) {
 		this.fechaRegreso = fechaRegreso;
@@ -167,7 +173,8 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	}
 
 	/**
-	 * @param cantidad the cantidad to set
+	 * @param cantidad
+	 *            the cantidad to set
 	 */
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
@@ -181,20 +188,21 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	}
 
 	/**
-	 * @param precioUnitario the precioUnitario to set
+	 * @param precioUnitario
+	 *            the precioUnitario to set
 	 */
 	public void setPrecioUnitario(BigDecimal precioUnitario) {
 		this.precioUnitario = precioUnitario;
 	}
-	
-	public BigDecimal getTotalServicio(){
+
+	public BigDecimal getTotalServicio() {
 		BigDecimal total = BigDecimal.ZERO;
 		try {
 			BigDecimal cantidadDecimal = BigDecimal.ZERO;
-			if (cantidad != 0){
-				cantidadDecimal = cantidadDecimal.add(UtilParse.parseIntABigDecimal(cantidad));
-			}
-			else{
+			if (cantidad != 0) {
+				cantidadDecimal = cantidadDecimal.add(UtilParse
+						.parseIntABigDecimal(cantidad));
+			} else {
 				cantidadDecimal = BigDecimal.ONE;
 			}
 			total = total.add(this.precioUnitario.multiply(cantidadDecimal));
@@ -212,7 +220,8 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	}
 
 	/**
-	 * @param fechaServicio the fechaServicio to set
+	 * @param fechaServicio
+	 *            the fechaServicio to set
 	 */
 	public void setFechaServicio(Date fechaServicio) {
 		this.fechaServicio = fechaServicio;
@@ -222,14 +231,15 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	 * @return the servicioProveedor
 	 */
 	public ServicioProveedor getServicioProveedor() {
-		if (servicioProveedor == null){
+		if (servicioProveedor == null) {
 			servicioProveedor = new ServicioProveedor();
 		}
 		return servicioProveedor;
 	}
 
 	/**
-	 * @param servicioProveedor the servicioProveedor to set
+	 * @param servicioProveedor
+	 *            the servicioProveedor to set
 	 */
 	public void setServicioProveedor(ServicioProveedor servicioProveedor) {
 		this.servicioProveedor = servicioProveedor;
@@ -239,14 +249,15 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	 * @return the montoComision
 	 */
 	public BigDecimal getMontoComision() {
-		if (montoComision == null){
+		if (montoComision == null) {
 			montoComision = BigDecimal.ZERO;
 		}
 		return montoComision;
 	}
 
 	/**
-	 * @param montoComision the montoComision to set
+	 * @param montoComision
+	 *            the montoComision to set
 	 */
 	public void setMontoComision(BigDecimal montoComision) {
 		this.montoComision = montoComision;
@@ -256,14 +267,15 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	 * @return the montoIGV
 	 */
 	public BigDecimal getMontoIGV() {
-		if (montoIGV == null){
+		if (montoIGV == null) {
 			montoIGV = BigDecimal.ZERO;
 		}
 		return montoIGV;
 	}
 
 	/**
-	 * @param montoIGV the montoIGV to set
+	 * @param montoIGV
+	 *            the montoIGV to set
 	 */
 	public void setMontoIGV(BigDecimal montoIGV) {
 		this.montoIGV = montoIGV;
@@ -273,14 +285,15 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	 * @return the servicioPadre
 	 */
 	public BaseVO getServicioPadre() {
-		if (servicioPadre == null){
+		if (servicioPadre == null) {
 			servicioPadre = new BaseVO();
 		}
 		return servicioPadre;
 	}
 
 	/**
-	 * @param servicioPadre the servicioPadre to set
+	 * @param servicioPadre
+	 *            the servicioPadre to set
 	 */
 	public void setServicioPadre(BaseVO servicioPadre) {
 		this.servicioPadre = servicioPadre;
@@ -290,14 +303,15 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	 * @return the serviciosHijos
 	 */
 	public List<DetalleServicioAgencia> getServiciosHijos() {
-		if (serviciosHijos == null){
+		if (serviciosHijos == null) {
 			serviciosHijos = new ArrayList<DetalleServicioAgencia>();
 		}
 		return serviciosHijos;
 	}
 
 	/**
-	 * @param serviciosHijos the serviciosHijos to set
+	 * @param serviciosHijos
+	 *            the serviciosHijos to set
 	 */
 	public void setServiciosHijos(List<DetalleServicioAgencia> serviciosHijos) {
 		this.serviciosHijos = serviciosHijos;
@@ -307,14 +321,15 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	 * @return the consolidador
 	 */
 	public Consolidador getConsolidador() {
-		if (consolidador == null){
+		if (consolidador == null) {
 			consolidador = new Consolidador();
 		}
 		return consolidador;
 	}
 
 	/**
-	 * @param consolidador the consolidador to set
+	 * @param consolidador
+	 *            the consolidador to set
 	 */
 	public void setConsolidador(Consolidador consolidador) {
 		this.consolidador = consolidador;
@@ -331,9 +346,11 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	}
 
 	/**
-	 * @param configuracionTipoServicio the configuracionTipoServicio to set
+	 * @param configuracionTipoServicio
+	 *            the configuracionTipoServicio to set
 	 */
-	public void setConfiguracionTipoServicio(ConfiguracionTipoServicio configuracionTipoServicio) {
+	public void setConfiguracionTipoServicio(
+			ConfiguracionTipoServicio configuracionTipoServicio) {
 		this.configuracionTipoServicio = configuracionTipoServicio;
 	}
 
@@ -341,14 +358,15 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	 * @return the aerolinea
 	 */
 	public BaseVO getAerolinea() {
-		if (aerolinea == null){
+		if (aerolinea == null) {
 			aerolinea = new BaseVO();
 		}
 		return aerolinea;
 	}
 
 	/**
-	 * @param aerolinea the aerolinea to set
+	 * @param aerolinea
+	 *            the aerolinea to set
 	 */
 	public void setAerolinea(BaseVO aerolinea) {
 		this.aerolinea = aerolinea;
@@ -358,14 +376,15 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	 * @return the empresaTransporte
 	 */
 	public BaseVO getEmpresaTransporte() {
-		if (empresaTransporte == null){
+		if (empresaTransporte == null) {
 			empresaTransporte = new BaseVO();
 		}
 		return empresaTransporte;
 	}
 
 	/**
-	 * @param empresaTransporte the empresaTransporte to set
+	 * @param empresaTransporte
+	 *            the empresaTransporte to set
 	 */
 	public void setEmpresaTransporte(BaseVO empresaTransporte) {
 		this.empresaTransporte = empresaTransporte;
@@ -375,14 +394,15 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	 * @return the hotel
 	 */
 	public BaseVO getHotel() {
-		if (hotel == null){
+		if (hotel == null) {
 			hotel = new BaseVO();
 		}
 		return hotel;
 	}
 
 	/**
-	 * @param hotel the hotel to set
+	 * @param hotel
+	 *            the hotel to set
 	 */
 	public void setHotel(BaseVO hotel) {
 		this.hotel = hotel;
@@ -396,7 +416,8 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	}
 
 	/**
-	 * @param tarifaNegociada the tarifaNegociada to set
+	 * @param tarifaNegociada
+	 *            the tarifaNegociada to set
 	 */
 	public void setTarifaNegociada(boolean tarifaNegociada) {
 		this.tarifaNegociada = tarifaNegociada;
@@ -406,14 +427,15 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	 * @return the operadora
 	 */
 	public BaseVO getOperadora() {
-		if (operadora == null){
+		if (operadora == null) {
 			operadora = new BaseVO();
 		}
 		return operadora;
 	}
 
 	/**
-	 * @param operadora the operadora to set
+	 * @param operadora
+	 *            the operadora to set
 	 */
 	public void setOperadora(BaseVO operadora) {
 		this.operadora = operadora;
@@ -427,7 +449,8 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	}
 
 	/**
-	 * @param conIGV the conIGV to set
+	 * @param conIGV
+	 *            the conIGV to set
 	 */
 	public void setConIGV(boolean conIGV) {
 		this.conIGV = conIGV;
@@ -441,7 +464,8 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	}
 
 	/**
-	 * @param nroComprobante the nroComprobante to set
+	 * @param nroComprobante
+	 *            the nroComprobante to set
 	 */
 	public void setNroComprobante(String nroComprobante) {
 		this.nroComprobante = nroComprobante;
@@ -451,14 +475,15 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	 * @return the tipoComprobante
 	 */
 	public BaseVO getTipoComprobante() {
-		if (tipoComprobante == null){
+		if (tipoComprobante == null) {
 			tipoComprobante = new BaseVO();
 		}
 		return tipoComprobante;
 	}
 
 	/**
-	 * @param tipoComprobante the tipoComprobante to set
+	 * @param tipoComprobante
+	 *            the tipoComprobante to set
 	 */
 	public void setTipoComprobante(BaseVO tipoComprobante) {
 		this.tipoComprobante = tipoComprobante;
@@ -468,14 +493,15 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	 * @return the comprobanteAsociado
 	 */
 	public Comprobante getComprobanteAsociado() {
-		if (comprobanteAsociado == null){
+		if (comprobanteAsociado == null) {
 			comprobanteAsociado = new Comprobante();
 		}
 		return comprobanteAsociado;
 	}
 
 	/**
-	 * @param comprobanteAsociado the comprobanteAsociado to set
+	 * @param comprobanteAsociado
+	 *            the comprobanteAsociado to set
 	 */
 	public void setComprobanteAsociado(Comprobante comprobanteAsociado) {
 		this.comprobanteAsociado = comprobanteAsociado;
@@ -489,7 +515,8 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	}
 
 	/**
-	 * @param idComprobanteGenerado the idComprobanteGenerado to set
+	 * @param idComprobanteGenerado
+	 *            the idComprobanteGenerado to set
 	 */
 	public void setIdComprobanteGenerado(Integer idComprobanteGenerado) {
 		this.idComprobanteGenerado = idComprobanteGenerado;
@@ -503,7 +530,8 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	}
 
 	/**
-	 * @param tieneDetraccion the tieneDetraccion to set
+	 * @param tieneDetraccion
+	 *            the tieneDetraccion to set
 	 */
 	public void setTieneDetraccion(boolean tieneDetraccion) {
 		this.tieneDetraccion = tieneDetraccion;
@@ -517,7 +545,8 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	}
 
 	/**
-	 * @param tieneRetencion the tieneRetencion to set
+	 * @param tieneRetencion
+	 *            the tieneRetencion to set
 	 */
 	public void setTieneRetencion(boolean tieneRetencion) {
 		this.tieneRetencion = tieneRetencion;
@@ -531,7 +560,8 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	}
 
 	/**
-	 * @param agrupado the agrupado to set
+	 * @param agrupado
+	 *            the agrupado to set
 	 */
 	public void setAgrupado(boolean agrupado) {
 		this.agrupado = agrupado;
@@ -545,7 +575,8 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	}
 
 	/**
-	 * @param cantidadAgrupados the cantidadAgrupados to set
+	 * @param cantidadAgrupados
+	 *            the cantidadAgrupados to set
 	 */
 	public void setCantidadAgrupados(int cantidadAgrupados) {
 		this.cantidadAgrupados = cantidadAgrupados;
@@ -559,7 +590,8 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	}
 
 	/**
-	 * @param totalAgrupados the totalAgrupados to set
+	 * @param totalAgrupados
+	 *            the totalAgrupados to set
 	 */
 	public void setTotalAgrupados(BigDecimal totalAgrupados) {
 		this.totalAgrupados = totalAgrupados;
@@ -569,14 +601,15 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	 * @return the codigoEnteroAgrupados
 	 */
 	public List<Integer> getCodigoEnteroAgrupados() {
-		if (codigoEnteroAgrupados == null){
+		if (codigoEnteroAgrupados == null) {
 			codigoEnteroAgrupados = new ArrayList<Integer>();
 		}
 		return codigoEnteroAgrupados;
 	}
 
 	/**
-	 * @param codigoEnteroAgrupados the codigoEnteroAgrupados to set
+	 * @param codigoEnteroAgrupados
+	 *            the codigoEnteroAgrupados to set
 	 */
 	public void setCodigoEnteroAgrupados(List<Integer> codigoEnteroAgrupados) {
 		this.codigoEnteroAgrupados = codigoEnteroAgrupados;
@@ -590,7 +623,8 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	}
 
 	/**
-	 * @param codigoReserva the codigoReserva to set
+	 * @param codigoReserva
+	 *            the codigoReserva to set
 	 */
 	public void setCodigoReserva(String codigoReserva) {
 		this.codigoReserva = codigoReserva;
@@ -604,7 +638,8 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	}
 
 	/**
-	 * @param numeroBoleto the numeroBoleto to set
+	 * @param numeroBoleto
+	 *            the numeroBoleto to set
 	 */
 	public void setNumeroBoleto(String numeroBoleto) {
 		this.numeroBoleto = numeroBoleto;
@@ -618,7 +653,8 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	}
 
 	/**
-	 * @param precioUnitarioConIgv the precioUnitarioConIgv to set
+	 * @param precioUnitarioConIgv
+	 *            the precioUnitarioConIgv to set
 	 */
 	public void setPrecioUnitarioConIgv(BigDecimal precioUnitarioConIgv) {
 		this.precioUnitarioConIgv = precioUnitarioConIgv;
@@ -632,7 +668,8 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	}
 
 	/**
-	 * @param total the total to set
+	 * @param total
+	 *            the total to set
 	 */
 	public void setTotal(BigDecimal total) {
 		this.total = total;
@@ -642,14 +679,15 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	 * @return the ruta
 	 */
 	public Ruta getRuta() {
-		if (ruta == null){
+		if (ruta == null) {
 			ruta = new Ruta();
 		}
 		return ruta;
 	}
 
 	/**
-	 * @param ruta the ruta to set
+	 * @param ruta
+	 *            the ruta to set
 	 */
 	public void setRuta(Ruta ruta) {
 		this.ruta = ruta;
@@ -659,14 +697,15 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	 * @return the moneda
 	 */
 	public BaseVO getMoneda() {
-		if (moneda == null){
+		if (moneda == null) {
 			moneda = new BaseVO();
 		}
 		return moneda;
 	}
 
 	/**
-	 * @param moneda the moneda to set
+	 * @param moneda
+	 *            the moneda to set
 	 */
 	public void setMoneda(BaseVO moneda) {
 		this.moneda = moneda;
@@ -680,7 +719,8 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	}
 
 	/**
-	 * @param tipoCambio the tipoCambio to set
+	 * @param tipoCambio
+	 *            the tipoCambio to set
 	 */
 	public void setTipoCambio(BigDecimal tipoCambio) {
 		this.tipoCambio = tipoCambio;
@@ -694,7 +734,8 @@ public class DetalleServicioAgencia extends BaseNegocio {
 	}
 
 	/**
-	 * @param precioUnitarioAnterior the precioUnitarioAnterior to set
+	 * @param precioUnitarioAnterior
+	 *            the precioUnitarioAnterior to set
 	 */
 	public void setPrecioUnitarioAnterior(BigDecimal precioUnitarioAnterior) {
 		this.precioUnitarioAnterior = precioUnitarioAnterior;

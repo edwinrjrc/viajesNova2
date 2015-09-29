@@ -19,7 +19,9 @@ import org.apache.log4j.Logger;
 
 import pe.com.logistica.bean.negocio.TipoCambio;
 import pe.com.logistica.bean.negocio.Usuario;
+import pe.com.logistica.web.servicio.ConsultaNegocioServicio;
 import pe.com.logistica.web.servicio.NegocioServicio;
+import pe.com.logistica.web.servicio.impl.ConsultaNegocioServicioImpl;
 import pe.com.logistica.web.servicio.impl.NegocioServicioImpl;
 
 /**
@@ -29,73 +31,75 @@ import pe.com.logistica.web.servicio.impl.NegocioServicioImpl;
 @ManagedBean(name = "tipoCambioMBean")
 @SessionScoped()
 public class TipoCambioMBean extends BaseMBean {
-	
-	private final static Logger logger = Logger.getLogger(TipoCambioMBean.class);
+
+	private final static Logger logger = Logger
+			.getLogger(TipoCambioMBean.class);
 
 	private static final long serialVersionUID = 7385254040705801393L;
-	
+
 	private TipoCambio tipoCambio;
-	
+
 	private List<TipoCambio> listaTipoCambio;
-	
+
 	private NegocioServicio negocioServicio;
-	
+	private ConsultaNegocioServicio consultaNegocioServicio;
+
 	private boolean nuevoTipoCambio;
 
-	
 	public TipoCambioMBean() {
 		try {
 			ServletContext servletContext = (ServletContext) FacesContext
 					.getCurrentInstance().getExternalContext().getContext();
 			negocioServicio = new NegocioServicioImpl(servletContext);
+			consultaNegocioServicio = new ConsultaNegocioServicioImpl(
+					servletContext);
 		} catch (NamingException e) {
 			logger.error(e.getMessage(), e);
 		}
 	}
-	
-	public void nuevoTipoCambio(){
+
+	public void nuevoTipoCambio() {
 		this.setTipoCambio(null);
 		this.setNuevoTipoCambio(true);
 	}
-	
-	public void ejecutarMetodo(){
-		
+
+	public void ejecutarMetodo() {
+
 		try {
-			if (validatTipoCambio()){
+			if (validatTipoCambio()) {
 				HttpSession session = obtenerSession(false);
 				Usuario usuario = (Usuario) session
 						.getAttribute("usuarioSession");
-				getTipoCambio().setUsuarioCreacion(
-						usuario.getUsuario());
-				getTipoCambio().setIpCreacion(
-						obtenerRequest().getRemoteAddr());
-				
+				getTipoCambio().setUsuarioCreacion(usuario.getUsuario());
+				getTipoCambio().setIpCreacion(obtenerRequest().getRemoteAddr());
+
 				this.negocioServicio.registrarTipoCambio(getTipoCambio());
-				
+
 				this.mostrarMensajeExito("Tipo de cambio registrado satisfactoriamente");
-				
-				this.setListaTipoCambio(this.negocioServicio.listarTipoCambio(new Date()));
-				
+
+				this.setListaTipoCambio(this.consultaNegocioServicio
+						.listarTipoCambio(new Date()));
+
 				this.setNuevoTipoCambio(false);
 			}
 		} catch (SQLException e) {
 			this.mostrarMensajeError(e.getMessage());
-		} catch (Exception e){
+		} catch (Exception e) {
 			this.mostrarMensajeError(e.getMessage());
 		}
-		
-	}
 
+	}
 
 	private boolean validatTipoCambio() {
 		// TODO Auto-generated method stub
 		return true;
 	}
-	
-	public void listarTipoCambio(ActionEvent e){
+
+	public void listarTipoCambio(ActionEvent e) {
 		try {
-			this.setListaTipoCambio(this.negocioServicio.listarTipoCambio(new Date()));
-			
+			this.setListaTipoCambio(this.consultaNegocioServicio
+					.listarTipoCambio(new Date()));
+
 		} catch (SQLException ex) {
 			logger.error(ex.getMessage(), ex);
 		}
@@ -105,20 +109,19 @@ public class TipoCambioMBean extends BaseMBean {
 	 * @return the tipoCambio
 	 */
 	public TipoCambio getTipoCambio() {
-		if (tipoCambio == null){
+		if (tipoCambio == null) {
 			tipoCambio = new TipoCambio();
 		}
 		return tipoCambio;
 	}
 
-
 	/**
-	 * @param tipoCambio the tipoCambio to set
+	 * @param tipoCambio
+	 *            the tipoCambio to set
 	 */
 	public void setTipoCambio(TipoCambio tipoCambio) {
 		this.tipoCambio = tipoCambio;
 	}
-
 
 	/**
 	 * @return the nuevoTipoCambio
@@ -127,9 +130,9 @@ public class TipoCambioMBean extends BaseMBean {
 		return nuevoTipoCambio;
 	}
 
-
 	/**
-	 * @param nuevoTipoCambio the nuevoTipoCambio to set
+	 * @param nuevoTipoCambio
+	 *            the nuevoTipoCambio to set
 	 */
 	public void setNuevoTipoCambio(boolean nuevoTipoCambio) {
 		this.nuevoTipoCambio = nuevoTipoCambio;
@@ -143,11 +146,11 @@ public class TipoCambioMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param listaTipoCambio the listaTipoCambio to set
+	 * @param listaTipoCambio
+	 *            the listaTipoCambio to set
 	 */
 	public void setListaTipoCambio(List<TipoCambio> listaTipoCambio) {
 		this.listaTipoCambio = listaTipoCambio;
 	}
-	
-	
+
 }

@@ -24,8 +24,9 @@ public interface ArchivoReporteDao {
 	 * @return
 	 * @throws SQLException
 	 */
-	public Integer registrarArchivoReporteCabecera (ReporteArchivo reporteArchivo, Connection conn) throws SQLException;
-	
+	public Integer registrarArchivoReporteCabecera(
+			ReporteArchivo reporteArchivo, Connection conn) throws SQLException;
+
 	/**
 	 * 
 	 * @param columnasExcel
@@ -34,8 +35,9 @@ public interface ArchivoReporteDao {
 	 * @throws SQLException
 	 * @throws Exception
 	 */
-	public boolean registrarDetalleArchivoReporte (ColumnasExcel columnasExcel, Connection conn) throws SQLException, Exception;
-	
+	public boolean registrarDetalleArchivoReporte(ColumnasExcel columnasExcel,
+			Connection conn) throws SQLException, Exception;
+
 	/**
 	 * 
 	 * @param reporteBusqueda
@@ -43,6 +45,8 @@ public interface ArchivoReporteDao {
 	 * @throws SQLException
 	 * @throws Exception
 	 */
-	public List<ReporteArchivoBusqueda> consultarArchivosCargados(ReporteArchivoBusqueda reporteBusqueda) throws SQLException, Exception;
-	
+	public List<ReporteArchivoBusqueda> consultarArchivosCargados(
+			ReporteArchivoBusqueda reporteBusqueda) throws SQLException,
+			Exception;
+
 }

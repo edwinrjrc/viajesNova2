@@ -25,7 +25,6 @@ public class CuentaBancaria extends BaseNegocio {
 	private BigDecimal saldo;
 	private boolean editable;
 	private int numeroMovimientos;
-	
 
 	public CuentaBancaria() {
 
@@ -35,7 +34,7 @@ public class CuentaBancaria extends BaseNegocio {
 	 * @return the banco
 	 */
 	public BaseVO getBanco() {
-		if (banco == null){
+		if (banco == null) {
 			banco = new BaseVO();
 		}
 		return banco;
@@ -87,7 +86,8 @@ public class CuentaBancaria extends BaseNegocio {
 	}
 
 	/**
-	 * @param nombreCuenta the nombreCuenta to set
+	 * @param nombreCuenta
+	 *            the nombreCuenta to set
 	 */
 	public void setNombreCuenta(String nombreCuenta) {
 		this.nombreCuenta = nombreCuenta;
@@ -101,7 +101,8 @@ public class CuentaBancaria extends BaseNegocio {
 	}
 
 	/**
-	 * @param saldo the saldo to set
+	 * @param saldo
+	 *            the saldo to set
 	 */
 	public void setSaldo(BigDecimal saldo) {
 		this.saldo = saldo;
@@ -111,14 +112,15 @@ public class CuentaBancaria extends BaseNegocio {
 	 * @return the tipoCuenta
 	 */
 	public BaseVO getTipoCuenta() {
-		if (tipoCuenta == null){
+		if (tipoCuenta == null) {
 			tipoCuenta = new BaseVO();
 		}
 		return tipoCuenta;
 	}
 
 	/**
-	 * @param tipoCuenta the tipoCuenta to set
+	 * @param tipoCuenta
+	 *            the tipoCuenta to set
 	 */
 	public void setTipoCuenta(BaseVO tipoCuenta) {
 		this.tipoCuenta = tipoCuenta;
@@ -128,14 +130,15 @@ public class CuentaBancaria extends BaseNegocio {
 	 * @return the moneda
 	 */
 	public BaseVO getMoneda() {
-		if (moneda == null){
+		if (moneda == null) {
 			moneda = new BaseVO();
 		}
 		return moneda;
 	}
 
 	/**
-	 * @param moneda the moneda to set
+	 * @param moneda
+	 *            the moneda to set
 	 */
 	public void setMoneda(BaseVO moneda) {
 		this.moneda = moneda;
@@ -149,7 +152,8 @@ public class CuentaBancaria extends BaseNegocio {
 	}
 
 	/**
-	 * @param editable the editable to set
+	 * @param editable
+	 *            the editable to set
 	 */
 	public void setEditable(boolean editable) {
 		this.editable = editable;
@@ -163,7 +167,8 @@ public class CuentaBancaria extends BaseNegocio {
 	}
 
 	/**
-	 * @param numeroMovimientos the numeroMovimientos to set
+	 * @param numeroMovimientos
+	 *            the numeroMovimientos to set
 	 */
 	public void setNumeroMovimientos(int numeroMovimientos) {
 		this.numeroMovimientos = numeroMovimientos;

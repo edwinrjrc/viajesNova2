@@ -17,21 +17,22 @@ import pe.com.logistica.bean.negocio.Pais;
 public interface MaestroDao {
 
 	public List<Maestro> listarMaestros() throws SQLException;
-	
+
 	public List<Maestro> listarHijosMaestro(int idmaestro) throws SQLException;
-	
+
 	public boolean ingresarMaestro(Maestro maestro) throws SQLException;
-	
+
 	public boolean ingresarHijoMaestro(Maestro maestro) throws SQLException;
 
 	public Maestro consultarMaestro(int id) throws SQLException;
 
-	public Maestro consultarHijoMaestro(Maestro hijoMaestro) throws SQLException;
+	public Maestro consultarHijoMaestro(Maestro hijoMaestro)
+			throws SQLException;
 
 	public boolean actualizarMaestro(Maestro maestro) throws SQLException;
-	
+
 	public List<BaseVO> listarPaises(int idcontinente) throws SQLException;
 
 	boolean ingresarPais(Pais pais) throws SQLException;
-	
+
 }

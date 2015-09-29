@@ -18,18 +18,17 @@ public class CorreoMasivo extends BaseNegocio {
 	 * 
 	 */
 	private static final long serialVersionUID = -4117981273205473003L;
-	
-	
+
 	private String cuentaEnvio;
 	private String asunto;
 	private BaseVO plantillaCorreo;
 	private String contenidoCorreo;
-	
+
 	private List<CorreoClienteMasivo> listaCorreoMasivo;
-	
+
 	private ArchivoAdjunto archivoAdjunto;
 	private byte[] buffer;
-	
+
 	private boolean archivoCargado;
 
 	/**
@@ -47,7 +46,8 @@ public class CorreoMasivo extends BaseNegocio {
 	}
 
 	/**
-	 * @param cuentaEnvio the cuentaEnvio to set
+	 * @param cuentaEnvio
+	 *            the cuentaEnvio to set
 	 */
 	public void setCuentaEnvio(String cuentaEnvio) {
 		this.cuentaEnvio = cuentaEnvio;
@@ -61,7 +61,8 @@ public class CorreoMasivo extends BaseNegocio {
 	}
 
 	/**
-	 * @param asunto the asunto to set
+	 * @param asunto
+	 *            the asunto to set
 	 */
 	public void setAsunto(String asunto) {
 		this.asunto = asunto;
@@ -75,7 +76,8 @@ public class CorreoMasivo extends BaseNegocio {
 	}
 
 	/**
-	 * @param plantillaCorreo the plantillaCorreo to set
+	 * @param plantillaCorreo
+	 *            the plantillaCorreo to set
 	 */
 	public void setPlantillaCorreo(BaseVO plantillaCorreo) {
 		this.plantillaCorreo = plantillaCorreo;
@@ -89,7 +91,8 @@ public class CorreoMasivo extends BaseNegocio {
 	}
 
 	/**
-	 * @param contenidoCorreo the contenidoCorreo to set
+	 * @param contenidoCorreo
+	 *            the contenidoCorreo to set
 	 */
 	public void setContenidoCorreo(String contenidoCorreo) {
 		this.contenidoCorreo = contenidoCorreo;
@@ -103,7 +106,8 @@ public class CorreoMasivo extends BaseNegocio {
 	}
 
 	/**
-	 * @param listaCorreoMasivo the listaCorreoMasivo to set
+	 * @param listaCorreoMasivo
+	 *            the listaCorreoMasivo to set
 	 */
 	public void setListaCorreoMasivo(List<CorreoClienteMasivo> listaCorreoMasivo) {
 		this.listaCorreoMasivo = listaCorreoMasivo;
@@ -117,7 +121,8 @@ public class CorreoMasivo extends BaseNegocio {
 	}
 
 	/**
-	 * @param buffer the buffer to set
+	 * @param buffer
+	 *            the buffer to set
 	 */
 	public void setBuffer(byte[] buffer) {
 		this.buffer = buffer;
@@ -131,7 +136,8 @@ public class CorreoMasivo extends BaseNegocio {
 	}
 
 	/**
-	 * @param archivoCargado the archivoCargado to set
+	 * @param archivoCargado
+	 *            the archivoCargado to set
 	 */
 	public void setArchivoCargado(boolean archivoCargado) {
 		this.archivoCargado = archivoCargado;
@@ -145,7 +151,8 @@ public class CorreoMasivo extends BaseNegocio {
 	}
 
 	/**
-	 * @param archivoAdjunto the archivoAdjunto to set
+	 * @param archivoAdjunto
+	 *            the archivoAdjunto to set
 	 */
 	public void setArchivoAdjunto(ArchivoAdjunto archivoAdjunto) {
 		this.archivoAdjunto = archivoAdjunto;

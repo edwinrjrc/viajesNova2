@@ -16,11 +16,11 @@ public class Pais extends BaseNegocio {
 	 * 
 	 */
 	private static final long serialVersionUID = -6012716621802519026L;
-	
+
 	private String descripcion;
 	private BaseVO continente;
 	private String abreviado;
-	
+
 	/**
 	 * 
 	 */
@@ -32,14 +32,15 @@ public class Pais extends BaseNegocio {
 	 * @return the continente
 	 */
 	public BaseVO getContinente() {
-		if (continente == null){
+		if (continente == null) {
 			continente = new BaseVO();
 		}
 		return continente;
 	}
 
 	/**
-	 * @param continente the continente to set
+	 * @param continente
+	 *            the continente to set
 	 */
 	public void setContinente(BaseVO continente) {
 		this.continente = continente;
@@ -53,7 +54,8 @@ public class Pais extends BaseNegocio {
 	}
 
 	/**
-	 * @param descripcion the descripcion to set
+	 * @param descripcion
+	 *            the descripcion to set
 	 */
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
@@ -67,7 +69,8 @@ public class Pais extends BaseNegocio {
 	}
 
 	/**
-	 * @param abreviado the abreviado to set
+	 * @param abreviado
+	 *            the abreviado to set
 	 */
 	public void setAbreviado(String abreviado) {
 		this.abreviado = abreviado;

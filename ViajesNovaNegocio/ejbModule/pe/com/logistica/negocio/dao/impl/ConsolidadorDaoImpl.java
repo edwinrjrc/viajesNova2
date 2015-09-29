@@ -29,8 +29,12 @@ public class ConsolidadorDaoImpl implements ConsolidadorDao {
 		// TODO Auto-generated constructor stub
 	}
 
-	/* (non-Javadoc)
-	 * @see pe.com.logistica.negocio.dao.ConsolidadorDao#ingresarConsolidador(pe.com.logistica.bean.negocio.Consolidador)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * pe.com.logistica.negocio.dao.ConsolidadorDao#ingresarConsolidador(pe.
+	 * com.logistica.bean.negocio.Consolidador)
 	 */
 	@Override
 	public boolean ingresarConsolidador(Consolidador consolidador)
@@ -39,39 +43,45 @@ public class ConsolidadorDaoImpl implements ConsolidadorDao {
 		Connection conn = null;
 		CallableStatement cs = null;
 		String sql = "{ ? = call negocio.fn_ingresarconsolidador(?,?,?) }";
-		
+
 		try {
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
-			int i=1;
+			int i = 1;
 			cs.registerOutParameter(i++, Types.BOOLEAN);
-			cs.setString(i++, UtilJdbc.convertirMayuscula(consolidador.getNombre()));
-			cs.setString(i++, UtilJdbc.convertirMayuscula(consolidador.getUsuarioCreacion()));
+			cs.setString(i++,
+					UtilJdbc.convertirMayuscula(consolidador.getNombre()));
+			cs.setString(i++, UtilJdbc.convertirMayuscula(consolidador
+					.getUsuarioCreacion()));
 			cs.setString(i++, consolidador.getIpCreacion());
-						
+
 			cs.execute();
 			resultado = cs.getBoolean(1);
 		} catch (SQLException e) {
 			resultado = false;
 			throw new SQLException(e);
-		} finally{
+		} finally {
 			try {
-				if (cs != null){
+				if (cs != null) {
 					cs.close();
 				}
-				if (conn != null){
+				if (conn != null) {
 					conn.close();
 				}
 			} catch (SQLException e) {
 				throw new SQLException(e);
 			}
 		}
-		
+
 		return resultado;
 	}
 
-	/* (non-Javadoc)
-	 * @see pe.com.logistica.negocio.dao.ConsolidadorDao#actualizarConsolidador(pe.com.logistica.bean.negocio.Consolidador)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * pe.com.logistica.negocio.dao.ConsolidadorDao#actualizarConsolidador(pe
+	 * .com.logistica.bean.negocio.Consolidador)
 	 */
 	@Override
 	public boolean actualizarConsolidador(Consolidador consolidador)
@@ -80,60 +90,65 @@ public class ConsolidadorDaoImpl implements ConsolidadorDao {
 		Connection conn = null;
 		CallableStatement cs = null;
 		String sql = "{ ? = call negocio.fn_actualizarconsolidador(?,?,?,?) }";
-		
+
 		try {
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
-			int i=1;
+			int i = 1;
 			cs.registerOutParameter(i++, Types.BOOLEAN);
 			cs.setInt(i++, consolidador.getCodigoEntero().intValue());
-			cs.setString(i++, UtilJdbc.convertirMayuscula(consolidador.getNombre()));
-			cs.setString(i++, UtilJdbc.convertirMayuscula(consolidador.getUsuarioCreacion()));
+			cs.setString(i++,
+					UtilJdbc.convertirMayuscula(consolidador.getNombre()));
+			cs.setString(i++, UtilJdbc.convertirMayuscula(consolidador
+					.getUsuarioCreacion()));
 			cs.setString(i++, consolidador.getIpCreacion());
-						
+
 			cs.execute();
 			resultado = cs.getBoolean(1);
 		} catch (SQLException e) {
 			resultado = false;
 			throw new SQLException(e);
-		} finally{
+		} finally {
 			try {
-				if (cs != null){
+				if (cs != null) {
 					cs.close();
 				}
-				if (conn != null){
+				if (conn != null) {
 					conn.close();
 				}
 			} catch (SQLException e) {
 				throw new SQLException(e);
 			}
 		}
-		
+
 		return resultado;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see pe.com.logistica.negocio.dao.ConsolidadorDao#listarConsolidador()
 	 */
 	@Override
-	public List<Consolidador> listarConsolidador() throws SQLException, Exception {
+	public List<Consolidador> listarConsolidador() throws SQLException,
+			Exception {
 		Connection conn = null;
 		CallableStatement cs = null;
 		String sql = "{ ? = call negocio.fn_listarconsolidadores() }";
 		List<Consolidador> resultado = null;
 		ResultSet rs = null;
-		
+
 		try {
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
-			int i=1;
+			int i = 1;
 			cs.registerOutParameter(i++, Types.OTHER);
-						
+
 			cs.execute();
 			rs = (ResultSet) cs.getObject(1);
 			resultado = new ArrayList<Consolidador>();
 			Consolidador consolidador = null;
-			while (rs.next()){
+			while (rs.next()) {
 				consolidador = new Consolidador();
 				consolidador.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
 				consolidador.setNombre(UtilJdbc.obtenerCadena(rs, "nombre"));
@@ -142,24 +157,28 @@ public class ConsolidadorDaoImpl implements ConsolidadorDao {
 		} catch (SQLException e) {
 			resultado = null;
 			throw new SQLException(e);
-		} finally{
+		} finally {
 			try {
-				if (cs != null){
+				if (cs != null) {
 					cs.close();
 				}
-				if (conn != null){
+				if (conn != null) {
 					conn.close();
 				}
 			} catch (SQLException e) {
 				throw new SQLException(e);
 			}
 		}
-		
+
 		return resultado;
 	}
 
-	/* (non-Javadoc)
-	 * @see pe.com.logistica.negocio.dao.ConsolidadorDao#consultarConsolidador(pe.com.logistica.bean.negocio.Consolidador)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * pe.com.logistica.negocio.dao.ConsolidadorDao#consultarConsolidador(pe
+	 * .com.logistica.bean.negocio.Consolidador)
 	 */
 	@Override
 	public Consolidador consultarConsolidador(Consolidador consolidador)
@@ -169,17 +188,17 @@ public class ConsolidadorDaoImpl implements ConsolidadorDao {
 		String sql = "{ ? = call negocio.fn_consultarconsolidador(?) }";
 		Consolidador consolidador2 = null;
 		ResultSet rs = null;
-		
+
 		try {
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
-			int i=1;
+			int i = 1;
 			cs.registerOutParameter(i++, Types.OTHER);
 			cs.setInt(i++, consolidador.getCodigoEntero().intValue());
-						
+
 			cs.execute();
 			rs = (ResultSet) cs.getObject(1);
-			if (rs.next()){
+			if (rs.next()) {
 				consolidador2 = new Consolidador();
 				consolidador2.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
 				consolidador2.setNombre(UtilJdbc.obtenerCadena(rs, "nombre"));
@@ -187,19 +206,19 @@ public class ConsolidadorDaoImpl implements ConsolidadorDao {
 		} catch (SQLException e) {
 			consolidador2 = null;
 			throw new SQLException(e);
-		} finally{
+		} finally {
 			try {
-				if (cs != null){
+				if (cs != null) {
 					cs.close();
 				}
-				if (conn != null){
+				if (conn != null) {
 					conn.close();
 				}
 			} catch (SQLException e) {
 				throw new SQLException(e);
 			}
 		}
-		
+
 		return consolidador2;
 	}
 

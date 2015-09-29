@@ -3,7 +3,6 @@
  */
 package pe.com.logistica.negocio.util;
 
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
@@ -26,73 +25,71 @@ import pe.com.logistica.negocio.exception.ConnectionException;
  *
  */
 public class UtilConexion {
-	
+
 	private final static Logger logger = Logger.getLogger(UtilConexion.class);
 
 	private static String JNDI = "java:/jboss/jdbc/novaviajesDS";
-	
+
 	/**
 	 * 
 	 * @return Connection
-	 * @throws ConnectionException 
+	 * @throws ConnectionException
 	 */
-	public static Connection obtenerConexion(){
-		
+	public static Connection obtenerConexion() {
+
 		try {
 			Context ic = new InitialContext();
 			DataSource dataSource = null;
-			
+
 			String jndiProperties = getJndiProperties();
-			
-			if (StringUtils.isNotBlank(jndiProperties)){
+
+			if (StringUtils.isNotBlank(jndiProperties)) {
 				dataSource = (DataSource) ic.lookup(jndiProperties);
-			}
-			else{
+			} else {
 				dataSource = (DataSource) ic.lookup(JNDI);
 			}
-			
+
 			return dataSource.getConnection();
 		} catch (NamingException e) {
 			logger.error(e.getMessage(), e);
-			//throw new ConnectionException(e);
+			// throw new ConnectionException(e);
 		} catch (SQLException e) {
 			logger.error(e.getMessage(), e);
-			//throw new ConnectionException(e);
+			// throw new ConnectionException(e);
 		} catch (FileNotFoundException e) {
 			logger.error(e.getMessage(), e);
-			//throw new ConnectionException(e);
+			// throw new ConnectionException(e);
 		} catch (IOException e) {
 			logger.error(e.getMessage(), e);
-			//throw new ConnectionException(e);
+			// throw new ConnectionException(e);
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 
 	 * @param jndi
 	 * @return Connection
-	 * @throws ConnectionException 
+	 * @throws ConnectionException
 	 */
 	public static Connection obtenerConexion(String jndi) {
 		try {
-			
-			jndi = (StringUtils.isBlank(jndi)?JNDI:jndi);
-			
+
+			jndi = (StringUtils.isBlank(jndi) ? JNDI : jndi);
+
 			Context ic = new InitialContext();
 			DataSource dataSource = (DataSource) ic.lookup(jndi);
-			
+
 			return dataSource.getConnection();
 		} catch (NamingException e) {
 			logger.error(e.getMessage(), e);
-			//throw new ConnectionException(e);
+			// throw new ConnectionException(e);
 		} catch (SQLException e) {
 			logger.error(e.getMessage(), e);
-			//throw new ConnectionException(e);
+			// throw new ConnectionException(e);
 		}
 		return null;
 	}
-
 
 	/**
 	 * 
@@ -100,11 +97,13 @@ public class UtilConexion {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public static String getJndiProperties() throws FileNotFoundException, IOException {
-		Properties prop = UtilProperties.cargaArchivo("aplicacionConfiguracion.properties");
-		
+	public static String getJndiProperties() throws FileNotFoundException,
+			IOException {
+		Properties prop = UtilProperties
+				.cargaArchivo("aplicacionConfiguracion.properties");
+
 		String jndiProperties = prop.getProperty("jndi_ds");
-		
+
 		return jndiProperties;
 	}
 

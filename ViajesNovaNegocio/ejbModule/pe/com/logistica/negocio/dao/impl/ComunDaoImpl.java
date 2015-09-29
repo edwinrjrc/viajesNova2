@@ -17,7 +17,9 @@ import pe.com.logistica.negocio.util.UtilConexion;
  */
 public class ComunDaoImpl implements ComunDao {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see pe.com.logistica.negocio.dao.ComunDao#obtenerSiguienteSecuencia()
 	 */
 	@Override
@@ -34,7 +36,7 @@ public class ComunDaoImpl implements ComunDao {
 			cs.registerOutParameter(i++, Types.INTEGER);
 			cs.execute();
 			resultado = cs.getInt(1);
-			
+
 		} catch (SQLException e) {
 			resultado = null;
 			throw new SQLException(e);
@@ -60,9 +62,10 @@ public class ComunDaoImpl implements ComunDao {
 
 		return resultado;
 	}
-	
+
 	@Override
-	public Integer obtenerSiguienteSecuencia(Connection conn) throws SQLException, Exception {
+	public Integer obtenerSiguienteSecuencia(Connection conn)
+			throws SQLException, Exception {
 		Integer resultado = null;
 		CallableStatement cs = null;
 		String sql = "{ ? = call soporte.fn_siguientesequencia() }";
@@ -73,7 +76,7 @@ public class ComunDaoImpl implements ComunDao {
 			cs.registerOutParameter(i++, Types.INTEGER);
 			cs.execute();
 			resultado = cs.getInt(1);
-			
+
 		} catch (SQLException e) {
 			resultado = null;
 			throw new SQLException(e);
@@ -82,7 +85,7 @@ public class ComunDaoImpl implements ComunDao {
 				if (cs != null) {
 					cs.close();
 				}
-				
+
 			} catch (SQLException e) {
 				throw new SQLException(e);
 			}

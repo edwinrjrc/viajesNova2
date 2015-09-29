@@ -13,7 +13,7 @@ public class EnvioCorreoException extends LogisticaNegocioException {
 	 * 
 	 */
 	private static final long serialVersionUID = -2426446969763828723L;
-	
+
 	private String mensajeException;
 
 	/**
@@ -66,9 +66,9 @@ public class EnvioCorreoException extends LogisticaNegocioException {
 		super(codigo, mensaje, arg1);
 		// TODO Auto-generated constructor stub
 	}
-	
-	
-	public EnvioCorreoException(String codigo, String mensaje, String mensajeExcep, Throwable arg1) {
+
+	public EnvioCorreoException(String codigo, String mensaje,
+			String mensajeExcep, Throwable arg1) {
 		super(codigo, mensaje, arg1);
 		this.setMensajeException(mensajeExcep);
 	}
@@ -93,7 +93,8 @@ public class EnvioCorreoException extends LogisticaNegocioException {
 	}
 
 	/**
-	 * @param mensajeException the mensajeException to set
+	 * @param mensajeException
+	 *            the mensajeException to set
 	 */
 	public void setMensajeException(String mensajeException) {
 		this.mensajeException = mensajeException;

@@ -80,7 +80,7 @@ public class DestinoMBean extends BaseMBean {
 				getDestino().setUsuarioCreacion(usuario.getUsuario());
 				getDestino().setIpCreacion(obtenerRequest().getRemoteAddr());
 				this.soporteServicio.ingresarDestino(getDestino());
-				
+
 				this.setShowModal(true);
 				this.setTipoModal("1");
 				this.setMensajeModal("Destino registrado Satisfactoriamente");
@@ -91,7 +91,8 @@ public class DestinoMBean extends BaseMBean {
 				getDestino().setUsuarioCreacion(usuario.getUsuario());
 				getDestino().setIpCreacion(obtenerRequest().getRemoteAddr());
 				getDestino().setUsuarioModificacion(usuario.getUsuario());
-				getDestino().setIpModificacion(obtenerRequest().getRemoteAddr());
+				getDestino()
+						.setIpModificacion(obtenerRequest().getRemoteAddr());
 				this.soporteServicio.actualizarDestino(getDestino());
 			}
 
@@ -101,8 +102,8 @@ public class DestinoMBean extends BaseMBean {
 			logger.error(e.getMessage(), e);
 		}
 	}
-	
-	public void cambiarPais(ValueChangeEvent e){
+
+	public void cambiarPais(ValueChangeEvent e) {
 		this.setListaPais(null);
 	}
 
@@ -160,11 +161,10 @@ public class DestinoMBean extends BaseMBean {
 	public List<SelectItem> getListaPais() {
 		try {
 			if (listaPais == null || listaPais.isEmpty()) {
-				if (getDestino().getPais().getContinente()
-						.getCodigoEntero() != null){
+				if (getDestino().getPais().getContinente().getCodigoEntero() != null) {
 					List<BaseVO> lista = soporteServicio
-							.consultarPaises(getDestino().getPais().getContinente()
-									.getCodigoEntero());
+							.consultarPaises(getDestino().getPais()
+									.getContinente().getCodigoEntero());
 					listaPais = UtilWeb.convertirSelectItem(lista);
 				}
 			}

@@ -21,16 +21,18 @@ public interface ProveedorDao {
 
 	void registroProveedor(Proveedor proveedor, Connection conexion)
 			throws SQLException;
-	
+
 	List<Proveedor> listarProveedor(Proveedor proveedor) throws SQLException;
-	
-	List<Proveedor> listarComboProveedorTipo(BaseVO proveedor) throws SQLException;
-	
+
+	List<Proveedor> listarComboProveedorTipo(BaseVO proveedor)
+			throws SQLException;
+
 	Proveedor consultarProveedor(int idProveedor) throws SQLException;
-	
+
 	Contacto consultarContacto(int idPersona) throws SQLException;
 
-	void actualizarProveedor(Proveedor proveedor, Connection conexion) throws SQLException;
+	void actualizarProveedor(Proveedor proveedor, Connection conexion)
+			throws SQLException;
 
 	List<Proveedor> buscarProveedor(Proveedor proveedor) throws SQLException;
 
@@ -66,7 +68,7 @@ public interface ProveedorDao {
 
 	boolean actualizarCuentaBancaria(Integer idProveedor,
 			CuentaBancaria cuenta, Connection conn) throws SQLException;
-	
-	
-	List<CuentaBancaria> listarCuentasBancarias(Integer idProveedor) throws SQLException;
+
+	List<CuentaBancaria> listarCuentasBancarias(Integer idProveedor)
+			throws SQLException;
 }

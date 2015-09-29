@@ -21,9 +21,9 @@ public class Proveedor extends Persona {
 	private List<CuentaBancaria> listaCuentas;
 	private List<ServicioProveedor> listaServicioProveedor;
 	private BaseVO tipoProveedor;
-	
+
 	private Integer codigoSeleccionado;
-	
+
 	private String cuentasEliminadas;
 
 	public Proveedor() {
@@ -38,7 +38,7 @@ public class Proveedor extends Persona {
 	 * @return the listaContactos
 	 */
 	public List<Contacto> getListaContactos() {
-		if (listaContactos == null){
+		if (listaContactos == null) {
 			listaContactos = new ArrayList<Contacto>();
 		}
 		return listaContactos;
@@ -56,7 +56,7 @@ public class Proveedor extends Persona {
 	 * @return the listaCuentas
 	 */
 	public List<CuentaBancaria> getListaCuentas() {
-		if (listaCuentas == null){
+		if (listaCuentas == null) {
 			listaCuentas = new ArrayList<CuentaBancaria>();
 		}
 		return listaCuentas;
@@ -74,16 +74,18 @@ public class Proveedor extends Persona {
 	 * @return the listaServicioProveedor
 	 */
 	public List<ServicioProveedor> getListaServicioProveedor() {
-		if (listaServicioProveedor == null){
+		if (listaServicioProveedor == null) {
 			listaServicioProveedor = new ArrayList<ServicioProveedor>();
 		}
 		return listaServicioProveedor;
 	}
 
 	/**
-	 * @param listaServicioProveedor the listaServicioProveedor to set
+	 * @param listaServicioProveedor
+	 *            the listaServicioProveedor to set
 	 */
-	public void setListaServicioProveedor(List<ServicioProveedor> listaServicioProveedor) {
+	public void setListaServicioProveedor(
+			List<ServicioProveedor> listaServicioProveedor) {
 		this.listaServicioProveedor = listaServicioProveedor;
 	}
 
@@ -91,14 +93,15 @@ public class Proveedor extends Persona {
 	 * @return the tipoProveedor
 	 */
 	public BaseVO getTipoProveedor() {
-		if (tipoProveedor == null){
+		if (tipoProveedor == null) {
 			tipoProveedor = new BaseVO();
 		}
 		return tipoProveedor;
 	}
 
 	/**
-	 * @param tipoProveedor the tipoProveedor to set
+	 * @param tipoProveedor
+	 *            the tipoProveedor to set
 	 */
 	public void setTipoProveedor(BaseVO tipoProveedor) {
 		this.tipoProveedor = tipoProveedor;
@@ -112,7 +115,8 @@ public class Proveedor extends Persona {
 	}
 
 	/**
-	 * @param codigoSeleccionado the codigoSeleccionado to set
+	 * @param codigoSeleccionado
+	 *            the codigoSeleccionado to set
 	 */
 	public void setCodigoSeleccionado(Integer codigoSeleccionado) {
 		this.codigoSeleccionado = codigoSeleccionado;
@@ -126,7 +130,8 @@ public class Proveedor extends Persona {
 	}
 
 	/**
-	 * @param cuentasEliminadas the cuentasEliminadas to set
+	 * @param cuentasEliminadas
+	 *            the cuentasEliminadas to set
 	 */
 	public void setCuentasEliminadas(String cuentasEliminadas) {
 		this.cuentasEliminadas = cuentasEliminadas;

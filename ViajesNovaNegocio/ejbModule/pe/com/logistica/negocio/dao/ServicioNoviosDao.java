@@ -16,16 +16,18 @@ import pe.com.logistica.bean.negocio.ServicioNovios;
  *
  */
 public interface ServicioNoviosDao {
-	
-	public Integer registrarNovios(ProgramaNovios programaNovios) throws SQLException;
+
+	public Integer registrarNovios(ProgramaNovios programaNovios)
+			throws SQLException;
 
 	Integer registrarNovios(ProgramaNovios programaNovios, Connection conn)
 			throws SQLException, Exception;
 
-	boolean registrarInvitado(Cliente invitado, Integer idnovios, Connection conn)
-			throws SQLException, Exception;
-	
-	public List<ProgramaNovios> consultarNovios(ProgramaNovios programaNovios) throws SQLException;
+	boolean registrarInvitado(Cliente invitado, Integer idnovios,
+			Connection conn) throws SQLException, Exception;
+
+	public List<ProgramaNovios> consultarNovios(ProgramaNovios programaNovios)
+			throws SQLException;
 
 	boolean ingresarServicioNovios(ServicioNovios servicioNovios, int idnovios,
 			Connection conexion) throws SQLException;

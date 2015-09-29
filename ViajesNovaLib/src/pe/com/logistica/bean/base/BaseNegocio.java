@@ -11,13 +11,11 @@ import java.util.Date;
  */
 public class BaseNegocio extends Base {
 
-
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 7052956093882261257L;
-	
-	
+
 	private String usuarioCreacion;
 	private Date fechaCreacion;
 	private String ipCreacion;
@@ -51,7 +49,7 @@ public class BaseNegocio extends Base {
 	 * @return the fechaCreacion
 	 */
 	public Date getFechaCreacion() {
-		if (fechaCreacion == null){
+		if (fechaCreacion == null) {
 			fechaCreacion = new Date();
 		}
 		return fechaCreacion;
@@ -99,7 +97,7 @@ public class BaseNegocio extends Base {
 	 * @return the fechaModificacion
 	 */
 	public Date getFechaModificacion() {
-		if (fechaModificacion == null){
+		if (fechaModificacion == null) {
 			fechaModificacion = new Date();
 		}
 		return fechaModificacion;

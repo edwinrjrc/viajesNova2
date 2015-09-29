@@ -28,34 +28,34 @@ import pe.com.logistica.bean.base.BaseVO;
  *
  */
 public class UtilWeb {
-	
+
 	private final static Logger logger = Logger.getLogger(UtilWeb.class);
-	
-	public static List<SelectItem> convertirSelectItem(List<BaseVO> lista){
+
+	public static List<SelectItem> convertirSelectItem(List<BaseVO> lista) {
 		List<SelectItem> listaCombo = new ArrayList<SelectItem>();
 		SelectItem si = null;
-		if (lista != null){
+		if (lista != null) {
 			for (BaseVO baseVO : lista) {
-				si = new SelectItem(obtenerObjetoCadena(baseVO), baseVO.getNombre());
+				si = new SelectItem(obtenerObjetoCadena(baseVO),
+						baseVO.getNombre());
 				listaCombo.add(si);
 			}
 		}
-		
+
 		return listaCombo;
 	}
-	
-	public static String obtenerObjetoCadena(BaseVO baseVO){
-		if (baseVO.getCodigoEntero() != null){
+
+	public static String obtenerObjetoCadena(BaseVO baseVO) {
+		if (baseVO.getCodigoEntero() != null) {
 			return baseVO.getCodigoEntero().toString();
-		}
-		else{
+		} else {
 			return baseVO.getCodigoCadena();
 		}
 	}
-	
-	public static int convertirCadenaEntero(String cadena){
+
+	public static int convertirCadenaEntero(String cadena) {
 		try {
-			if (StringUtils.isNotBlank(cadena)){
+			if (StringUtils.isNotBlank(cadena)) {
 				return Integer.parseInt(cadena);
 			}
 		} catch (NumberFormatException e) {
@@ -63,47 +63,51 @@ public class UtilWeb {
 		}
 		return 0;
 	}
-	
-	public static String obtenerCadenaPropertieMaestro(String llave, String maestroPropertie){
+
+	public static String obtenerCadenaPropertieMaestro(String llave,
+			String maestroPropertie) {
 		try {
-			ResourceBundle resourceMaestros = ResourceBundle.getBundle(maestroPropertie);
-			
+			ResourceBundle resourceMaestros = ResourceBundle
+					.getBundle(maestroPropertie);
+
 			return resourceMaestros.getString(llave);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "";
 	}
-	
-	public static int obtenerEnteroPropertieMaestro(String llave, String maestroPropertie){
+
+	public static int obtenerEnteroPropertieMaestro(String llave,
+			String maestroPropertie) {
 		try {
-			ResourceBundle resourceMaestros = ResourceBundle.getBundle(maestroPropertie);
-			
+			ResourceBundle resourceMaestros = ResourceBundle
+					.getBundle(maestroPropertie);
+
 			return convertirCadenaEntero(resourceMaestros.getString(llave));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return 0;
 	}
-	
-	public static String obtenerCadenaBlanco(String cadena){
-		if (StringUtils.isNotBlank(cadena)){
+
+	public static String obtenerCadenaBlanco(String cadena) {
+		if (StringUtils.isNotBlank(cadena)) {
 			return StringUtils.trimToEmpty(cadena);
 		}
 		return "";
 	}
-	
-	public static int obtenerLongitud(String cadena){
-		if (StringUtils.isNotBlank(cadena)){
+
+	public static int obtenerLongitud(String cadena) {
+		if (StringUtils.isNotBlank(cadena)) {
 			return cadena.length();
 		}
 		return 0;
 	}
-	
-	public static String diaHoy(){
+
+	public static String diaHoy() {
 		Calendar cal = Calendar.getInstance();
-		
-		switch (cal.get(Calendar.DAY_OF_WEEK)){
+
+		switch (cal.get(Calendar.DAY_OF_WEEK)) {
 		case 2:
 			return "Lunes";
 		case 3:
@@ -119,14 +123,14 @@ public class UtilWeb {
 		case 1:
 			return "Domingo";
 		}
-		
+
 		return "";
 	}
-	
-	public static String mesHoy(){
+
+	public static String mesHoy() {
 		Calendar cal = Calendar.getInstance();
-		
-		switch (cal.get(Calendar.MONTH)+1){
+
+		switch (cal.get(Calendar.MONTH) + 1) {
 		case 1:
 			return "Enero";
 		case 2:
@@ -152,92 +156,91 @@ public class UtilWeb {
 		case 12:
 			return "Diciembre";
 		}
-		
+
 		return "";
 	}
-	
-	public static boolean validaEnteroEsNuloOCero(Integer numero){
+
+	public static boolean validaEnteroEsNuloOCero(Integer numero) {
 		try {
-			return (numero == null || numero.intValue()==0);
-			
+			return (numero == null || numero.intValue() == 0);
+
 		} catch (Exception e) {
-			logger.error("Error validacion numero cero o nullo ::"+e.getMessage());
+			logger.error("Error validacion numero cero o nullo ::"
+					+ e.getMessage());
 		}
-		
+
 		return false;
 	}
-	
-	public static boolean validarCorreo(String email){
+
+	public static boolean validarCorreo(String email) {
 		try {
 			String patternEmail = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-			        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+					+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 			Pattern pattern = Pattern.compile(patternEmail);
 			Matcher matcher = pattern.matcher(email);
-			
+
 			boolean resultado = matcher.matches();
-			
+
 			return resultado;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-        return false;
-	}
-	
-	public static boolean fecha1EsMayorIgualFecha2(Date fecha1, Date fecha2){
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY");
-		if (sdf.format(fecha1).equals(sdf.format(fecha2))){
-			return true;
-		}
-		else{
-			if (fecha1.after(fecha2)){
-				return true;
-			}	
-		}
-		
 		return false;
 	}
-	
-	public static Date fechaHoy(){
+
+	public static boolean fecha1EsMayorIgualFecha2(Date fecha1, Date fecha2) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY");
+		if (sdf.format(fecha1).equals(sdf.format(fecha2))) {
+			return true;
+		} else {
+			if (fecha1.after(fecha2)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public static Date fechaHoy() {
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			String fecha = "";
-			
+
 			Calendar cal = Calendar.getInstance();
-			fecha = cal.get(Calendar.DATE)+"/"+(cal.get(Calendar.MONTH)+1)+"/"+cal.get(Calendar.YEAR);
-			
+			fecha = cal.get(Calendar.DATE) + "/"
+					+ (cal.get(Calendar.MONTH) + 1) + "/"
+					+ cal.get(Calendar.YEAR);
+
 			return sdf.parse(fecha);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
-	public static String obtenerDato(HSSFCell celda){
-		if (celda != null){
+
+	public static String obtenerDato(HSSFCell celda) {
+		if (celda != null) {
 			/*
-			
-			switch (celda.getCellType()) {
-			case HSSFCell.CELL_TYPE_BLANK:
-				return "";
-			case HSSFCell.CELL_TYPE_NUMERIC:
-				return String.valueOf(celda.getNumericCellValue());
-			case HSSFCell.CELL_TYPE_STRING:
-				return celda.getStringCellValue();
-			default:
-				return "";			
-			}*/
+			 * 
+			 * switch (celda.getCellType()) { case HSSFCell.CELL_TYPE_BLANK:
+			 * return ""; case HSSFCell.CELL_TYPE_NUMERIC: return
+			 * String.valueOf(celda.getNumericCellValue()); case
+			 * HSSFCell.CELL_TYPE_STRING: return celda.getStringCellValue();
+			 * default: return ""; }
+			 */
 			return celda.toString();
 		}
 		return "";
 	}
-	
-	public static int calculaTamanioExcel(int pixeles){
+
+	public static int calculaTamanioExcel(int pixeles) {
 		BigDecimal tamanio = BigDecimal.ZERO;
-		
-		tamanio = BigDecimal.valueOf(pixeles).divide(BigDecimal.valueOf(7.0), 0, RoundingMode.HALF_UP);
-		
-		tamanio = tamanio.multiply(BigDecimal.valueOf(256.0)); 
-		
+
+		tamanio = BigDecimal.valueOf(pixeles).divide(BigDecimal.valueOf(7.0),
+				0, RoundingMode.HALF_UP);
+
+		tamanio = tamanio.multiply(BigDecimal.valueOf(256.0));
+
 		return tamanio.intValue();
 	}
 }

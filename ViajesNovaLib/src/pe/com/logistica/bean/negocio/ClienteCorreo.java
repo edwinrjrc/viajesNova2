@@ -15,7 +15,7 @@ public class ClienteCorreo extends Base {
 	 * 
 	 */
 	private static final long serialVersionUID = -4030465635352484682L;
-	
+
 	private String nombres;
 	private String apellidos;
 	private String correo;
@@ -35,7 +35,8 @@ public class ClienteCorreo extends Base {
 	}
 
 	/**
-	 * @param nombres the nombres to set
+	 * @param nombres
+	 *            the nombres to set
 	 */
 	public void setNombres(String nombres) {
 		this.nombres = nombres;
@@ -49,7 +50,8 @@ public class ClienteCorreo extends Base {
 	}
 
 	/**
-	 * @param apellidos the apellidos to set
+	 * @param apellidos
+	 *            the apellidos to set
 	 */
 	public void setApellidos(String apellidos) {
 		this.apellidos = apellidos;
@@ -63,7 +65,8 @@ public class ClienteCorreo extends Base {
 	}
 
 	/**
-	 * @param correo the correo to set
+	 * @param correo
+	 *            the correo to set
 	 */
 	public void setCorreo(String correo) {
 		this.correo = correo;

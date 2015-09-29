@@ -18,18 +18,21 @@ public interface AuditoriaDao {
 
 	/**
 	 * Metodo que registrar el evento de sesion del sistema
+	 * 
 	 * @param usuario
 	 * @param tipoEvento
 	 * @return
 	 * @throws SQLException
 	 */
-	public boolean registrarEventoSesion(Usuario usuario, Integer tipoEvento) throws SQLException;
-	
+	public boolean registrarEventoSesion(Usuario usuario, Integer tipoEvento)
+			throws SQLException;
+
 	/**
 	 * 
 	 * @param fecha
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<UsuarioAsistencia> listarHoraEntradaXDia(Date fecha) throws SQLException;
+	public List<UsuarioAsistencia> listarHoraEntradaXDia(Date fecha)
+			throws SQLException;
 }

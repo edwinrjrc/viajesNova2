@@ -19,43 +19,46 @@ import pe.com.logistica.web.servicio.impl.SeguridadServicioImpl;
 /**
  * Servlet implementation class InicioAppServlet
  */
-@WebServlet(loadOnStartup=1, urlPatterns="/inicioAppServlet", name="InicioAppServlet")
+@WebServlet(loadOnStartup = 1, urlPatterns = "/inicioAppServlet", name = "InicioAppServlet")
 public class InicioAppServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public InicioAppServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public InicioAppServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+
 		Usuario usuario = new Usuario();
 		usuario.setUsuario(request.getParameter("j_username"));
 		usuario.setCredencial(request.getParameter("j_password"));
-		
+
 		ServletContext servletContext = request.getServletContext();
 		try {
-			SeguridadServicio seguridadServicio = new SeguridadServicioImpl(servletContext);
+			SeguridadServicio seguridadServicio = new SeguridadServicioImpl(
+					servletContext);
 			usuario = seguridadServicio.inicioSesion(usuario);
-			
-			if (usuario.isEncontrado()){
+
+			if (usuario.isEncontrado()) {
 				HttpSession session = request.getSession(true);
 				session.setAttribute("usuarioSession", usuario);
-			}
-			else{
+			} else {
 				String msje = "El usuario y la contraseña son incorrectas";
 				request.setAttribute("msjeError", msje);
-				request.getRequestDispatcher("index.xhtml?msjeError="+msje).forward(request, response);
+				request.getRequestDispatcher("index.xhtml?msjeError=" + msje)
+						.forward(request, response);
 			}
-			
+
 		} catch (NamingException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -67,9 +70,11 @@ public class InicioAppServlet extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	}
 

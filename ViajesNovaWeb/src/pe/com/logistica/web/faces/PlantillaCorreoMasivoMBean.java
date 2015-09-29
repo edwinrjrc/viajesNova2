@@ -23,11 +23,11 @@ public class PlantillaCorreoMasivoMBean extends BaseMBean {
 	 * 
 	 */
 	private static final long serialVersionUID = -3476265246805865520L;
-	
+
 	private List<PlantillaCorreo> listaPlantilla;
-	
+
 	private PlantillaCorreo plantillaCorreo;
-	
+
 	private boolean nuevaPlantillaCorreo;
 	private boolean editarPlantillaCorreo;
 
@@ -38,17 +38,16 @@ public class PlantillaCorreoMasivoMBean extends BaseMBean {
 		// TODO Auto-generated constructor stub
 	}
 
-	
-	public void nuevaPlantilla(){
+	public void nuevaPlantilla() {
 		this.setNuevaPlantillaCorreo(true);
 		this.setEditarPlantillaCorreo(false);
 		this.setNombreFormulario("Nueva Plantilla Correo");
 	}
 
+	public void ejecutarMetodo(ActionEvent e) {
 
-	public void ejecutarMetodo(ActionEvent e){
-		
 	}
+
 	/**
 	 * @return the listaPlantilla
 	 */
@@ -56,33 +55,31 @@ public class PlantillaCorreoMasivoMBean extends BaseMBean {
 		return listaPlantilla;
 	}
 
-
 	/**
-	 * @param listaPlantilla the listaPlantilla to set
+	 * @param listaPlantilla
+	 *            the listaPlantilla to set
 	 */
 	public void setListaPlantilla(List<PlantillaCorreo> listaPlantilla) {
 		this.listaPlantilla = listaPlantilla;
 	}
 
-
 	/**
 	 * @return the plantillaCorreo
 	 */
 	public PlantillaCorreo getPlantillaCorreo() {
-		if (plantillaCorreo == null){
+		if (plantillaCorreo == null) {
 			plantillaCorreo = new PlantillaCorreo();
 		}
 		return plantillaCorreo;
 	}
 
-
 	/**
-	 * @param plantillaCorreo the plantillaCorreo to set
+	 * @param plantillaCorreo
+	 *            the plantillaCorreo to set
 	 */
 	public void setPlantillaCorreo(PlantillaCorreo plantillaCorreo) {
 		this.plantillaCorreo = plantillaCorreo;
 	}
-
 
 	/**
 	 * @return the nuevaPlantillaCorreo
@@ -91,14 +88,13 @@ public class PlantillaCorreoMasivoMBean extends BaseMBean {
 		return nuevaPlantillaCorreo;
 	}
 
-
 	/**
-	 * @param nuevaPlantillaCorreo the nuevaPlantillaCorreo to set
+	 * @param nuevaPlantillaCorreo
+	 *            the nuevaPlantillaCorreo to set
 	 */
 	public void setNuevaPlantillaCorreo(boolean nuevaPlantillaCorreo) {
 		this.nuevaPlantillaCorreo = nuevaPlantillaCorreo;
 	}
-
 
 	/**
 	 * @return the editarPlantillaCorreo
@@ -107,9 +103,9 @@ public class PlantillaCorreoMasivoMBean extends BaseMBean {
 		return editarPlantillaCorreo;
 	}
 
-
 	/**
-	 * @param editarPlantillaCorreo the editarPlantillaCorreo to set
+	 * @param editarPlantillaCorreo
+	 *            the editarPlantillaCorreo to set
 	 */
 	public void setEditarPlantillaCorreo(boolean editarPlantillaCorreo) {
 		this.editarPlantillaCorreo = editarPlantillaCorreo;

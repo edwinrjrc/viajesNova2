@@ -11,5 +11,6 @@ import pe.com.logistica.bean.reportes.ReporteVentas;
 @Remote
 public interface ReportesSessionRemote {
 
-	public List<DetalleServicioAgencia> reporteGeneralVentas(ReporteVentas reporteVentas) throws SQLException;
+	public List<DetalleServicioAgencia> reporteGeneralVentas(
+			ReporteVentas reporteVentas) throws SQLException;
 }

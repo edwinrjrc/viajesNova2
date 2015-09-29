@@ -22,10 +22,10 @@ import pe.com.logistica.web.servicio.impl.ParametroServicioImpl;
  * @author Edwin
  *
  */
-@ManagedBean(name="parametroMBean")
+@ManagedBean(name = "parametroMBean")
 @SessionScoped()
 public class ParametroMBean extends BaseMBean {
-	
+
 	private final static Logger logger = Logger.getLogger(ParametroMBean.class);
 
 	/**
@@ -34,42 +34,42 @@ public class ParametroMBean extends BaseMBean {
 	private static final long serialVersionUID = 3310865321325342819L;
 
 	private List<Parametro> listaParametros;
-	
+
 	private Parametro parametro;
-	
+
 	private boolean nuevoParametro;
 	private boolean editarParametro;
-	
-	
+
 	private ParametroServicio parametroServicio;
+
 	/**
 	 * 
 	 */
 	public ParametroMBean() {
 		try {
-			ServletContext servletContext = (ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext();
+			ServletContext servletContext = (ServletContext) FacesContext
+					.getCurrentInstance().getExternalContext().getContext();
 			parametroServicio = new ParametroServicioImpl(servletContext);
 		} catch (NamingException e) {
 			logger.error(e.getMessage(), e);
 		}
 	}
-	
-	public void nuevoParametro(){
+
+	public void nuevoParametro() {
 		this.setNuevoParametro(true);
 		this.setEditarParametro(false);
 		this.setParametro(null);
 		this.setNombreFormulario("Nuevo Parametro");
 	}
-	
-	public void ejecutarMetodo(){
+
+	public void ejecutarMetodo() {
 		try {
-			if (this.isNuevoParametro()){
+			if (this.isNuevoParametro()) {
 				parametroServicio.registrarParametro(parametro);
 				this.setShowModal(true);
 				this.setTipoModal("1");
 				this.setMensajeModal("Parametro registrado Satisfactoriamente");
-			}
-			else if(this.isEditarParametro()){
+			} else if (this.isEditarParametro()) {
 				parametroServicio.actualizarParametro(parametro);
 				this.setShowModal(true);
 				this.setTipoModal("1");
@@ -82,8 +82,8 @@ public class ParametroMBean extends BaseMBean {
 			logger.error(e.getMessage(), e);
 		}
 	}
-	
-	public void consultarParametro(Integer id){
+
+	public void consultarParametro(Integer id) {
 		try {
 			this.setNombreFormulario("Editar Parametro");
 			this.setEditarParametro(true);
@@ -96,7 +96,10 @@ public class ParametroMBean extends BaseMBean {
 			this.setMensajeModal(e.getMessage());
 		}
 	}
-	/**x|
+
+	/**
+	 * x|
+	 * 
 	 * @return the listaParametros
 	 */
 	public List<Parametro> getListaParametros() {
@@ -111,47 +114,58 @@ public class ParametroMBean extends BaseMBean {
 		}
 		return listaParametros;
 	}
+
 	/**
-	 * @param listaParametros the listaParametros to set
+	 * @param listaParametros
+	 *            the listaParametros to set
 	 */
 	public void setListaParametros(List<Parametro> listaParametros) {
 		this.listaParametros = listaParametros;
 	}
+
 	/**
 	 * @return the parametro
 	 */
 	public Parametro getParametro() {
-		if (parametro == null){
+		if (parametro == null) {
 			parametro = new Parametro();
 		}
 		return parametro;
 	}
+
 	/**
-	 * @param parametro the parametro to set
+	 * @param parametro
+	 *            the parametro to set
 	 */
 	public void setParametro(Parametro parametro) {
 		this.parametro = parametro;
 	}
+
 	/**
 	 * @return the nuevoParametro
 	 */
 	public boolean isNuevoParametro() {
 		return nuevoParametro;
 	}
+
 	/**
-	 * @param nuevoParametro the nuevoParametro to set
+	 * @param nuevoParametro
+	 *            the nuevoParametro to set
 	 */
 	public void setNuevoParametro(boolean nuevoParametro) {
 		this.nuevoParametro = nuevoParametro;
 	}
+
 	/**
 	 * @return the editarParametro
 	 */
 	public boolean isEditarParametro() {
 		return editarParametro;
 	}
+
 	/**
-	 * @param editarParametro the editarParametro to set
+	 * @param editarParametro
+	 *            the editarParametro to set
 	 */
 	public void setEditarParametro(boolean editarParametro) {
 		this.editarParametro = editarParametro;

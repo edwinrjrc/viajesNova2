@@ -18,34 +18,38 @@ public class UsuarioAsistencia extends Base {
 
 	private BaseVO usuario;
 	private Date fechaIngreso;
-	
-	
+
 	/**
 	 * @return the fechaIngreso
 	 */
 	public Date getFechaIngreso() {
 		return fechaIngreso;
 	}
+
 	/**
-	 * @param fechaIngreso the fechaIngreso to set
+	 * @param fechaIngreso
+	 *            the fechaIngreso to set
 	 */
 	public void setFechaIngreso(Date fechaIngreso) {
 		this.fechaIngreso = fechaIngreso;
 	}
+
 	/**
 	 * @return the usuario
 	 */
 	public BaseVO getUsuario() {
-		if (usuario == null){
+		if (usuario == null) {
 			usuario = new BaseVO();
 		}
 		return usuario;
 	}
+
 	/**
-	 * @param usuario the usuario to set
+	 * @param usuario
+	 *            the usuario to set
 	 */
 	public void setUsuario(BaseVO usuario) {
 		this.usuario = usuario;
 	}
-	
+
 }

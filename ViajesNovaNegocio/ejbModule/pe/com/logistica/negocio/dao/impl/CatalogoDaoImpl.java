@@ -35,15 +35,15 @@ public class CatalogoDaoImpl implements CatalogoDao {
 		CallableStatement cs = null;
 		ResultSet rs = null;
 		String sql = "select id, nombre from seguridad.rol";
-		
+
 		try {
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
 			rs = cs.executeQuery();
-			
+
 			resultado = new ArrayList<BaseVO>();
 			BaseVO rol = null;
-			while(rs.next()){
+			while (rs.next()) {
 				rol = new BaseVO();
 				rol.setCodigoEntero(rs.getInt("id"));
 				rol.setNombre(UtilJdbc.obtenerCadena(rs, "nombre"));
@@ -52,20 +52,20 @@ public class CatalogoDaoImpl implements CatalogoDao {
 		} catch (SQLException e) {
 			resultado = null;
 			throw new SQLException(e);
-		} finally{
+		} finally {
 			try {
-				if (rs != null){
+				if (rs != null) {
 					rs.close();
 				}
-				if (cs != null){
+				if (cs != null) {
 					cs.close();
 				}
-				if (conn != null){
+				if (conn != null) {
 					conn.close();
 				}
 			} catch (SQLException e) {
 				try {
-					if (conn != null){
+					if (conn != null) {
 						conn.close();
 					}
 				} catch (SQLException e1) {
@@ -73,27 +73,28 @@ public class CatalogoDaoImpl implements CatalogoDao {
 				}
 			}
 		}
-		
+
 		return resultado;
 	}
 
 	@Override
-	public List<BaseVO> listarCatalogoMaestro(int maestro) throws ConnectionException, SQLException {
+	public List<BaseVO> listarCatalogoMaestro(int maestro)
+			throws ConnectionException, SQLException {
 		List<BaseVO> resultado = null;
 		Connection conn = null;
 		CallableStatement cs = null;
 		ResultSet rs = null;
 		String sql = "select * from soporte.vw_catalogomaestro where idmaestro = ?";
-		
+
 		try {
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
 			cs.setInt(1, maestro);
 			rs = cs.executeQuery();
-			
+
 			resultado = new ArrayList<BaseVO>();
 			BaseVO maestroVO = null;
-			while(rs.next()){
+			while (rs.next()) {
 				maestroVO = new BaseVO();
 				maestroVO.setCodigoEntero(rs.getInt("id"));
 				maestroVO.setNombre(UtilJdbc.obtenerCadena(rs, "nombre"));
@@ -102,20 +103,20 @@ public class CatalogoDaoImpl implements CatalogoDao {
 		} catch (SQLException e) {
 			resultado = null;
 			throw new SQLException(e);
-		} finally{
+		} finally {
 			try {
-				if (rs != null){
+				if (rs != null) {
 					rs.close();
 				}
-				if (cs != null){
+				if (cs != null) {
 					cs.close();
 				}
-				if (conn != null){
+				if (conn != null) {
 					conn.close();
 				}
 			} catch (SQLException e) {
 				try {
-					if (conn != null){
+					if (conn != null) {
 						conn.close();
 					}
 				} catch (SQLException e1) {
@@ -123,26 +124,27 @@ public class CatalogoDaoImpl implements CatalogoDao {
 				}
 			}
 		}
-		
+
 		return resultado;
 	}
 
 	@Override
-	public List<BaseVO> listaDepartamento() throws ConnectionException, SQLException {
+	public List<BaseVO> listaDepartamento() throws ConnectionException,
+			SQLException {
 		List<BaseVO> resultado = null;
 		Connection conn = null;
 		CallableStatement cs = null;
 		ResultSet rs = null;
 		String sql = "select * from soporte.vw_catalogodepartamento";
-		
+
 		try {
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
 			rs = cs.executeQuery();
-			
+
 			resultado = new ArrayList<BaseVO>();
 			BaseVO maestroVO = null;
-			while(rs.next()){
+			while (rs.next()) {
 				maestroVO = new BaseVO();
 				maestroVO.setCodigoCadena(rs.getString("iddepartamento"));
 				maestroVO.setNombre(UtilJdbc.obtenerCadena(rs, "descripcion"));
@@ -151,20 +153,20 @@ public class CatalogoDaoImpl implements CatalogoDao {
 		} catch (SQLException e) {
 			resultado = null;
 			throw new SQLException(e);
-		} finally{
+		} finally {
 			try {
-				if (rs != null){
+				if (rs != null) {
 					rs.close();
 				}
-				if (cs != null){
+				if (cs != null) {
 					cs.close();
 				}
-				if (conn != null){
+				if (conn != null) {
 					conn.close();
 				}
 			} catch (SQLException e) {
 				try {
-					if (conn != null){
+					if (conn != null) {
 						conn.close();
 					}
 				} catch (SQLException e1) {
@@ -172,27 +174,28 @@ public class CatalogoDaoImpl implements CatalogoDao {
 				}
 			}
 		}
-		
+
 		return resultado;
 	}
 
 	@Override
-	public List<BaseVO> listaProvincia(String idDepartamento) throws ConnectionException, SQLException {
+	public List<BaseVO> listaProvincia(String idDepartamento)
+			throws ConnectionException, SQLException {
 		List<BaseVO> resultado = null;
 		Connection conn = null;
 		CallableStatement cs = null;
 		ResultSet rs = null;
 		String sql = "select * from soporte.vw_catalogoprovincia where iddepartamento = ?";
-		
+
 		try {
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
 			cs.setString(1, idDepartamento);
 			rs = cs.executeQuery();
-			
+
 			resultado = new ArrayList<BaseVO>();
 			BaseVO maestroVO = null;
-			while(rs.next()){
+			while (rs.next()) {
 				maestroVO = new BaseVO();
 				maestroVO.setCodigoCadena(rs.getString("idprovincia"));
 				maestroVO.setNombre(UtilJdbc.obtenerCadena(rs, "descripcion"));
@@ -201,20 +204,20 @@ public class CatalogoDaoImpl implements CatalogoDao {
 		} catch (SQLException e) {
 			resultado = null;
 			throw new SQLException(e);
-		} finally{
+		} finally {
 			try {
-				if (rs != null){
+				if (rs != null) {
 					rs.close();
 				}
-				if (cs != null){
+				if (cs != null) {
 					cs.close();
 				}
-				if (conn != null){
+				if (conn != null) {
 					conn.close();
 				}
 			} catch (SQLException e) {
 				try {
-					if (conn != null){
+					if (conn != null) {
 						conn.close();
 					}
 				} catch (SQLException e1) {
@@ -222,28 +225,29 @@ public class CatalogoDaoImpl implements CatalogoDao {
 				}
 			}
 		}
-		
+
 		return resultado;
 	}
 
 	@Override
-	public List<BaseVO> listaDistrito(String idDepartamento, String idProvincia) throws ConnectionException, SQLException {
+	public List<BaseVO> listaDistrito(String idDepartamento, String idProvincia)
+			throws ConnectionException, SQLException {
 		List<BaseVO> resultado = null;
 		Connection conn = null;
 		CallableStatement cs = null;
 		ResultSet rs = null;
 		String sql = "select * from soporte.vw_catalogodistrito where iddepartamento = ? and idprovincia = ?";
-		
+
 		try {
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
 			cs.setString(1, idDepartamento);
 			cs.setString(2, idProvincia);
 			rs = cs.executeQuery();
-			
+
 			resultado = new ArrayList<BaseVO>();
 			BaseVO maestroVO = null;
-			while(rs.next()){
+			while (rs.next()) {
 				maestroVO = new BaseVO();
 				maestroVO.setCodigoCadena(rs.getString("iddistrito"));
 				maestroVO.setNombre(UtilJdbc.obtenerCadena(rs, "descripcion"));
@@ -252,20 +256,20 @@ public class CatalogoDaoImpl implements CatalogoDao {
 		} catch (SQLException e) {
 			resultado = null;
 			throw new SQLException(e);
-		} finally{
+		} finally {
 			try {
-				if (rs != null){
+				if (rs != null) {
 					rs.close();
 				}
-				if (cs != null){
+				if (cs != null) {
 					cs.close();
 				}
-				if (conn != null){
+				if (conn != null) {
 					conn.close();
 				}
 			} catch (SQLException e) {
 				try {
-					if (conn != null){
+					if (conn != null) {
 						conn.close();
 					}
 				} catch (SQLException e1) {
@@ -273,7 +277,7 @@ public class CatalogoDaoImpl implements CatalogoDao {
 				}
 			}
 		}
-		
+
 		return resultado;
 	}
 

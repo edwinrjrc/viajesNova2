@@ -21,7 +21,7 @@ public class ServicioProveedor extends BaseNegocio {
 	private String nombreProveedor;
 	private Proveedor proveedor;
 	private Proveedor proveedorServicio;
-	
+
 	/**
 	 * 
 	 */
@@ -38,14 +38,15 @@ public class ServicioProveedor extends BaseNegocio {
 	 * @return the tipoServicio
 	 */
 	public BaseVO getTipoServicio() {
-		if (tipoServicio == null){
+		if (tipoServicio == null) {
 			tipoServicio = new BaseVO();
 		}
 		return tipoServicio;
 	}
 
 	/**
-	 * @param tipoServicio the tipoServicio to set
+	 * @param tipoServicio
+	 *            the tipoServicio to set
 	 */
 	public void setTipoServicio(BaseVO tipoServicio) {
 		this.tipoServicio = tipoServicio;
@@ -59,7 +60,8 @@ public class ServicioProveedor extends BaseNegocio {
 	}
 
 	/**
-	 * @param porcentajeComision the porcentajeComision to set
+	 * @param porcentajeComision
+	 *            the porcentajeComision to set
 	 */
 	public void setPorcentajeComision(BigDecimal porcentajeComision) {
 		this.porcentajeComision = porcentajeComision;
@@ -73,7 +75,8 @@ public class ServicioProveedor extends BaseNegocio {
 	}
 
 	/**
-	 * @param nombreProveedor the nombreProveedor to set
+	 * @param nombreProveedor
+	 *            the nombreProveedor to set
 	 */
 	public void setNombreProveedor(String nombreProveedor) {
 		this.nombreProveedor = nombreProveedor;
@@ -83,14 +86,15 @@ public class ServicioProveedor extends BaseNegocio {
 	 * @return the proveedor
 	 */
 	public Proveedor getProveedor() {
-		if (proveedor == null){
+		if (proveedor == null) {
 			proveedor = new Proveedor();
 		}
 		return proveedor;
 	}
 
 	/**
-	 * @param proveedor the proveedor to set
+	 * @param proveedor
+	 *            the proveedor to set
 	 */
 	public void setProveedor(Proveedor proveedor) {
 		this.proveedor = proveedor;
@@ -100,14 +104,15 @@ public class ServicioProveedor extends BaseNegocio {
 	 * @return the proveedorServicio
 	 */
 	public Proveedor getProveedorServicio() {
-		if (proveedorServicio == null){
+		if (proveedorServicio == null) {
 			proveedorServicio = new Proveedor();
 		}
 		return proveedorServicio;
 	}
 
 	/**
-	 * @param proveedorServicio the proveedorServicio to set
+	 * @param proveedorServicio
+	 *            the proveedorServicio to set
 	 */
 	public void setProveedorServicio(Proveedor proveedorServicio) {
 		this.proveedorServicio = proveedorServicio;
@@ -121,7 +126,8 @@ public class ServicioProveedor extends BaseNegocio {
 	}
 
 	/**
-	 * @param porcenComInternacional the porcenComInternacional to set
+	 * @param porcenComInternacional
+	 *            the porcenComInternacional to set
 	 */
 	public void setPorcenComInternacional(BigDecimal porcenComInternacional) {
 		this.porcenComInternacional = porcenComInternacional;
@@ -135,7 +141,8 @@ public class ServicioProveedor extends BaseNegocio {
 	}
 
 	/**
-	 * @param editoComision the editoComision to set
+	 * @param editoComision
+	 *            the editoComision to set
 	 */
 	public void setEditoComision(boolean editoComision) {
 		this.editoComision = editoComision;

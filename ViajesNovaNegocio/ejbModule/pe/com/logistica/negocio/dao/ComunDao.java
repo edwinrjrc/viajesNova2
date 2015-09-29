@@ -16,6 +16,5 @@ public interface ComunDao {
 
 	Integer obtenerSiguienteSecuencia(Connection conn) throws SQLException,
 			Exception;
-	
-	
+
 }

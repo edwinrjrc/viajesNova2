@@ -21,5 +21,6 @@ public interface AuditoriaServicio {
 	 * @return
 	 * @throws ErrorConsultaDataException
 	 */
-	public List<UsuarioAsistencia> consultarHorarioAsistenciaXDia(Date fecha) throws ErrorConsultaDataException;
+	public List<UsuarioAsistencia> consultarHorarioAsistenciaXDia(Date fecha)
+			throws ErrorConsultaDataException;
 }

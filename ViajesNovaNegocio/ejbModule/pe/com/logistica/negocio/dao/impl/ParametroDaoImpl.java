@@ -36,42 +36,48 @@ public class ParametroDaoImpl implements ParametroDao {
 		CallableStatement cs = null;
 		ResultSet rs = null;
 		String sql = "select * from soporte.vw_listaparametros";
-		
+
 		try {
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
 			rs = cs.executeQuery();
-			
+
 			resultado = new ArrayList<Parametro>();
 			Parametro parametro = null;
-			while(rs.next()){
+			while (rs.next()) {
 				parametro = new Parametro();
 				parametro.setCodigoEntero(rs.getInt("id"));
 				parametro.setNombre(UtilJdbc.obtenerCadena(rs, "nombre"));
-				parametro.setDescripcion(UtilJdbc.obtenerCadena(rs,"descripcion"));
-				parametro.setValor(UtilJdbc.obtenerCadena(rs,"valor"));
-				parametro.getEstado().setCodigoCadena(UtilJdbc.obtenerCadena(rs, "estado"));
-				parametro.getEstado().setNombre("A".equals(parametro.getEstado().getCodigoCadena())?"Activo":"Inactivo");
+				parametro.setDescripcion(UtilJdbc.obtenerCadena(rs,
+						"descripcion"));
+				parametro.setValor(UtilJdbc.obtenerCadena(rs, "valor"));
+				parametro.getEstado().setCodigoCadena(
+						UtilJdbc.obtenerCadena(rs, "estado"));
+				parametro.getEstado()
+						.setNombre(
+								"A".equals(parametro.getEstado()
+										.getCodigoCadena()) ? "Activo"
+										: "Inactivo");
 				parametro.setEditable(rs.getBoolean("editable"));
 				resultado.add(parametro);
 			}
 		} catch (SQLException e) {
 			resultado = null;
 			throw new SQLException(e);
-		} finally{
+		} finally {
 			try {
-				if (rs != null){
+				if (rs != null) {
 					rs.close();
 				}
-				if (cs != null){
+				if (cs != null) {
 					cs.close();
 				}
-				if (conn != null){
+				if (conn != null) {
 					conn.close();
 				}
 			} catch (SQLException e) {
 				try {
-					if (conn != null){
+					if (conn != null) {
 						conn.close();
 					}
 					throw new SQLException(e);
@@ -80,7 +86,7 @@ public class ParametroDaoImpl implements ParametroDao {
 				}
 			}
 		}
-		
+
 		return resultado;
 	}
 
@@ -89,30 +95,32 @@ public class ParametroDaoImpl implements ParametroDao {
 		Connection conn = null;
 		CallableStatement cs = null;
 		String sql = "{ ? = call soporte.fn_ingresarparametro(?,?,?) }";
-		
+
 		try {
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
-			int i=1;
+			int i = 1;
 			cs.registerOutParameter(i++, Types.BOOLEAN);
-			cs.setString(i++, UtilJdbc.convertirMayuscula(parametro.getNombre()));
-			cs.setString(i++, UtilJdbc.convertirMayuscula(parametro.getDescripcion()));
+			cs.setString(i++,
+					UtilJdbc.convertirMayuscula(parametro.getNombre()));
+			cs.setString(i++,
+					UtilJdbc.convertirMayuscula(parametro.getDescripcion()));
 			cs.setString(i++, UtilJdbc.convertirMayuscula(parametro.getValor()));
-			
+
 			cs.execute();
 		} catch (SQLException e) {
 			throw new SQLException(e);
-		} finally{
+		} finally {
 			try {
-				if (cs != null){
+				if (cs != null) {
 					cs.close();
 				}
-				if (conn != null){
+				if (conn != null) {
 					conn.close();
 				}
 			} catch (SQLException e) {
 				try {
-					if (conn != null){
+					if (conn != null) {
 						conn.close();
 					}
 					throw new SQLException(e);
@@ -128,33 +136,36 @@ public class ParametroDaoImpl implements ParametroDao {
 		Connection conn = null;
 		CallableStatement cs = null;
 		String sql = "{ ? = call soporte.fn_actualizarparametro(?,?,?,?,?,?) }";
-		
+
 		try {
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
-			int i=1;
+			int i = 1;
 			cs.registerOutParameter(i++, Types.BOOLEAN);
 			cs.setInt(i++, parametro.getCodigoEntero());
-			cs.setString(i++, UtilJdbc.convertirMayuscula(parametro.getNombre()));
-			cs.setString(i++, UtilJdbc.convertirMayuscula(parametro.getDescripcion()));
+			cs.setString(i++,
+					UtilJdbc.convertirMayuscula(parametro.getNombre()));
+			cs.setString(i++,
+					UtilJdbc.convertirMayuscula(parametro.getDescripcion()));
 			cs.setString(i++, UtilJdbc.convertirMayuscula(parametro.getValor()));
-			cs.setString(i++, UtilJdbc.convertirMayuscula(parametro.getEstado().getCodigoCadena()));
+			cs.setString(i++, UtilJdbc.convertirMayuscula(parametro.getEstado()
+					.getCodigoCadena()));
 			cs.setBoolean(i++, parametro.isEditable());
-			
+
 			cs.execute();
 		} catch (SQLException e) {
 			throw new SQLException(e);
-		} finally{
+		} finally {
 			try {
-				if (cs != null){
+				if (cs != null) {
 					cs.close();
 				}
-				if (conn != null){
+				if (conn != null) {
 					conn.close();
 				}
 			} catch (SQLException e) {
 				try {
-					if (conn != null){
+					if (conn != null) {
 						conn.close();
 					}
 					throw new SQLException(e);
@@ -164,7 +175,7 @@ public class ParametroDaoImpl implements ParametroDao {
 			}
 		}
 	}
-	
+
 	@Override
 	public Parametro consultarParametro(int id) throws SQLException {
 		Parametro resultado = null;
@@ -172,39 +183,41 @@ public class ParametroDaoImpl implements ParametroDao {
 		CallableStatement cs = null;
 		ResultSet rs = null;
 		String sql = "select * from soporte.vw_listaparametros where id = ?";
-		
+
 		try {
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
 			cs.setInt(1, id);
 			rs = cs.executeQuery();
-			
-			if(rs.next()){
+
+			if (rs.next()) {
 				resultado = new Parametro();
 				resultado.setCodigoEntero(rs.getInt("id"));
 				resultado.setNombre(UtilJdbc.obtenerCadena(rs, "nombre"));
-				resultado.setDescripcion(UtilJdbc.obtenerCadena(rs,"descripcion"));
-				resultado.setValor(UtilJdbc.obtenerCadena(rs,"valor"));
-				resultado.getEstado().setCodigoCadena(UtilJdbc.obtenerCadena(rs, "estado"));
+				resultado.setDescripcion(UtilJdbc.obtenerCadena(rs,
+						"descripcion"));
+				resultado.setValor(UtilJdbc.obtenerCadena(rs, "valor"));
+				resultado.getEstado().setCodigoCadena(
+						UtilJdbc.obtenerCadena(rs, "estado"));
 				resultado.setEditable(rs.getBoolean("editable"));
 			}
 		} catch (SQLException e) {
 			resultado = null;
 			throw new SQLException(e);
-		} finally{
+		} finally {
 			try {
-				if (rs != null){
+				if (rs != null) {
 					rs.close();
 				}
-				if (cs != null){
+				if (cs != null) {
 					cs.close();
 				}
-				if (conn != null){
+				if (conn != null) {
 					conn.close();
 				}
 			} catch (SQLException e) {
 				try {
-					if (conn != null){
+					if (conn != null) {
 						conn.close();
 					}
 					throw new SQLException(e);
@@ -213,7 +226,7 @@ public class ParametroDaoImpl implements ParametroDao {
 				}
 			}
 		}
-		
+
 		return resultado;
 	}
 }

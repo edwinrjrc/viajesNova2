@@ -23,40 +23,52 @@ import pe.com.logistica.web.servicio.ReportesServicio;
  */
 public class ReportesServicioImpl implements ReportesServicio {
 
-	
 	ReportesSessionRemote ejbSession;
-	
+
 	final String ejbBeanName = "ReportesSession";
+
 	/**
 	 * 
 	 */
-	public ReportesServicioImpl(ServletContext context) throws NamingException{
-		
+	public ReportesServicioImpl(ServletContext context) throws NamingException {
+
 		Properties props = new Properties();
-		/*props.setProperty("java.naming.factory.initial","org.jnp.interfaces.NamingContextFactory");
-		props.setProperty("java.naming.factory.url.pkgs", "org.jboss.naming");
-		props.setProperty("java.naming.provider.url", "localhost:1099"); */
+		/*
+		 * props.setProperty("java.naming.factory.initial",
+		 * "org.jnp.interfaces.NamingContextFactory");
+		 * props.setProperty("java.naming.factory.url.pkgs",
+		 * "org.jboss.naming"); props.setProperty("java.naming.provider.url",
+		 * "localhost:1099");
+		 */
 		props.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
-		
+
 		Context ctx = new InitialContext(props);
-		//String lookup = "ejb:Logistica1EAR/Logistica1Negocio/SeguridadSession!pe.com.logistica.negocio.ejb.SeguridadRemote";
+		// String lookup =
+		// "ejb:Logistica1EAR/Logistica1Negocio/SeguridadSession!pe.com.logistica.negocio.ejb.SeguridadRemote";
 		String lookup = "java:jboss/exported/Logistica1EAR/Logistica1Negocio/NegocioSession!pe.com.logistica.negocio.ejb.ReportesSessionRemote";
-		
+
 		final String ejbRemoto = ReportesSessionRemote.class.getName();
-		lookup = "java:jboss/exported/"+context.getInitParameter("appNegocioNameEar")+"/"+context.getInitParameter("appNegocioName")+"/"+ejbBeanName+"!"+ejbRemoto;
-		
+		lookup = "java:jboss/exported/"
+				+ context.getInitParameter("appNegocioNameEar") + "/"
+				+ context.getInitParameter("appNegocioName") + "/"
+				+ ejbBeanName + "!" + ejbRemoto;
+
 		ejbSession = (ReportesSessionRemote) ctx.lookup(lookup);
-		
+
 	}
-	/* (non-Javadoc)
-	 * @see pe.com.logistica.web.servicio.ReportesServicio#reporteGeneralVentas(pe.com.logistica.bean.reportes.ReporteVentas)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * pe.com.logistica.web.servicio.ReportesServicio#reporteGeneralVentas(pe
+	 * .com.logistica.bean.reportes.ReporteVentas)
 	 */
 	@Override
 	public List<DetalleServicioAgencia> reporteGeneralVentas(
 			ReporteVentas reporteVentas) throws SQLException {
-		
+
 		return ejbSession.reporteGeneralVentas(reporteVentas);
 	}
-
 
 }

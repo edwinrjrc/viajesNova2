@@ -16,23 +16,23 @@ public class DetalleComprobante extends BaseNegocio {
 	 * 
 	 */
 	private static final long serialVersionUID = 4282109616323759962L;
-	
+
 	private Integer idComprobante;
 	private int cantidad;
 	private String concepto;
 	private BigDecimal precioUnitario;
 	private BigDecimal totalDetalle;
 	private Integer idServicioDetalle;
-	
+
 	private boolean tieneDetraccion;
 	private boolean tieneRetencion;
+
 	/**
 	 * 
 	 */
 	public DetalleComprobante() {
 		// TODO Auto-generated constructor stub
 	}
-
 
 	/**
 	 * @return the idComprobante
@@ -41,14 +41,13 @@ public class DetalleComprobante extends BaseNegocio {
 		return idComprobante;
 	}
 
-
 	/**
-	 * @param idComprobante the idComprobante to set
+	 * @param idComprobante
+	 *            the idComprobante to set
 	 */
 	public void setIdComprobante(Integer idComprobante) {
 		this.idComprobante = idComprobante;
 	}
-
 
 	/**
 	 * @return the cantidad
@@ -57,14 +56,13 @@ public class DetalleComprobante extends BaseNegocio {
 		return cantidad;
 	}
 
-
 	/**
-	 * @param cantidad the cantidad to set
+	 * @param cantidad
+	 *            the cantidad to set
 	 */
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
-
 
 	/**
 	 * @return the concepto
@@ -73,14 +71,13 @@ public class DetalleComprobante extends BaseNegocio {
 		return concepto;
 	}
 
-
 	/**
-	 * @param concepto the concepto to set
+	 * @param concepto
+	 *            the concepto to set
 	 */
 	public void setConcepto(String concepto) {
 		this.concepto = concepto;
 	}
-
 
 	/**
 	 * @return the precioUnitario
@@ -89,14 +86,13 @@ public class DetalleComprobante extends BaseNegocio {
 		return precioUnitario;
 	}
 
-
 	/**
-	 * @param precioUnitario the precioUnitario to set
+	 * @param precioUnitario
+	 *            the precioUnitario to set
 	 */
 	public void setPrecioUnitario(BigDecimal precioUnitario) {
 		this.precioUnitario = precioUnitario;
 	}
-
 
 	/**
 	 * @return the totalDetalle
@@ -105,14 +101,13 @@ public class DetalleComprobante extends BaseNegocio {
 		return totalDetalle;
 	}
 
-
 	/**
-	 * @param totalDetalle the totalDetalle to set
+	 * @param totalDetalle
+	 *            the totalDetalle to set
 	 */
 	public void setTotalDetalle(BigDecimal totalDetalle) {
 		this.totalDetalle = totalDetalle;
 	}
-
 
 	/**
 	 * @return the idServicioDetalle
@@ -121,14 +116,13 @@ public class DetalleComprobante extends BaseNegocio {
 		return idServicioDetalle;
 	}
 
-
 	/**
-	 * @param idServicioDetalle the idServicioDetalle to set
+	 * @param idServicioDetalle
+	 *            the idServicioDetalle to set
 	 */
 	public void setIdServicioDetalle(Integer idServicioDetalle) {
 		this.idServicioDetalle = idServicioDetalle;
 	}
-
 
 	/**
 	 * @return the tieneDetraccion
@@ -137,14 +131,13 @@ public class DetalleComprobante extends BaseNegocio {
 		return tieneDetraccion;
 	}
 
-
 	/**
-	 * @param tieneDetraccion the tieneDetraccion to set
+	 * @param tieneDetraccion
+	 *            the tieneDetraccion to set
 	 */
 	public void setTieneDetraccion(boolean tieneDetraccion) {
 		this.tieneDetraccion = tieneDetraccion;
 	}
-
 
 	/**
 	 * @return the tieneRetencion
@@ -153,9 +146,9 @@ public class DetalleComprobante extends BaseNegocio {
 		return tieneRetencion;
 	}
 
-
 	/**
-	 * @param tieneRetencion the tieneRetencion to set
+	 * @param tieneRetencion
+	 *            the tieneRetencion to set
 	 */
 	public void setTieneRetencion(boolean tieneRetencion) {
 		this.tieneRetencion = tieneRetencion;

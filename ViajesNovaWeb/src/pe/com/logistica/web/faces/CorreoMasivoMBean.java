@@ -22,35 +22,34 @@ import pe.com.logistica.bean.negocio.ArchivoAdjunto;
 import pe.com.logistica.bean.negocio.CorreoClienteMasivo;
 import pe.com.logistica.bean.negocio.CorreoMasivo;
 import pe.com.logistica.negocio.exception.EnvioCorreoException;
+import pe.com.logistica.web.servicio.ConsultaNegocioServicio;
 import pe.com.logistica.web.servicio.NegocioServicio;
+import pe.com.logistica.web.servicio.impl.ConsultaNegocioServicioImpl;
 import pe.com.logistica.web.servicio.impl.NegocioServicioImpl;
 
 /**
  * @author Edwin
  *
  */
-@ManagedBean(name = "correoMasivoMBean" )
+@ManagedBean(name = "correoMasivoMBean")
 @SessionScoped()
 public class CorreoMasivoMBean extends BaseMBean {
-	
-	private final static Logger logger = Logger.getLogger(CorreoMasivoMBean.class);
 
-	/**
-	 * 
-	 */
+	private final static Logger logger = Logger
+			.getLogger(CorreoMasivoMBean.class);
+
 	private static final long serialVersionUID = 8169173720644254644L;
-	
+
 	private CorreoMasivo correoMasivo;
-	
+
 	private List<CorreoClienteMasivo> listaClientesCorreo;
-	
 	private List<ArchivoAdjunto> archivos;
-	
-	private NegocioServicio negocioServicio;
-	
+
 	private boolean correoEnviado;
-	
 	private String pregunta;
+
+	private NegocioServicio negocioServicio;
+	private ConsultaNegocioServicio consultaNegocioServicio;
 
 	/**
 	 * 
@@ -60,75 +59,79 @@ public class CorreoMasivoMBean extends BaseMBean {
 			ServletContext servletContext = (ServletContext) FacesContext
 					.getCurrentInstance().getExternalContext().getContext();
 			negocioServicio = new NegocioServicioImpl(servletContext);
+			consultaNegocioServicio = new ConsultaNegocioServicioImpl(
+					servletContext);
 		} catch (NamingException e) {
 			logger.error(e.getMessage(), e);
 		}
 	}
-	
-	public void nuevoEnvio(){
+
+	public void nuevoEnvio() {
 		this.setCorreoEnviado(false);
 		this.setCorreoMasivo(null);
 	}
-	
-	public void cargarArchivo(){
-		
+
+	public void cargarArchivo() {
+
 	}
-	
+
 	public void listener(FileUploadEvent event) throws Exception {
-        UploadedFile item = event.getUploadedFile();
-        
-        ArchivoAdjunto archivo = new ArchivoAdjunto(item.getName());
-        
-        archivo.setTipoContenido(item.getContentType());
-        archivo.setDatos(IOUtils.toByteArray(item.getInputStream()));
-        archivo.setContent(item.getContentType());
-        getArchivos().add(archivo);
-    }
-	
-	public String correoEnviadoAction(){
+		UploadedFile item = event.getUploadedFile();
+
+		ArchivoAdjunto archivo = new ArchivoAdjunto(item.getName());
+
+		archivo.setTipoContenido(item.getContentType());
+		archivo.setDatos(IOUtils.toByteArray(item.getInputStream()));
+		archivo.setContent(item.getContentType());
+		getArchivos().add(archivo);
+	}
+
+	public String correoEnviadoAction() {
 		this.setCorreoEnviado(true);
-		
+
 		return "";
 	}
-	
-	public void confirmarEnvioCorreo(){
+
+	public void confirmarEnvioCorreo() {
 		this.setPregunta("¿ Esta seguro de enviar el correo masivo?");
 	}
-	
-	public void enviarMasivo(){
+
+	public void enviarMasivo() {
 		try {
 			String mensaje = "";
-			if (!getArchivos().isEmpty()){
-				
+			if (!getArchivos().isEmpty()) {
+
 				byte[] buffer = getArchivos().get(0).getDatos();
-				
-				if (buffer == null || buffer.length == 0){
-					throw new EnvioCorreoException("No se adjunto archivo al correo");
+
+				if (buffer == null || buffer.length == 0) {
+					throw new EnvioCorreoException(
+							"No se adjunto archivo al correo");
 				}
-				
+
 				getCorreoMasivo().setArchivoAdjunto(getArchivos().get(0));
-				getCorreoMasivo().setArchivoCargado(buffer.length>0);
+				getCorreoMasivo().setArchivoCargado(buffer.length > 0);
 				getCorreoMasivo().setBuffer(buffer);
-				
+
 				mensaje = "<html>";
 				mensaje = mensaje + "<body>";
 				mensaje = mensaje + "<img src='cid:imagenCorreo'>";
 				mensaje = mensaje + "</body>";
 				mensaje = mensaje + "</html>";
+			} else {
+				throw new EnvioCorreoException(
+						"No se adjunto archivo al correo");
 			}
-			else{
-				throw new EnvioCorreoException("No se adjunto archivo al correo");
-			}
-				
+
 			getCorreoMasivo().setContenidoCorreo(mensaje);
 			getCorreoMasivo().setListaCorreoMasivo(listaClientesCorreo);
-			int tipo = this.negocioServicio.enviarCorreoMasivo(getCorreoMasivo());
-			
+			int tipo = this.negocioServicio
+					.enviarCorreoMasivo(getCorreoMasivo());
+
 			String msje = "Correos Enviados Satisfactoriamente";
-			if (tipo > 0){
+			if (tipo > 0) {
 				msje = "Correos Enviados con errores verifique el log";
 			}
-			
+
 			this.setShowModal(true);
 			this.setTipoModal(TIPO_MODAL_EXITO);
 			this.setMensajeModal(msje);
@@ -144,23 +147,24 @@ public class CorreoMasivoMBean extends BaseMBean {
 			this.setMensajeModal(e.getMessage());
 		}
 	}
-	
-	public void aceptarConfirmacion(){
-		
+
+	public void aceptarConfirmacion() {
+
 	}
 
 	/**
 	 * @return the correoMasivo
 	 */
 	public CorreoMasivo getCorreoMasivo() {
-		if (correoMasivo == null){
+		if (correoMasivo == null) {
 			correoMasivo = new CorreoMasivo();
 		}
 		return correoMasivo;
 	}
 
 	/**
-	 * @param correoMasivo the correoMasivo to set
+	 * @param correoMasivo
+	 *            the correoMasivo to set
 	 */
 	public void setCorreoMasivo(CorreoMasivo correoMasivo) {
 		this.correoMasivo = correoMasivo;
@@ -171,20 +175,23 @@ public class CorreoMasivoMBean extends BaseMBean {
 	 */
 	public List<CorreoClienteMasivo> getListaClientesCorreo() {
 		try {
-			listaClientesCorreo = negocioServicio.listarClientesCorreo();
+			listaClientesCorreo = consultaNegocioServicio
+					.listarClientesCorreo();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return listaClientesCorreo;
 	}
 
 	/**
-	 * @param listaClientesCorreo the listaClientesCorreo to set
+	 * @param listaClientesCorreo
+	 *            the listaClientesCorreo to set
 	 */
-	public void setListaClientesCorreo(List<CorreoClienteMasivo> listaClientesCorreo) {
+	public void setListaClientesCorreo(
+			List<CorreoClienteMasivo> listaClientesCorreo) {
 		this.listaClientesCorreo = listaClientesCorreo;
 	}
 
@@ -192,14 +199,15 @@ public class CorreoMasivoMBean extends BaseMBean {
 	 * @return the archivos
 	 */
 	public List<ArchivoAdjunto> getArchivos() {
-		if (archivos == null){
+		if (archivos == null) {
 			archivos = new ArrayList<ArchivoAdjunto>();
 		}
 		return archivos;
 	}
 
 	/**
-	 * @param archivos the archivos to set
+	 * @param archivos
+	 *            the archivos to set
 	 */
 	public void setArchivos(List<ArchivoAdjunto> archivos) {
 		this.archivos = archivos;
@@ -213,7 +221,8 @@ public class CorreoMasivoMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param correoEnviado the correoEnviado to set
+	 * @param correoEnviado
+	 *            the correoEnviado to set
 	 */
 	public void setCorreoEnviado(boolean correoEnviado) {
 		this.correoEnviado = correoEnviado;
@@ -227,7 +236,8 @@ public class CorreoMasivoMBean extends BaseMBean {
 	}
 
 	/**
-	 * @param pregunta the pregunta to set
+	 * @param pregunta
+	 *            the pregunta to set
 	 */
 	public void setPregunta(String pregunta) {
 		this.pregunta = pregunta;

@@ -30,12 +30,15 @@ public class ConfiguracionServicioDaoImpl implements ConfiguracionServicioDao {
 		// TODO Auto-generated constructor stub
 	}
 
-	/* (non-Javadoc)
-	 * @see pe.com.logistica.negocio.dao.ConfiguracionServicioDao#consultarConfiguracionServicio()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see pe.com.logistica.negocio.dao.ConfiguracionServicioDao#
+	 * consultarConfiguracionServicio()
 	 */
 	@Override
-	public ConfiguracionTipoServicio consultarConfiguracionServicio(Integer idTipoServicio)
-			throws SQLException, Exception {
+	public ConfiguracionTipoServicio consultarConfiguracionServicio(
+			Integer idTipoServicio) throws SQLException, Exception {
 		Connection conn = null;
 		CallableStatement cs = null;
 		String sql = "{ ? = call soporte.fn_consultarconfiguracionservicio(?) }";
@@ -51,25 +54,40 @@ public class ConfiguracionServicioDaoImpl implements ConfiguracionServicioDao {
 			cs.execute();
 
 			rs = (ResultSet) cs.getObject(1);
-			
+
 			if (rs.next()) {
 				resultado = new ConfiguracionTipoServicio();
 				resultado.setCodigoCadena("A");
-				resultado.setMuestraAerolinea(UtilJdbc.obtenerBoolean(rs, "muestraaerolinea"));
-				resultado.setMuestraEmpresaTransporte(UtilJdbc.obtenerBoolean(rs, "muestraempresatransporte"));
-				resultado.setMuestraHotel(UtilJdbc.obtenerBoolean(rs, "muestrahotel"));
-				resultado.setMuestraProveedor(UtilJdbc.obtenerBoolean(rs, "muestraproveedor"));	
-				resultado.setMuestraDescServicio(UtilJdbc.obtenerBoolean(rs, "muestradescservicio"));
-				resultado.setMuestraFechaServicio(UtilJdbc.obtenerBoolean(rs, "muestrafechaservicio"));
-				resultado.setMuestraFechaRegreso(UtilJdbc.obtenerBoolean(rs, "muestrafecharegreso"));
-				resultado.setMuestraCantidad(UtilJdbc.obtenerBoolean(rs, "muestracantidad"));
-				resultado.setMuestraPrecioBase(UtilJdbc.obtenerBoolean(rs, "muestraprecio"));
-				resultado.setMuestraRuta(UtilJdbc.obtenerBoolean(rs, "muestraruta"));
-				resultado.setMuestraComision(UtilJdbc.obtenerBoolean(rs, "muestracomision"));
-				resultado.setMuestraOperadora(UtilJdbc.obtenerBoolean(rs, "muestraoperador"));
-				resultado.setMuestraTarifaNegociada(UtilJdbc.obtenerBoolean(rs, "muestratarifanegociada"));
-				resultado.setMuestraCodigoReserva(UtilJdbc.obtenerBoolean(rs, "muestracodigoreserva"));
-				resultado.setMuestraNumeroBoleto(UtilJdbc.obtenerBoolean(rs, "muestranumeroboleto"));
+				resultado.setMuestraAerolinea(UtilJdbc.obtenerBoolean(rs,
+						"muestraaerolinea"));
+				resultado.setMuestraEmpresaTransporte(UtilJdbc.obtenerBoolean(
+						rs, "muestraempresatransporte"));
+				resultado.setMuestraHotel(UtilJdbc.obtenerBoolean(rs,
+						"muestrahotel"));
+				resultado.setMuestraProveedor(UtilJdbc.obtenerBoolean(rs,
+						"muestraproveedor"));
+				resultado.setMuestraDescServicio(UtilJdbc.obtenerBoolean(rs,
+						"muestradescservicio"));
+				resultado.setMuestraFechaServicio(UtilJdbc.obtenerBoolean(rs,
+						"muestrafechaservicio"));
+				resultado.setMuestraFechaRegreso(UtilJdbc.obtenerBoolean(rs,
+						"muestrafecharegreso"));
+				resultado.setMuestraCantidad(UtilJdbc.obtenerBoolean(rs,
+						"muestracantidad"));
+				resultado.setMuestraPrecioBase(UtilJdbc.obtenerBoolean(rs,
+						"muestraprecio"));
+				resultado.setMuestraRuta(UtilJdbc.obtenerBoolean(rs,
+						"muestraruta"));
+				resultado.setMuestraComision(UtilJdbc.obtenerBoolean(rs,
+						"muestracomision"));
+				resultado.setMuestraOperadora(UtilJdbc.obtenerBoolean(rs,
+						"muestraoperador"));
+				resultado.setMuestraTarifaNegociada(UtilJdbc.obtenerBoolean(rs,
+						"muestratarifanegociada"));
+				resultado.setMuestraCodigoReserva(UtilJdbc.obtenerBoolean(rs,
+						"muestracodigoreserva"));
+				resultado.setMuestraNumeroBoleto(UtilJdbc.obtenerBoolean(rs,
+						"muestranumeroboleto"));
 			}
 		} catch (SQLException e) {
 			throw new SQLException(e);
@@ -120,20 +138,33 @@ public class ConfiguracionServicioDaoImpl implements ConfiguracionServicioDao {
 			ConfiguracionTipoServicio bean = null;
 			while (rs.next()) {
 				bean = new ConfiguracionTipoServicio();
-				bean.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idtiposervicio"));
-				bean.setMuestraAerolinea(UtilJdbc.obtenerBoolean(rs, "muestraaerolinea"));
-				bean.setMuestraEmpresaTransporte(UtilJdbc.obtenerBoolean(rs, "muestraempresatransporte"));
-				bean.setMuestraHotel(UtilJdbc.obtenerBoolean(rs, "muestrahotel"));
-				bean.setMuestraProveedor(UtilJdbc.obtenerBoolean(rs, "muestraproveedor"));	
-				bean.setMuestraDescServicio(UtilJdbc.obtenerBoolean(rs, "muestradescservicio"));
-				bean.setMuestraFechaServicio(UtilJdbc.obtenerBoolean(rs, "muestrafechaservicio"));
-				bean.setMuestraFechaRegreso(UtilJdbc.obtenerBoolean(rs, "muestrafecharegreso"));
-				bean.setMuestraCantidad(UtilJdbc.obtenerBoolean(rs, "muestracantidad"));
-				bean.setMuestraPrecioBase(UtilJdbc.obtenerBoolean(rs, "muestraprecio"));
+				bean.setCodigoEntero(UtilJdbc.obtenerNumero(rs,
+						"idtiposervicio"));
+				bean.setMuestraAerolinea(UtilJdbc.obtenerBoolean(rs,
+						"muestraaerolinea"));
+				bean.setMuestraEmpresaTransporte(UtilJdbc.obtenerBoolean(rs,
+						"muestraempresatransporte"));
+				bean.setMuestraHotel(UtilJdbc
+						.obtenerBoolean(rs, "muestrahotel"));
+				bean.setMuestraProveedor(UtilJdbc.obtenerBoolean(rs,
+						"muestraproveedor"));
+				bean.setMuestraDescServicio(UtilJdbc.obtenerBoolean(rs,
+						"muestradescservicio"));
+				bean.setMuestraFechaServicio(UtilJdbc.obtenerBoolean(rs,
+						"muestrafechaservicio"));
+				bean.setMuestraFechaRegreso(UtilJdbc.obtenerBoolean(rs,
+						"muestrafecharegreso"));
+				bean.setMuestraCantidad(UtilJdbc.obtenerBoolean(rs,
+						"muestracantidad"));
+				bean.setMuestraPrecioBase(UtilJdbc.obtenerBoolean(rs,
+						"muestraprecio"));
 				bean.setMuestraRuta(UtilJdbc.obtenerBoolean(rs, "muestraruta"));
-				bean.setMuestraComision(UtilJdbc.obtenerBoolean(rs, "muestracomision"));
-				bean.setMuestraOperadora(UtilJdbc.obtenerBoolean(rs, "muestraoperador"));
-				bean.setMuestraTarifaNegociada(UtilJdbc.obtenerBoolean(rs, "muestratarifanegociada"));
+				bean.setMuestraComision(UtilJdbc.obtenerBoolean(rs,
+						"muestracomision"));
+				bean.setMuestraOperadora(UtilJdbc.obtenerBoolean(rs,
+						"muestraoperador"));
+				bean.setMuestraTarifaNegociada(UtilJdbc.obtenerBoolean(rs,
+						"muestratarifanegociada"));
 				resultado.add(bean);
 			}
 		} catch (SQLException e) {
@@ -163,10 +194,9 @@ public class ConfiguracionServicioDaoImpl implements ConfiguracionServicioDao {
 
 		return resultado;
 	}
-	
+
 	@Override
-	public List<BaseVO> listarTipoServicios()
-			throws SQLException, Exception {
+	public List<BaseVO> listarTipoServicios() throws SQLException, Exception {
 		Connection conn = null;
 		CallableStatement cs = null;
 		String sql = "{ ? = call soporte.fn_listartiposservicio() }";
@@ -219,21 +249,23 @@ public class ConfiguracionServicioDaoImpl implements ConfiguracionServicioDao {
 
 	@Override
 	public boolean eliminarConfiguracion(
-			ConfiguracionTipoServicio configuracionTipoServicio, Connection conn) throws SQLException {
+			ConfiguracionTipoServicio configuracionTipoServicio, Connection conn)
+			throws SQLException {
 		CallableStatement cs = null;
 		String sql = "{ ? = call soporte.fn_eliminarconfiguracion(?,?) }";
 		boolean resultado = false;
-		
+
 		try {
 			cs = conn.prepareCall(sql);
 			int i = 1;
 			cs.registerOutParameter(i++, Types.BOOLEAN);
-			cs.setString(i++, configuracionTipoServicio.getUsuarioModificacion());
+			cs.setString(i++,
+					configuracionTipoServicio.getUsuarioModificacion());
 			cs.setString(i++, configuracionTipoServicio.getIpModificacion());
 			cs.execute();
-			
+
 			resultado = cs.getBoolean(1);
-			
+
 		} catch (SQLException e) {
 			throw new SQLException(e);
 		} finally {
@@ -241,7 +273,7 @@ public class ConfiguracionServicioDaoImpl implements ConfiguracionServicioDao {
 				if (cs != null) {
 					cs.close();
 				}
-				
+
 			} catch (SQLException e) {
 				try {
 					if (conn != null) {
@@ -264,7 +296,7 @@ public class ConfiguracionServicioDaoImpl implements ConfiguracionServicioDao {
 		CallableStatement cs = null;
 		String sql = "{? = call soporte.fn_registrarconfiguracionservicio(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 		boolean resultado = false;
-		
+
 		try {
 			cs = conn.prepareCall(sql);
 			int i = 1;
@@ -287,11 +319,11 @@ public class ConfiguracionServicioDaoImpl implements ConfiguracionServicioDao {
 			cs.setBoolean(i++, configuracion.isMuestraNumeroBoleto());
 			cs.setString(i++, configuracion.getUsuarioCreacion());
 			cs.setString(i++, configuracion.getIpCreacion());
-			
+
 			cs.execute();
-			
+
 			resultado = cs.getBoolean(1);
-			
+
 		} catch (SQLException e) {
 			throw new SQLException(e);
 		} finally {
@@ -299,7 +331,7 @@ public class ConfiguracionServicioDaoImpl implements ConfiguracionServicioDao {
 				if (cs != null) {
 					cs.close();
 				}
-				
+
 			} catch (SQLException e) {
 				try {
 					if (conn != null) {
@@ -313,7 +345,7 @@ public class ConfiguracionServicioDaoImpl implements ConfiguracionServicioDao {
 		}
 
 		return resultado;
-		
+
 	}
 
 }

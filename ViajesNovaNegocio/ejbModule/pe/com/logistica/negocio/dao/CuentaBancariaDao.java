@@ -16,14 +16,18 @@ import pe.com.logistica.bean.negocio.MovimientoCuenta;
 public interface CuentaBancariaDao {
 
 	public List<CuentaBancaria> listarCuentasBancarias() throws SQLException;
-	
-	public boolean registrarCuentaBancaria(CuentaBancaria cuentaBancaria) throws SQLException;
-	
-	public boolean actualizarCuentaBancaria(CuentaBancaria cuentaBancaria) throws SQLException;
-	
-	public CuentaBancaria consultaCuentaBancaria(Integer idCuenta) throws SQLException;
-	
-	public List<CuentaBancaria> listarCuentasBancariasCombo() throws SQLException;
+
+	public boolean registrarCuentaBancaria(CuentaBancaria cuentaBancaria)
+			throws SQLException;
+
+	public boolean actualizarCuentaBancaria(CuentaBancaria cuentaBancaria)
+			throws SQLException;
+
+	public CuentaBancaria consultaCuentaBancaria(Integer idCuenta)
+			throws SQLException;
+
+	public List<CuentaBancaria> listarCuentasBancariasCombo()
+			throws SQLException;
 
 	List<MovimientoCuenta> listarMovimientoCuentaBancaria(Integer idCuenta)
 			throws SQLException;

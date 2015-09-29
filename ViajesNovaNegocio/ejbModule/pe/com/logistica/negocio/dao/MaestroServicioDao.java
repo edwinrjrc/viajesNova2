@@ -15,14 +15,17 @@ import pe.com.logistica.bean.negocio.MaestroServicio;
  *
  */
 public interface MaestroServicioDao {
-	
+
 	public List<MaestroServicio> listarMaestroServicios() throws SQLException;
-	
-	public Integer ingresarMaestroServicio(MaestroServicio servicio) throws SQLException;
-	
-	public boolean actualizarMaestroServicio(MaestroServicio servicio) throws SQLException;
-	
-	public MaestroServicio consultarMaestroServicio(int idMaestroServicio) throws SQLException;
+
+	public Integer ingresarMaestroServicio(MaestroServicio servicio)
+			throws SQLException;
+
+	public boolean actualizarMaestroServicio(MaestroServicio servicio)
+			throws SQLException;
+
+	public MaestroServicio consultarMaestroServicio(int idMaestroServicio)
+			throws SQLException;
 
 	List<MaestroServicio> listarMaestroServiciosFee() throws SQLException;
 
@@ -43,6 +46,5 @@ public interface MaestroServicioDao {
 
 	MaestroServicio consultarMaestroServicio(int idMaestroServicio,
 			Connection conn) throws SQLException;
-	
 
 }

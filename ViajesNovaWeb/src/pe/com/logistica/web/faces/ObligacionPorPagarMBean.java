@@ -34,7 +34,9 @@ import pe.com.logistica.bean.negocio.CuentaBancaria;
 import pe.com.logistica.bean.negocio.PagoServicio;
 import pe.com.logistica.bean.negocio.Proveedor;
 import pe.com.logistica.bean.negocio.Usuario;
+import pe.com.logistica.web.servicio.ConsultaNegocioServicio;
 import pe.com.logistica.web.servicio.NegocioServicio;
+import pe.com.logistica.web.servicio.impl.ConsultaNegocioServicioImpl;
 import pe.com.logistica.web.servicio.impl.NegocioServicioImpl;
 import pe.com.logistica.web.util.UtilWeb;
 
@@ -73,6 +75,7 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	private boolean mostrarTarjeta;
 
 	private NegocioServicio negocioServicio;
+	private ConsultaNegocioServicio consultaNegocioServicio;
 
 	/**
 	 * 
@@ -82,7 +85,8 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 			ServletContext servletContext = (ServletContext) FacesContext
 					.getCurrentInstance().getExternalContext().getContext();
 			negocioServicio = new NegocioServicioImpl(servletContext);
-
+			consultaNegocioServicio = new ConsultaNegocioServicioImpl(
+					servletContext);
 		} catch (NamingException e) {
 			logger.error(e.getMessage(), e);
 		}
@@ -90,7 +94,7 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 
 	public void buscar() {
 		try {
-			this.setListaComprobantes(this.negocioServicio
+			this.setListaComprobantes(this.consultaNegocioServicio
 					.listarObligacionXPagar(getComprobanteBusqueda()));
 
 			this.setBuscoObligaciones(true);
@@ -182,7 +186,7 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 
 	public void buscarProveedor() {
 		try {
-			this.setListadoProveedores(this.negocioServicio
+			this.setListadoProveedores(this.consultaNegocioServicio
 					.buscarProveedor(getProveedorBusqueda()));
 
 			this.setConsultoProveedor(true);
@@ -237,7 +241,7 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 				this.setMensajeModal("Pago Registrado Satisfactoriamente");
 				this.setTipoModal(TIPO_MODAL_EXITO);
 
-				this.setComprobante(this.negocioServicio
+				this.setComprobante(this.consultaNegocioServicio
 						.consultarComprobanteObligacion(getPagoComprobante()
 								.getIdObligacion()));
 			}
@@ -353,7 +357,7 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 				String formaPago = oe.toString();
 
 				if ("2".equals(formaPago) || "3".equals(formaPago)) {
-					List<CuentaBancaria> lista = this.negocioServicio
+					List<CuentaBancaria> lista = this.consultaNegocioServicio
 							.listarCuentasBancariasCombo();
 					SelectItem si = null;
 					for (CuentaBancaria cuentaBancaria : lista) {
@@ -367,13 +371,14 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 				} else if ("4".equals(formaPago)) {
 					this.setMostrarTarjeta(true);
 				}
-				
-				List<CuentaBancaria> listaCuentasProveedor = this.negocioServicio
+
+				List<CuentaBancaria> listaCuentasProveedor = this.consultaNegocioServicio
 						.listarCuentasBancariasProveedor(this.getComprobante()
 								.getProveedor().getCodigoEntero());
-				
+
 				SelectItem si = null;
-				if (listaCuentasProveedor != null && !listaCuentasProveedor.isEmpty()){
+				if (listaCuentasProveedor != null
+						&& !listaCuentasProveedor.isEmpty()) {
 					for (CuentaBancaria cuentaBancaria : listaCuentasProveedor) {
 						si = new SelectItem();
 						si.setValue(cuentaBancaria.getCodigoEntero());
@@ -381,7 +386,7 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 						this.getListadoCuentasBancariasDestino().add(si);
 					}
 				}
-				
+
 			}
 		} catch (SQLException e1) {
 			logger.error(e1.getMessage(), e1);
@@ -435,7 +440,7 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 		this.setShowModal(false);
 		if (listaComprobantes == null || !this.isBuscoObligaciones()) {
 			try {
-				this.setListaComprobantes(this.negocioServicio
+				this.setListaComprobantes(this.consultaNegocioServicio
 						.listarObligacionXPagar(getComprobanteBusqueda()));
 
 				this.setBuscoObligaciones(true);
@@ -517,7 +522,7 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	public List<Proveedor> getListadoProveedores() {
 		try {
 			// if (!this.isConsultoProveedor()){
-			listadoProveedores = this.negocioServicio
+			listadoProveedores = this.consultaNegocioServicio
 					.buscarProveedor(getProveedorBusqueda());
 			// }
 
@@ -605,8 +610,9 @@ public class ObligacionPorPagarMBean extends BaseMBean {
 	 */
 	public List<PagoServicio> getListaPagos() {
 		try {
-			listaPagos = this.negocioServicio.listarPagosObligacion(this
-					.getComprobante().getCodigoEntero());
+			listaPagos = this.consultaNegocioServicio
+					.listarPagosObligacion(this.getComprobante()
+							.getCodigoEntero());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {

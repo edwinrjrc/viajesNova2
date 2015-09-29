@@ -16,11 +16,13 @@ import pe.com.logistica.negocio.exception.ErrorRegistroDataException;
 /**
  * Session Bean implementation class AuditoriaSession
  */
-@Stateless(name ="AuditoriaSession", mappedName = "AuditoriaSession")
-public class AuditoriaSession implements AuditoriaSessionRemote, AuditoriaSessionLocal {
+@Stateless(name = "AuditoriaSession", mappedName = "AuditoriaSession")
+public class AuditoriaSession implements AuditoriaSessionRemote,
+		AuditoriaSessionLocal {
 
 	@Override
-	public void registrarEventoInicioSession (Usuario usuario) throws ErrorRegistroDataException{
+	public void registrarEventoInicioSession(Usuario usuario)
+			throws ErrorRegistroDataException {
 		try {
 			AuditoriaDao auditoriaDao = new AuditoriaDaoImpl();
 			auditoriaDao.registrarEventoSesion(usuario, 1);
@@ -30,7 +32,8 @@ public class AuditoriaSession implements AuditoriaSessionRemote, AuditoriaSessio
 	}
 
 	@Override
-	public List<UsuarioAsistencia> consultaHorariosEntrada(Date fecha) throws ErrorConsultaDataException{
+	public List<UsuarioAsistencia> consultaHorariosEntrada(Date fecha)
+			throws ErrorConsultaDataException {
 		try {
 			AuditoriaDao auditoriaDao = new AuditoriaDaoImpl();
 			return auditoriaDao.listarHoraEntradaXDia(fecha);

@@ -13,7 +13,7 @@ import pe.com.logistica.bean.negocio.CorreoClienteMasivo;
  *
  */
 public interface CorreoMasivoDao {
-	
+
 	public List<CorreoClienteMasivo> listarClientesCorreo() throws SQLException;
 
 }

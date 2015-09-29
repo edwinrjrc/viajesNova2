@@ -21,7 +21,7 @@ public class PagoServicio extends BaseNegocio {
 	 * 
 	 */
 	private static final long serialVersionUID = 9143805785741012964L;
-	
+
 	private BaseVO servicio;
 	private Date fechaPago;
 	private BigDecimal montoPago;
@@ -32,11 +32,11 @@ public class PagoServicio extends BaseNegocio {
 	private String nombreArchivo;
 	private String extensionArchivo;
 	private String tipoContenido;
-	
+
 	private boolean tieneSustento;
 	private Integer idObligacion;
 	private String comentario;
-	
+
 	private BaseVO tipoPago;
 	private BaseVO formaPago;
 	private BaseVO cuentaBancariaOrigen;
@@ -44,7 +44,7 @@ public class PagoServicio extends BaseNegocio {
 	private TarjetaCredito tarjetaCredito;
 	private Usuario usuarioAutoriza;
 	private String numeroOperacion;
-	
+
 	/**
 	 * 
 	 */
@@ -53,14 +53,15 @@ public class PagoServicio extends BaseNegocio {
 	}
 
 	public BaseVO getServicio() {
-		if (servicio == null){
+		if (servicio == null) {
 			servicio = new BaseVO();
 		}
 		return servicio;
 	}
 
 	/**
-	 * @param servicio the servicio to set
+	 * @param servicio
+	 *            the servicio to set
 	 */
 	public void setServicio(BaseVO servicio) {
 		this.servicio = servicio;
@@ -70,14 +71,15 @@ public class PagoServicio extends BaseNegocio {
 	 * @return the fechaPago
 	 */
 	public Date getFechaPago() {
-		if (fechaPago == null){
+		if (fechaPago == null) {
 			fechaPago = new Date();
 		}
 		return fechaPago;
 	}
 
 	/**
-	 * @param fechaPago the fechaPago to set
+	 * @param fechaPago
+	 *            the fechaPago to set
 	 */
 	public void setFechaPago(Date fechaPago) {
 		this.fechaPago = fechaPago;
@@ -91,7 +93,8 @@ public class PagoServicio extends BaseNegocio {
 	}
 
 	/**
-	 * @param montoPago the montoPago to set
+	 * @param montoPago
+	 *            the montoPago to set
 	 */
 	public void setMontoPago(BigDecimal montoPago) {
 		this.montoPago = montoPago;
@@ -105,7 +108,8 @@ public class PagoServicio extends BaseNegocio {
 	}
 
 	/**
-	 * @param sustentoPago the sustentoPago to set
+	 * @param sustentoPago
+	 *            the sustentoPago to set
 	 */
 	public void setSustentoPago(InputStream sustentoPago) {
 		this.sustentoPago = sustentoPago;
@@ -119,7 +123,8 @@ public class PagoServicio extends BaseNegocio {
 	}
 
 	/**
-	 * @param sustentoPagoByte the sustentoPagoByte to set
+	 * @param sustentoPagoByte
+	 *            the sustentoPagoByte to set
 	 */
 	public void setSustentoPagoByte(byte[] sustentoPagoByte) {
 		this.sustentoPagoByte = sustentoPagoByte;
@@ -133,7 +138,8 @@ public class PagoServicio extends BaseNegocio {
 	}
 
 	/**
-	 * @param nombreArchivo the nombreArchivo to set
+	 * @param nombreArchivo
+	 *            the nombreArchivo to set
 	 */
 	public void setNombreArchivo(String nombreArchivo) {
 		this.nombreArchivo = nombreArchivo;
@@ -147,7 +153,8 @@ public class PagoServicio extends BaseNegocio {
 	}
 
 	/**
-	 * @param extensionArchivo the extensionArchivo to set
+	 * @param extensionArchivo
+	 *            the extensionArchivo to set
 	 */
 	public void setExtensionArchivo(String extensionArchivo) {
 		this.extensionArchivo = extensionArchivo;
@@ -161,7 +168,8 @@ public class PagoServicio extends BaseNegocio {
 	}
 
 	/**
-	 * @param sustentoPagoSalida the sustentoPagoSalida to set
+	 * @param sustentoPagoSalida
+	 *            the sustentoPagoSalida to set
 	 */
 	public void setSustentoPagoSalida(OutputStream sustentoPagoSalida) {
 		this.sustentoPagoSalida = sustentoPagoSalida;
@@ -175,7 +183,8 @@ public class PagoServicio extends BaseNegocio {
 	}
 
 	/**
-	 * @param tipoContenido the tipoContenido to set
+	 * @param tipoContenido
+	 *            the tipoContenido to set
 	 */
 	public void setTipoContenido(String tipoContenido) {
 		this.tipoContenido = tipoContenido;
@@ -189,7 +198,8 @@ public class PagoServicio extends BaseNegocio {
 	}
 
 	/**
-	 * @param tieneSustento the tieneSustento to set
+	 * @param tieneSustento
+	 *            the tieneSustento to set
 	 */
 	public void setTieneSustento(boolean tieneSustento) {
 		this.tieneSustento = tieneSustento;
@@ -203,7 +213,8 @@ public class PagoServicio extends BaseNegocio {
 	}
 
 	/**
-	 * @param idObligacion the idObligacion to set
+	 * @param idObligacion
+	 *            the idObligacion to set
 	 */
 	public void setIdObligacion(Integer idObligacion) {
 		this.idObligacion = idObligacion;
@@ -217,7 +228,8 @@ public class PagoServicio extends BaseNegocio {
 	}
 
 	/**
-	 * @param comentario the comentario to set
+	 * @param comentario
+	 *            the comentario to set
 	 */
 	public void setComentario(String comentario) {
 		this.comentario = comentario;
@@ -227,14 +239,15 @@ public class PagoServicio extends BaseNegocio {
 	 * @return the tipoPago
 	 */
 	public BaseVO getTipoPago() {
-		if (tipoPago == null){
+		if (tipoPago == null) {
 			tipoPago = new BaseVO();
 		}
 		return tipoPago;
 	}
 
 	/**
-	 * @param tipoPago the tipoPago to set
+	 * @param tipoPago
+	 *            the tipoPago to set
 	 */
 	public void setTipoPago(BaseVO tipoPago) {
 		this.tipoPago = tipoPago;
@@ -244,14 +257,15 @@ public class PagoServicio extends BaseNegocio {
 	 * @return the formaPago
 	 */
 	public BaseVO getFormaPago() {
-		if (formaPago == null){
+		if (formaPago == null) {
 			formaPago = new BaseVO();
 		}
 		return formaPago;
 	}
 
 	/**
-	 * @param formaPago the formaPago to set
+	 * @param formaPago
+	 *            the formaPago to set
 	 */
 	public void setFormaPago(BaseVO formaPago) {
 		this.formaPago = formaPago;
@@ -261,14 +275,15 @@ public class PagoServicio extends BaseNegocio {
 	 * @return the tarjetaCredito
 	 */
 	public TarjetaCredito getTarjetaCredito() {
-		if (tarjetaCredito == null){
+		if (tarjetaCredito == null) {
 			tarjetaCredito = new TarjetaCredito();
 		}
 		return tarjetaCredito;
 	}
 
 	/**
-	 * @param tarjetaCredito the tarjetaCredito to set
+	 * @param tarjetaCredito
+	 *            the tarjetaCredito to set
 	 */
 	public void setTarjetaCredito(TarjetaCredito tarjetaCredito) {
 		this.tarjetaCredito = tarjetaCredito;
@@ -278,14 +293,15 @@ public class PagoServicio extends BaseNegocio {
 	 * @return the usuarioAutoriza
 	 */
 	public Usuario getUsuarioAutoriza() {
-		if (usuarioAutoriza == null){
+		if (usuarioAutoriza == null) {
 			usuarioAutoriza = new Usuario();
 		}
 		return usuarioAutoriza;
 	}
 
 	/**
-	 * @param usuarioAutoriza the usuarioAutoriza to set
+	 * @param usuarioAutoriza
+	 *            the usuarioAutoriza to set
 	 */
 	public void setUsuarioAutoriza(Usuario usuarioAutoriza) {
 		this.usuarioAutoriza = usuarioAutoriza;
@@ -299,7 +315,8 @@ public class PagoServicio extends BaseNegocio {
 	}
 
 	/**
-	 * @param numeroOperacion the numeroOperacion to set
+	 * @param numeroOperacion
+	 *            the numeroOperacion to set
 	 */
 	public void setNumeroOperacion(String numeroOperacion) {
 		this.numeroOperacion = numeroOperacion;
@@ -309,14 +326,15 @@ public class PagoServicio extends BaseNegocio {
 	 * @return the cuentaBancariaOrigen
 	 */
 	public BaseVO getCuentaBancariaOrigen() {
-		if (cuentaBancariaOrigen == null){
+		if (cuentaBancariaOrigen == null) {
 			cuentaBancariaOrigen = new BaseVO();
 		}
 		return cuentaBancariaOrigen;
 	}
 
 	/**
-	 * @param cuentaBancariaOrigen the cuentaBancariaOrigen to set
+	 * @param cuentaBancariaOrigen
+	 *            the cuentaBancariaOrigen to set
 	 */
 	public void setCuentaBancariaOrigen(BaseVO cuentaBancariaOrigen) {
 		this.cuentaBancariaOrigen = cuentaBancariaOrigen;
@@ -326,14 +344,15 @@ public class PagoServicio extends BaseNegocio {
 	 * @return the cuentaBancariaDestino
 	 */
 	public BaseVO getCuentaBancariaDestino() {
-		if (cuentaBancariaDestino == null){
+		if (cuentaBancariaDestino == null) {
 			cuentaBancariaDestino = new BaseVO();
 		}
 		return cuentaBancariaDestino;
 	}
 
 	/**
-	 * @param cuentaBancariaDestino the cuentaBancariaDestino to set
+	 * @param cuentaBancariaDestino
+	 *            the cuentaBancariaDestino to set
 	 */
 	public void setCuentaBancariaDestino(BaseVO cuentaBancariaDestino) {
 		this.cuentaBancariaDestino = cuentaBancariaDestino;
@@ -343,14 +362,15 @@ public class PagoServicio extends BaseNegocio {
 	 * @return the moneda
 	 */
 	public BaseVO getMoneda() {
-		if (moneda == null){
+		if (moneda == null) {
 			moneda = new BaseVO();
 		}
 		return moneda;
 	}
 
 	/**
-	 * @param moneda the moneda to set
+	 * @param moneda
+	 *            the moneda to set
 	 */
 	public void setMoneda(BaseVO moneda) {
 		this.moneda = moneda;

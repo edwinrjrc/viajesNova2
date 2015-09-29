@@ -15,7 +15,7 @@ public class PlantillaCorreo extends BaseNegocio {
 	 * 
 	 */
 	private static final long serialVersionUID = -567041942387599970L;
-	
+
 	private String nombre;
 	private String contenidoPlantilla;
 
@@ -34,7 +34,8 @@ public class PlantillaCorreo extends BaseNegocio {
 	}
 
 	/**
-	 * @param contenidoPlantilla the contenidoPlantilla to set
+	 * @param contenidoPlantilla
+	 *            the contenidoPlantilla to set
 	 */
 	public void setContenidoPlantilla(String contenidoPlantilla) {
 		this.contenidoPlantilla = contenidoPlantilla;
@@ -48,7 +49,8 @@ public class PlantillaCorreo extends BaseNegocio {
 	}
 
 	/**
-	 * @param nombre the nombre to set
+	 * @param nombre
+	 *            the nombre to set
 	 */
 	public void setNombre(String nombre) {
 		this.nombre = nombre;

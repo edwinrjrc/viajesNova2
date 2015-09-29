@@ -21,11 +21,12 @@ public class UtilEncripta {
 		// TODO Auto-generated constructor stub
 	}
 
-	public static String encriptaCadena (String cadena) throws ErrorEncriptacionException{
+	public static String encriptaCadena(String cadena)
+			throws ErrorEncriptacionException {
 		try {
 			StandardPBEStringEncryptor s = new StandardPBEStringEncryptor();
 			s.setPassword("uniquekey");
-			
+
 			return s.encrypt(cadena);
 		} catch (EncryptionOperationNotPossibleException e) {
 			throw new ErrorEncriptacionException("Error en la Encriptacion");
@@ -33,14 +34,15 @@ public class UtilEncripta {
 			throw new ErrorEncriptacionException("Error en la Encriptacion");
 		}
 	}
-	
-	public static String desencriptaCadena (String cadena) throws ErrorEncriptacionException{
+
+	public static String desencriptaCadena(String cadena)
+			throws ErrorEncriptacionException {
 		try {
 			StandardPBEStringEncryptor s = new StandardPBEStringEncryptor();
 			s.setPassword("uniquekey");
-			
+
 			return s.decrypt(cadena);
-			
+
 		} catch (EncryptionOperationNotPossibleException e) {
 			throw new ErrorEncriptacionException("Error en la Desencriptacion");
 		} catch (Exception e) {

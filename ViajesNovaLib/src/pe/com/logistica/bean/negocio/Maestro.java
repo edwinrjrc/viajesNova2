@@ -81,7 +81,8 @@ public class Maestro extends BaseVO {
 	}
 
 	/**
-	 * @param abreviatura the abreviatura to set
+	 * @param abreviatura
+	 *            the abreviatura to set
 	 */
 	public void setAbreviatura(String abreviatura) {
 		this.abreviatura = abreviatura;

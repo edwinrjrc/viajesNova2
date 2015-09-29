@@ -51,8 +51,10 @@ import pe.com.logistica.bean.negocio.ServicioProveedor;
 import pe.com.logistica.bean.negocio.Usuario;
 import pe.com.logistica.negocio.exception.ErrorRegistroDataException;
 import pe.com.logistica.negocio.exception.ValidacionException;
+import pe.com.logistica.web.servicio.ConsultaNegocioServicio;
 import pe.com.logistica.web.servicio.NegocioServicio;
 import pe.com.logistica.web.servicio.SoporteServicio;
+import pe.com.logistica.web.servicio.impl.ConsultaNegocioServicioImpl;
 import pe.com.logistica.web.servicio.impl.NegocioServicioImpl;
 import pe.com.logistica.web.servicio.impl.SoporteServicioImpl;
 import pe.com.logistica.web.util.UtilWeb;
@@ -99,9 +101,9 @@ public class NoviosMBean extends BaseMBean {
 
 	private String generoCliente;
 
-	// private SoporteServicio soporteServicio;
 	private NegocioServicio negocioServicio;
 	private SoporteServicio soporteServicio;
+	private ConsultaNegocioServicio consultaNegocioServicio;
 
 	/**
 	 * 
@@ -112,6 +114,8 @@ public class NoviosMBean extends BaseMBean {
 					.getCurrentInstance().getExternalContext().getContext();
 			soporteServicio = new SoporteServicioImpl(servletContext);
 			negocioServicio = new NegocioServicioImpl(servletContext);
+			consultaNegocioServicio = new ConsultaNegocioServicioImpl(
+					servletContext);
 		} catch (NamingException e) {
 			logger.error(e.getMessage(), e);
 		}
@@ -125,7 +129,7 @@ public class NoviosMBean extends BaseMBean {
 	public void buscarProgramaNovios() {
 		try {
 			System.out.println("busca novios");
-			listadoNovios = this.negocioServicio
+			listadoNovios = this.consultaNegocioServicio
 					.consultarNovios(getProgramaNoviosBusqueda());
 		} catch (SQLException e) {
 			logger.error(e.getMessage(), e);
@@ -160,7 +164,7 @@ public class NoviosMBean extends BaseMBean {
 			this.setGeneroCliente(genero);
 			this.setTipoBusqueda((int) busqueda);
 
-			this.setListadoClientes(this.negocioServicio
+			this.setListadoClientes(this.consultaNegocioServicio
 					.listarClientesNovios(genero));
 		} catch (SQLException e) {
 			logger.error(e.getMessage(), e);
@@ -173,7 +177,7 @@ public class NoviosMBean extends BaseMBean {
 		try {
 			getClienteBusqueda().getGenero().setCodigoCadena(
 					this.getGeneroCliente());
-			this.listadoClientes = this.negocioServicio
+			this.listadoClientes = this.consultaNegocioServicio
 					.buscarClientesNovios(getClienteBusqueda());
 
 		} catch (SQLException e) {
@@ -214,7 +218,7 @@ public class NoviosMBean extends BaseMBean {
 							&& idnovios.intValue() != 0);
 
 					getProgramaNovios().setCodigoEntero(idnovios);
-					List<ProgramaNovios> resultadoConsulta = this.negocioServicio
+					List<ProgramaNovios> resultadoConsulta = this.consultaNegocioServicio
 							.consultarNovios(programaNovios);
 					if (resultadoConsulta != null
 							&& !resultadoConsulta.isEmpty()) {
@@ -262,7 +266,7 @@ public class NoviosMBean extends BaseMBean {
 							&& idnovios.intValue() != 0);
 
 					getProgramaNovios().setCodigoEntero(idnovios);
-					List<ProgramaNovios> resultadoConsulta = this.negocioServicio
+					List<ProgramaNovios> resultadoConsulta = this.consultaNegocioServicio
 							.consultarNovios(programaNovios);
 					if (resultadoConsulta != null
 							&& !resultadoConsulta.isEmpty()) {
@@ -303,14 +307,14 @@ public class NoviosMBean extends BaseMBean {
 				 * .obtenerEnteroPropertieMaestro( "codigoParametroFee",
 				 * "aplicacionDatos"));
 				 */
-				MaestroServicio maestroServicio = this.negocioServicio
+				MaestroServicio maestroServicio = this.consultaNegocioServicio
 						.consultarMaestroServicio(UtilWeb
 								.convertirCadenaEntero(valor));
 
 				this.setServicioFee(maestroServicio.isEsFee()
 						|| maestroServicio.isEsImpuesto());
 				if (!this.isServicioFee()) {
-					listaProveedores = this.negocioServicio
+					listaProveedores = this.consultaNegocioServicio
 							.proveedoresXServicio(UtilWeb
 									.convertirCadenaEntero(valor));
 					setListadoEmpresas(null);
@@ -460,7 +464,7 @@ public class NoviosMBean extends BaseMBean {
 
 		for (DetalleServicioAgencia detalle : this.getListadoDetalleServicio()) {
 
-			List<BaseVO> listaDependientes = this.negocioServicio
+			List<BaseVO> listaDependientes = this.consultaNegocioServicio
 					.consultaServiciosDependientes(detalle.getTipoServicio()
 							.getCodigoEntero());
 
@@ -645,16 +649,20 @@ public class NoviosMBean extends BaseMBean {
 			this.setProgramaNovios(null);
 			this.setListadoDetalleServicio(null);
 			this.setListadoDetalleServicioTotal(null);
-			this.setProgramaNovios(this.negocioServicio
+			this.setProgramaNovios(this.consultaNegocioServicio
 					.consultarProgramaNovios(idProgramaNovios));
 			this.setListadoInvitados(this.getProgramaNovios()
 					.getListaInvitados());
-			
-			ServicioAgencia consultaServicioNovios = this.negocioServicio.consultarVentaServicio(this.getProgramaNovios().getIdServicio());
-			
-			this.setListadoDetalleServicioTotal(consultaServicioNovios.getListaDetalleServicio());
-			for (DetalleServicioAgencia detServicio : consultaServicioNovios.getListaDetalleServicio()) {
-				if (detServicio.getTipoServicio().isVisible()){
+
+			ServicioAgencia consultaServicioNovios = this.consultaNegocioServicio
+					.consultarVentaServicio(this.getProgramaNovios()
+							.getIdServicio());
+
+			this.setListadoDetalleServicioTotal(consultaServicioNovios
+					.getListaDetalleServicio());
+			for (DetalleServicioAgencia detServicio : consultaServicioNovios
+					.getListaDetalleServicio()) {
+				if (detServicio.getTipoServicio().isVisible()) {
 					this.getListadoDetalleServicio().add(detServicio);
 				}
 			}
@@ -707,7 +715,7 @@ public class NoviosMBean extends BaseMBean {
 				outputStream));
 		SimplePdfExporterConfiguration configuration = new SimplePdfExporterConfiguration();
 		configuration.setCreatingBatchModeBookmarks(true);
-		//exporter.setConfiguration(configuration);
+		// exporter.setConfiguration(configuration);
 		exporter.exportReport();
 	}
 
@@ -724,8 +732,11 @@ public class NoviosMBean extends BaseMBean {
 				getServicioNovios().getServicioProveedor().setEditoComision(
 						this.isEditarComision());
 
-				/*this.setListadoDetalleServicio(negocioServicio
-						.agregarServicioVenta(this.getListadoDetalleServicio(),getServicioNovios()));*/
+				/*
+				 * this.setListadoDetalleServicio(negocioServicio
+				 * .agregarServicioVenta
+				 * (this.getListadoDetalleServicio(),getServicioNovios()));
+				 */
 
 				this.setServicioNovios(null);
 
@@ -734,16 +745,15 @@ public class NoviosMBean extends BaseMBean {
 				this.setServicioFee(false);
 				this.setListadoEmpresas(null);
 			}
-		/*} catch (ErrorRegistroDataException e) {
-			logger.error(e.getMessage(), e);
-			this.setShowModal(true);
-			this.setMensajeModal(e.getMessage());
-			this.setTipoModal(TIPO_MODAL_ERROR);
-		} catch (SQLException e) {
-			logger.error(e.getMessage(), e);
-			this.setShowModal(true);
-			this.setMensajeModal(e.getMessage());
-			this.setTipoModal(TIPO_MODAL_ERROR);*/
+			/*
+			 * } catch (ErrorRegistroDataException e) {
+			 * logger.error(e.getMessage(), e); this.setShowModal(true);
+			 * this.setMensajeModal(e.getMessage());
+			 * this.setTipoModal(TIPO_MODAL_ERROR); } catch (SQLException e) {
+			 * logger.error(e.getMessage(), e); this.setShowModal(true);
+			 * this.setMensajeModal(e.getMessage());
+			 * this.setTipoModal(TIPO_MODAL_ERROR);
+			 */
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			this.setShowModal(true);
@@ -890,8 +900,9 @@ public class NoviosMBean extends BaseMBean {
 						.getMontoComision());
 				for (DetalleServicioAgencia detalleServicio2 : detalleServicio
 						.getServiciosHijos()) {
-					if (detalleServicio2.getTipoServicio().isEsImpuesto()){
-						montoIgv = montoIgv.add(detalleServicio2.getPrecioUnitario());
+					if (detalleServicio2.getTipoServicio().isEsImpuesto()) {
+						montoIgv = montoIgv.add(detalleServicio2
+								.getPrecioUnitario());
 					}
 				}
 
@@ -997,8 +1008,7 @@ public class NoviosMBean extends BaseMBean {
 				this.getServicioNovios().getAerolinea()
 						.setCodigoEntero(UtilWeb.convertirCadenaEntero(valor));
 
-				this.getServicioNovios()
-						.getServicioProveedor()
+				this.getServicioNovios().getServicioProveedor()
 						.setPorcentajeComision(null);
 
 			}
@@ -1030,7 +1040,7 @@ public class NoviosMBean extends BaseMBean {
 				 * this.setServicioFee(valor.equals(param.getValor()));
 				 */
 
-				MaestroServicio maestroServicio = this.negocioServicio
+				MaestroServicio maestroServicio = this.consultaNegocioServicio
 						.consultarMaestroServicio(UtilWeb
 								.convertirCadenaEntero(valor));
 
@@ -1043,7 +1053,7 @@ public class NoviosMBean extends BaseMBean {
 						|| maestroServicio.isEsImpuesto());
 
 				if (!this.isServicioFee()) {
-					listaProveedores = this.negocioServicio
+					listaProveedores = this.consultaNegocioServicio
 							.proveedoresXServicio(UtilWeb
 									.convertirCadenaEntero(valor));
 					setListadoEmpresas(null);
@@ -1132,7 +1142,7 @@ public class NoviosMBean extends BaseMBean {
 	 */
 	public List<ProgramaNovios> getListadoNovios() {
 		try {
-			listadoNovios = this.negocioServicio
+			listadoNovios = this.consultaNegocioServicio
 					.consultarNovios(getProgramaNoviosBusqueda());
 		} catch (SQLException e) {
 			logger.error(e.getMessage(), e);

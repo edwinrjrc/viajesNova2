@@ -16,29 +16,28 @@ public class Destino extends BaseNegocio {
 	 * 
 	 */
 	private static final long serialVersionUID = -957344942796822259L;
-	
-	
+
 	private Pais pais;
 	private String descripcion;
 	private String descripcionCompleto;
 	private BaseVO tipoDestino;
 	private String codigoIATA;
-	
+
 	private Integer codigoSeleccionado;
-	
 
 	/**
 	 * @return the tipoDestino
 	 */
 	public BaseVO getTipoDestino() {
-		if (tipoDestino == null){
+		if (tipoDestino == null) {
 			tipoDestino = new BaseVO();
 		}
 		return tipoDestino;
 	}
 
 	/**
-	 * @param tipoDestino the tipoDestino to set
+	 * @param tipoDestino
+	 *            the tipoDestino to set
 	 */
 	public void setTipoDestino(BaseVO tipoDestino) {
 		this.tipoDestino = tipoDestino;
@@ -48,14 +47,15 @@ public class Destino extends BaseNegocio {
 	 * @return the pais
 	 */
 	public Pais getPais() {
-		if (pais == null){
+		if (pais == null) {
 			pais = new Pais();
 		}
 		return pais;
 	}
 
 	/**
-	 * @param pais the pais to set
+	 * @param pais
+	 *            the pais to set
 	 */
 	public void setPais(Pais pais) {
 		this.pais = pais;
@@ -69,7 +69,8 @@ public class Destino extends BaseNegocio {
 	}
 
 	/**
-	 * @param codigoIATA the codigoIATA to set
+	 * @param codigoIATA
+	 *            the codigoIATA to set
 	 */
 	public void setCodigoIATA(String codigoIATA) {
 		this.codigoIATA = codigoIATA;
@@ -83,7 +84,8 @@ public class Destino extends BaseNegocio {
 	}
 
 	/**
-	 * @param descripcion the descripcion to set
+	 * @param descripcion
+	 *            the descripcion to set
 	 */
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
@@ -97,7 +99,8 @@ public class Destino extends BaseNegocio {
 	}
 
 	/**
-	 * @param descripcionCompleto the descripcionCompleto to set
+	 * @param descripcionCompleto
+	 *            the descripcionCompleto to set
 	 */
 	public void setDescripcionCompleto(String descripcionCompleto) {
 		this.descripcionCompleto = descripcionCompleto;
@@ -111,7 +114,8 @@ public class Destino extends BaseNegocio {
 	}
 
 	/**
-	 * @param codigoSeleccionado the codigoSeleccionado to set
+	 * @param codigoSeleccionado
+	 *            the codigoSeleccionado to set
 	 */
 	public void setCodigoSeleccionado(Integer codigoSeleccionado) {
 		this.codigoSeleccionado = codigoSeleccionado;

@@ -9,9 +9,8 @@ package pe.com.logistica.negocio.exception;
  */
 public class LogisticaNegocioException extends Exception {
 
-	
-	private String codigoError ="";
-	private String mensajeError ="";
+	private String codigoError = "";
+	private String mensajeError = "";
 	/**
 	 * 
 	 */
@@ -32,7 +31,7 @@ public class LogisticaNegocioException extends Exception {
 		mensajeError = arg0;
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public LogisticaNegocioException(String arg0, String arg1) {
 		super(arg1);
 		codigoError = arg0;
@@ -57,13 +56,13 @@ public class LogisticaNegocioException extends Exception {
 		mensajeError = arg0;
 		// TODO Auto-generated constructor stub
 	}
-	
-	
+
 	/**
 	 * @param arg0
 	 * @param arg1
 	 */
-	public LogisticaNegocioException(String codigo, String mensaje, Throwable arg1) {
+	public LogisticaNegocioException(String codigo, String mensaje,
+			Throwable arg1) {
 		super(mensaje, arg1);
 		mensajeError = mensaje;
 		codigoError = codigo;
@@ -91,7 +90,8 @@ public class LogisticaNegocioException extends Exception {
 	}
 
 	/**
-	 * @param codigoError the codigoError to set
+	 * @param codigoError
+	 *            the codigoError to set
 	 */
 	public void setCodigoError(String codigoError) {
 		this.codigoError = codigoError;
@@ -105,7 +105,8 @@ public class LogisticaNegocioException extends Exception {
 	}
 
 	/**
-	 * @param mensajeError the mensajeError to set
+	 * @param mensajeError
+	 *            the mensajeError to set
 	 */
 	public void setMensajeError(String mensajeError) {
 		this.mensajeError = mensajeError;

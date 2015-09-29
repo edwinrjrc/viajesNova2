@@ -26,8 +26,12 @@ import pe.com.logistica.negocio.util.UtilJdbc;
  */
 public class ArchivoReporteDaoImpl implements ArchivoReporteDao {
 
-	/* (non-Javadoc)
-	 * @see pe.com.logistica.negocio.dao.ArchivoReporteDao#registrarArchivoReporteCabecera(pe.com.logistica.bean.cargaexcel.ReporteArchivo, java.sql.Connection)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see pe.com.logistica.negocio.dao.ArchivoReporteDao#
+	 * registrarArchivoReporteCabecera
+	 * (pe.com.logistica.bean.cargaexcel.ReporteArchivo, java.sql.Connection)
 	 */
 	@Override
 	public Integer registrarArchivoReporteCabecera(
@@ -35,34 +39,39 @@ public class ArchivoReporteDaoImpl implements ArchivoReporteDao {
 		Integer resultado = 0;
 		CallableStatement cs = null;
 		String sql = "{ ? = call negocio.fn_ingresararchivocargado(?,?,?,?,?,?,?) }";
-		
+
 		try {
 			cs = conn.prepareCall(sql);
-			int i=1;
+			int i = 1;
 			cs.registerOutParameter(i++, Types.INTEGER);
 			cs.setString(i++, reporteArchivo.getNombreArchivo());
 			cs.setString(i++, reporteArchivo.getNombreReporte());
-			cs.setInt(i++, reporteArchivo.getProveedor().getCodigoEntero().intValue());
+			cs.setInt(i++, reporteArchivo.getProveedor().getCodigoEntero()
+					.intValue());
 			cs.setInt(i++, reporteArchivo.getNumeroFilas());
 			cs.setInt(i++, reporteArchivo.getNumeroColumnas());
 			cs.setString(i++, reporteArchivo.getUsuarioCreacion());
 			cs.setString(i++, reporteArchivo.getIpCreacion());
 			cs.execute();
-			
+
 			resultado = cs.getInt(1);
 		} catch (SQLException e) {
 			throw new SQLException(e);
-		} finally{
-			if (cs != null){
+		} finally {
+			if (cs != null) {
 				cs.close();
 			}
 		}
-		
+
 		return resultado;
 	}
 
-	/* (non-Javadoc)
-	 * @see pe.com.logistica.negocio.dao.ArchivoReporteDao#registrarDetalleArchivoReporte(pe.com.logistica.bean.cargaexcel.ColumnasExcel, java.sql.Connection)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * pe.com.logistica.negocio.dao.ArchivoReporteDao#registrarDetalleArchivoReporte
+	 * (pe.com.logistica.bean.cargaexcel.ColumnasExcel, java.sql.Connection)
 	 */
 	@Override
 	public boolean registrarDetalleArchivoReporte(ColumnasExcel columnasExcel,
@@ -70,166 +79,170 @@ public class ArchivoReporteDaoImpl implements ArchivoReporteDao {
 		boolean resultado = false;
 		CallableStatement cs = null;
 		String sql = "{ ? = call negocio.fn_ingresardetallearchivocargado(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) }";
-		
+
 		try {
 			cs = conn.prepareCall(sql);
-			int i=1;
+			int i = 1;
 			cs.registerOutParameter(i++, Types.BOOLEAN);
 			cs.setInt(i++, columnasExcel.getIdArchivo().intValue());
-			if (StringUtils.isNotBlank(columnasExcel.getColumna1().getValorCadena())){
+			if (StringUtils.isNotBlank(columnasExcel.getColumna1()
+					.getValorCadena())) {
 				cs.setString(i++, columnasExcel.getColumna1().getValorCadena());
-			}
-			else{
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
-			if (StringUtils.isNotBlank(columnasExcel.getColumna2().getValorCadena())){
+			if (StringUtils.isNotBlank(columnasExcel.getColumna2()
+					.getValorCadena())) {
 				cs.setString(i++, columnasExcel.getColumna2().getValorCadena());
-			}
-			else{
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
-			if (StringUtils.isNotBlank(columnasExcel.getColumna3().getValorCadena())){
+			if (StringUtils.isNotBlank(columnasExcel.getColumna3()
+					.getValorCadena())) {
 				cs.setString(i++, columnasExcel.getColumna3().getValorCadena());
-			}
-			else{
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
-			if (StringUtils.isNotBlank(columnasExcel.getColumna4().getValorCadena())){
+			if (StringUtils.isNotBlank(columnasExcel.getColumna4()
+					.getValorCadena())) {
 				cs.setString(i++, columnasExcel.getColumna4().getValorCadena());
-			}
-			else{
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
-			if (StringUtils.isNotBlank(columnasExcel.getColumna5().getValorCadena())){
+			if (StringUtils.isNotBlank(columnasExcel.getColumna5()
+					.getValorCadena())) {
 				cs.setString(i++, columnasExcel.getColumna5().getValorCadena());
-			}
-			else{
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
-			if (StringUtils.isNotBlank(columnasExcel.getColumna6().getValorCadena())){
+			if (StringUtils.isNotBlank(columnasExcel.getColumna6()
+					.getValorCadena())) {
 				cs.setString(i++, columnasExcel.getColumna6().getValorCadena());
-			}
-			else{
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
-			if (StringUtils.isNotBlank(columnasExcel.getColumna7().getValorCadena())){
+			if (StringUtils.isNotBlank(columnasExcel.getColumna7()
+					.getValorCadena())) {
 				cs.setString(i++, columnasExcel.getColumna7().getValorCadena());
-			}
-			else{
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
-			if (StringUtils.isNotBlank(columnasExcel.getColumna8().getValorCadena())){
+			if (StringUtils.isNotBlank(columnasExcel.getColumna8()
+					.getValorCadena())) {
 				cs.setString(i++, columnasExcel.getColumna8().getValorCadena());
-			}
-			else{
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
-			if (StringUtils.isNotBlank(columnasExcel.getColumna9().getValorCadena())){
+			if (StringUtils.isNotBlank(columnasExcel.getColumna9()
+					.getValorCadena())) {
 				cs.setString(i++, columnasExcel.getColumna9().getValorCadena());
-			}
-			else{
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
-			if (StringUtils.isNotBlank(columnasExcel.getColumna10().getValorCadena())){
+			if (StringUtils.isNotBlank(columnasExcel.getColumna10()
+					.getValorCadena())) {
 				cs.setString(i++, columnasExcel.getColumna10().getValorCadena());
-			}
-			else{
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
-			if (StringUtils.isNotBlank(columnasExcel.getColumna11().getValorCadena())){
+			if (StringUtils.isNotBlank(columnasExcel.getColumna11()
+					.getValorCadena())) {
 				cs.setString(i++, columnasExcel.getColumna11().getValorCadena());
-			}
-			else{
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
-			if (StringUtils.isNotBlank(columnasExcel.getColumna12().getValorCadena())){
+			if (StringUtils.isNotBlank(columnasExcel.getColumna12()
+					.getValorCadena())) {
 				cs.setString(i++, columnasExcel.getColumna12().getValorCadena());
-			}
-			else{
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
-			if (StringUtils.isNotBlank(columnasExcel.getColumna13().getValorCadena())){
+			if (StringUtils.isNotBlank(columnasExcel.getColumna13()
+					.getValorCadena())) {
 				cs.setString(i++, columnasExcel.getColumna13().getValorCadena());
-			}
-			else{
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
-			if (StringUtils.isNotBlank(columnasExcel.getColumna14().getValorCadena())){
+			if (StringUtils.isNotBlank(columnasExcel.getColumna14()
+					.getValorCadena())) {
 				cs.setString(i++, columnasExcel.getColumna14().getValorCadena());
-			}
-			else{
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
-			if (StringUtils.isNotBlank(columnasExcel.getColumna15().getValorCadena())){
+			if (StringUtils.isNotBlank(columnasExcel.getColumna15()
+					.getValorCadena())) {
 				cs.setString(i++, columnasExcel.getColumna15().getValorCadena());
-			}
-			else{
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
-			if (StringUtils.isNotBlank(columnasExcel.getColumna16().getValorCadena())){
+			if (StringUtils.isNotBlank(columnasExcel.getColumna16()
+					.getValorCadena())) {
 				cs.setString(i++, columnasExcel.getColumna16().getValorCadena());
-			}
-			else{
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
-			if (StringUtils.isNotBlank(columnasExcel.getColumna17().getValorCadena())){
+			if (StringUtils.isNotBlank(columnasExcel.getColumna17()
+					.getValorCadena())) {
 				cs.setString(i++, columnasExcel.getColumna17().getValorCadena());
-			}
-			else{
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
-			if (StringUtils.isNotBlank(columnasExcel.getColumna18().getValorCadena())){
+			if (StringUtils.isNotBlank(columnasExcel.getColumna18()
+					.getValorCadena())) {
 				cs.setString(i++, columnasExcel.getColumna18().getValorCadena());
-			}
-			else{
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
-			if (StringUtils.isNotBlank(columnasExcel.getColumna19().getValorCadena())){
+			if (StringUtils.isNotBlank(columnasExcel.getColumna19()
+					.getValorCadena())) {
 				cs.setString(i++, columnasExcel.getColumna19().getValorCadena());
-			}
-			else{
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
-			if (StringUtils.isNotBlank(columnasExcel.getColumna20().getValorCadena())){
+			if (StringUtils.isNotBlank(columnasExcel.getColumna20()
+					.getValorCadena())) {
 				cs.setString(i++, columnasExcel.getColumna20().getValorCadena());
-			}
-			else{
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
 			cs.setBoolean(i++, columnasExcel.isSeleccionar());
-			if (columnasExcel.getTipoComprobante().getCodigoEntero()!=null && columnasExcel.getTipoComprobante().getCodigoEntero().intValue()!=0){
-				cs.setInt(i++, columnasExcel.getTipoComprobante().getCodigoEntero().intValue());
-			}
-			else{
+			if (columnasExcel.getTipoComprobante().getCodigoEntero() != null
+					&& columnasExcel.getTipoComprobante().getCodigoEntero()
+							.intValue() != 0) {
+				cs.setInt(i++, columnasExcel.getTipoComprobante()
+						.getCodigoEntero().intValue());
+			} else {
 				cs.setNull(i++, Types.INTEGER);
 			}
-			if (StringUtils.isNotBlank(columnasExcel.getNumeroComprobante())){
+			if (StringUtils.isNotBlank(columnasExcel.getNumeroComprobante())) {
 				cs.setString(i++, columnasExcel.getNumeroComprobante());
-			}
-			else{
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
 			cs.setString(i++, columnasExcel.getUsuarioCreacion());
 			cs.setString(i++, columnasExcel.getIpCreacion());
 			cs.execute();
-			
+
 			resultado = cs.getBoolean(1);
 		} catch (SQLException e) {
 			throw new SQLException(e);
-		} catch (Exception e){
+		} catch (Exception e) {
 			throw new Exception(e);
-		} finally{
-			if (cs != null){
+		} finally {
+			if (cs != null) {
 				cs.close();
 			}
 		}
-		
+
 		return resultado;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see pe.com.logistica.negocio.dao.ArchivoReporteDao#consultarArchivosCargados(pe.com.logistica.bean.cargaexcel.ReporteArchivoBusqueda)
+	 * 
+	 * @see
+	 * pe.com.logistica.negocio.dao.ArchivoReporteDao#consultarArchivosCargados
+	 * (pe.com.logistica.bean.cargaexcel.ReporteArchivoBusqueda)
 	 */
 	@Override
 	public List<ReporteArchivoBusqueda> consultarArchivosCargados(
@@ -240,75 +253,88 @@ public class ArchivoReporteDaoImpl implements ArchivoReporteDao {
 		CallableStatement cs = null;
 		ResultSet rs = null;
 		String sql = "{ ? = call negocio.fn_consultararchivoscargados(?,?,?,?,?) }";
-		
+
 		try {
 			conn = UtilConexion.obtenerConexion();
 			cs = conn.prepareCall(sql);
-			int i=1;
+			int i = 1;
 			cs.registerOutParameter(i++, Types.OTHER);
-			if (reporteBusqueda.getCodigoEntero() != null && reporteBusqueda.getCodigoEntero().intValue() != 0){
+			if (reporteBusqueda.getCodigoEntero() != null
+					&& reporteBusqueda.getCodigoEntero().intValue() != 0) {
 				cs.setInt(i++, reporteBusqueda.getCodigoEntero().intValue());
-			}
-			else{
+			} else {
 				cs.setNull(i++, Types.INTEGER);
 			}
-			if (reporteBusqueda.getFechaDesde() != null){
-				cs.setDate(i++, UtilJdbc.convertirUtilDateSQLDate(reporteBusqueda.getFechaDesde()));
-			}
-			else{
+			if (reporteBusqueda.getFechaDesde() != null) {
+				cs.setDate(i++, UtilJdbc
+						.convertirUtilDateSQLDate(reporteBusqueda
+								.getFechaDesde()));
+			} else {
 				cs.setNull(i++, Types.DATE);
 			}
-			if (reporteBusqueda.getFechaHasta() != null){
-				cs.setDate(i++, UtilJdbc.convertirUtilDateSQLDate(reporteBusqueda.getFechaHasta()));
-			}
-			else{
+			if (reporteBusqueda.getFechaHasta() != null) {
+				cs.setDate(i++, UtilJdbc
+						.convertirUtilDateSQLDate(reporteBusqueda
+								.getFechaHasta()));
+			} else {
 				cs.setNull(i++, Types.DATE);
 			}
-			if (reporteBusqueda.getProveedor().getCodigoEntero() != null && reporteBusqueda.getProveedor().getCodigoEntero().intValue() != 0){
-				cs.setInt(i++, reporteBusqueda.getProveedor().getCodigoEntero().intValue());
-			}
-			else{
+			if (reporteBusqueda.getProveedor().getCodigoEntero() != null
+					&& reporteBusqueda.getProveedor().getCodigoEntero()
+							.intValue() != 0) {
+				cs.setInt(i++, reporteBusqueda.getProveedor().getCodigoEntero()
+						.intValue());
+			} else {
 				cs.setNull(i++, Types.INTEGER);
 			}
-			if (StringUtils.isNotBlank(reporteBusqueda.getNombreReporte())){
-				cs.setString(i++, StringUtils.upperCase(StringUtils.replace(reporteBusqueda.getNombreReporte()," ","")));
-			}
-			else{
+			if (StringUtils.isNotBlank(reporteBusqueda.getNombreReporte())) {
+				cs.setString(i++, StringUtils.upperCase(StringUtils.replace(
+						reporteBusqueda.getNombreReporte(), " ", "")));
+			} else {
 				cs.setNull(i++, Types.VARCHAR);
 			}
 			cs.execute();
-			
-			rs = (ResultSet)cs.getObject(1);
+
+			rs = (ResultSet) cs.getObject(1);
 			ReporteArchivoBusqueda reporteArchivoBusqueda = null;
 			resultado = new ArrayList<ReporteArchivoBusqueda>();
-			while (rs.next()){
+			while (rs.next()) {
 				reporteArchivoBusqueda = new ReporteArchivoBusqueda();
-				reporteArchivoBusqueda.setCodigoEntero(UtilJdbc.obtenerNumero(rs, "id"));
-				reporteArchivoBusqueda.setNombreArchivo(UtilJdbc.obtenerCadena(rs, "nombrearchivo"));
-				reporteArchivoBusqueda.setNombreReporte(UtilJdbc.obtenerCadena(rs, "nombrereporte"));
-				reporteArchivoBusqueda.getProveedor().setCodigoEntero(UtilJdbc.obtenerNumero(rs, "idproveedor"));
-				String nombre = UtilJdbc.obtenerCadena(rs, "nombres")+" "+UtilJdbc.obtenerCadena(rs, "apellidopaterno")+" "+UtilJdbc.obtenerCadena(rs, "apellidomaterno");
+				reporteArchivoBusqueda.setCodigoEntero(UtilJdbc.obtenerNumero(
+						rs, "id"));
+				reporteArchivoBusqueda.setNombreArchivo(UtilJdbc.obtenerCadena(
+						rs, "nombrearchivo"));
+				reporteArchivoBusqueda.setNombreReporte(UtilJdbc.obtenerCadena(
+						rs, "nombrereporte"));
+				reporteArchivoBusqueda.getProveedor().setCodigoEntero(
+						UtilJdbc.obtenerNumero(rs, "idproveedor"));
+				String nombre = UtilJdbc.obtenerCadena(rs, "nombres") + " "
+						+ UtilJdbc.obtenerCadena(rs, "apellidopaterno") + " "
+						+ UtilJdbc.obtenerCadena(rs, "apellidomaterno");
 				nombre = StringUtils.normalizeSpace(nombre);
 				reporteArchivoBusqueda.getProveedor().setNombre(nombre);
-				reporteArchivoBusqueda.setNumeroFilas(UtilJdbc.obtenerNumero(rs, "numerofilas"));
-				reporteArchivoBusqueda.setNumeroColumnas(UtilJdbc.obtenerNumero(rs, "numerocolumnas"));
-				reporteArchivoBusqueda.setNumeroSeleccionados(UtilJdbc.obtenerNumero(rs, "seleccionados"));
+				reporteArchivoBusqueda.setNumeroFilas(UtilJdbc.obtenerNumero(
+						rs, "numerofilas"));
+				reporteArchivoBusqueda.setNumeroColumnas(UtilJdbc
+						.obtenerNumero(rs, "numerocolumnas"));
+				reporteArchivoBusqueda.setNumeroSeleccionados(UtilJdbc
+						.obtenerNumero(rs, "seleccionados"));
 				resultado.add(reporteArchivoBusqueda);
 			}
 		} catch (SQLException e) {
 			throw new SQLException(e);
-		} finally{
-			if (rs != null){
+		} finally {
+			if (rs != null) {
 				rs.close();
 			}
-			if (cs != null){
+			if (cs != null) {
 				cs.close();
 			}
-			if (conn != null){
+			if (conn != null) {
 				conn.close();
 			}
 		}
-		
+
 		return resultado;
 	}
 

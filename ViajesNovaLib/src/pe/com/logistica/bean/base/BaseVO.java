@@ -19,11 +19,11 @@ public class BaseVO extends Base {
 	public BaseVO() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public BaseVO(int id) {
 		this.setCodigoEntero(id);
 	}
-	
+
 	public BaseVO(String id) {
 		this.setCodigoCadena(id);
 	}
@@ -51,7 +51,8 @@ public class BaseVO extends Base {
 	}
 
 	/**
-	 * @param abreviatura the abreviatura to set
+	 * @param abreviatura
+	 *            the abreviatura to set
 	 */
 	public void setAbreviatura(String abreviatura) {
 		this.abreviatura = abreviatura;

@@ -16,8 +16,9 @@ import pe.com.logistica.bean.negocio.TipoCambio;
  */
 public interface TipoCambioDao {
 
-	public boolean registrarTipoCambio(TipoCambio tipoCambio) throws SQLException;
-	
+	public boolean registrarTipoCambio(TipoCambio tipoCambio)
+			throws SQLException;
+
 	List<TipoCambio> listarTipoCambio(Date fecha) throws SQLException;
 
 	TipoCambio consultarTipoCambio(Integer idMonedaOrigen,

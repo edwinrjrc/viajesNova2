@@ -3,12 +3,11 @@
  */
 package pe.com.logistica.bean.negocio;
 
-
 /**
  * @author edwreb
  *
  */
-public class ServicioNovios extends DetalleServicioAgencia{
+public class ServicioNovios extends DetalleServicioAgencia {
 
 	/**
 	 * 

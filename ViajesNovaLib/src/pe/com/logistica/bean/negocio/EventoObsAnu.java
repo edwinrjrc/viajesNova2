@@ -22,6 +22,7 @@ public class EventoObsAnu extends BaseNegocio {
 
 	public static final Integer EVENTO_OBS = 1;
 	public static final Integer EVENTO_ANU = 2;
+
 	/**
 	 * 
 	 */
@@ -33,14 +34,15 @@ public class EventoObsAnu extends BaseNegocio {
 	 * @return the tipoEvento
 	 */
 	public BaseVO getTipoEvento() {
-		if (tipoEvento == null){
+		if (tipoEvento == null) {
 			tipoEvento = new BaseVO();
 		}
 		return tipoEvento;
 	}
 
 	/**
-	 * @param tipoEvento the tipoEvento to set
+	 * @param tipoEvento
+	 *            the tipoEvento to set
 	 */
 	public void setTipoEvento(BaseVO tipoEvento) {
 		this.tipoEvento = tipoEvento;
@@ -54,7 +56,8 @@ public class EventoObsAnu extends BaseNegocio {
 	}
 
 	/**
-	 * @param comentario the comentario to set
+	 * @param comentario
+	 *            the comentario to set
 	 */
 	public void setComentario(String comentario) {
 		this.comentario = comentario;
@@ -68,7 +71,8 @@ public class EventoObsAnu extends BaseNegocio {
 	}
 
 	/**
-	 * @param idServicio the idServicio to set
+	 * @param idServicio
+	 *            the idServicio to set
 	 */
 	public void setIdServicio(Integer idServicio) {
 		this.idServicio = idServicio;

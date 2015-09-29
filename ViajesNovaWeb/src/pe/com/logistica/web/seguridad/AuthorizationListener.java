@@ -20,8 +20,9 @@ import pe.com.logistica.bean.negocio.Usuario;
  */
 public class AuthorizationListener implements PhaseListener {
 
-	private final static Logger logger = Logger.getLogger(AuthorizationListener.class);
-	
+	private final static Logger logger = Logger
+			.getLogger(AuthorizationListener.class);
+
 	/**
 	 * 
 	 */
@@ -53,7 +54,7 @@ public class AuthorizationListener implements PhaseListener {
 	 */
 	@Override
 	public void beforePhase(PhaseEvent event) {
-		//redirigir(event);
+		// redirigir(event);
 	}
 
 	/*
@@ -72,8 +73,8 @@ public class AuthorizationListener implements PhaseListener {
 			String currentPage = facesContext.getViewRoot().getViewId();
 
 			boolean isLoginPage = (currentPage.lastIndexOf("index.xhtml") > -1);
-			HttpSession session = (HttpSession) facesContext.getExternalContext()
-					.getSession(false);
+			HttpSession session = (HttpSession) facesContext
+					.getExternalContext().getSession(false);
 
 			if (session == null) {
 				NavigationHandler nh = facesContext.getApplication()

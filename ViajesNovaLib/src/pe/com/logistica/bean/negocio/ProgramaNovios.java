@@ -34,17 +34,17 @@ public class ProgramaNovios extends BaseNegocio {
 	private int nroNoches;
 	private Date fechaShower;
 	private String observaciones;
-	
+
 	private List<Cliente> listaInvitados;
 	private List<DetalleServicioAgencia> listaServicios;
 	private int cantidadInvitados;
-	
+
 	private BigDecimal montoTotalServiciosPrograma;
 	private BigDecimal montoTotalComision;
 	private BigDecimal montoTotalFee;
 	private BigDecimal montoTotalServicios;
 	private BigDecimal montoTotalIGV;
-	
+
 	/**
 	 * @return the montoTotalServicios
 	 */
@@ -53,7 +53,8 @@ public class ProgramaNovios extends BaseNegocio {
 	}
 
 	/**
-	 * @param montoTotalServicios the montoTotalServicios to set
+	 * @param montoTotalServicios
+	 *            the montoTotalServicios to set
 	 */
 	public void setMontoTotalServicios(BigDecimal montoTotalServicios) {
 		this.montoTotalServicios = montoTotalServicios;
@@ -67,14 +68,15 @@ public class ProgramaNovios extends BaseNegocio {
 	}
 
 	/**
-	 * @param montoTotalIGV the montoTotalIGV to set
+	 * @param montoTotalIGV
+	 *            the montoTotalIGV to set
 	 */
 	public void setMontoTotalIGV(BigDecimal montoTotalIGV) {
 		this.montoTotalIGV = montoTotalIGV;
 	}
 
 	private BaseVO vendedor;
-	
+
 	private Integer idServicio;
 
 	/**
@@ -88,7 +90,7 @@ public class ProgramaNovios extends BaseNegocio {
 	 * @return the novia
 	 */
 	public Cliente getNovia() {
-		if (novia == null){
+		if (novia == null) {
 			novia = new Cliente();
 		}
 		return novia;
@@ -106,7 +108,7 @@ public class ProgramaNovios extends BaseNegocio {
 	 * @return the novio
 	 */
 	public Cliente getNovio() {
-		if (novio == null){
+		if (novio == null) {
 			novio = new Cliente();
 		}
 		return novio;
@@ -124,7 +126,7 @@ public class ProgramaNovios extends BaseNegocio {
 	 * @return the destino
 	 */
 	public Destino getDestino() {
-		if (destino == null){
+		if (destino == null) {
 			destino = new Destino();
 		}
 		return destino;
@@ -172,7 +174,7 @@ public class ProgramaNovios extends BaseNegocio {
 	 * @return the moneda
 	 */
 	public BaseVO getMoneda() {
-		if (moneda == null){
+		if (moneda == null) {
 			moneda = new BaseVO();
 		}
 		return moneda;
@@ -269,7 +271,8 @@ public class ProgramaNovios extends BaseNegocio {
 	}
 
 	/**
-	 * @param fechaViaje the fechaViaje to set
+	 * @param fechaViaje
+	 *            the fechaViaje to set
 	 */
 	public void setFechaViaje(Date fechaViaje) {
 		this.fechaViaje = fechaViaje;
@@ -279,14 +282,15 @@ public class ProgramaNovios extends BaseNegocio {
 	 * @return the listaInvitados
 	 */
 	public List<Cliente> getListaInvitados() {
-		if (listaInvitados == null){
+		if (listaInvitados == null) {
 			listaInvitados = new ArrayList<Cliente>();
 		}
 		return listaInvitados;
 	}
 
 	/**
-	 * @param listaInvitados the listaInvitados to set
+	 * @param listaInvitados
+	 *            the listaInvitados to set
 	 */
 	public void setListaInvitados(List<Cliente> listaInvitados) {
 		this.listaInvitados = listaInvitados;
@@ -300,7 +304,8 @@ public class ProgramaNovios extends BaseNegocio {
 	}
 
 	/**
-	 * @param cantidadInvitados the cantidadInvitados to set
+	 * @param cantidadInvitados
+	 *            the cantidadInvitados to set
 	 */
 	public void setCantidadInvitados(int cantidadInvitados) {
 		this.cantidadInvitados = cantidadInvitados;
@@ -310,14 +315,15 @@ public class ProgramaNovios extends BaseNegocio {
 	 * @return the listaServicios
 	 */
 	public List<DetalleServicioAgencia> getListaServicios() {
-		if (listaServicios == null){
+		if (listaServicios == null) {
 			listaServicios = new ArrayList<DetalleServicioAgencia>();
 		}
 		return listaServicios;
 	}
 
 	/**
-	 * @param listaServicios the listaServicios to set
+	 * @param listaServicios
+	 *            the listaServicios to set
 	 */
 	public void setListaServicios(List<DetalleServicioAgencia> listaServicios) {
 		this.listaServicios = listaServicios;
@@ -331,7 +337,8 @@ public class ProgramaNovios extends BaseNegocio {
 	}
 
 	/**
-	 * @param montoTotalServiciosPrograma the montoTotalServiciosPrograma to set
+	 * @param montoTotalServiciosPrograma
+	 *            the montoTotalServiciosPrograma to set
 	 */
 	public void setMontoTotalServiciosPrograma(
 			BigDecimal montoTotalServiciosPrograma) {
@@ -346,7 +353,8 @@ public class ProgramaNovios extends BaseNegocio {
 	}
 
 	/**
-	 * @param montoTotalComision the montoTotalComision to set
+	 * @param montoTotalComision
+	 *            the montoTotalComision to set
 	 */
 	public void setMontoTotalComision(BigDecimal montoTotalComision) {
 		this.montoTotalComision = montoTotalComision;
@@ -360,7 +368,8 @@ public class ProgramaNovios extends BaseNegocio {
 	}
 
 	/**
-	 * @param montoTotalFee the montoTotalFee to set
+	 * @param montoTotalFee
+	 *            the montoTotalFee to set
 	 */
 	public void setMontoTotalFee(BigDecimal montoTotalFee) {
 		this.montoTotalFee = montoTotalFee;
@@ -370,14 +379,15 @@ public class ProgramaNovios extends BaseNegocio {
 	 * @return the vendedor
 	 */
 	public BaseVO getVendedor() {
-		if (vendedor == null){
+		if (vendedor == null) {
 			vendedor = new BaseVO();
 		}
 		return vendedor;
 	}
 
 	/**
-	 * @param vendedor the vendedor to set
+	 * @param vendedor
+	 *            the vendedor to set
 	 */
 	public void setVendedor(BaseVO vendedor) {
 		this.vendedor = vendedor;
@@ -391,7 +401,8 @@ public class ProgramaNovios extends BaseNegocio {
 	}
 
 	/**
-	 * @param idServicio the idServicio to set
+	 * @param idServicio
+	 *            the idServicio to set
 	 */
 	public void setIdServicio(Integer idServicio) {
 		this.idServicio = idServicio;

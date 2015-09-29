@@ -27,8 +27,9 @@ public interface ClienteDao {
 	List<Cliente> buscarPersona(Persona persona) throws SQLException;
 
 	public Cliente consultarCliente(int idcliente) throws SQLException;
-	
-	public List<Cliente> listarClientesNovios(String genero) throws SQLException;
+
+	public List<Cliente> listarClientesNovios(String genero)
+			throws SQLException;
 
 	List<Cliente> listarClientes(Persona persona) throws SQLException;
 
@@ -36,6 +37,6 @@ public interface ClienteDao {
 			throws SQLException;
 
 	List<Cliente> consultarClientesNovios(Cliente cliente) throws SQLException;
-	
+
 	List<Cliente> listarClienteCumpleanieros() throws SQLException;
 }

@@ -10,14 +10,14 @@ import org.apache.log4j.Logger;
  *
  */
 public class ControlAsistenciaMBean extends BaseMBean {
-	
-	private final static Logger logger = Logger.getLogger(ControlAsistenciaMBean.class);
+
+	private final static Logger logger = Logger
+			.getLogger(ControlAsistenciaMBean.class);
 
 	private static final long serialVersionUID = 1578058457007878680L;
 
 	public ControlAsistenciaMBean() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	
+
 }

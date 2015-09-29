@@ -14,12 +14,16 @@ import pe.com.logistica.bean.negocio.Consolidador;
  */
 public interface ConsolidadorDao {
 
-	public boolean ingresarConsolidador(Consolidador consolidador) throws SQLException, Exception;
-	
-	public boolean actualizarConsolidador(Consolidador consolidador) throws SQLException, Exception;
-	
-	public List<Consolidador> listarConsolidador() throws SQLException, Exception;
-	
-	public Consolidador consultarConsolidador(Consolidador consolidador) throws SQLException, Exception;
-	
+	public boolean ingresarConsolidador(Consolidador consolidador)
+			throws SQLException, Exception;
+
+	public boolean actualizarConsolidador(Consolidador consolidador)
+			throws SQLException, Exception;
+
+	public List<Consolidador> listarConsolidador() throws SQLException,
+			Exception;
+
+	public Consolidador consultarConsolidador(Consolidador consolidador)
+			throws SQLException, Exception;
+
 }

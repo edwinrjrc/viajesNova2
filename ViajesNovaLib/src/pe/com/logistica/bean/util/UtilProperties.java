@@ -15,30 +15,30 @@ import java.util.Properties;
  *
  */
 public class UtilProperties {
-	
-	public static Properties cargaArchivo(String archivoProperties) throws FileNotFoundException, IOException{
-		String c = "/var/lib/openshift/55fcc5c37628e1e6b2000124/jbossas/aplicacion/"+archivoProperties;
-		String d = "/var/lib/openshift/55fcc5c37628e1e6b2000124/jbossas/aplicacion/"+archivoProperties;
+
+	public static Properties cargaArchivo(String archivoProperties)
+			throws FileNotFoundException, IOException {
+		String c = "/var/lib/openshift/55fcc5c37628e1e6b2000124/jbossas/aplicacion/"
+				+ archivoProperties;
+		String d = "/var/lib/openshift/55fcc5c37628e1e6b2000124/jbossas/aplicacion/"
+				+ archivoProperties;
 		File fc = new File(c);
-		
+
 		Properties prop = new Properties();
 		InputStream input = null;
-		
-		
-		if (fc.exists()){
+
+		if (fc.exists()) {
 			input = new FileInputStream(fc);
 			prop.load(input);
-		}
-		else{
+		} else {
 			fc = new File(d);
-			if (fc.exists()){
+			if (fc.exists()) {
 				input = new FileInputStream(fc);
 				prop.load(input);
 			}
 		}
-		
+
 		return prop;
 	}
-	
 
 }

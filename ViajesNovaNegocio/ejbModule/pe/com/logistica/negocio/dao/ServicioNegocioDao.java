@@ -9,7 +9,6 @@ import java.util.List;
 
 import pe.com.logistica.bean.base.BaseVO;
 import pe.com.logistica.bean.jasper.DetalleServicio;
-import pe.com.logistica.bean.negocio.DetalleServicioAgencia;
 import pe.com.logistica.bean.negocio.ServicioAgencia;
 import pe.com.logistica.bean.negocio.ServicioProveedor;
 
@@ -19,10 +18,12 @@ import pe.com.logistica.bean.negocio.ServicioProveedor;
  */
 public interface ServicioNegocioDao {
 
-	public BigDecimal calcularCuota(ServicioAgencia servicioAgencia) throws SQLException;
+	public BigDecimal calcularCuota(ServicioAgencia servicioAgencia)
+			throws SQLException;
 
 	List<ServicioProveedor> proveedoresXServicio(BaseVO servicio)
 			throws SQLException;
-	
-	public List<DetalleServicio> consultarServicioVentaJR(Integer idServicio) throws SQLException;
+
+	public List<DetalleServicio> consultarServicioVentaJR(Integer idServicio)
+			throws SQLException;
 }

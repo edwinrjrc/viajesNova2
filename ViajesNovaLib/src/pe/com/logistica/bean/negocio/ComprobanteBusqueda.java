@@ -14,7 +14,7 @@ public class ComprobanteBusqueda extends Comprobante {
 	 * 
 	 */
 	private static final long serialVersionUID = 3078905319575486174L;
-	
+
 	private Date fechaDesde;
 	private Date fechaHasta;
 
@@ -33,7 +33,8 @@ public class ComprobanteBusqueda extends Comprobante {
 	}
 
 	/**
-	 * @param fechaDesde the fechaDesde to set
+	 * @param fechaDesde
+	 *            the fechaDesde to set
 	 */
 	public void setFechaDesde(Date fechaDesde) {
 		this.fechaDesde = fechaDesde;
@@ -47,7 +48,8 @@ public class ComprobanteBusqueda extends Comprobante {
 	}
 
 	/**
-	 * @param fechaHasta the fechaHasta to set
+	 * @param fechaHasta
+	 *            the fechaHasta to set
 	 */
 	public void setFechaHasta(Date fechaHasta) {
 		this.fechaHasta = fechaHasta;
