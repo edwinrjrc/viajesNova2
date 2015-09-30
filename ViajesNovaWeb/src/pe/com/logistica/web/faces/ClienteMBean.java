@@ -13,6 +13,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.naming.NamingException;
 import javax.servlet.ServletContext;
@@ -74,6 +75,7 @@ public class ClienteMBean extends BaseMBean {
 	private boolean direccionAgregada;
 	private boolean contactoAgregada;
 	private boolean busquedaRealizada;
+	private boolean personaNatural;
 
 	private String nombreFormulario;
 	private String nombreFormularioDireccion;
@@ -737,6 +739,23 @@ public class ClienteMBean extends BaseMBean {
 	public void eliminarCorreoContacto(CorreoElectronico correo) {
 		this.getContacto().getListaCorreos().remove(correo);
 	}
+	
+	public void cambiarTipoDocumento(ValueChangeEvent e){
+		Object valor = e.getNewValue();
+		this.setPersonaNatural(false);
+		if (valor instanceof Integer){
+			Integer tipoDocumento = (Integer) valor;
+			if (tipoDocumento.intValue() == 1 ){
+				this.setPersonaNatural(true);
+			}
+			else if (tipoDocumento.intValue() == 2){
+				this.setPersonaNatural(true);
+			}
+			else if (tipoDocumento.intValue() == 4){
+				this.setPersonaNatural(true);
+			}
+		}
+	}
 
 	/**
 	 * @return the cliente
@@ -1136,6 +1155,20 @@ public class ClienteMBean extends BaseMBean {
 	 */
 	public void setFechaHoy(String fechaHoy) {
 		this.fechaHoy = fechaHoy;
+	}
+
+	/**
+	 * @return the personaNatural
+	 */
+	public boolean isPersonaNatural() {
+		return personaNatural;
+	}
+
+	/**
+	 * @param personaNatural the personaNatural to set
+	 */
+	public void setPersonaNatural(boolean personaNatural) {
+		this.personaNatural = personaNatural;
 	}
 
 }

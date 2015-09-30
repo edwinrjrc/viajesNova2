@@ -596,9 +596,7 @@ public class ServicioAgenteMBean extends BaseMBean {
 				resultado = false;
 			}
 			if (configuracionTipoServicio.isMuestraPrecioBase()
-					&& (this.getDetalleServicio().getPrecioUnitarioAnterior() == null || this
-							.getDetalleServicio().getPrecioUnitarioAnterior()
-							.doubleValue() == 0.0)) {
+					&& (this.getDetalleServicio().getPrecioUnitarioAnterior() == null)) {
 				this.agregarMensaje(idFormulario + ":idPrecUnitario",
 						"Ingrese el precio base del servicio", "",
 						FacesMessage.SEVERITY_ERROR);
@@ -1257,6 +1255,8 @@ public class ServicioAgenteMBean extends BaseMBean {
 		this.setDetalleServicio(null);
 		this.setCargoConfiguracionTipoServicio(false);
 		this.setEditaServicioAgregado(false);
+		
+		agregarServiciosPadre();
 
 		calcularTotales();
 	}

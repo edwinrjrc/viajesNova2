@@ -38,6 +38,7 @@
 									columns="1">
 									<h:selectOneMenu id="idFPSelTipoDoc"
 										value="#{clienteMBean.cliente.documentoIdentidad.tipoDocumento.codigoEntero}"
+										valueChangeListener="#{clienteMBean.cambiarTipoDocumento}"
 										requiredMessage="Seleccione tipo de documento">
 										<f:selectItem itemLabel="-Seleccione-" />
 										<f:selectItems value="#{catalogoMBean.catalogoTipoDocumento}" />
@@ -58,10 +59,10 @@
 										showSummary="true" showDetail="false" />
 								</h:panelGrid>
 								<h:outputText value="Apellido Paterno"
-									rendered="#{clienteMBean.cliente.documentoIdentidad.tipoDocumento.codigoEntero == 1 or clienteMBean.cliente.documentoIdentidad.tipoDocumento.codigoEntero == 2}" />
+									rendered="#{clienteMBean.personaNatural}" />
 								<h:panelGrid border="0" cellpadding="0" cellspacing="0"
 									columns="1"
-									rendered="#{clienteMBean.cliente.documentoIdentidad.tipoDocumento.codigoEntero == 1 or clienteMBean.cliente.documentoIdentidad.tipoDocumento.codigoEntero == 2}">
+									rendered="#{clienteMBean.personaNatural}">
 									<h:inputText id="idApePatPro"
 										value="#{clienteMBean.cliente.apellidoPaterno}" maxlength="40"
 										styleClass="estilocampo1" />
@@ -69,10 +70,10 @@
 										showSummary="true" showDetail="false" />
 								</h:panelGrid>
 								<h:outputText value="Apellido Materno"
-									rendered="#{clienteMBean.cliente.documentoIdentidad.tipoDocumento.codigoEntero == 1 or clienteMBean.cliente.documentoIdentidad.tipoDocumento.codigoEntero == 2}" />
+									rendered="#{clienteMBean.personaNatural}" />
 								<h:panelGrid border="0" cellpadding="0" cellspacing="0"
 									columns="1"
-									rendered="#{clienteMBean.cliente.documentoIdentidad.tipoDocumento.codigoEntero == 1 or clienteMBean.cliente.documentoIdentidad.tipoDocumento.codigoEntero == 2}">
+									rendered="#{clienteMBean.personaNatural}">
 									<h:inputText id="idApeMatPro"
 										value="#{clienteMBean.cliente.apellidoMaterno}" maxlength="40"
 										styleClass="estilocampo1" />
@@ -84,10 +85,10 @@
 								style="width:100%;" columns="2"
 								columnClasses="col1fil2formulario,col2fil2formulario">
 								<h:outputText value="Nombres"
-									rendered="#{clienteMBean.cliente.documentoIdentidad.tipoDocumento.codigoEntero == 1 or clienteMBean.cliente.documentoIdentidad.tipoDocumento.codigoEntero == 2}" />
+									rendered="#{clienteMBean.personaNatural}" />
 								<h:panelGrid border="0" cellpadding="0" cellspacing="0"
 									columns="1"
-									rendered="#{clienteMBean.cliente.documentoIdentidad.tipoDocumento.codigoEntero == 1 or clienteMBean.cliente.documentoIdentidad.tipoDocumento.codigoEntero == 2}">
+									rendered="#{clienteMBean.personaNatural}">
 									<h:inputText id="idNomPro"
 										value="#{clienteMBean.cliente.nombres}" maxlength="80"
 										styleClass="estilocampo1" />
@@ -95,10 +96,10 @@
 										showSummary="true" showDetail="false" />
 								</h:panelGrid>
 								<h:outputText value="Razon Social"
-									rendered="#{clienteMBean.cliente.documentoIdentidad.tipoDocumento.codigoEntero == 3}" />
+									rendered="#{!clienteMBean.personaNatural}" />
 								<h:panelGrid border="0" cellpadding="0" cellspacing="0"
 									columns="1"
-									rendered="#{clienteMBean.cliente.documentoIdentidad.tipoDocumento.codigoEntero == 3}">
+									rendered="#{!clienteMBean.personaNatural}">
 									<h:inputText id="idRazSocPro"
 										value="#{clienteMBean.cliente.razonSocial}" maxlength="80"
 										styleClass="estilocampo1" />
@@ -109,7 +110,7 @@
 							<h:panelGrid border="0" cellpadding="0" cellspacing="0"
 								style="width:100%;" columns="4"
 								columnClasses="col1fil1formulario,col2fil1formulario,col3fil1formulario,col4fil1formulario"
-								rendered="#{clienteMBean.cliente.documentoIdentidad.tipoDocumento.codigoEntero == 1 or clienteMBean.cliente.documentoIdentidad.tipoDocumento.codigoEntero == 2}">
+								rendered="#{clienteMBean.personaNatural}">
 								<h:outputText value="Estado Civil" />
 								<h:panelGrid border="0" cellpadding="0" cellspacing="0"
 									columns="1">
